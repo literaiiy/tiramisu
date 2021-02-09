@@ -207,7 +207,6 @@ def compute(q):
                 rankcolor = 'blue'
         except:
             True
-        
         try:
             ranke = reqAPI['player']['packageRank']
             if ranke == 'MVP_PLUS': 

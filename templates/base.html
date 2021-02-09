@@ -1,13 +1,15 @@
 <link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet" type="text/css">
 
+<title>Profile for {{ displayname }} | Tiramisu</title>
+
 <div class="hedd">
     <h1>tiramisu</h1>
     <h4>Tiramisu v{{ version }} by literaiiy / floraphile</h4>
 </div>
 <hr>
 <body>
-    <h1>{{ username }}</h1>
-    <span class="{{ rankcolor }}">{{ rank }}</span>
+    <h1>{{ displayname }}</h1>
+    <span class="{{ rankcolor }}"><b>{{ rank }}</b></span>
     <style>
     .aqua {
         color: aqua;

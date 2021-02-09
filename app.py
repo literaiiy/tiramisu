@@ -12,7 +12,7 @@ import time
 import re
 from itertools import cycle, islice
 
-##### INITIALIZATION & CONSTANTS #####
+############################################################################ INITIALIZATION & CONSTANTS ############################################################################
 app = Flask(__name__)
 app.secret_key = 'a34w7tfyner9ryhzrbfw7ynhhcdtg78as34'
 HAPIKEY = '1e5f6a57-6327-4888-886a-590c39861a6a'
@@ -33,7 +33,7 @@ uuid = ''
 class searchBar():
     query = TextField("Search...")
 
-##### ROUTING FOR HOMEPAGE #####
+############################################################################ ROUTING FOR HOMEPAGE ############################################################################
 @app.route('/', methods=['POST', 'GET'], defaults={'path':''})
 def queryt(path):
     form = searchBar()
@@ -42,23 +42,10 @@ def queryt(path):
         return redirect(url_for('compute', q=str(session['req']['content'])))
     return render_template('index.html')
 
-##### ROUTING FOR SEARCH PAGE #####
+############################################################################ ROUTING FOR SEARCH PAGE ############################################################################
 @app.route('/p/<q>', methods=['POST','GET'])
 def compute(q):
     #try:
-    ''' if len(q) == 32 or len(q) == 36:
-        try:
-            q = q.replace('-','')
-            username = MojangAPI.get_username(q)
-        except:
-            return "Bad UUID! 404"
-        uuid = q
-        uuid = uuid.replace('-','')
-    try:
-        uuid = MojangAPI.get_uuid(q)
-    except:
-        return "This person doesn't seem to exist. Try again?"
-    '''
 
     if len(q) == 32 or len(q) == 36:
         q = q.replace('-','')
@@ -83,9 +70,10 @@ def compute(q):
         print('this is the uuid: ' + uuid)
         #username = MojangAPI.get_username(uuid)
 
-##### JSON PARSING #####
+############################################################################ JSON PARSING ############################################################################
 
-        ### INITIALIZATION ###
+
+############################################################################ RETRIEVE FROM API & INITIALIZE ############################################################################
         r = requests.get('https://api.hypixel.net/player?key=' + HAPIKEY + '&uuid=' + uuid)
         reqAPI = r.json()
         reqList = {}
@@ -99,7 +87,7 @@ def compute(q):
         except:
             hypixelUN = username
 
-        ### NAME HISTORY ###
+############################################################################ NAME HISTORY ############################################################################
         namehis = MojangAPI.get_name_history(uuid)
         namehisLength = len(namehis)
         nhutminus1 = 0
@@ -172,7 +160,7 @@ def compute(q):
         namehis[0]['changed_to_at'] = ''
         namehisrev = namehis.reverse() 
 
-        ### RANK ###
+############################################################################ RANK ############################################################################
         rankParsed = ''
         rankcolor = 'gray'
 
@@ -182,7 +170,7 @@ def compute(q):
         except:
             rank = ''
         
-        # Very inefficiently checks for normal, buyable ranks
+        # Very inefficiently checks for VIP / VIP+ / MVP / MVP+ / MVP++
         try:
             MVPplusplus = reqAPI['player']['monthlyPackageRank']
         except:
@@ -215,9 +203,9 @@ def compute(q):
             if 'MODERATOR' in rankParsed:
                 rankcolor = 'green'
             if 'YOUTUBE' in rankParsed:
-                rankColor = 'red'
+                rankcolor = 'red'
             if 'HELPER' in rankParsed:
-                rankColor = 'blue'
+                rankcolor = 'blue'
         except:
             True
         
@@ -249,7 +237,7 @@ def compute(q):
         except:
             True
 
-        ### NETWORK LEVEL / XP ###
+############################################################################ NETWORK LEVEL & XP ############################################################################
         try:
             networkExp = int(reqAPI['player']['networkExp'])
         except:
@@ -259,7 +247,7 @@ def compute(q):
         levelProgress = round(((levelRaw - level) * 100), 2)
         levelplusone = level + 1
 
-        ### FIRST & LAST LOGINS ###
+############################################################################ FIRST & LAST LOGINS ############################################################################
         firstLogin = ''
         playedOnHypixel = True
 
@@ -315,7 +303,7 @@ def compute(q):
         except:
             True
 
-        ### QUESTS, AP, ACHIEVEMENTS ###
+############################################################################ QUESTS, AP, & ACHIEVEMENTS ############################################################################
         try:
             achievements = len(reqAPI['player']['achievements'])+len(reqAPI['player']['achievementsOneTime'])
         except:
@@ -325,15 +313,16 @@ def compute(q):
         except:
             achpot = 0
         ### END ###
+        displayname = username
         if uuid in ADMINS:
-            username += ' 🍰'
+            displayname += ' 🍰'
         if uuid in FLOWERS:
-            username += ' 🌸'
+            displayname += ' 🌸'
 
         ### RETURN THE GODDAMN THING ###
-        return render_template('base.html', uuid=uuid, username=username, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed, rankcolor=rankcolor)
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed, rankcolor=rankcolor)
     
-    ### INVALID USERNAME CHECK ###
+############################################################################ INVALID USERNAME CHECK ############################################################################
     else:
         if len(q) < 3 or len(q) > 16:
             return "A Minecraft username has to be between 3 and 16 characters (with a few special exceptions), and can only contain alphanumeric characters and underscores."
@@ -348,7 +337,8 @@ def compute(q):
         return "This person doesn't seem to exist. Try again?"
         #except:
         #    return "Errored out. Lol"
-##### 404 HANDLER #####
+
+############################################################################ ERROR HANDLING ###################################################################################
 @app.errorhandler(404)
 def four04(e):
     return render_template('404.html'), 404
@@ -361,7 +351,7 @@ def four03(e):
 def five02(e):
     return "Something screwed up with the gateway. Contact me @kofjeko on Twitter."
 
-##### FLASK INITIALIZATION #####
+############################################################################ FLASK INITIALIZATION ############################################################################
 if __name__ == "__main__":
     app.run(debug=True)
 

@@ -72,7 +72,6 @@ def compute(q):
 
 ############################################################################ JSON PARSING ############################################################################
 
-
 ############################################################################ RETRIEVE FROM API & INITIALIZE ############################################################################
         r = requests.get('https://api.hypixel.net/player?key=' + HAPIKEY + '&uuid=' + uuid)
         reqAPI = r.json()
@@ -354,37 +353,3 @@ def five02(e):
 ############################################################################ FLASK INITIALIZATION ############################################################################
 if __name__ == "__main__":
     app.run(debug=True)
-
-####################
-# HALL OF COMMENTS #
-####################
-
-#@app.route('/p', methods=['POST','GET'])
-#def profile():
-#    return render_template('base.html', uuid= )
-
-
-#    try:
-#        return render_template('base.html', reqd=session['req']['content'])
-#   except:
-#       return "404: Something went wrong. I don't know what."
-
-#@app.route('/', methods=['GET', 'POST'])
-#def project():
-#    uuid = MojangAPI.get_uuid('floraphile')
-#   if request.method == 'POST':
-#        return render_template('new.html', uuid=uuid)
-#    else:
-#        return "no banana"
-
-#@app.route('/')
-#def index():
-#return render_template('new.html')
-
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-#db = SQLAlchemy(app)
-
-#from flask_sqlalchemy import SQLAlchemy
-
-        #flash(session['req'])
-                #return session['req']

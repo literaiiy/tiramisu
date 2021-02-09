@@ -1,0 +1,92 @@
+<link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet" type="text/css">
+
+<div class="hedd">
+    <h1>tiramisu</h1>
+    <h4>Tiramisu v{{ version }} by literaiiy / floraphile</h4>
+</div>
+<hr>
+<body>
+    <h1>{{ username }}</h1>
+    <span class="{{ rankcolor }}">{{ rank }}</span>
+    <style>
+    .aqua {
+        color: aqua;
+    }
+
+    .lime {
+        color: lime;
+    }
+
+    .gold {
+        color: goldenrod;
+    }
+
+    .blue {
+        color: blue;
+    } 
+
+    .green {
+        color: green;
+    } 
+
+    .red {
+        color: red;
+    } 
+
+    .cyan {
+        color: teal;
+    } 
+
+    .pink {
+        color: pink;
+    } 
+
+    </style>
+    <p>{{ uuid }}</p>
+
+        <!--- TABLE --->
+        <table>
+            {% for dict_item in namehis %}
+            <tr>
+                {% for value in dict_item.values() %}
+                <td> {{ value }} </td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </table>
+</body>
+
+<hr>
+
+<div class="stats">
+{% if firstLoginUnix != 1 %}
+    <p>karma is <b>{{ reqList }}</b></p>
+
+    <p>Level <b>{{ level }}</b> / <b>{{ levelProgress }}%</b> to <b>{{ levelplusone }}</b> </p>
+    <p><b>{{ achievements }}</b> achievements for <b>{{ achpot }}</b> achievement points</p>
+
+    {% if lastLoginUnix == 1 %}
+        <p></p>
+    {% else %}
+        <p>Last login: <b>{{ lastLogin }}</b></p>
+    {% endif %}
+
+    {% if firstLoginUnix == 1 %}
+        <p></p>
+    {% else %}
+        <p>First login: <b>{{ firstLogin }}</b></p>
+    {% endif %}
+
+    <hr>
+    <p>Tiramisu v{{ version }} "{{ codename }}" from {{ tiramisudate }}</p>
+    <p>Flask v{{ flaskver }} from {{ flaskverdate }}</p>
+    <p>Python v{{ pythonver }} from {{ pythonverdate }}</p>
+    {% else %}
+    <p>It doesn't seem like this person has ever played on Hypixel.</p>
+{% endif %}
+
+
+</div>
+<footer>
+    <p>Copyright © 2021 literaiiy / floraphile. All rights reserved.</p>
+</footer>

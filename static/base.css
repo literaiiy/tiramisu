@@ -1,0 +1,38 @@
+@font-face {
+    font-family: 'InterUI';
+    src: url('https://download1638.mediafire.com/zoat3021tc0g/wjiqywl6bs9rxw3/Inter-Regular.ttf');
+}
+@font-face {
+    font-family: "InterUISemiBold";
+    src: url('https://download1638.mediafire.com/7wfl763bysog/0eg0k1cuvn6gkvt/Inter-SemiBold.woff')
+}
+@font-face {
+    font-family: "LexendDeca";
+    src: url('https://download1487.mediafire.com/qo3vzos1gtkg/l9dkwa4wmp6pl3p/LexendDeca-Regular.ttf')
+}
+
+.hedd {
+font-family: 'LexendDeca';
+}
+
+/* ACTUAL USERNAME STUFF */
+body {
+font-family: 'InterUI';
+text-align: center;
+}
+
+.stats {
+font-family: 'InterUI';
+text-align: center;
+}
+
+footer {
+font-family: 'InterUI';
+text-align: center;
+}
+
+table {
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}

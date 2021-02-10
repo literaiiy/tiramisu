@@ -11,6 +11,7 @@ from flask_table import Table, Col
 import time
 import re
 from itertools import cycle, islice
+from num2words import num2words
 
 ############################################################################ INITIALIZATION & CONSTANTS ############################################################################
 app = Flask(__name__)
@@ -41,6 +42,10 @@ def queryt(path):
         session['req'] = request.form
         return redirect(url_for('compute', q=str(session['req']['content'])))
     return render_template('index.html')
+
+@app.route('/<k>', methods=['POST', 'GET'])
+def reddorect(k):
+    return redirect(url_for('compute', q=k))
 
 ############################################################################ ROUTING FOR SEARCH PAGE ############################################################################
 @app.route('/p/<q>', methods=['POST','GET'])
@@ -157,11 +162,14 @@ def compute(q):
             i['changed_to_at'] = i.pop('changed_to_at')
             i['time_between'] = i.pop('time_between')
         namehis[0]['changed_to_at'] = ''
-        namehisrev = namehis.reverse() 
+        namehisrev = namehis.reverse()
+        #key_list = list(namehis.keys())
+        #val_list = list(namehis.values())
 
 ############################################################################ RANK ############################################################################
         rankParsed = ''
         rankcolor = 'gray'
+        changerbc = False
 
         # Checks for MVP++
         try:
@@ -191,22 +199,6 @@ def compute(q):
             rankcolor = 'lime'
         else:
             rankParsed = ''
-
-        # Looks for YOUTUBE rank and other ranks categorized under 'player' > 'rank'
-        try:
-            jona = reqAPI['player']['rank']
-            if '[' not in jona:
-                rankParsed = '[' + jona + ']'
-            else:
-                rankParsed = jona
-            if 'MODERATOR' in rankParsed:
-                rankcolor = 'green'
-            if 'YOUTUBE' in rankParsed:
-                rankcolor = 'red'
-            if 'HELPER' in rankParsed:
-                rankcolor = 'blue'
-        except:
-            True
         try:
             ranke = reqAPI['player']['packageRank']
             if ranke == 'MVP_PLUS': 
@@ -226,14 +218,74 @@ def compute(q):
         except:
             True
 
-        # Format rank if not 'normal' includes Admin
         try:
-            rankParsed = re.sub("[§a-z]+", '', reqAPI['player']['prefix'])
-            if 'OWNER' in rankParsed:
+            rankw = reqAPI['player']['newPackageRank']
+            if rankw == 'MVP_PLUS': 
+                rankParsed = '[MVP+]'
+                rankcolor = 'aqua'
+            elif rankw == 'MVP': 
+                rankParsed = '[MVP]'
+                rankcolor = 'aqua'
+            elif rankw == 'VIP_PLUS': 
+                rankParsed = '[VIP+]'
+                rankcolor = 'lime'
+            elif rankw == 'VIP':
+                rankParsed = '[VIP]'
+                rankcolor = 'lime'
+            else:
+                rankParsed = ''
+        except:
+            True
+
+        # Looks for YOUTUBE rank and other ranks categorized under 'player' > 'rank'
+        try:
+            jona = reqAPI['player']['rank']
+            if '[' not in jona:
+                rankParsed = '[' + jona + ']'
+            else:
+                rankParsed = jona
+            if 'MODERATOR' in rankParsed:
+                rankcolor = 'green'
+                rank = rankParsed
+            if 'YOUTUBE' in rankParsed:
                 rankcolor = 'red'
+                changerbc = True
+                rank = rankParsed
+            if 'HELPER' in rankParsed:
+                rankcolor = 'blue'
+                rank = rankParsed
+            if 'ADMIN' in rankParsed:
+                rankcolor = 'red'
+                rank = rankParsed
+            if 'BUILD' in rankParsed:
+                rankcolor = 'cyan'
+                rank = rankParsed
+            else:
+                rankParsed = ''
 
         except:
             True
+        
+        # Format rank if not 'normal' includes Admin
+        try:
+            rankParsed = re.sub("[§a-z1-9]+", '', reqAPI['player']['prefix'])
+            if 'OWNER' in rankParsed:
+                rankcolor = 'red'
+            if 'MOJANG' in rankParsed or 'EVENTS' in rankParsed:
+                rankcolor = 'gold'
+            if 'SLOTH' in rankParsed:
+                rankcolor = 'red'
+            if 'PIG' in rankParsed or 'BETA TESTER' in rankParsed:
+                rankcolor = 'pink'
+
+        except:
+            True
+        
+        # Only works for YouTube rank right now
+        if changerbc:
+            rankbracketcolor = 'gray'
+        else:
+            rankbracketcolor = rankcolor
 
 ############################################################################ NETWORK LEVEL & XP ############################################################################
         try:
@@ -244,6 +296,21 @@ def compute(q):
         level = math.floor((math.sqrt((2*networkExp)+30625)/50) - 2.5)
         levelProgress = round(((levelRaw - level) * 100), 2)
         levelplusone = level + 1
+
+        multiplier = ''
+        if level >= 5 and level <= 9: multiplier = '(1.5×)'
+        if level >= 10 and level <= 14: multiplier = '(2×)'
+        if level >= 15 and level <= 19: multiplier = '(2.5×)'
+        if level >= 20 and level <= 24: multiplier = '(3×)'
+        if level >= 25 and level <= 29: multiplier = '(3.5×)'
+        if level >= 30 and level <= 39: multiplier = '(4×)'
+        if level >= 40 and level <= 49: multiplier = '(4.5×)'
+        if level >= 50 and level <= 99: multiplier = '(5×)'
+        if level >= 100 and level <= 124: multiplier = '(5.5×)'
+        if level >= 125 and level <= 149: multiplier = '(6×)'
+        if level >= 150 and level <= 199: multiplier = '(6.5×)'
+        if level >= 200 and level <= 249: multiplier = '(7×)'
+        if level >= 250: multiplier = '(8×)'
 
 ############################################################################ FIRST & LAST LOGINS ############################################################################
         firstLogin = ''
@@ -318,7 +385,7 @@ def compute(q):
             displayname += ' 🌸'
 
         ### RETURN THE GODDAMN THING ###
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed, rankcolor=rankcolor)
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier)
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:

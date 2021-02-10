@@ -11,43 +11,17 @@
     {% if rank != '' and 'YOUTUBE' not in rank %}
         <h1><span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> {{ displayname }}</h1>
         <style>
-        .aqua {
-            color: aqua;
-        }
-
-        .lime {
-            color: lime;
-        }
-
-        .gold {
-            color: goldenrod;
-        }
-
-        .blue {
-            color: blue;
-        } 
-
-        .green {
-            color: green;
-        } 
-
-        .red {
-            color: red;
-        } 
-
-        .cyan {
-            color: teal;
-        } 
-
-        .pink {
-            color: pink;
-        } 
+        .aqua{color:#0ff}.lime{color:#00ff7f}.gold{color:#ff8c00}.blue{color:#1e90ff}.green{color:#2e8b57}.red{color:#dc143c}.cyan{color:#20b2aa}.pink{color:#ba55d3}
         </style>
 
     {% elif rank == '' %}
         <h1>{{ displayname }}</h1>
-    {% elif 'YOU' in rank %}
-        <h1><span class="{{ rankbracketcolor }}"><b>[</b></span><span class="{{ rankcolor }}"></span><b>{{ rank }}</b></span><span class="{{ rankbracketcolor }}"><b>]</b></span> {{ displayname }}</h1>
+    {% elif 'YOUTUBE' in rank %}
+        <h1><span class="{{ rankbracketcolor }}"><b>[</b></span><span class="gray"></span><b>{{ rank }}</b></span><span class="{{ rankbracketcolor }}"><b>]</b></span> {{ displayname }}</h1>
+        <style>
+        .gray{color:#d3d3d3}.red{color:#dc143c}
+        </style>
+
     {% endif %}
 
     <p>{{ uuid }}</p>

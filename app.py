@@ -244,25 +244,19 @@ def compute(q):
                 rankParsed = '[' + jona + ']'
             else:
                 rankParsed = jona
+
             if 'MODERATOR' in rankParsed:
                 rankcolor = 'green'
-                rank = rankParsed
-            if 'YOUTUBE' in rankParsed:
-                rankcolor = 'red'
+            elif 'YOUTUBE' in rankParsed:
                 changerbc = True
-                rank = rankParsed
-            if 'HELPER' in rankParsed:
+            elif 'HELPER' in rankParsed:
                 rankcolor = 'blue'
-                rank = rankParsed
-            if 'ADMIN' in rankParsed:
+            elif 'ADMIN' in rankParsed:
                 rankcolor = 'red'
-                rank = rankParsed
-            if 'BUILD' in rankParsed:
+            elif 'BUILD' in rankParsed:
                 rankcolor = 'cyan'
-                rank = rankParsed
             else:
                 rankParsed = ''
-
         except:
             True
         
@@ -283,7 +277,7 @@ def compute(q):
         
         # Only works for YouTube rank right now
         if changerbc:
-            rankbracketcolor = 'gray'
+            rankbracketcolor = 'red'
         else:
             rankbracketcolor = rankcolor
 

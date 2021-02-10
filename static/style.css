@@ -1,0 +1,25 @@
+@font-face {
+    font-family: 'LexendDeca';
+    src: url('https://download1487.mediafire.com/z02krkq732ug/jxxm2c2jw8avkco/LexendDeca-Regular.ttf');
+}
+
+@font-face {
+    font-family: 'Sansita';
+    src: url('https://download1084.mediafire.com/fu2gyi9wh6ig/0r6t6m1o0dsbxec/SansitaSwashed-VariableFont_wght.ttf');
+}
+h1 {
+    background-color:rgb(194, 194, 194);
+    text-align: center;
+    font-family: 'Sansita';
+}
+
+body {
+    background-color:rgb(241, 241, 241);
+    text-align: center;
+    font-family: 'LexendDeca';
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+}

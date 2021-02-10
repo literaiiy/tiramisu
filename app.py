@@ -1,4 +1,4 @@
-##### IMPORT #####
+############################################################################ IMPORTING ############################################################################
 from flask import Flask, render_template, request, url_for, redirect, flash, session
 import json
 from mojang import MojangAPI
@@ -40,7 +40,8 @@ def queryt(path):
     form = searchBar()
     if request.method == 'POST':
         session['req'] = request.form
-        return redirect(url_for('compute', q=str(session['req']['content'])))
+        if not session['req']['content'] == '':
+            return redirect(url_for('compute', q=str(session['req']['content'])))
     return render_template('index.html')
 
 @app.route('/<k>', methods=['POST', 'GET'])
@@ -51,7 +52,6 @@ def reddorect(k):
 @app.route('/p/<q>', methods=['POST','GET'])
 def compute(q):
     #try:
-
     if len(q) == 32 or len(q) == 36:
         q = q.replace('-','')
         try:
@@ -271,7 +271,6 @@ def compute(q):
                 rankcolor = 'red'
             if 'PIG' in rankParsed or 'BETA TESTER' in rankParsed:
                 rankcolor = 'pink'
-
         except:
             True
         
@@ -380,7 +379,13 @@ def compute(q):
             displayname += ' 🌸'
 
         ### RETURN THE GODDAMN THING ###
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier)
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, \
+        namehis=namehis, profile='reqAPI',reqList=reqList['karma'], \
+        achpot=achpot, achievements=achievements, \
+        level=level, levelProgress=levelProgress, levelplusone=levelplusone, \
+        lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, \
+        version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, \
+        rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier)
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:

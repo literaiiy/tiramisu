@@ -278,6 +278,7 @@ def compute(q):
         # Only works for YouTube rank right now
         if changerbc:
             rankbracketcolor = 'red'
+            rankcolor = 'gray'
         else:
             rankbracketcolor = rankcolor
 

@@ -27,6 +27,7 @@ FLASKVERDATE = datetime.fromtimestamp(1597665600).strftime('%b %d, %Y')
 PYTHONVER ='3.7.9'
 PYTHONVERDATE = datetime.fromtimestamp(1585915200).strftime('%b %d, %Y')
 swearList = ['anal','anus','ass','bastard','bitch','blowjob','blow job','buttplug','clitoris','cock','cunt','dick','dildo','fag','fuck','hell','jizz','nigger','nigga','penis','piss','pussy','scrotum','sex','shit','slut','turd','vagina']
+expList = ['Hypixel Freshie', 'Hypixel Newbie', 'Hypixel Trainee', 'Hypixel Expert', 'Hypixel Professional', 'Hypixel Elder', 'Hypixel Veteran', 'Hypixel Master']
 
 username = ''
 uuid = ''

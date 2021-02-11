@@ -218,7 +218,6 @@ def compute(q):
                 rankParsed = ''
         except:
             True
-
         try:
             rankw = reqAPI['player']['newPackageRank']
             if rankw == 'MVP_PLUS': 

@@ -36,3 +36,15 @@ table {
     margin-left: auto;
     margin-right: auto;
 }
+
+a { 
+    color: royalblue;
+}
+
+a.one { 
+    color: skyblue;
+}
+
+a.two { 
+    color: cornflowerblue;
+}

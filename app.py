@@ -379,14 +379,34 @@ def compute(q):
         if uuid in FLOWERS:
             displayname += ' 🌸'
 
-        ### RETURN THE GODDAMN THING ###
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, \
-        namehis=namehis, profile='reqAPI',reqList=reqList['karma'], \
-        achpot=achpot, achievements=achievements, \
-        level=level, levelProgress=levelProgress, levelplusone=levelplusone, \
-        lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, \
-        version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, \
-        rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier)
+############################################################################ SKYWARS ############################################################################
+        
+        swStatsList = []
+        # 0 - games played
+        # 1 - games quit
+        # 2 - kills
+        # 3 - deaths
+        # 4 - K/D
+        # 5 - assists
+        # 6 - wins
+        # 7 - losses
+        # 8 - W/L
+        # 9 - survivedPlayers
+        try:
+            swStatsList.append(int(reqAPI['player']['stats']['SkyWars']['losses'] + reqAPI['player']['stats']['SkyWars']['wins']))
+            swStatsList.append(reqAPI['player']['stats']['SkyWars']['quits'])
+            swStatsList.append(reqAPI['player']['stats']['SkyWars']['kills'])
+            swStatsList.append(reqAPI['player']['stats']['SkyWars']['deaths'])
+            swStatsList.append(swKills / swDeaths)
+            swStatsList.append(reqAPI['player']['stats']['SkyWars']['assists'])
+            swStatsList.append(reqAPI['player']['stats']['SkyWars']['wins'])
+            swStatsList.append(reqAPI['player']['stats']['SkyWars']['losses'])
+            swStatsList.append(swWins / swLosses)
+            swStatsList.append(reqAPI['player']['stats']['SkyWars']['survived_players'])
+        except:
+            True
+############################################################################ RENDERS BASE.HTML ############################################################################
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier, swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1])
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:

@@ -33,7 +33,13 @@
             <tr>
                 {% for value in dict_item.values() %}
                     {% if value|int != 0 %}
-                        <td> <b>{{ value }}</b></td>
+                        <td><b>{{ value }}</b></td>
+                    {% elif value == namehis[0]['name'] %}
+                        <td style="color:royalblue">{{ value }}</td>
+                    {% elif value == namehis[namehis|length-1]['name'] %}
+                        <td style="color:skyblue">{{ value }}</td>
+                    {% elif value in dict_item['name'] %}
+                        <td style="color:cornflowerblue">{{ value }}</td>
                     {% else %}
                         <td>{{ value }}</td>
                     {% endif %}

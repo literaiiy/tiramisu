@@ -396,7 +396,7 @@ def compute(q):
         # 12 - heads count
         # 13 - kills to head tastiness
         # 14 - coins
-        # 15 - blocks placed
+        # 15 - blocks broken
         # 16 - eggs thrown
         # 17 - arrows shot
         # 18 - arrows hit
@@ -404,6 +404,7 @@ def compute(q):
         # 20 - highest kills in a game
         # 21 - chests opened
         # 22 - win rate
+        # 23 - arrow hit rate
 
         try:
             swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['losses'] + reqAPI['player']['stats']['SkyWars']['wins'], ','))
@@ -412,12 +413,12 @@ def compute(q):
             swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['kills'], ','))
             swkills = reqAPI['player']['stats']['SkyWars']['kills']
             swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['deaths'], ','))
-            swStatsList.append(swkills/reqAPI['player']['stats']['SkyWars']['deaths'])
+            swStatsList.append(round(swkills/reqAPI['player']['stats']['SkyWars']['deaths'], 4))
             swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['assists'], ','))
 
             swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['wins'], ','))
             swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['losses'], ','))
-            swStatsList.append(reqAPI['player']['stats']['SkyWars']['wins']/reqAPI['player']['stats']['SkyWars']['losses'])
+            swStatsList.append(round(reqAPI['player']['stats']['SkyWars']['wins']/reqAPI['player']['stats']['SkyWars']['losses'], 4))
             swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['survived_players'], ','))
         except: pass
 
@@ -436,15 +437,32 @@ def compute(q):
             if swkills > 25000: swStatsList.append('Heavenly..!')
             if swkills <= 10000 and rankParsed in sweetHeadsRanks: swStatsList.append('Sweet')
         except: pass
+        
+        def minsec(seconds):
+            return str(math.floor(seconds / 60)) + 'm ' + str(seconds % 60) + 's'
 
-        for i in range(22-len(swStatsList)):
+
+        try:
+            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['coins'], ','))
+            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['blocks_broken'], ','))
+            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['egg_thrown'], ','))
+            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['arrows_shot'], ','))
+            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['arrows_hit'], ','))
+            swStatsList.append(minsec(reqAPI['player']['stats']['SkyWars']['fastest_win']))
+            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['most_kills_game'], ','))
+            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['chests_opened'], ','))
+            swStatsList.append(str(round((reqAPI['player']['stats']['SkyWars']['wins']/(reqAPI['player']['stats']['SkyWars']['wins']+reqAPI['player']['stats']['SkyWars']['losses'])) * 100, 4)))
+            swStatsList.append(str(round(reqAPI['player']['stats']['SkyWars']['arrows_hit']/(reqAPI['player']['stats']['SkyWars']['arrows_hit']+reqAPI['player']['stats']['SkyWars']['arrows_shot'])*100, 4)))
+        except: pass            
+
+        for i in range(23-len(swStatsList)):
             swStatsList += '0'
         print("AAAAAAAAAAAAAAAAA")
         print(len(swStatsList))
         print(swStatsList)
 
 ############################################################################ RENDERS BASE.HTML ############################################################################
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13])
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23])
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:

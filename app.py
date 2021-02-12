@@ -28,6 +28,7 @@ PYTHONVER ='3.7.9'
 PYTHONVERDATE = datetime.fromtimestamp(1585915200).strftime('%b %d, %Y')
 swearList = ['anal','anus','ass','bastard','bitch','blowjob','blow job','buttplug','clitoris','cock','cunt','dick','dildo','fag','fuck','hell','jizz','nigger','nigga','penis','piss','pussy','scrotum','sex','shit','slut','turd','vagina']
 expList = ['Hypixel Freshie', 'Hypixel Newbie', 'Hypixel Trainee', 'Hypixel Expert', 'Hypixel Professional', 'Hypixel Elder', 'Hypixel Veteran', 'Hypixel Master']
+sweetHeadsRanks = ['HELPER', 'MODERATOR', 'ADMIN', 'OWNER']
 
 username = ''
 uuid = ''
@@ -68,12 +69,10 @@ def compute(q):
         #if q == MojangAPI.get_username(MojangAPI.get_uuid(q)):
         uuid = MojangAPI.get_uuid(q)
         username = MojangAPI.get_username(MojangAPI.get_uuid(q))
-        print(uuid)
         #else:
         #    return "false uuid or username or smthing"
 
     if isinstance(uuid, str):
-        print('this is the uuid: ' + uuid)
         #username = MojangAPI.get_username(uuid)
 
 ############################################################################ JSON PARSING ############################################################################
@@ -392,21 +391,62 @@ def compute(q):
         # 7 - losses
         # 8 - W/L
         # 9 - survivedPlayers
+        # 10 - winstreak
+        # 11 - souls
+        # 12 - heads count
+        # 13 - kills to head tastiness
+        # 14 - coins
+        # 15 - blocks placed
+        # 16 - eggs thrown
+        # 17 - arrows shot
+        # 18 - arrows hit
+        # 19 - fastest win
+        # 20 - highest kills in a game
+        # 21 - chests opened
+        # 22 - win rate
+
         try:
-            swStatsList.append(int(reqAPI['player']['stats']['SkyWars']['losses'] + reqAPI['player']['stats']['SkyWars']['wins']))
-            swStatsList.append(reqAPI['player']['stats']['SkyWars']['quits'])
-            swStatsList.append(reqAPI['player']['stats']['SkyWars']['kills'])
-            swStatsList.append(reqAPI['player']['stats']['SkyWars']['deaths'])
-            swStatsList.append(swKills / swDeaths)
-            swStatsList.append(reqAPI['player']['stats']['SkyWars']['assists'])
-            swStatsList.append(reqAPI['player']['stats']['SkyWars']['wins'])
-            swStatsList.append(reqAPI['player']['stats']['SkyWars']['losses'])
-            swStatsList.append(swWins / swLosses)
-            swStatsList.append(reqAPI['player']['stats']['SkyWars']['survived_players'])
+            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['losses'] + reqAPI['player']['stats']['SkyWars']['wins'], ','))
+            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['quits'], ','))
+
+            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['kills'], ','))
+            swkills = reqAPI['player']['stats']['SkyWars']['kills']
+            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['deaths'], ','))
+            swStatsList.append(swkills/reqAPI['player']['stats']['SkyWars']['deaths'])
+            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['assists'], ','))
+
+            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['wins'], ','))
+            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['losses'], ','))
+            swStatsList.append(reqAPI['player']['stats']['SkyWars']['wins']/reqAPI['player']['stats']['SkyWars']['losses'])
+            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['survived_players'], ','))
         except:
-            True
+            print('this shit failed')
+            for i in range(11):
+                swStatsList += ''
+
+        try:
+            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['win_streak'], ','))
+            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['souls_gathered'], ','))
+            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['heads'], ','))
+            if swkills <= 49: swStatsList.append('Eww!')
+            if swkills > 49 and swkills < 200: swStatsList.append('Yucky!')
+            if swkills > 199 and swkills < 500: swStatsList.append('Meh.')
+            if swkills > 499 and swkills < 1000: swStatsList.append('Decent...')
+            if swkills > 999 and swkills < 2000: swStatsList.append('Salty.')
+            if swkills > 1999 and swkills < 5000: swStatsList.append('Tasty!')
+            if swkills > 4999 and swkills < 10000: swStatsList.append('Succulent!')
+            if swkills > 9999 and swkills < 25000: swStatsList.append('Divine!')
+            if swkills > 25000: swStatsList.append('Heavenly..!')
+            if swkills <= 10000 and rankParsed in sweetHeadsRanks: swStatsList.append('Sweet')
+        except:
+            for i in range(4):
+                swStatsList += ''
+        print("AAAAAAAAAAAAAAAAA")
+        print(len(swStatsList))
+        print(swStatsList)
+
 ############################################################################ RENDERS BASE.HTML ############################################################################
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier, swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1])
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=round(swStatsList[4], 4), swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=round(swStatsList[8], 4), swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13])
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:

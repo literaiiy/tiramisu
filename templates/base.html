@@ -73,7 +73,7 @@
     <h2>SkyWars</h2>
     <p><b>{{ swGamesPlayed }}</b> games played <br>
         <b>{{ swGamesQuit }}</b> games quit <br>
-        {{ swKills }} kills - <i>{{ swHeadDesc }}</i><br>
+        {{ swKills }} kills - {% if swHeadDesc == '0' %} <p>Eww!</p> {% else %} <i>{{ swHeadDesc }}</i>{% endif %} <br>
         {{ swDeaths }} deaths <br>
         {{ swKD }} K/D <br>
         {{ swAssists }} assists <br>

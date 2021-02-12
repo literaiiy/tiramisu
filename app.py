@@ -419,10 +419,7 @@ def compute(q):
             swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['losses'], ','))
             swStatsList.append(reqAPI['player']['stats']['SkyWars']['wins']/reqAPI['player']['stats']['SkyWars']['losses'])
             swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['survived_players'], ','))
-        except:
-            print('this shit failed')
-            for i in range(11):
-                swStatsList += '0'
+        except: pass
 
         try:
             swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['win_streak'], ','))
@@ -438,9 +435,10 @@ def compute(q):
             if swkills > 9999 and swkills < 25000: swStatsList.append('Divine!')
             if swkills > 25000: swStatsList.append('Heavenly..!')
             if swkills <= 10000 and rankParsed in sweetHeadsRanks: swStatsList.append('Sweet')
-        except:
-            for i in range(4):
-                swStatsList += '0'
+        except: pass
+
+        for i in range(22-len(swStatsList)):
+            swStatsList += '0'
         print("AAAAAAAAAAAAAAAAA")
         print(len(swStatsList))
         print(swStatsList)

@@ -1,7 +1,7 @@
 # 🍰 Tiramisu: Name History and Hypixel Stats Analysis ☕
-tiramisu.cc, or Tiramisu, is a player statistics site that intertwines the Mojang and Hypixel APIs, while giving a detailed analysis on your Hypixel statistics.
+tiramisu.cc, or Tiramisu, is a player statistics site that intertwines the Mojang and Hypixel APIs, while giving a detailed analysis on your Hypixel statistics. There are many improvements over sk1er.club and plancke.io that were designed specifically to compete with those websites.
 
-This is a private repository containing the source code for the project solely for backup purposes. 
+This is a private repository containing the source code for the project solely for backup purposes. This code may be released for the open-source community once the project hits a certain milestone in popularity.
 
 If you are here and not me, how? How is that even possible?
 
@@ -44,4 +44,4 @@ literaiiy is a pseudonym I adopted in March of 2018, as an intentionally incorre
 - By definition, a floraphile is someone who has a love or is an enthusiast for flowers; from the Latin root *flor-* for flower and the Ancient Greek root *-phil-* for attraction.
 
 **How old are you?**
-- \470. Give or take a few hundred years.
+- 470. Give or take a few hundred years.

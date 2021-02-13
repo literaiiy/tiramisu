@@ -430,11 +430,16 @@ def compute(q):
             swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['survived_players'], ','))
         except: pass
 
-        # Adds 10 - 13 on swStatsList
+        # Adds 10 - 12 on swStatsList
         try:
             swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['win_streak'], ','))
             swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['souls_gathered'], ','))
             swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['heads'], ','))
+        except: pass
+
+        # Adds 13 on swStatsList
+        jesushchrist = False
+        try:
             if swkills <= 49: swStatsList.append('Eww!')
             if swkills > 49 and swkills < 200: swStatsList.append('Yucky!')
             if swkills > 199 and swkills < 500: swStatsList.append('Meh.')
@@ -445,7 +450,7 @@ def compute(q):
             if swkills > 9999 and swkills < 25000: swStatsList.append('Divine!')
             if swkills > 25000: swStatsList.append('Heavenly..!')
             if swkills <= 10000 and rankParsed in sweetHeadsRanks: swStatsList.append('Sweet')
-        except: pass
+        except: jesushchrist = True
 
         def minsec(seconds):
             return str(math.floor(seconds / 60)) + 'm ' + str(seconds % 60) + 's'
@@ -464,62 +469,76 @@ def compute(q):
             swStatsList.append(str(round(reqAPI['player']['stats']['SkyWars']['arrows_hit']/(reqAPI['player']['stats']['SkyWars']['arrows_hit']+reqAPI['player']['stats']['SkyWars']['arrows_shot'])*100, 4)))
         except: pass            
 
-
         # Function that takes in experience and spits out level as a floating point number
         def swexp2level(experience):
-            expertest = 0
-            level = 0
-            if experience <= 15000:
-                if experience < 20: level = 1 + (experience - 0) / 20 
-                elif experience < 70: level = 2 + (experience - 20) / 50
-                elif experience < 150: level = 3 + (experience - 70) / 80
-                elif experience < 250: level = 4 + (experience - 150) / 100
-                elif experience < 500: level = 5 + (experience - 250) / 250
-                elif experience < 1000: level = 6 + (experience - 500) / 500
-                elif experience < 2000: level = 7 + (experience - 1000) / 1000
-                elif experience < 3500: level = 8 + (experience - 2000) / 2500
-                elif experience < 6000: level = 9 + (experience - 3500) / 4000
-                elif experience < 10000: level = 10 + (experience - 6000) / 5000
-                elif experience < 15000: level = 11 + (experience - 10000) / 10000
-                return level
-            elif experience > 14999:
-                expertest = experience - 15000
-                return expertest / 10000 + 12
+            try:
+                expertest = 0
+                level = 0
+                if experience <= 15000:
+                    if experience < 20: level = 1 + (experience - 0) / 20 
+                    elif experience < 70: level = 2 + (experience - 20) / 50
+                    elif experience < 150: level = 3 + (experience - 70) / 80
+                    elif experience < 250: level = 4 + (experience - 150) / 100
+                    elif experience < 500: level = 5 + (experience - 250) / 250
+                    elif experience < 1000: level = 6 + (experience - 500) / 500
+                    elif experience < 2000: level = 7 + (experience - 1000) / 1000
+                    elif experience < 3500: level = 8 + (experience - 2000) / 2500
+                    elif experience < 6000: level = 9 + (experience - 3500) / 4000
+                    elif experience < 10000: level = 10 + (experience - 6000) / 5000
+                    elif experience < 15000: level = 11 + (experience - 10000) / 10000
+                    return level
+                elif experience > 14999:
+                    expertest = experience - 15000
+                    return expertest / 10000 + 12
+            except:
+                return 0
 
         # Function that takes in level and spits out prestige and color as a tuple
         def getPrestige(level):
-            if level < 5: return ('No', 'black')
-            elif level < 10: return ('Iron', 'darkgray')
-            elif level < 15: return ('Gold', 'gold')
-            elif level < 20: return ('Diamond', 'turquoise')
-            elif level < 25: return ('Emerald', 'chartreuse')
-            elif level < 30: return ('Sapphire', 'blue')
-            elif level < 35: return ('Ruby', 'firebrick')
-            elif level < 40: return ('Crystal', 'hotpink')
-            elif level < 45: return ('Opal', 'darkblue')
-            elif level < 50: return ('Amethyst', 'indigo')
-            elif level >= 50: return ('Rainbow', 'chocolate')
+            try:
+                if level < 5: return ('No', 'black')
+                elif level < 10: return ('Iron', 'darkgray')
+                elif level < 15: return ('Gold', 'gold')
+                elif level < 20: return ('Diamond', 'turquoise')
+                elif level < 25: return ('Emerald', 'chartreuse')
+                elif level < 30: return ('Sapphire', 'blue')
+                elif level < 35: return ('Ruby', 'firebrick')
+                elif level < 40: return ('Crystal', 'hotpink')
+                elif level < 45: return ('Opal', 'darkblue')
+                elif level < 50: return ('Amethyst', 'indigo')
+                elif level >= 50: return ('Rainbow', 'chocolate')
+            except:
+                return ('No', 'black')
 
         # Adds 0 - 4 on swExpList
         try:
-            swExpList.append(format(reqAPI['player']['stats']['SkyWars']['skywars_experience'], ','))
-            swExpList.append(swexp2level(reqAPI['player']['stats']['SkyWars']['skywars_experience']))
+            swexpee = reqAPI['player']['stats']['SkyWars']['skywars_experience']
+        except:
+            swexpee = 0
+        try:
+            swExpList.append(format(swexpee, ','))
+            swExpList.append(swexp2level(swexpee))
             swExpList.append(getPrestige(swExpList[1]))
             swExpList.append(math.floor(swExpList[1]) + 1)
             swExpList.append(round((swExpList[1] - math.floor(swExpList[1])) * 100, 2))
-        except: pass
+        except: 
+            for x in range(5):
+                swExpList.append('0')
 
         # Adds filler zeroes for swStatsList and swExpList so people without a certain stat don't error out
-        for i in range(23-len(swStatsList)):
-            swStatsList += '0'
+        for i in range(24-len(swStatsList)):
+            swStatsList.append('0')
         print("AAAAAAAAAAAAAAAAA")
-        print(len(swStatsList))
+        for i in range(11-len(swExpList)):
+            swExpList.append('0')
         print(swStatsList)
-        for i in range(5-len(swExpList)):
-            swExpList += '0'
-
+        print(len(swStatsList))
+        
+        # Adds Eww! to accounts that screwed up the earlier condition
+        if jesushchrist == True: swStatsList[13] = ('Eww!')
+    
 ############################################################################ RENDERS BASE.HTML ############################################################################
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swexplist=swExpList, swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4])
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4])
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:

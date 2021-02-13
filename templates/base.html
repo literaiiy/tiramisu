@@ -71,28 +71,45 @@
     {% endif %}
 
     <h2>SkyWars</h2>
-    <p><b>{{ swGamesPlayed }}</b> games played <br>
-        <b>{{ swGamesQuit }}</b> games quit <br>
-        {{ swKills }} kills - {% if swHeadDesc == '0' %} <p>Eww!</p> {% else %} <i>{{ swHeadDesc }}</i>{% endif %} <br>
-        {{ swDeaths }} deaths <br>
-        {{ swKD }} K/D <br>
-        {{ swAssists }} assists <br>
-        {{ swWins }} wins<br>
-        {{ swLosses }} losses <br>
-        {{ swWL }} W/L - {{ swWinRate }}% win rate <br>
-        {{ swSurvived }} players survived <br>
-        {{ swWinstreak }} winstreak <br>
-        {{ swSouls }} souls <br>
-        {{ swHeads }} heads <br>
-        {{ swCoins }} coins <br>
-        {{ swBlocks }} blocks broken <br>
-        {{ swEggs }} eggs thrown <br>
-        {{ swArrowsShot }} arrows shot, {{ swArrowsHit }} arrows hit - {{ swArrowRate }}% hit rate<br>
-        Fastest win: {{ swFastestWin }} <br>
-        {{ swChestsOpened }} chests opened
+    <table>
+        <tbody>
+        <tr>
+            <td>
+                <b>{{ swGamesPlayed }}</b> games played <br>
+                <b>{{ swGamesQuit }}</b> games quit <br>
+                <b>{{ swKills }}</b> kills - {% if swHeadDesc == '0' %} <p>Eww!</p> {% else %} <i>{{ swHeadDesc }}</i>{% endif %} <br>
+                <b>{{ swDeaths }}</b> deaths <br>
+                <b>{{ swKD }}</b> K/D <br>
+                <b>{{ swAssists }}</b> assists <br>
+                <b>{{ swWins }}</b> wins<br>
+                <b>{{ swLosses }}</b> losses <br>
+                <b>{{ swWL }}</b> W/L - <b>{{ swWinRate }}%</b> win rate <br>
+                <b>{{ swSurvived }}</b> players survived <br>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <b>{{ swWinstreak }}</b> winstreak <br>
+                <b>{{ swSouls }}</b> souls <br>
+                <b>{{ swHeads }}</b> heads <br>
+                <b>{{ swCoins }}</b> coins <br>
+                <b>{{ swBlocks }}</b> blocks broken <br>
+                <b>{{ swEggs }}</b> eggs thrown <br>
+                <b>{{ swArrowsShot }}</b> arrows shot, <b>{{ swArrowsHit }}</b> arrows hit - <b>{{ swArrowRate }}%</b> hit rate<br>
+                <b></b>Fastest win: <b>{{ swFastestWin }}</b> <br>
+                <b>{{ swChestsOpened }}</b> chests opened
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <p>
+        <b>{{ swExp }}</b> SkyWars experience <br>
+        <b><span class="{{ swPrestigeColor }}">[{{ swLevel }}☆]</b></span>, {{ swPrestige }} Prestige - <span class="{{ swPrestigeColor }}"><b>{{ swToNL }}%</b></span> to <b>{{ swNextLevel }}</b><br>
+        <style>
+            .black{color:black}.darkgray{color:darkgray}.gold{color:#CBAA04}.turquoise{color:turquoise}.chartreuse{color:chartreuse}.blue{color:blue}.firebrick{color:firebrick}.hotpink{color:hotpink}.darkblue{color:darkblue}.indigo{color:indigo}.chocolate{color:chocolate}
+        </style>
     </p>
 
-    <hr>
     <p>Tiramisu v{{ version }} "{{ codename }}" from {{ tiramisudate }}</p>
     <p>Flask v{{ flaskver }} from {{ flaskverdate }}</p>
     <p>Python v{{ pythonver }} from {{ pythonverdate }}</p>

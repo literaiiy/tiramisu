@@ -17,10 +17,10 @@ literaiiy is a pseudonym I adopted in March of 2018, as an intentionally incorre
 - While those sites do either name history or Hypixel player stats, Tiramisu aims to cover both in an efficient and non-cluttered way. Some things I might do better or worse. Large amount of respect goes to those three sites and their developers, as they were a huge inspiration for this project!
 
 **What is a UUID?**
-- A UUID, or Universally Unique IDentifier, is a unique string of characters that is tied directly to a Minecraft account. Regardless of whether you change your name or not, your UUID will stick to your account and can be used without tying statistics to a name.
+- A UUID, or Universally Unique IDentifier, is a unique string of characters that is tied directly to a Minecraft account. Regardless of whether you change your name or not, your UUID will stick to your account and can be used instead of a name (which can change)
 
 **Will you ever put ads?**
-- No. Tiramisu will always be ad-free. I am fully supported by donations, which go directly to me, and are used on hosting expenses, licenses, and for my work.
+- No. Tiramisu is ad-free and plans to never change that. I am fully supported by donations, which go directly to me, and are used on hosting expenses, licenses, and for my work.
 
 **Are you stealing my data?**
 - Also- no. This is covered in the privacy policy. I don't take any data, whether that is personally identifiable or agreggate data (statistics based on your search history, where you go, etc.)

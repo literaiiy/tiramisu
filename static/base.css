@@ -1,8 +1,4 @@
 @font-face {
-    font-family: 'InterUI';
-    src: url('http://download1638.mediafire.com/7njbb9kpsljg/p22nyhdcra52uww/Inter-Regular.ttf');
-}
-@font-face {
     font-family: "InterUISemiBold";
     src: url('https://download1638.mediafire.com/7wfl763bysog/0eg0k1cuvn6gkvt/Inter-SemiBold.woff')
 }
@@ -12,22 +8,26 @@
 }
 
 .hedd {
-font-family: 'LexendDeca';
+font-family: 'Inter';
 }
 
 /* ACTUAL USERNAME STUFF */
 body {
-font-family: 'InterUI';
+font-family: 'Inter';
 text-align: center;
 }
 
+.username {
+font-family: 'Inconsolata', monospace;
+}
+
 .stats {
-font-family: 'InterUI';
+font-family: 'Inter';
 text-align: center;
 }
 
 footer {
-font-family: 'InterUI';
+font-family: 'Inter';
 text-align: center;
 }
 
@@ -51,4 +51,30 @@ a.two {
 
 th {
     text-align: left;
+}
+
+.scrollbar {
+    margin-left: auto;
+    margin-right: auto;
+}
+/* width */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: #888;
+border-radius: 5px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: #555;
+border-radius: 5px;
 }

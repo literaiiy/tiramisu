@@ -2,13 +2,17 @@
 
 <title>Profile for {{ displayname }} | Tiramisu</title>
 <link rel="shortcut icon" type="image/jpg" href="https://i.ibb.co/sw3P3zZ/tiramis2.png"/>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 
 <div class="hedd">
-    <h1>tiramisu</h1>
-    <h4>Tiramisu v{{ version }} by literaiiy / floraphile</h4>
+    <h1>Tiramisu</h1>
+    <p>Tiramisu v{{ version }} by floraphile</p>
 </div>
 <hr>
 <body>
+    <div class="username">
     {% if rank != '' and 'YOUTUBE' not in rank %}
         <h1><span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> {{ displayname }}</h1>
         <style>
@@ -22,16 +26,17 @@
         <style>
         .gray{color:#d3d3d3}.red{color:#dc143c}
         </style>
-
     {% endif %}
+    </div>
 
     <p>{{ uuid }}</p>
 
+    <div style="width:45%;height:25%;line-height:3em;overflow:auto;padding:5px;border:1px solid #000000;">
         <!--- TABLE --->
         <table>
             <tr>
                 <th>#</th>
-                <th>Name</th>
+                <th>Name</th> 
                 <th>Time changed</th>
                 <th>Duration had</th>
             </tr>
@@ -43,9 +48,9 @@
                     {% elif value == namehis[0]['name'] %}
                         <td style="color:midnightblue"><a href="https://tiramisu.cc/p/{{ value }}" style="text-decoration:none" >{{ value }}</a></td>
                     {% elif value == namehis[namehis|length-1]['name'] %}
-                        <td style="color:rgb(135, 170, 235)"><a.one href="localhost:5000/p/{{ value }}" style="text-decoration:none" >{{ value }}</a.one></td/>
+                        <td style="color:rgb(135, 170, 235)"><a href="https://tiramisu.cc/p/{{ value }}" style="text-decoration:none" >{{ value }}</a></td>
                     {% elif value in dict_item['name'] %}
-                        <td style="color:rgb(107, 137, 221)"><a.two href="localhost:5000/p/{{ value }}" style="text-decoration:none" >{{ value }}</a.two></td>
+                        <td style="color:rgb(107, 137, 221)"><a href="https://tiramisu.cc/p/{{ value }}" style="text-decoration:none" >{{ value }}</a></td>
                     {% else %}
                         <td>{{ value }}</td>
                     {% endif %}
@@ -53,6 +58,7 @@
             </tr>
             {% endfor %}
         </table>
+    </div>
 </body>
 
 <hr>

@@ -123,6 +123,28 @@
         <p>First login: <b>{{ firstLogin }}</b></p>
     {% endif %}
 
+<!--- SOCIAL MEDIA --->
+    {% if twitter != [] %}
+        Twitter: <a href='{{ twitter[1] }}'>@{{ twitter[0] }}</a><br>
+    {% endif %}
+    {% if instagram != [] %}
+        Instagram: <a href='{{ instagram[1] }}'>@{{ instagram[0] }}</a><br>
+    {% endif %}
+    {% if twitch != [] %}
+        Twitch: <a href='{{ twitch[1] }}'>{{ twitch[0] }}</a><br>
+    {% endif %}
+    {% if discord != [] %}
+        Discord: {{ discord }}<br>
+    {% elif 'discord.gg' in discord %}
+        Discord: <a href='{{ discord }}'>{{ discord }}</a><br>
+    {% endif %}
+    {% if hypixelForums != [] %}
+        Hypixel Forums: <a href='{{ hypixelForums[1] }}'>@{{ hypixelForums[0] }}</a><br>
+    {% endif %}
+    {% if youtube != [] %}
+        YouTube: <a href='{{ youtube[1] }}'>{{ youtube[0] }}</a><br>
+    {% endif %}
+
 <!--- SKYWARS STATS --->
     <h2>SkyWars</h2>
     <table>

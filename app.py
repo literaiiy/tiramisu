@@ -449,6 +449,43 @@ def compute(q):
                 currentSession = reqAPIsession['session']['gameType'].upper()
                 sessionType = reqAPIsession['session']['mode'].replace('_',' ').title()
             else: currentSession = False
+############################################################################ SKYWARS ##########################################################################################
+        socialsList = reqAPI['player']['socialMedia']['links']
+        twitter = []
+        instagram = []
+        twitch = []
+        discord = ''
+        hypixelForums = []
+        youtube = []
+
+        if "TWITTER" in socialsList:
+            twitter = reqAPI['player']['socialMedia']['links']['TWITTER']
+            if twitter[-1] == '/': twitter = twitter[:-1]
+            twitter = [twitter.rsplit('/',1)[1], twitter]
+
+        if "INSTAGRAM" in socialsList:
+            instagram = reqAPI['player']['socialMedia']['links']['INSTAGRAM']
+            if instagram[-1] == '/': instagram = instagram[:-1]
+            instagram = [instagram.rsplit('/',1)[1], instagram]
+
+        if "TWITCH" in socialsList:
+            twitch = reqAPI['player']['socialMedia']['links']['TWITCH']
+            if twitch[-1] == '/': twitch = twitch[:-1]
+            twitch = [twitch.rsplit('/',1)[1], twitch]
+        
+        if 'DISCORD' in socialsList:
+            discord = reqAPI['player']['socialMedia']['links']['DISCORD']
+
+        if "HYPIXEL" in socialsList:
+            hypixelForums = reqAPI['player']['socialMedia']['links']['HYPIXEL']
+            if hypixelForums[-1] == '/': hypixelForums = hypixelForums[:-1]
+            hypixelForums = [hypixelForums.rsplit('/',1)[1], hypixelForums]
+            hypixelForums[0] = hypixelForums[0].rsplit('.',1)[0]
+        
+        if "YOUTUBE" in socialsList:
+            youtube = reqAPI['player']['socialMedia']['links']['YOUTUBE']
+            if youtube[-1] == '/': youtube = youtube[:-1]
+            youtube = [youtube.rsplit('/',1)[1], youtube]
 
 ############################################################################ SKYWARS ##########################################################################################
         
@@ -615,7 +652,7 @@ def compute(q):
             displayname += ' 🍰'
         if uuid in FLOWERS:
             displayname += ' 🌸'
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor)
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube)
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:

@@ -5,25 +5,33 @@
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Meddon&display=swap" rel="stylesheet">
 
 <!--- HEADER --->
-<div class="hedd">
-    <h1>Tiramisu</h1>
+<header>
+    <div class="logo">
+        <img src='https://i.ibb.co/sw3P3zZ/tiramis2.png' alt="Tiramisu Logo" width="50px" height="50px"><h1>tiramisu</h1>
+    </div>
+</header>
+
+<!--- SUBTITLE --->
+<div class="subtitle">
     <p>Tiramisu v{{ version }} by floraphile</p>
 </div>
 <hr>
 <body>
+
 <!--- USERNAME --->
     <div class="username">
     {% if rank != '' and 'YOUTUBE' not in rank %}
-        <h1><span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> {{ displayname }}</h1>
+        <h2><span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> {{ displayname }}</h2ks>
         <style>
         .aqua{color:#0ff}.lime{color:#00ff7f}.gold{color:#ff8c00}.blue{color:#1e90ff}.green{color:#2e8b57}.red{color:#dc143c}.cyan{color:#20b2aa}.pink{color:#ba55d3}
         </style>
     {% elif rank == '' %}
-        <h1>{{ displayname }}</h1>
+        <h2>{{ displayname }}</h2>
     {% elif 'YOUTUBE' in rank %}
-        <h1><span class="{{ rankbracketcolor }}"><b>[</b></span><span class="gray"></span><b>{{ rank }}</b></span><span class="{{ rankbracketcolor }}"><b>]</b></span> {{ displayname }}</h1>
+        <h2><span class="{{ rankbracketcolor }}"><b>[</b></span><span class="gray"></span><b>{{ rank }}</b></span><span class="{{ rankbracketcolor }}"><b>]</b></span> {{ displayname }}</h2>
         <style>
         .gray{color:#d3d3d3}.red{color:#dc143c}
         </style>

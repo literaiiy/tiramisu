@@ -7,7 +7,11 @@
     src: url('https://download1487.mediafire.com/qo3vzos1gtkg/l9dkwa4wmp6pl3p/LexendDeca-Regular.ttf')
 }
 
-.hedd {
+.logo {
+font-family: 'Meddon', cursive;
+}
+
+.subtitle {
 font-family: 'Inter';
 }
 
@@ -35,6 +39,14 @@ table {
     width: 600px;
     margin-left: auto;
     margin-right: auto;
+}
+
+h1 {
+    font-size: 48px;
+}
+
+h2 {
+    font-size: 42px;
 }
 
 a { 

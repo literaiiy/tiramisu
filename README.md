@@ -40,6 +40,9 @@ literaiiy is a pseudonym I adopted in March of 2018, as an intentionally incorre
 **Why is there a '>' symbol in front of my first name's duration?**
 - Mojang doesn't provide an account's creation date in the API, so I used the account's Hypixel join date, instead, if it was before their first name change. This means that number is most likely not an accurate figure, but it is definitely more than whatever is listed there.
 
+**What does Legacy [MVP+] mean?**
+- Ranks purchased before sometime in 2016 (2015?) do not have a date attached to when they were bought.
+
 **Why is your name floraphile on Minecraft but literaiiy on GitHub, Discord, etc.?**
 - I like to change my name around a lot to different things, but pretty much exclusively in Minecraft. I like to stick with literaiiy for more permanent and important accounts.
 
@@ -47,4 +50,4 @@ literaiiy is a pseudonym I adopted in March of 2018, as an intentionally incorre
 - By definition, a floraphile is someone who has a love or is an enthusiast for flowers; from the Latin root *flor-* for flower and the Ancient Greek root *-phil-* for attraction.
 
 **How old are you?**
-- 470. Give or take a few hundred years.
+- 470\. Give or take a few hundred years.

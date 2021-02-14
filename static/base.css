@@ -60,6 +60,7 @@ th {
 /* width */
 ::-webkit-scrollbar {
     width: 10px;
+    height: 10px;
 }
 
 /* Track */
@@ -77,4 +78,8 @@ border-radius: 5px;
 ::-webkit-scrollbar-thumb:hover {
 background: #555;
 border-radius: 5px;
+}
+
+::-webkit-scrollbar-track-piece {
+    width: 10px;
 }

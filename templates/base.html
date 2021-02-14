@@ -6,19 +6,20 @@
 <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 
+<!--- HEADER --->
 <div class="hedd">
     <h1>Tiramisu</h1>
     <p>Tiramisu v{{ version }} by floraphile</p>
 </div>
 <hr>
 <body>
+<!--- USERNAME --->
     <div class="username">
     {% if rank != '' and 'YOUTUBE' not in rank %}
         <h1><span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> {{ displayname }}</h1>
         <style>
         .aqua{color:#0ff}.lime{color:#00ff7f}.gold{color:#ff8c00}.blue{color:#1e90ff}.green{color:#2e8b57}.red{color:#dc143c}.cyan{color:#20b2aa}.pink{color:#ba55d3}
         </style>
-
     {% elif rank == '' %}
         <h1>{{ displayname }}</h1>
     {% elif 'YOUTUBE' in rank %}
@@ -28,11 +29,10 @@
         </style>
     {% endif %}
     </div>
-
     <p>{{ uuid }}</p>
 
-    <div style="width:45%;height:25%;line-height:3em;overflow:auto;padding:5px;border:1px solid #000000;">
-        <!--- TABLE --->
+<!--- NAME HISTORY --->
+    <div style="width:45%;height:25%;line-height:3em;overflow:auto;padding:5px;border:1px solid #000000;margin-left:500px;">
         <table>
             <tr>
                 <th>#</th>
@@ -63,13 +63,30 @@
 
 <hr>
 
+<!------ PLAYER STATS ------>
 <div class="stats">
 {% if firstLoginUnix != 1 %}
+
+<!--- SESSION --->
+    {% if currentSession != False %}
+        Playing <b>{{ currentSession }}</b> - in <b>{{ sessionType }}</b>
+    {% else %}
+        <b>Offline</b>
+    {% endif %}
+
+<!--- KARMA --->
     <p>karma is <b>{{ reqList }}</b></p>
 
-    <p>Level <b>{{ level }} {{ multiplier}}</b> / <b>{{ levelProgress }}%</b> to <b>{{ levelplusone }}</b> </p>
+<!--- LEVEL --->
+    <p>Level <b>{{ level }} {{ multiplier }}</b> / <b>{{ levelProgress }}%</b> to <b>{{ levelplusone }}</b> </p>
+
+<!--- ACHIEVEMENTS --->
     <p><b>{{ achievements }}</b> achievements for <b>{{ achpot }}</b> achievement points</p>
 
+<!--- QUESTS --->
+    <b>{{ quests }}</b> quests
+
+<!--- FIRST/LAST LOGIN --->
     {% if lastLoginUnix == 1 %}
         <p></p>
     {% else %}
@@ -82,8 +99,10 @@
         <p>First login: <b>{{ firstLogin }}</b></p>
     {% endif %}
 
-    <p>Hypixel {{ seniority }} - Joined {{ joinedAgoText }} ago</p>
+<!--- SENIORITY  --->
+    <p><b>Hypixel {{ seniority }}</b> - Joined {{ joinedAgoText }} ago</p>
 
+<!--- RANK SENIORITY --->
     {% if boughtPastRank == 0 %}
         Legacy <span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span>
     {% elif rank != '' and 'YOUTUBE' not in rank %}
@@ -98,9 +117,9 @@
         <style>
         .gray{color:#d3d3d3}.red{color:#dc143c}
         </style>
-
     {% endif %}
 
+<!--- SKYWARS STATS --->
     <h2>SkyWars</h2>
     <table>
         <tbody>
@@ -142,6 +161,7 @@
         </style>
     </p>
 
+<!--- VERSION DETAILS --->
     <hr>
     <p>Tiramisu v{{ version }} "{{ codename }}" from {{ tiramisudate }}</p>
     <p>Flask v{{ flaskver }} from {{ flaskverdate }}</p>
@@ -150,6 +170,7 @@
     <p>It doesn't seem like this person has ever played on Hypixel.</p>
 {% endif %}
 
+<!--- FOOTER --->
 </div>
 <footer>
     <p>Copyright © 2021 literaiiy / floraphile. All rights reserved.</p>

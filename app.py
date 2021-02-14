@@ -371,12 +371,25 @@ def compute(q):
 ############################################################################ QUESTS, AP, & ACHIEVEMENTS ############################################################################
         try:
             achievements = len(reqAPI['player']['achievements'])+len(reqAPI['player']['achievementsOneTime'])
+            achievements = format(achievements, ',')
         except:
             achievements = 0
         try:
             achpot = reqAPI['player']['achievementPoints']
+            achpot = format(achpot, ',')
         except:
             achpot = 0
+        
+        quests = 0
+        try:
+            for j in reqAPI['player']['quests']:
+                try:
+                    quests += len(reqAPI['player']['quests'][j]['completions'])
+                except:
+                    pass
+            quests = format(quests, ',')
+        except:
+            pass
 
 ############################################################################ TITLE ############################################################################
 
@@ -406,6 +419,16 @@ def compute(q):
                 else: boughtPastRank = str(boughtPastRank[1]) + 'd ' + str(boughtPastRank[2]) + 'h ' + str(boughtPastRank[3]) + 'm'
             else: boughtPastRank = 0
         except: pass
+############################################################################ PLAYER SESSION DATA ##########################################################################################
+        reqAPIsess = requests.get('https://api.hypixel.net/status?key=' + HAPIKEY + '&uuid=' + uuid)
+        reqAPIsession = reqAPIsess.json()
+        currentSession = ''
+        sessionType = ''
+        if reqAPIsession['success']:
+            if reqAPIsession['session']['online'] == True:
+                currentSession = reqAPIsession['session']['gameType'].title()
+                sessionType = reqAPIsession['session']['mode'].replace('_',' ').title()
+            else: currentSession = False
 
 ############################################################################ SKYWARS ##########################################################################################
         
@@ -572,7 +595,7 @@ def compute(q):
             displayname += ' 🍰'
         if uuid in FLOWERS:
             displayname += ' 🌸'
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank)
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType)
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:

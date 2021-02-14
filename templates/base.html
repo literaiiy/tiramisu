@@ -73,76 +73,86 @@
 
 <!------ PLAYER STATS ------>
 <div class="stats">
-{% if firstLoginUnix != 1 %}
 
-<!--- SESSION --->
-    {% if currentSession != False %}
-        <p style='color:green;'>Playing <b>{{ currentSession }}</b> - in <b>{{ sessionType }}</b></p>
-    {% else %}
-        <p style='color:red;'><b>Offline</b></p>
-    {% endif %}
+<p>{% if firstLoginUnix != 1 %}
 
-<!--- LEVEL --->
-    <p>Level <b>{{ level }} {{ multiplier }}</b> / <b>{{ levelProgress }}%</b> to <b>{{ levelplusone }}</b> </p>
+    <!--- SESSION --->
+        {% if currentSession != False %}
+            <p style='color:green;'>Playing <b>{{ currentSession }}</b> - in <b>{{ sessionType }}</b>
+        {% else %}
+            <p style='color:red;'><b>Offline</b></p>
+        {% endif %}
 
-<!--- KARMA --->
-    <p>karma is <b>{{ reqList }}</b></p>
+    <!--- LEVEL --->
+        Level <b>{{ level }} {{ multiplier }}</b> / <b>{{ levelProgress }}%</b> to <b>{{ levelplusone }}</b><br>
 
-<!--- ACHIEVEMENTS --->
-    <p><b>{{ achievements }}</b> achievements for <b>{{ achpot }}</b> achievement points</p>
+    <!--- KARMA --->
+        karma is <b>{{ reqList }}</b><br>
 
-<!--- QUESTS --->
-    <b>{{ quests }}</b> quests finished
+    <!--- ACHIEVEMENTS --->
+        <b>{{ achievements }}</b> achievements for <b>{{ achpot }}</b> achievement points<br>
 
-<br>
-<!--- SENIORITY  --->
-    <p><b>Hypixel {{ seniority }}</b> - Joined {{ joinedAgoText }} ago</p>
+    <!--- QUESTS --->
+        <b>{{ quests }}</b> quests finished<br></p>
 
-<!--- RANK SENIORITY --->
-    {% if boughtPastRank == 0 %}
-    <p></p>
-    {% elif rank != '' %}
-        <span class="{{ rankunparsedcolor }}"><b>[{{ rankUnparsed }}]</b></span> bought <b>{{ boughtPastTime }}</b> - <b>{{ boughtPastRank }}</b> ago
-        <style>
-        .aqua{color:#0ff}.lime{color:#00ff7f}
-        </style>
-    {% elif rank == '' %}
-    <p></p>
+    <!--- SENIORITY  --->
+        <p><b>Hypixel {{ seniority }}</b> - Joined {{ joinedAgoText }} ago<br>
+
+    <!--- RANK SENIORITY --->
+        {% if boughtPastRank == 0 %}
+        <p></p>
+        {% elif rank != '' %}
+            <span class="{{ rankunparsedcolor }}"><b>[{{ rankUnparsed }}]</b></span> bought <b>{{ boughtPastTime }}</b> - <b>{{ boughtPastRank }}</b> ago
+            <style>
+            .aqua{color:#0ff}.lime{color:#00ff7f}
+            </style>
+        {% elif rank == '' %}
+        <p></p>
+        {% endif %}
+        <br>
+</p>
+
+<!--- FIRST/LAST LOGIN --->
+<p>
+    {% if lastLoginUnix != 1 %}
+        Last login: <b>{{ lastLogin }}</b>
     {% endif %}
     <br>
-<!--- FIRST/LAST LOGIN --->
-    {% if lastLoginUnix == 1 %}
-        <p></p>
-    {% else %}
-        <p>Last login: <b>{{ lastLogin }}</b></p>
+    {% if firstLoginUnix != 1 %}
+        First login: <b>{{ firstLogin }}</b>
     {% endif %}
-
-    {% if firstLoginUnix == 1 %}
-        <p></p>
-    {% else %}
-        <p>First login: <b>{{ firstLogin }}</b></p>
-    {% endif %}
+</p>
 
 <!--- SOCIAL MEDIA --->
     {% if twitter != [] %}
-        Twitter: <a href='{{ twitter[1] }}'>@{{ twitter[0] }}</a><br>
+        <span class="twitter"><b>Twitter: </b></span><a href='{{ twitter[1] }}'>@{{ twitter[0] }}</a><br>
+        <style>.twitter{color:cornflowerblue}</style>
     {% endif %}
     {% if instagram != [] %}
-        Instagram: <a href='{{ instagram[1] }}'>@{{ instagram[0] }}</a><br>
+        <span class="instagram"><b>Instagram: </b></span><a href='{{ instagram[1] }}'>@{{ instagram[0] }}</a><br>
+        <style>.instagram{color:plum}</style>
     {% endif %}
     {% if twitch != [] %}
-        Twitch: <a href='{{ twitch[1] }}'>{{ twitch[0] }}</a><br>
+        <span class="twitch"><b>Twitch: </b></span><a href='{{ twitch[1] }}'>@{{ twitch[0] }}</a><br>
+        <style>.twitch{color:blueviolet}</style>
     {% endif %}
-    {% if discord != [] %}
-        Discord: {{ discord }}<br>
+    {% if discord != [] and 'discord.gg' not in discord %}
+        <span class="discord"><b>Discord:</b></span> {{ discord }}<br>
+        <style>.discord{color:darkslateblue}</style>
+    {% elif 'https://discord.gg' in discord or 'http://discord.gg' in discord %}
+        <span class="discord"><b>Discord:</b></span> <a href='{{ discord }}'>{{ discord }}</a><br>
+        <style>.discord{color:darkslateblue}</style>
     {% elif 'discord.gg' in discord %}
-        Discord: <a href='{{ discord }}'>{{ discord }}</a><br>
+        <span class="discord"><b>Discord:</b></span> <a href='https://{{ discord }}'>{{ discord }}</a><br>
+        <style>.discord{color:darkslateblue}</style>
     {% endif %}
     {% if hypixelForums != [] %}
-        Hypixel Forums: <a href='{{ hypixelForums[1] }}'>@{{ hypixelForums[0] }}</a><br>
+        <span class="hypixelForums"><b>Hypixel Forums:</b></span> <a href='{{ hypixelForums[1] }}'>@{{ hypixelForums[0] }}</a><br>
+        <style>.hypixelForums{color:sienna}</style>
     {% endif %}
     {% if youtube != [] %}
-        YouTube: <a href='{{ youtube[1] }}'>{{ youtube[0] }}</a><br>
+        <span class="youtube"><b>YouTube: </b></span><a href='{{ youtube[1] }}'>{{ youtube[0] }}</a><br>
+        <style>.youtube{color:red}</style>
     {% endif %}
 
 <!--- SKYWARS STATS --->

@@ -19,8 +19,8 @@ app.secret_key = 'a34w7tfyner9ryhzrbfw7ynhhcdtg78as34'
 HAPIKEY = '1e5f6a57-6327-4888-886a-590c39861a6a'
 ADMINS = ['35a178c0c37043aea959983223c04de0']
 FLOWERS = ['27bcc1547423484683fd811155d8c472']
-VERSION = "0.0.1α TEST BUILD"
-CODENAME ='Flour'
+VERSION = "0.0.1α"
+CODENAME ='Flour (Test Build)'
 TIRAMISUDATE = datetime.fromtimestamp(1612589848).strftime('%b %d, %Y')
 FLASKVER ='1.1.2'
 FLASKVERDATE = datetime.fromtimestamp(1597665600).strftime('%b %d, %Y')
@@ -411,14 +411,34 @@ def compute(q):
             elif joinedAgo < seniorityTimeTuple[7]: seniority = 'Master'
             elif joinedAgo < seniorityTimeTuple[8]: seniority = 'Ancient'
         except: pass
+
         boughtPastRank = 0
+        boughtPastTime = 0
+        rankUnparsed2 = 0
+        rankunparsedcolor = ''
         try:
             if rankUnparsed != 0:
                 boughtPastRank = sec2format(time.time() - reqAPI['player']['levelUp_' + rankUnparsed]/1000)
                 if boughtPastRank[0] != 0: boughtPastRank = str(boughtPastRank[0]) + 'y ' + str(boughtPastRank[1]) + 'd ' + str(boughtPastRank[2]) + 'h ' + str(boughtPastRank[3]) + 'm'
                 else: boughtPastRank = str(boughtPastRank[1]) + 'd ' + str(boughtPastRank[2]) + 'h ' + str(boughtPastRank[3]) + 'm'
+                boughtPastTimeUnix = reqAPI['player']['levelUp_' + rankUnparsed]/1000
+                boughtPastTime = datetime.fromtimestamp(boughtPastTimeUnix).strftime('%a, %b %d, %Y at %I:%M:%S %p %z')
+                if 'MVP_PLUS' in rankUnparsed: 
+                    rankunparsedcolor = 'aqua'
+                    rankUnparsed2 = 'MVP+'
+                elif rankUnparsed == 'MVP':
+                    rankunparsedcolor = 'aqua'
+                    rankUnparsed2 = 'MVP'
+                elif rankUnparsed == 'VIP_PLUS':
+                    rankunparsedcolor ='lime'
+                    rankUnparsed2 = 'VIP+'
+                elif rankUnparsed == 'VIP':
+                    rankunparsedcolor = 'lime'
+                    rankUnparsed2 = 'VIP'
+                else: pass
             else: boughtPastRank = 0
         except: pass
+
 ############################################################################ PLAYER SESSION DATA ##########################################################################################
         reqAPIsess = requests.get('https://api.hypixel.net/status?key=' + HAPIKEY + '&uuid=' + uuid)
         reqAPIsession = reqAPIsess.json()
@@ -595,7 +615,7 @@ def compute(q):
             displayname += ' 🍰'
         if uuid in FLOWERS:
             displayname += ' 🌸'
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType)
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor)
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:

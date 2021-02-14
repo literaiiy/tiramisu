@@ -112,19 +112,14 @@
 
 <!--- RANK SENIORITY --->
     {% if boughtPastRank == 0 %}
-        Legacy <span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span>
-    {% elif rank != '' and 'YOUTUBE' not in rank %}
-        <span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> for {{ boughtPastRank }}
+    <p></p>
+    {% elif rank != '' %}
+        <span class="{{ rankunparsedcolor }}"><b>[{{ rankUnparsed }}]</b></span> bought {{ boughtPastTime }} - {{ boughtPastRank }} ago
         <style>
-        .aqua{color:#0ff}.lime{color:#00ff7f}.gold{color:#ff8c00}.blue{color:#1e90ff}.green{color:#2e8b57}.red{color:#dc143c}.cyan{color:#20b2aa}.pink{color:#ba55d3}
+        .aqua{color:#0ff}.lime{color:#00ff7f}
         </style>
     {% elif rank == '' %}
-        Perpetual non rank!!!
-    {% elif 'YOUTUBE' in rank %}
-        <span class="{{ rankbracketcolor }}"><b>[</b></span><span class="gray"></span><b>{{ rank }}</b></span><span class="{{ rankbracketcolor }}"><b>]</b></span> for {{ boughtPastRank }}
-        <style>
-        .gray{color:#d3d3d3}.red{color:#dc143c}
-        </style>
+    <p></p>
     {% endif %}
 
 <!--- SKYWARS STATS --->
@@ -168,7 +163,7 @@
             .chocolate {background-image: linear-gradient(to right, tomato, coral, gold, lawngreen, steelblue, blueviolet, orchid);-webkit-background-clip: text;-webkit-text-fill-color: transparent;}
         </style>
     </p>
-
+</div>
 <!--- VERSION DETAILS --->
     <hr>
     <p>Tiramisu v{{ version }} "{{ codename }}" from {{ tiramisudate }}</p>
@@ -179,7 +174,6 @@
 {% endif %}
 
 <!--- FOOTER --->
-</div>
 <footer>
-    <p>Copyright © 2021 literaiiy / floraphile. All rights reserved.</p>
+    <p>Copyright © 2021 floraphile. All rights reserved.</p>
 </footer>

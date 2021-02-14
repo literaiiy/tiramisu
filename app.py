@@ -27,7 +27,6 @@ FLASKVERDATE = datetime.fromtimestamp(1597665600).strftime('%b %d, %Y')
 PYTHONVER ='3.7.9'
 PYTHONVERDATE = datetime.fromtimestamp(1585915200).strftime('%b %d, %Y')
 swearList = ['anal','anus','ass','bastard','bitch','blowjob','blow job','buttplug','clitoris','cock','cunt','dick','dildo','fag','fuck','hell','jizz','nigger','nigga','penis','piss','pussy','scrotum','sex','shit','slut','turd','vagina']
-expList = ['Hypixel Freshie', 'Hypixel Newbie', 'Hypixel Trainee', 'Hypixel Expert', 'Hypixel Professional', 'Hypixel Elder', 'Hypixel Veteran', 'Hypixel Master']
 sweetHeadsRanks = ['HELPER', 'MODERATOR', 'ADMIN', 'OWNER']
 
 username = ''
@@ -400,7 +399,8 @@ def compute(q):
         try:
             joinedAgo = time.time() - firstLoginUnix
             joinedAgoText = sec2format(joinedAgo)
-            joinedAgoText = str(joinedAgoText[0]) + 'y ' + str(joinedAgoText[1]) + 'd ' + str(joinedAgoText[2]) + 'h ' + str(joinedAgoText[3]) + 'm'
+            if joinedAgoText[0] == 0: joinedAgoText = str(joinedAgoText[1]) + 'd ' + str(joinedAgoText[2]) + 'h ' + str(joinedAgoText[3]) + 'm'
+            else: joinedAgoText = str(joinedAgoText[0]) + 'y ' + str(joinedAgoText[1]) + 'd ' + str(joinedAgoText[2]) + 'h ' + str(joinedAgoText[3]) + 'm'
             if joinedAgo < seniorityTimeTuple[0]: seniority = 'Freshie'
             elif joinedAgo < seniorityTimeTuple[1]: seniority = 'Novice'
             elif joinedAgo < seniorityTimeTuple[2]: seniority = 'Trainee'
@@ -446,7 +446,7 @@ def compute(q):
         sessionType = ''
         if reqAPIsession['success']:
             if reqAPIsession['session']['online'] == True:
-                currentSession = reqAPIsession['session']['gameType'].title()
+                currentSession = reqAPIsession['session']['gameType'].upper()
                 sessionType = reqAPIsession['session']['mode'].replace('_',' ').title()
             else: currentSession = False
 

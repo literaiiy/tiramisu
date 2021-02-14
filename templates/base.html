@@ -16,7 +16,7 @@
 
 <!--- SUBTITLE --->
 <div class="subtitle">
-    <p>Tiramisu v{{ version }} by floraphile</p>
+    <p>Stupid tagline or slogan here</p>
 </div>
 <hr>
 <body>
@@ -77,23 +77,39 @@
 
 <!--- SESSION --->
     {% if currentSession != False %}
-        Playing <b>{{ currentSession }}</b> - in <b>{{ sessionType }}</b>
+        <p style='color:green;'>Playing <b>{{ currentSession }}</b> - in <b>{{ sessionType }}</b></p>
     {% else %}
-        <b>Offline</b>
+        <p style='color:red;'><b>Offline</b></p>
     {% endif %}
-
-<!--- KARMA --->
-    <p>karma is <b>{{ reqList }}</b></p>
 
 <!--- LEVEL --->
     <p>Level <b>{{ level }} {{ multiplier }}</b> / <b>{{ levelProgress }}%</b> to <b>{{ levelplusone }}</b> </p>
+
+<!--- KARMA --->
+    <p>karma is <b>{{ reqList }}</b></p>
 
 <!--- ACHIEVEMENTS --->
     <p><b>{{ achievements }}</b> achievements for <b>{{ achpot }}</b> achievement points</p>
 
 <!--- QUESTS --->
-    <b>{{ quests }}</b> quests
+    <b>{{ quests }}</b> quests finished
 
+<br>
+<!--- SENIORITY  --->
+    <p><b>Hypixel {{ seniority }}</b> - Joined {{ joinedAgoText }} ago</p>
+
+<!--- RANK SENIORITY --->
+    {% if boughtPastRank == 0 %}
+    <p></p>
+    {% elif rank != '' %}
+        <span class="{{ rankunparsedcolor }}"><b>[{{ rankUnparsed }}]</b></span> bought <b>{{ boughtPastTime }}</b> - <b>{{ boughtPastRank }}</b> ago
+        <style>
+        .aqua{color:#0ff}.lime{color:#00ff7f}
+        </style>
+    {% elif rank == '' %}
+    <p></p>
+    {% endif %}
+    <br>
 <!--- FIRST/LAST LOGIN --->
     {% if lastLoginUnix == 1 %}
         <p></p>
@@ -105,21 +121,6 @@
         <p></p>
     {% else %}
         <p>First login: <b>{{ firstLogin }}</b></p>
-    {% endif %}
-
-<!--- SENIORITY  --->
-    <p><b>Hypixel {{ seniority }}</b> - Joined {{ joinedAgoText }} ago</p>
-
-<!--- RANK SENIORITY --->
-    {% if boughtPastRank == 0 %}
-    <p></p>
-    {% elif rank != '' %}
-        <span class="{{ rankunparsedcolor }}"><b>[{{ rankUnparsed }}]</b></span> bought {{ boughtPastTime }} - {{ boughtPastRank }} ago
-        <style>
-        .aqua{color:#0ff}.lime{color:#00ff7f}
-        </style>
-    {% elif rank == '' %}
-    <p></p>
     {% endif %}
 
 <!--- SKYWARS STATS --->
@@ -164,6 +165,7 @@
         </style>
     </p>
 </div>
+
 <!--- VERSION DETAILS --->
     <hr>
     <p>Tiramisu v{{ version }} "{{ codename }}" from {{ tiramisudate }}</p>

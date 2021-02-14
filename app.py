@@ -170,6 +170,7 @@ def compute(q):
         rankParsed = ''
         rankcolor = 'gray'
         changerbc = False
+        rankUnparsed = ''
 
         # Checks for MVP++
         try:
@@ -199,6 +200,8 @@ def compute(q):
             rankcolor = 'lime'
         else:
             rankParsed = ''
+        rankUnparsed = rank
+        
         try:
             ranke = reqAPI['player']['packageRank']
             if ranke == 'MVP_PLUS': 
@@ -215,8 +218,10 @@ def compute(q):
                 rankcolor = 'lime'
             else:
                 rankParsed = ''
+            rankUnparsed = ranke
+            
         except:
-            True
+            pass
 
         try:
             rankw = reqAPI['player']['newPackageRank']
@@ -234,6 +239,7 @@ def compute(q):
                 rankcolor = 'lime'
             else:
                 rankParsed = ''
+            rankUnparsed = rankw
         except:
             True
 
@@ -371,14 +377,37 @@ def compute(q):
             achpot = reqAPI['player']['achievementPoints']
         except:
             achpot = 0
-        ### END ###
-        displayname = username
-        if uuid in ADMINS:
-            displayname += ' 🍰'
-        if uuid in FLOWERS:
-            displayname += ' 🌸'
 
-############################################################################ SKYWARS ############################################################################
+############################################################################ TITLE ############################################################################
+
+        joinedAgo = 0
+        joinedAgoText = ''
+        seniorityTimeTuple = (31536000, 63072000, 94608000, 126144000, 157680000, 189216000, 220752000, 252288000, 283824000)
+        seniority = 'Freshie'
+        try:
+            joinedAgo = time.time() - firstLoginUnix
+            joinedAgoText = sec2format(joinedAgo)
+            joinedAgoText = str(joinedAgoText[0]) + 'y ' + str(joinedAgoText[1]) + 'd ' + str(joinedAgoText[2]) + 'h ' + str(joinedAgoText[3]) + 'm'
+            if joinedAgo < seniorityTimeTuple[0]: seniority = 'Freshie'
+            elif joinedAgo < seniorityTimeTuple[1]: seniority = 'Novice'
+            elif joinedAgo < seniorityTimeTuple[2]: seniority = 'Trainee'
+            elif joinedAgo < seniorityTimeTuple[3]: seniority = 'Expert'
+            elif joinedAgo < seniorityTimeTuple[4]: seniority = 'Professional'
+            elif joinedAgo < seniorityTimeTuple[5]: seniority = 'Elder'
+            elif joinedAgo < seniorityTimeTuple[6]: seniority = 'Veteran'
+            elif joinedAgo < seniorityTimeTuple[7]: seniority = 'Master'
+            elif joinedAgo < seniorityTimeTuple[8]: seniority = 'Ancient'
+        except: pass
+        boughtPastRank = 0
+        try:
+            if rankUnparsed != 0:
+                boughtPastRank = sec2format(time.time() - reqAPI['player']['levelUp_' + rankUnparsed]/1000)
+                if boughtPastRank[0] != 0: boughtPastRank = str(boughtPastRank[0]) + 'y ' + str(boughtPastRank[1]) + 'd ' + str(boughtPastRank[2]) + 'h ' + str(boughtPastRank[3]) + 'm'
+                else: boughtPastRank = str(boughtPastRank[1]) + 'd ' + str(boughtPastRank[2]) + 'h ' + str(boughtPastRank[3]) + 'm'
+            else: boughtPastRank = 0
+        except: pass
+
+############################################################################ SKYWARS ##########################################################################################
         
         swStatsList = []
         # 0 - games played
@@ -386,7 +415,7 @@ def compute(q):
         # 2 - kills
         # 3 - deaths
         # 4 - K/D
-        # 5 - assists
+        # 5 - assists1
         # 6 - wins
         # 7 - losses
         # 8 - W/L
@@ -533,12 +562,17 @@ def compute(q):
             swExpList.append('0')
         print(swStatsList)
         print(len(swStatsList))
-        
+
         # Adds Eww! to accounts that screwed up the earlier condition
         if jesushchrist == True: swStatsList[13] = ('Eww!')
     
 ############################################################################ RENDERS BASE.HTML ############################################################################
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4])
+        displayname = username
+        if uuid in ADMINS:
+            displayname += ' 🍰'
+        if uuid in FLOWERS:
+            displayname += ' 🌸'
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank)
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:

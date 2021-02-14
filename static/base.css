@@ -48,3 +48,7 @@ a.one {
 a.two { 
     color: cornflowerblue;
 }
+
+th {
+    text-align: left;
+}

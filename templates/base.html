@@ -29,17 +29,23 @@
 
         <!--- TABLE --->
         <table>
+            <tr>
+                <th>#</th>
+                <th>Name</th>
+                <th>Time changed</th>
+                <th>Duration had</th>
+            </tr>
             {% for dict_item in namehis %}
             <tr>
                 {% for value in dict_item.values() %}
                     {% if value|int != 0 %}
                         <td><b>{{ value }}</b></td>
                     {% elif value == namehis[0]['name'] %}
-                        <td style="color:royalblue"><a href="https://tiramisu.cc/p/{{ value }}" style="text-decoration:none" >{{ value }}</a></td>
+                        <td style="color:midnightblue"><a href="https://tiramisu.cc/p/{{ value }}" style="text-decoration:none" >{{ value }}</a></td>
                     {% elif value == namehis[namehis|length-1]['name'] %}
-                        <td style="color:green"><a.one href="localhost:5000/p/{{ value }}" style="text-decoration:none" >{{ value }}</a.one></td/>
+                        <td style="color:rgb(135, 170, 235)"><a.one href="localhost:5000/p/{{ value }}" style="text-decoration:none" >{{ value }}</a.one></td/>
                     {% elif value in dict_item['name'] %}
-                        <td style="color:red"><a.two href="localhost:5000/p/{{ value }}" style="text-decoration:none" >{{ value }}</a.two></td>
+                        <td style="color:rgb(107, 137, 221)"><a.two href="localhost:5000/p/{{ value }}" style="text-decoration:none" >{{ value }}</a.two></td>
                     {% else %}
                         <td>{{ value }}</td>
                     {% endif %}
@@ -68,6 +74,25 @@
         <p></p>
     {% else %}
         <p>First login: <b>{{ firstLogin }}</b></p>
+    {% endif %}
+
+    <p>Hypixel {{ seniority }} - Joined {{ joinedAgoText }} ago</p>
+
+    {% if boughtPastRank == 0 %}
+        Legacy <span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span>
+    {% elif rank != '' and 'YOUTUBE' not in rank %}
+        <span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> for {{ boughtPastRank }}
+        <style>
+        .aqua{color:#0ff}.lime{color:#00ff7f}.gold{color:#ff8c00}.blue{color:#1e90ff}.green{color:#2e8b57}.red{color:#dc143c}.cyan{color:#20b2aa}.pink{color:#ba55d3}
+        </style>
+    {% elif rank == '' %}
+        Perpetual non rank!!!
+    {% elif 'YOUTUBE' in rank %}
+        <span class="{{ rankbracketcolor }}"><b>[</b></span><span class="gray"></span><b>{{ rank }}</b></span><span class="{{ rankbracketcolor }}"><b>]</b></span> for {{ boughtPastRank }}
+        <style>
+        .gray{color:#d3d3d3}.red{color:#dc143c}
+        </style>
+
     {% endif %}
 
     <h2>SkyWars</h2>
@@ -106,10 +131,12 @@
         <b>{{ swExp }}</b> SkyWars experience <br>
         <b><span class="{{ swPrestigeColor }}">[{{ swLevel }}☆]</b></span>, {{ swPrestige }} Prestige - <span class="{{ swPrestigeColor }}"><b>{{ swToNL }}%</b></span> to <b>{{ swNextLevel }}</b><br>
         <style>
-            .black{color:black}.darkgray{color:darkgray}.gold{color:#CBAA04}.turquoise{color:turquoise}.chartreuse{color:chartreuse}.blue{color:blue}.firebrick{color:firebrick}.hotpink{color:hotpink}.darkblue{color:darkblue}.indigo{color:indigo}.chocolate{color:chocolate}
+            .black{color:black}.darkgray{color:darkgray}.gold{color:#d4a712}.turquoise{color:turquoise}.chartreuse{color:chartreuse}.blue{color:blue}.firebrick{color:firebrick}.hotpink{color:hotpink}.darkblue{color:darkblue}.indigo{color:indigo}
+            .chocolate {background-image: linear-gradient(to right, tomato, coral, gold, lawngreen, steelblue, blueviolet, orchid);-webkit-background-clip: text;-webkit-text-fill-color: transparent;}
         </style>
     </p>
 
+    <hr>
     <p>Tiramisu v{{ version }} "{{ codename }}" from {{ tiramisudate }}</p>
     <p>Flask v{{ flaskver }} from {{ flaskverdate }}</p>
     <p>Python v{{ pythonver }} from {{ pythonverdate }}</p>

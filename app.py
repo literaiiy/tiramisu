@@ -167,7 +167,7 @@ def compute(q):
 
 ############################################################################ RANK ############################################################################
         rankParsed = ''
-        rankcolor = 'gray'
+        rankcolor = 'darkgray'
         changerbc = False
         rankUnparsed = ''
         pluscolor = 'red'
@@ -293,7 +293,7 @@ def compute(q):
         # Only works for YouTube rank right now
         if changerbc:
             rankbracketcolor = 'red'
-            rankcolor = 'gray'
+            rankcolor = 'darkgray'
         else:
             rankbracketcolor = rankcolor
 

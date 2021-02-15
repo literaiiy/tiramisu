@@ -22,7 +22,7 @@
     {% if '+++' in rank %}
         <h2><span class="light_purple"><b>[{{ rank.replace('+++','') }}<span class="mvpaqua">+++</span>]</b></span> {{ displayname }}</h2>
         <style>
-        .mvpaqua{color:#0ff}.light_purple{color:#ec9fff}
+        .mvpaqua{color:#55FFFF}.light_purple{color:#FF55FF}
         h2 {
         text-shadow:2px 2px lightslategray;
         }
@@ -30,7 +30,7 @@
     {% elif '++' in rank %}
         <h2><span class="{{ rankcolor }}"><b>[{{ rank.replace('++','') }}<span class="{{ pluscolor }}">++</span>]</b></span> {{ displayname }}</h2>
         <style>
-        .mvpaqua{color:#0ff}.lime{color:#00ff7f}.gold{color:#ffe44d}.blue{color:#1e90ff}.modgreen{color:#2e8b57}.red{color:#dc143c}.cyan{color:#20b2aa}.pink{color:#ba55d3}.dark_red{color:darkred}.green{color:#00ff7f}.yellow{color:yellow}.white{color:white}.light_purple{color:#ec9fff}.dark_green{color:#2e8b57}.dark_aqua{color:#20b2aa}.dark_purple{color:purple}.dark_gray{color:gray}.black{color:black}
+        .mvpaqua{color:#55FFFF}.lime{color:#55FF55}.gold{color:#FFAA00}.blue{color:#5555FF}.green{color:#00AA00}.red{color:#FF5555}.cyan{color:#00AAAA}.pink{color:#FF55FF}.dark_red{color:#AA0000}.green{color:#55FF55}.yellow{color:#FFFF55}.white{color:white}.light_purple{color:#FF55FF}.dark_green{color:#00AA00}.dark_aqua{color:#00AAAA}.dark_purple{color:#AA00AA}.dark_gray{color:#AAAAAA}.black{color:#000000}
         h2 {
         text-shadow:2px 2px lightslategray;
         }
@@ -38,7 +38,7 @@
     {% elif '+' in rank %}
         <h2><span class="{{ rankcolor }}"><b>[{{ rank.replace('+','') }}<span class="{{ pluscolor }}">+</span>]</b></span> {{ displayname }}</h2>
         <style>
-        .mvpaqua{color:#0ff}.lime{color:#00ff7f}.gold{color:#ffe44d}.blue{color:#1e90ff}.modgreen{color:#2e8b57}.red{color:#dc143c}.cyan{color:#20b2aa}.pink{color:#ba55d3}.dark_red{color:darkred}.green{color:#00ff7f}.yellow{color:yellow}.white{color:white}.light_purple{color:#ec9fff}.dark_green{color:#2e8b57}.dark_aqua{color:#20b2aa}.dark_purple{color:purple}.dark_gray{color:gray}.black{color:black}
+        .mvpaqua{color:#55FFFF}.lime{color:#55FF55}.gold{color:#FFAA00}.blue{color:#5555FF}.green{color:#00AA00}.red{color:#FF5555}.cyan{color:#00AAAA}.pink{color:#FF55FF}.dark_red{color:#AA0000}.green{color:#55FF55}.yellow{color:#FFFF55}.white{color:white}.light_purple{color:#FF55FF}.dark_green{color:#00AA00}.dark_aqua{color:#00AAAA}.dark_purple{color:#AA00AA}.dark_gray{color:#AAAAAA}.black{color:#000000}
         h2 {
             text-shadow:2px 2px lightslategray;
         }
@@ -47,7 +47,7 @@
     {% elif rank != '' and 'YOUTUBE' not in rank %}
         <h2><span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> {{ displayname }}</h2>
         <style>
-        .aqua{color:#0ff}.lime{color:#00ff7f}.gold{color:#ffe44d}.blue{color:#1e90ff}.green{color:#2e8b57}.red{color:#dc143c}.cyan{color:#20b2aa}.pink{color:#ba55d3}
+        .mvpaqua{color:#55FFFF}.lime{color:#55FF55}.gold{color:#FFAA00}.blue{color:#5555FF}.green{color:#00AA00}.red{color:#FF5555}.cyan{color:#00AAAA}.pink{color:#FF55FF}
         h2 {
             text-shadow:2px 2px gray;
         }
@@ -57,7 +57,7 @@
     {% elif 'YOUTUBE' in rank %}
         <h2><span class="{{ rankbracketcolor }}"><b>[</b></span><span class="gray"></span><b>{{ rank }}</b></span><span class="{{ rankbracketcolor }}"><b>]</b></span> {{ displayname }}</h2>
         <style>
-        .gray{color:#d3d3d3}.red{color:#dc143c}
+        .gray{color:#AAAAAA}.red{color:#FF5555}
         </style>
     {% endif %}
     </div>
@@ -128,9 +128,6 @@
         <p></p>
         {% elif rank != '' %}
             <span class="{{ rankunparsedcolor }}"><b>[{{ rankUnparsed }}]</b></span> bought <b>{{ boughtPastTime }}</b> - <b>{{ boughtPastRank }}</b> ago
-            <style>
-            .aqua{color:#0ff}.lime{color:#00ff7f}
-            </style>
         {% elif rank == '' %}
         <p></p>
         {% endif %}
@@ -151,33 +148,25 @@
 <!--- SOCIAL MEDIA --->
     {% if twitter != [] %}
         <span class="twitter"><b>Twitter: </b></span><a href='{{ twitter[1] }}'>@{{ twitter[0] }}</a><br>
-        <style>.twitter{color:cornflowerblue}</style>
     {% endif %}
     {% if instagram != [] %}
         <span class="instagram"><b>Instagram: </b></span><a href='{{ instagram[1] }}'>@{{ instagram[0] }}</a><br>
-        <style>.instagram{color:plum}</style>
     {% endif %}
     {% if twitch != [] %}
         <span class="twitch"><b>Twitch: </b></span><a href='{{ twitch[1] }}'>@{{ twitch[0] }}</a><br>
-        <style>.twitch{color:blueviolet}</style>
     {% endif %}
     {% if discord != '' and 'discord.gg' not in discord %}
         <span class="discord"><b>Discord:</b></span> {{ discord }}<br>
-        <style>.discord{color:darkslateblue}</style>
     {% elif 'https://discord.gg' in discord or 'http://discord.gg' in discord %}
         <span class="discord"><b>Discord:</b></span> <a href='{{ discord }}'>{{ discord }}</a><br>
-        <style>.discord{color:darkslateblue}</style>
     {% elif 'discord.gg' in discord %}
         <span class="discord"><b>Discord:</b></span> <a href='https://{{ discord }}'>{{ discord }}</a><br>
-        <style>.discord{color:darkslateblue}</style>
     {% endif %}
     {% if hypixelForums != [] %}
         <span class="hypixelForums"><b>Hypixel Forums:</b></span> <a href='{{ hypixelForums[1] }}'>@{{ hypixelForums[0] }}</a><br>
-        <style>.hypixelForums{color:sienna}</style>
     {% endif %}
     {% if youtube != [] %}
         <span class="youtube"><b>YouTube: </b></span><a href='{{ youtube[1] }}'>{{ youtube[0] }}</a><br>
-        <style>.youtube{color:red}</style>
     {% endif %}
 
 <!--- SKYWARS STATS --->
@@ -217,8 +206,7 @@
         <b>{{ swExp }}</b> SkyWars experience <br>
         <b><span class="{{ swPrestigeColor }}">[{{ swLevel }}☆]</b></span>, {{ swPrestige }} Prestige - <span class="{{ swPrestigeColor }}"><b>{{ swToNL }}%</b></span> to <b>{{ swNextLevel }}</b><br>
         <style>
-            .black{color:black}.darkgray{color:darkgray}.gold{color:#d4a712}.turquoise{color:turquoise}.chartreuse{color:chartreuse}.blue{color:blue}.firebrick{color:firebrick}.hotpink{color:hotpink}.darkblue{color:darkblue}.indigo{color:indigo}
-            .chocolate {background-image: linear-gradient(to right, tomato, coral, gold, lawngreen, steelblue, blueviolet, orchid);-webkit-background-clip: text;-webkit-text-fill-color: transparent;}
+
         </style>
     </p>
 </div>

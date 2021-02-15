@@ -76,6 +76,107 @@ th {
 .subtitle {
     font-family: "Meddon", cursive;
 }
+.black{
+    color:black
+}
+.darkgray{
+    color:darkgray
+}
+.gold{
+    color:#FFAA00
+}
+.turquoise{
+    color:turquoise
+}
+.chartreuse{
+    color:chartreuse
+}
+.firebrick{
+    color:firebrick
+}
+.hotpink{
+    color:hotpink
+}
+.darkblue{
+    color:darkblue
+}
+.indigo{
+    color:indigo
+}
+.chocolate {
+    background-image: linear-gradient(to right, tomato, coral, gold, lawngreen, steelblue, blueviolet, orchid);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+ .mvpaqua{
+    color:#55FFFF
+}
+.lime{
+    color:#55FF55
+}
+.blue{
+    color:#5555FF
+}
+.green{
+    color:#00AA00
+}
+.red{
+    color:#FF5555
+}
+.cyan{
+    color:#00AAAA
+}
+.pink{
+    color:#FF55FF
+}
+.dark_red{
+    color:#AA0000
+}
+.green{
+    color:#55FF55
+}
+.yellow{
+    color:#FFFF55
+}
+.white{
+    color:white
+}
+.light_purple{
+    color:#FF55FF
+}
+.dark_green{
+    color:#00AA00
+}
+.dark_aqua{
+    color:#00AAAA
+}
+.dark_purple{
+    color:#AA00AA
+}
+.black{
+    color:#000000
+}
+/* SOCIAL MEDIA */
+.twitter{
+    color:cornflowerblue
+}
+.instagram{
+    color:plum
+}
+.twitch{
+    color:blueviolet
+}
+.discord{
+    color:darkslateblue
+}
+.hypixelForums{
+    color:sienna
+}
+.youtube{
+    color:red
+}
 
 /* width */
 ::-webkit-scrollbar {

@@ -10,23 +10,44 @@
 <!--- HEADER --->
 <header>
     <div class="logo">
-        <img src='https://gist.githubusercontent.com/literaiiy/29ee460b0eff572d439688d0236e6382/raw/3c289102814fab69f09bb51df0cc88e6afe16341/tiramisulogo.svg' alt="Tiramisu Logo" height='15%' width='auto'>
+        <img src='https://gist.githubusercontent.com/literaiiy/29ee460b0eff572d439688d0236e6382/raw/3c289102814fab69f09bb51df0cc88e6afe16341/tiramisulogo.svg' alt="Tiramisu Logo" height='5%' width='auto'>
     </div>
-</header>
 
 <!--- SUBTITLE --->
-<div class="subtitle">
-    <p>Stupid tagline or slogan here</p>
-</div>
-<hr>
+</header>
 <body>
 
 <!--- USERNAME --->
     <div class="username">
-    {% if rank != '' and 'YOUTUBE' not in rank %}
+    {% if '+++' in rank %}
+        <h2><span class="light_purple"><b>[{{ rank.replace('+++','') }}<span class="mvpaqua">+++</span>]</b></span> {{ displayname }}</h2>
+        <style>
+        .mvpaqua{color:#0ff}.light_purple{color:#ec9fff}
+        h2 {
+        text-shadow:2px 2px lightslategray;
+        }
+        </style>
+    {% elif '++' in rank %}
+        <h2><span class="{{ rankcolor }}"><b>[{{ rank.replace('++','') }}<span class="{{ pluscolor }}">++</span>]</b></span> {{ displayname }}</h2>
+        <style>
+        .mvpaqua{color:#0ff}.lime{color:#00ff7f}.gold{color:#ffe44d}.blue{color:#1e90ff}.modgreen{color:#2e8b57}.red{color:#dc143c}.cyan{color:#20b2aa}.pink{color:#ba55d3}.dark_red{color:darkred}.green{color:#00ff7f}.yellow{color:yellow}.white{color:white}.light_purple{color:#ec9fff}.dark_green{color:#2e8b57}.dark_aqua{color:#20b2aa}.dark_purple{color:purple}.dark_gray{color:gray}.black{color:black}
+        h2 {
+        text-shadow:2px 2px lightslategray;
+        }
+        </style>
+    {% elif '+' in rank %}
+        <h2><span class="{{ rankcolor }}"><b>[{{ rank.replace('+','') }}<span class="{{ pluscolor }}">+</span>]</b></span> {{ displayname }}</h2>
+        <style>
+        .mvpaqua{color:#0ff}.lime{color:#00ff7f}.gold{color:#ffe44d}.blue{color:#1e90ff}.modgreen{color:#2e8b57}.red{color:#dc143c}.cyan{color:#20b2aa}.pink{color:#ba55d3}.dark_red{color:darkred}.green{color:#00ff7f}.yellow{color:yellow}.white{color:white}.light_purple{color:#ec9fff}.dark_green{color:#2e8b57}.dark_aqua{color:#20b2aa}.dark_purple{color:purple}.dark_gray{color:gray}.black{color:black}
+        h2 {
+            text-shadow:2px 2px lightslategray;
+        }
+        </style>
+    </style>
+    {% elif rank != '' and 'YOUTUBE' not in rank %}
         <h2><span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> {{ displayname }}</h2>
         <style>
-        .aqua{color:#0ff}.lime{color:#00ff7f}.gold{color:#ff8c00}.blue{color:#1e90ff}.green{color:#2e8b57}.red{color:#dc143c}.cyan{color:#20b2aa}.pink{color:#ba55d3}
+        .aqua{color:#0ff}.lime{color:#00ff7f}.gold{color:#ffe44d}.blue{color:#1e90ff}.green{color:#2e8b57}.red{color:#dc143c}.cyan{color:#20b2aa}.pink{color:#ba55d3}
         h2 {
             text-shadow:2px 2px gray;
         }
@@ -77,11 +98,12 @@
 <!------ PLAYER STATS ------>
 <div class="stats">
 
-<p>{% if firstLoginUnix != 1 %}
+<p>
+{% if firstLoginUnix != 1 %}
 
     <!--- SESSION --->
         {% if currentSession != False %}
-            <p style='color:green;'>Playing <b>{{ currentSession }}</b> - in <b>{{ sessionType }}</b>
+            <p style='color:green;'>Playing <b>{{ currentSession }}</b> - in <b>{{ sessionType }}</b></p>
         {% else %}
             <p style='color:red;'><b>Offline</b></p>
         {% endif %}
@@ -139,7 +161,7 @@
         <span class="twitch"><b>Twitch: </b></span><a href='{{ twitch[1] }}'>@{{ twitch[0] }}</a><br>
         <style>.twitch{color:blueviolet}</style>
     {% endif %}
-    {% if discord != [] and 'discord.gg' not in discord %}
+    {% if discord != '' and 'discord.gg' not in discord %}
         <span class="discord"><b>Discord:</b></span> {{ discord }}<br>
         <style>.discord{color:darkslateblue}</style>
     {% elif 'https://discord.gg' in discord or 'http://discord.gg' in discord %}

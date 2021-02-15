@@ -7,8 +7,11 @@
     src: url('https://download1487.mediafire.com/qo3vzos1gtkg/l9dkwa4wmp6pl3p/LexendDeca-Regular.ttf')
 }
 
-.logo {
-font-family: 'Meddon', cursive;
+header {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0; 
+    background-color: honeydew;
 }
 
 .subtitle {

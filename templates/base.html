@@ -10,7 +10,7 @@
 <!--- HEADER --->
 <header>
     <div class="logo">
-        <img src='https://i.ibb.co/sw3P3zZ/tiramis2.png' alt="Tiramisu Logo" width="50px" height="50px"><h1>tiramisu</h1>
+        <img src='https://gist.githubusercontent.com/literaiiy/29ee460b0eff572d439688d0236e6382/raw/3c289102814fab69f09bb51df0cc88e6afe16341/tiramisulogo.svg' alt="Tiramisu Logo" height='15%' width='auto'>
     </div>
 </header>
 
@@ -24,9 +24,12 @@
 <!--- USERNAME --->
     <div class="username">
     {% if rank != '' and 'YOUTUBE' not in rank %}
-        <h2><span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> {{ displayname }}</h2ks>
+        <h2><span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> {{ displayname }}</h2>
         <style>
         .aqua{color:#0ff}.lime{color:#00ff7f}.gold{color:#ff8c00}.blue{color:#1e90ff}.green{color:#2e8b57}.red{color:#dc143c}.cyan{color:#20b2aa}.pink{color:#ba55d3}
+        h2 {
+            text-shadow:2px 2px gray;
+        }
         </style>
     {% elif rank == '' %}
         <h2>{{ displayname }}</h2>

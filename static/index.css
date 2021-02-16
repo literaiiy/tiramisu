@@ -13,3 +13,10 @@ table {
     margin-left: auto;
     margin-right: auto;
 }
+
+.logo {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0; 
+    background-color: honeydew;
+}

@@ -7,7 +7,7 @@
     src: url('https://download1487.mediafire.com/qo3vzos1gtkg/l9dkwa4wmp6pl3p/LexendDeca-Regular.ttf')
 }
 
-header {
+.logo {
     position: -webkit-sticky;
     position: sticky;
     top: 0; 

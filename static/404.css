@@ -1,0 +1,38 @@
+.w-layout-grid {
+    display: -ms-grid;
+    display: grid;
+    grid-auto-columns: 1fr;
+    -ms-grid-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
+    -ms-grid-rows: auto auto;
+    grid-template-rows: auto auto;
+    grid-row-gap: 16px;
+    grid-column-gap: 16px;
+}
+
+.heading {
+    width: 100%;
+    height: 10em;
+    text-align: center;
+}
+
+.heading-2 {
+    margin-top: 10%;
+    font-size: 360px;
+    line-height: 100%;
+    text-align: right;
+}
+
+.paragraph {
+    font-size: 24px;
+    font-weight: 400;
+    text-align: right;
+}
+
+.image {
+    margin-left: 156px;
+}
+
+.grid {
+    margin-top: 3%;
+}

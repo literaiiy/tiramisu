@@ -33,6 +33,11 @@ font-family: 'Inter';
 text-align: center;
 }
 
+.desc {
+    text-align: left;
+}
+
+
 footer {
 font-family: 'Inter';
 text-align: center;
@@ -173,7 +178,7 @@ th {
     color:plum
 }
 .twitch{
-    color:blueviolet
+    color:blueviolet;
 }
 .discord{
     color:darkslateblue
@@ -210,4 +215,30 @@ border-radius: 5px;
 
 ::-webkit-scrollbar-track-piece {
     width: 10px;
+}
+
+.columnA {
+    float: left;
+    width: 60%;
+}
+
+.columnB {
+    float: left;
+    width: 40%;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+.vl {
+    border-left: 1px solid black;
+    height: 50%;
+    position: absolute;
+    left: 55%;
+    margin-left: 1px;
+    top: 35%;
 }

@@ -182,15 +182,19 @@ def compute(q):
         try:
             MVPplusplus = reqAPI['player']['monthlyPackageRank']
         except:
-            MVPplusplus = 'NONE'
+            MVPplusplus = 'NONE'            
         if MVPplusplus == 'SUPERSTAR':
             rankParsed = '[MVP++]'
             rankcolor = 'gold'
-            pluscolor = reqAPI['player']['rankPlusColor'].lower()
+            try:
+                pluscolor = reqAPI['player']['rankPlusColor'].lower()
+            except: pass
         elif rank == 'MVP_PLUS': 
             rankParsed = '[MVP+]'
             rankcolor = 'mvpaqua'
-            pluscolor = reqAPI['player']['rankPlusColor'].lower()
+            try:
+                pluscolor = reqAPI['player']['rankPlusColor'].lower()
+            except: pass
         elif rank == 'MVP': 
             rankParsed = '[MVP]'
             rankcolor = 'mvpaqua'
@@ -212,7 +216,9 @@ def compute(q):
                 if ranke == 'MVP_PLUS': 
                     rankParsed = '[MVP+]'
                     rankcolor = 'mvpaqua'
-                    pluscolor = reqAPI['player']['rankPlusColor'].lower()
+                    try:
+                        pluscolor = reqAPI['player']['rankPlusColor'].lower()
+                    except: pass
                 elif ranke == 'MVP': 
                     rankParsed = '[MVP]'
                     rankcolor = 'aqua'
@@ -236,7 +242,9 @@ def compute(q):
                 if rankw == 'MVP_PLUS': 
                     rankParsed = '[MVP+]'
                     rankcolor = 'mvpaqua'
-                    pluscolor = reqAPI['player']['rankPlusColor'].lower()
+                    try:
+                        pluscolor = reqAPI['player']['rankPlusColor'].lower()
+                    except: pass
                 elif rankw == 'MVP': 
                     rankParsed = '[MVP]'
                     rankcolor = 'mvpaqua'
@@ -262,7 +270,7 @@ def compute(q):
                 rankParsed = jona
 
             if 'MODERATOR' in rankParsed:
-                rankcolor = 'modgreen'
+                rankcolor = 'dark_green'
             elif 'YOUTUBE' in rankParsed:
                 changerbc = True
             elif 'HELPER' in rankParsed:
@@ -296,6 +304,11 @@ def compute(q):
             rankcolor = 'darkgray'
         else:
             rankbracketcolor = rankcolor
+        
+        try:
+            if reqAPI['player']['monthlyRankColor'] == 'AQUA':
+                rankcolor = 'mvpaqua'
+        except: pass
 
 ############################################################################ NETWORK LEVEL & XP ############################################################################
         try:
@@ -329,9 +342,12 @@ def compute(q):
         # Last login
         try:
             lastLoginUnix = int(reqAPI['player']['lastLogin']/1000)
+            lastLogoutUnix = reqAPI['player']['lastLogout']/1000
         except:
             lastLoginUnix = 1
+            lastLogoutUnix = 1
         lastLogin = datetime.fromtimestamp(lastLoginUnix).strftime('%a, %b %d, %Y at %I:%M:%S %p %z')
+        lastLogout = datetime.fromtimestamp(lastLogoutUnix).strftime('%a, %b %d, %Y at %I:%M:%S %p %z')
         
         # First login
         try:
@@ -460,7 +476,7 @@ def compute(q):
                 currentSession = reqAPIsession['session']['gameType'].upper()
                 sessionType = reqAPIsession['session']['mode'].replace('_',' ').title()
             else: currentSession = False
-############################################################################ SKYWARS ##########################################################################################
+############################################################################ SOCIALS ##########################################################################################
  
             twitter = []
             instagram = []
@@ -660,7 +676,7 @@ def compute(q):
 
         # Adds Eww! to accounts that screwed up the earlier condition
         if jesushchrist == True: swStatsList[13] = ('Eww!')
-    
+
 ############################################################################ RENDERS BASE.HTML ############################################################################
         displayname = username
         if uuid in ADMINS:
@@ -668,7 +684,7 @@ def compute(q):
         if uuid in FLOWERS:
             displayname += ' 🌸'
         print(rankParsed)
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor)
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor)
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:

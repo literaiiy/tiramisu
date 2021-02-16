@@ -3,14 +3,14 @@
 <title>Profile for {{ displayname }} | Tiramisu</title>
 <link rel="shortcut icon" type="image/jpg" href="https://i.ibb.co/sw3P3zZ/tiramis2.png"/>
 <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Meddon&display=swap" rel="stylesheet">
 
 <!--- HEADER --->
 <header>
     <div class="logo">
-        <img src='https://gist.githubusercontent.com/literaiiy/29ee460b0eff572d439688d0236e6382/raw/3c289102814fab69f09bb51df0cc88e6afe16341/tiramisulogo.svg' alt="Tiramisu Logo" height='5%' width='auto'>
+        <a href='/'><img src='https://gist.githubusercontent.com/literaiiy/29ee460b0eff572d439688d0236e6382/raw/3c289102814fab69f09bb51df0cc88e6afe16341/tiramisulogo.svg' alt="Tiramisu Logo" height='5%' width='auto'></a>
     </div>
 
 <!--- SUBTITLE --->
@@ -21,44 +21,16 @@
     <div class="username">
     {% if '+++' in rank %}
         <h2><span class="light_purple"><b>[{{ rank.replace('+++','') }}<span class="mvpaqua">+++</span>]</b></span> {{ displayname }}</h2>
-        <style>
-        .mvpaqua{color:#55FFFF}.light_purple{color:#FF55FF}
-        h2 {
-        text-shadow:2px 2px lightslategray;
-        }
-        </style>
     {% elif '++' in rank %}
         <h2><span class="{{ rankcolor }}"><b>[{{ rank.replace('++','') }}<span class="{{ pluscolor }}">++</span>]</b></span> {{ displayname }}</h2>
-        <style>
-        .mvpaqua{color:#55FFFF}.lime{color:#55FF55}.gold{color:#FFAA00}.blue{color:#5555FF}.green{color:#00AA00}.red{color:#FF5555}.cyan{color:#00AAAA}.pink{color:#FF55FF}.dark_red{color:#AA0000}.green{color:#55FF55}.yellow{color:#FFFF55}.white{color:white}.light_purple{color:#FF55FF}.dark_green{color:#00AA00}.dark_aqua{color:#00AAAA}.dark_purple{color:#AA00AA}.dark_gray{color:#AAAAAA}.black{color:#000000}
-        h2 {
-        text-shadow:2px 2px lightslategray;
-        }
-        </style>
     {% elif '+' in rank %}
         <h2><span class="{{ rankcolor }}"><b>[{{ rank.replace('+','') }}<span class="{{ pluscolor }}">+</span>]</b></span> {{ displayname }}</h2>
-        <style>
-        .mvpaqua{color:#55FFFF}.lime{color:#55FF55}.gold{color:#FFAA00}.blue{color:#5555FF}.green{color:#00AA00}.red{color:#FF5555}.cyan{color:#00AAAA}.pink{color:#FF55FF}.dark_red{color:#AA0000}.green{color:#55FF55}.yellow{color:#FFFF55}.white{color:white}.light_purple{color:#FF55FF}.dark_green{color:#00AA00}.dark_aqua{color:#00AAAA}.dark_purple{color:#AA00AA}.dark_gray{color:#AAAAAA}.black{color:#000000}
-        h2 {
-            text-shadow:2px 2px lightslategray;
-        }
-        </style>
-    </style>
     {% elif rank != '' and 'YOUTUBE' not in rank %}
         <h2><span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> {{ displayname }}</h2>
-        <style>
-        .mvpaqua{color:#55FFFF}.lime{color:#55FF55}.gold{color:#FFAA00}.blue{color:#5555FF}.green{color:#00AA00}.red{color:#FF5555}.cyan{color:#00AAAA}.pink{color:#FF55FF}
-        h2 {
-            text-shadow:2px 2px gray;
-        }
-        </style>
     {% elif rank == '' %}
         <h2>{{ displayname }}</h2>
     {% elif 'YOUTUBE' in rank %}
         <h2><span class="{{ rankbracketcolor }}"><b>[</b></span><span class="gray"></span><b>{{ rank }}</b></span><span class="{{ rankbracketcolor }}"><b>]</b></span> {{ displayname }}</h2>
-        <style>
-        .gray{color:#AAAAAA}.red{color:#FF5555}
-        </style>
     {% endif %}
     </div>
     <p>{{ uuid }}</p>
@@ -78,11 +50,11 @@
                     {% if value|int != 0 %}
                         <td><b>{{ value }}</b></td>
                     {% elif value == namehis[0]['name'] %}
-                        <td style="color:midnightblue"><a href="https://tiramisu.cc/p/{{ value }}" style="text-decoration:none" >{{ value }}</a></td>
+                        <td style="color:midnightblue"><a href="/p/{{ value }}" style="text-decoration:none" >{{ value }}</a></td>
                     {% elif value == namehis[namehis|length-1]['name'] %}
-                        <td style="color:rgb(135, 170, 235)"><a href="https://tiramisu.cc/p/{{ value }}" style="text-decoration:none" >{{ value }}</a></td>
+                        <td style="color:rgb(135, 170, 235)"><a href="/p/{{ value }}" style="text-decoration:none" >{{ value }}</a></td>
                     {% elif value in dict_item['name'] %}
-                        <td style="color:rgb(107, 137, 221)"><a href="https://tiramisu.cc/p/{{ value }}" style="text-decoration:none" >{{ value }}</a></td>
+                        <td style="color:rgb(107, 137, 221)"><a href="/p/{{ value }}" style="text-decoration:none" >{{ value }}</a></td>
                     {% else %}
                         <td>{{ value }}</td>
                     {% endif %}
@@ -124,18 +96,21 @@
         <p><b>Hypixel {{ seniority }}</b> - Joined {{ joinedAgoText }} ago<br>
 
     <!--- RANK SENIORITY --->
-        {% if boughtPastRank == 0 %}
-        <p></p>
-        {% elif rank != '' %}
-            <span class="{{ rankunparsedcolor }}"><b>[{{ rankUnparsed }}]</b></span> bought <b>{{ boughtPastTime }}</b> - <b>{{ boughtPastRank }}</b> ago
-        {% elif rank == '' %}
-        <p></p>
+        {% if 'VIP' in rank or 'MVP' in rank %}
+            {% if '+' in rank %}
+                <span class="{{ rankcolor }}"><b>[{{ rank.replace('+','') }}<span class="{{ pluscolor }}">+</span>]</b></span> bought <b>{{ boughtPastTime }}</b> - <b>{{ boughtPastRank }}</b> ago
+            {% elif boughtPastRank != 0 %}
+                <span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> bought <b>{{ boughtPastTime }}</b> - <b>{{ boughtPastRank }}</b> ago
+            {% endif %}
         {% endif %}
         <br>
 </p>
-
 <!--- FIRST/LAST LOGIN --->
 <p>
+    {% if lastLogoutUnix != 1 %}
+        Last logout: <b>{{ lastLogout }}</b>
+    {% endif %}
+    <br>
     {% if lastLoginUnix != 1 %}
         Last login: <b>{{ lastLogin }}</b>
     {% endif %}
@@ -205,9 +180,11 @@
     <p>
         <b>{{ swExp }}</b> SkyWars experience <br>
         <b><span class="{{ swPrestigeColor }}">[{{ swLevel }}☆]</b></span>, {{ swPrestige }} Prestige - <span class="{{ swPrestigeColor }}"><b>{{ swToNL }}%</b></span> to <b>{{ swNextLevel }}</b><br>
-        <style>
-
-        </style>
+    <!-- <h3>Head Collection</h3>
+        <p>
+            {% for head in headsCollection %}
+                {{ head['uuid'] }}'s {{ head['sacrifice'] }} head gathered on {{ head['timestamp'] }} in {{ head['mode'] }} <br>
+            {% endfor %} -->
     </p>
 </div>
 

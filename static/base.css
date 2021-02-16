@@ -46,10 +46,17 @@ table {
 
 h1 {
     font-size: 48px;
+    font-weight:normal;
 }
 
 h2 {
     font-size: 42px;
+    font-weight:normal;
+    text-shadow:2px 2px 1px gray;
+}
+
+h3 {
+    font-size: 36px;
 }
 
 a { 

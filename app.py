@@ -428,15 +428,15 @@ def compute(q):
             joinedAgoText = sec2format(joinedAgo)
             if joinedAgoText[0] == 0: joinedAgoText = str(joinedAgoText[1]) + 'd ' + str(joinedAgoText[2]) + 'h ' + str(joinedAgoText[3]) + 'm'
             else: joinedAgoText = str(joinedAgoText[0]) + 'y ' + str(joinedAgoText[1]) + 'd ' + str(joinedAgoText[2]) + 'h ' + str(joinedAgoText[3]) + 'm'
-            if joinedAgo < seniorityTimeTuple[0]: seniority = 'Freshie'
-            elif joinedAgo < seniorityTimeTuple[1]: seniority = 'Novice'
-            elif joinedAgo < seniorityTimeTuple[2]: seniority = 'Trainee'
-            elif joinedAgo < seniorityTimeTuple[3]: seniority = 'Expert'
-            elif joinedAgo < seniorityTimeTuple[4]: seniority = 'Professional'
-            elif joinedAgo < seniorityTimeTuple[5]: seniority = 'Elder'
-            elif joinedAgo < seniorityTimeTuple[6]: seniority = 'Veteran'
-            elif joinedAgo < seniorityTimeTuple[7]: seniority = 'Master'
-            elif joinedAgo < seniorityTimeTuple[8]: seniority = 'Ancient'
+            if joinedAgo < seniorityTimeTuple[0]: seniority = '☘ Hypixel Freshman'
+            elif joinedAgo < seniorityTimeTuple[1]: seniority = '➴ Hypixel Novice'
+            elif joinedAgo < seniorityTimeTuple[2]: seniority = '⚝ Hypixel Trainee'
+            elif joinedAgo < seniorityTimeTuple[3]: seniority = '⚜ Hypixel Expert'
+            elif joinedAgo < seniorityTimeTuple[4]: seniority = '➴ Hypixel Professional'
+            elif joinedAgo < seniorityTimeTuple[5]: seniority = '❖ Hypixel Elder'
+            elif joinedAgo < seniorityTimeTuple[6]: seniority = '♗ Hypixel Veteran'
+            elif joinedAgo < seniorityTimeTuple[7]: seniority = '♛ Hypixel Master'
+            elif joinedAgo < seniorityTimeTuple[8]: seniority = '♆ Hypixel Ancient'
         except: pass
 
         boughtPastRank = 0
@@ -465,6 +465,7 @@ def compute(q):
                 else: pass
             else: boughtPastRank = 0
         except: pass
+
 
 ############################################################################ PLAYER SESSION DATA ##########################################################################################
         reqAPIsess = requests.get('https://api.hypixel.net/status?key=' + HAPIKEY + '&uuid=' + uuid)
@@ -545,6 +546,8 @@ def compute(q):
         # 21 - chests opened
         # 22 - win rate
         # 23 - arrow hit rate
+        # 24 - KDA
+        # 25 - tastiness color
 
         swExpList = []
         # 0 - experience
@@ -603,11 +606,29 @@ def compute(q):
             swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['arrows_shot'], ','))
             swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['arrows_hit'], ','))
             swStatsList.append(minsec(reqAPI['player']['stats']['SkyWars']['fastest_win']))
-            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['most_kills_game'], ','))
+            swStatsList.append(format(max(reqAPI['player']['stats']['SkyWars']['most_kills_game'], reqAPI['player']['stats']['SkyWars']['most_kills_game_team'], reqAPI['player']['stats']['SkyWars']['most_kills_game_solo']), ','))
             swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['chests_opened'], ','))
             swStatsList.append(str(round((reqAPI['player']['stats']['SkyWars']['wins']/(reqAPI['player']['stats']['SkyWars']['wins']+reqAPI['player']['stats']['SkyWars']['losses'])) * 100, 4)))
             swStatsList.append(str(round(reqAPI['player']['stats']['SkyWars']['arrows_hit']/(reqAPI['player']['stats']['SkyWars']['arrows_hit']+reqAPI['player']['stats']['SkyWars']['arrows_shot'])*100, 4)))
-        except: pass            
+        except: pass
+
+        # Adds 24 - 25 on swStatsList
+        twenty4plus = False
+        try:
+            swStatsList.append(round((swkills+reqAPI['player']['stats']['SkyWars']['assists'])/reqAPI['player']['stats']['SkyWars']['deaths'], 4))
+            if 'Eww' in swStatsList[13]: swStatsList.append('darkgray')
+            if 'Yucky' in swStatsList[13]: swStatsList.append('gray')
+            if 'Meh' in swStatsList[13]: swStatsList.append('lightgray')
+            if 'Decent' in swStatsList[13]: swStatsList.append('decentyellow')
+            if 'Salty' in swStatsList[13]: swStatsList.append('green')
+            if 'Tasty' in swStatsList[13]: swStatsList.append('cyan')
+            if 'Succulent' in swStatsList[13]: swStatsList.append('pink')
+            if 'Divine' in swStatsList[13]: swStatsList.append('gold')
+            if 'Heavenly' in swStatsList[13]: swStatsList.append('chocolate')
+        except: 
+            twenty4plus = True
+            swStatsList.append(0)
+            swStatsList.append("darkgray")     
 
         # Function that takes in experience and spits out level as a floating point number
         def swexp2level(experience):
@@ -666,7 +687,7 @@ def compute(q):
                 swExpList.append('0')
 
         # Adds filler zeroes for swStatsList and swExpList so people without a certain stat don't error out
-        for i in range(24-len(swStatsList)):
+        for i in range(100-len(swStatsList)):
             swStatsList.append('0')
         print("AAAAAAAAAAAAAAAAA")
         for i in range(11-len(swExpList)):
@@ -676,6 +697,32 @@ def compute(q):
 
         # Adds Eww! to accounts that screwed up the earlier condition
         if jesushchrist == True: swStatsList[13] = ('Eww!')
+        if twenty4plus == True: swStatsList[25] = 'darkgray'
+############################################################################ FRIENDS ############################################################################
+
+############################################################################ GUILD ############################################################################
+        
+        # 0 - guild tag
+        # 1 - guild name
+        # 2 - guild role
+        # 3 - guild color
+
+        VVV = requests.get('https://api.hypixel.net/guild?key=' + HAPIKEY + '&player=' + uuid)
+        reqGUILD = VVV.json()
+        guildList = [0,0,0,0]
+        try:
+            if reqGUILD['guild'] != 'null':
+                guildList[0] = reqGUILD['guild']['tag']
+                guildList[1] = reqGUILD['guild']['name']
+                for member in reqGUILD['guild']['members']:
+                    if member['uuid'] == uuid:
+                        guildList[2] = member['rank']
+                        break
+                try:
+                    guildList[3] = reqGUILD['guild']['tagColor'].lower()
+                except:
+                    guildList[3] = 'darkgray'
+        except: pass
 
 ############################################################################ RENDERS BASE.HTML ############################################################################
         displayname = username
@@ -684,7 +731,7 @@ def compute(q):
         if uuid in FLOWERS:
             displayname += ' 🌸'
         print(rankParsed)
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor)
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor, guildList=guildList)
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:

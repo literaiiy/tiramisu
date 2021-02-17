@@ -68,64 +68,9 @@
                 </table>
         </div>
         </body>
-
-        <!------ PLAYER STATS ------>
-        <div class="stats">
-
-        <!--- SKYWARS STATS --->
-        <h2>SkyWars</h2>
-        <table>
-            <tbody>
-            <tr>
-                <td>
-                    <b>{{ swGamesPlayed }}</b> games played <br>
-                    <b>{{ swGamesQuit }}</b> games quit <br>
-                    <b>{{ swKills }}</b> kills - <i>{{ swHeadDesc }}</i><br>
-                    <b>{{ swDeaths }}</b> deaths <br>
-                    <b>{{ swKD }}</b> K/D <br>
-                    <b>{{ swAssists }}</b> assists <br>
-                    <b>{{ swWins }}</b> wins<br>
-                    <b>{{ swLosses }}</b> losses <br>
-                    <b>{{ swWL }}</b> W/L - <b>{{ swWinRate }}%</b> win rate <br>
-                    <b>{{ swSurvived }}</b> players survived <br>
-                </td>
-            </tr>
-            <tr>
-                <td>
-                    <b>{{ swWinstreak }}</b> winstreak <br>
-                    <b>{{ swSouls }}</b> souls <br>
-                    <b>{{ swHeads }}</b> heads <br>
-                    <b>{{ swCoins }}</b> coins <br>
-                    <b>{{ swBlocks }}</b> blocks broken <br>
-                    <b>{{ swEggs }}</b> eggs thrown <br>
-                    <b>{{ swArrowsShot }}</b> arrows shot, <b>{{ swArrowsHit }}</b> arrows hit - <b>{{ swArrowRate }}%</b> hit rate<br>
-                    <b></b>Fastest win: <b>{{ swFastestWin }}</b> <br>
-                    <b>{{ swChestsOpened }}</b> chests opened
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <p>
-            <b>{{ swExp }}</b> SkyWars experience <br>
-            <b><span class="{{ swPrestigeColor }}">[{{ swLevel }}☆]</b></span>, {{ swPrestige }} Prestige - <span class="{{ swPrestigeColor }}"><b>{{ swToNL }}%</b></span> to <b>{{ swNextLevel }}</b><br>
-        <!-- <h3>Head Collection</h3>
-            <p>
-                {% for head in headsCollection %}
-                    {{ head['uuid'] }}'s {{ head['sacrifice'] }} head gathered on {{ head['timestamp'] }} in {{ head['mode'] }} <br>
-                {% endfor %} -->
-            </p>
-        </div>
     </div>
     <div class="columnB">
-<style>
-
-.vl {
-    border-left: 6px solid green;
-    height: 500px;
-}
-</style>
-
-<div class="vl"></div>
+        <div class="vl"></div>
 
         <!------ PLAYER DESC ------>
         <div class="desc">
@@ -147,11 +92,19 @@
         <b>{{ achievements }}</b> achievements for <b>{{ achpot }}</b> achievement points<br>
 
         <!--- QUESTS --->
-        <b>{{ quests }}</b> quests finished<br></p>
+        <b>{{ quests }}</b> quests finished<br>
+
+        <!--- FRIENDS --->
+        <b>X</b> friends - LISTLINK<br>
+        
+        <!--- GUILD --->
+        {% if guildList[0] != 0 %}
+            <b>{{ guildList[2] }}</b> in guild <b>{{ guildList[1] }} <span class='{{ guildList[3] }}'>[{{ guildList[0] }}]<span></b></p>
+        {% endif %}
 
         <!--- SENIORITY  --->
         {% if firstLoginUnix > 1357027200 %}
-        <b>Hypixel {{ seniority }}</b> - Joined {{ joinedAgoText }} ago<br>
+        <b>{{ seniority }}</b> - Joined {{ joinedAgoText }} ago<br>
         {% endif %}
 
         <!--- RANK SENIORITY --->
@@ -206,12 +159,120 @@
     </div>
 </div>
 
-<!--- VERSION DETAILS --->
-<div class="end">
-<hr>
-    <p>Tiramisu v{{ version }} "{{ codename }}" from {{ tiramisudate }} <br>
-    Flask v{{ flaskver }} from {{ flaskverdate }} <br>
-    Python v{{ pythonver }} from {{ pythonverdate }} </p>
-{% endblock %}
-<p>Copyright © 2021 floraphile. All rights reserved. Terms of Service. Privacy Policy.</p>
+<!--- I don't know what I'm doing --->
+<!-- Tab links 
+<div class="tab">
+<button class="tablinks" onclick="openCity(event, 'London')">London</button>
+<button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
+<button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
 </div>
+
+ Tab content 
+<script>
+    function openCity(evt, cityName) {
+        // Declare all variables
+        var i, tabcontent, tablinks;
+    
+        // Get all elements with class="tabcontent" and hide them
+        tabcontent = document.getElementsByClassName("tabcontent");
+        for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+        }
+    
+        // Get all elements with class="tablinks" and remove the class "active"
+        tablinks = document.getElementsByClassName("tablinks");
+        for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+        }
+    
+        // Show the current tab, and add an "active" class to the button that opened the tab
+        document.getElementById(cityName).style.display = "block";
+        evt.currentTarget.className += " active";
+    }
+    document.getElementById("defaultOpen").click();
+    </script>
+
+<div id="London" class="tabcontent">
+<button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen"></button>
+<h3>London</h3>
+<p>London is the capital city of England.</p>
+</div>
+
+<div id="Paris" class="tabcontent">
+<h3>Paris</h3>
+<p>Paris is the capital of France.</p>
+</div>
+
+<div id="Tokyo" class="tabcontent">
+<h3>Tokyo</h3>
+<p>Tokyo is the capital of Japan.</p>
+</div>
+-->
+
+<!------ PLAYER STATS ------>
+<div class="stats">
+
+    <!--- SKYWARS STATS --->
+    <h2>SkyWars</h2>
+    <b>{{ swExp }}</b> SkyWars experience <br>
+    <b><span class="{{ swPrestigeColor }}">[{{ swLevel }}☆]</b></span>, {{ swPrestige }} Prestige - <span class="{{ swPrestigeColor }}"><b>{{ swToNL }}%</b></span> to <b>{{ swNextLevel }}</b><br>
+    <table class='swgeneral'>
+        <colgroup>
+            <col class="leftsw">
+            <col class="rightsw">
+        </colgroup>
+        <tr>
+                <td><b>{{ swGamesPlayed }}</b> games played</td>
+                <td><b>{{ swWinstreak }}</b> winstreak </td>
+        </tr>
+        <tr>
+                <td><b>{{ swGamesQuit }}</b> games quit</td>
+                <td><b>{{ swSouls }}</b> souls </td>
+        </tr>
+        <tr>
+                <td><b>{{ swKD }}</b> K/D</td>
+                <td><b>{{ swHeads }}</b> heads </td>
+        </tr>
+        <tr>
+                <td><b>{{ swKDA }}</b> K/D/A</td>
+                <td><b>{{ swCoins }}</b> coins </td>
+        </tr>
+        <tr>
+                <td><b>{{ swKills }}</b> kills - <span class='{{ swHeadColor }}'><b>{{ swHeadDesc }}</b></span></td>
+                <td><b>{{ swBlocks }}</b> blocks broken </td>
+        </tr>
+        <tr>
+                <td><b>{{ swAssists }}</b> assists </td>
+                <td><b>{{ swEggs }}</b> eggs thrown </td>
+        </tr>
+        <tr>
+                <td><b>{{ swDeaths }}</b> deaths</td>
+                <td><b>{{ swArrowsShot }}</b> arrows shot, <b>{{ swArrowsHit }}</b> arrows hit</td>
+        </tr>
+        <tr>
+                <td><b>{{ swWL }}</b> W/L - <b>{{ swWinRate }}%</b> win rate </td>
+                <td><b>{{ swArrowRate }}%</b> hit rate</td>
+        </tr>
+        <tr>
+                <td><b>{{ swWins }}</b> wins</td>
+                <td>Fastest win: <b>{{ swFastestWin }}</b> </td>
+        </tr>
+        <tr>
+                <td><b>{{ swLosses }}</b> losses </td>
+                <td><b>{{ swChestsOpened }}</b> chests opened</td>
+        </tr>
+        <tr>
+                <td><b>{{ swSurvived }}</b> players survived </td>
+                <td>Highest kill game: <b>{{ swHighestKills }} kills</b></td>
+    </table>
+    <p>
+    <!-- <h3>Head Collection</h3>
+        <p>
+            {% for head in headsCollection %}
+                {{ head['uuid'] }}'s {{ head['sacrifice'] }} head gathered on {{ head['timestamp'] }} in {{ head['mode'] }} <br>
+            {% endfor %} -->
+        </p>
+</div>
+{% endblock %}
+<!--- VERSION DETAILS --->
+<

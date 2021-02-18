@@ -117,11 +117,11 @@
         <b>{{ quests }}</b> quests finished<br>
 
         <!--- FRIENDS --->
-        <a href="/f/{{ username }}">Friends List</a><br>
+        <a class="graylink" href="/f/{{ username }}">Friends List</a><br>
         
         <!--- GUILD --->
         {% if guildList[0] != 0 %}
-            <b>{{ guildList[2] }}</b> in guild <b><a href="/g/{{ username }}">{{ guildList[1] }}</a> <span class='{{ guildList[3] }}'>[{{ guildList[0] }}]<span></b></p>
+            <b>{{ guildList[2] }}</b> in guild <b><a class="graylink" href="/g/{{ username }}">{{ guildList[1] }}</a> <span class='{{ guildList[3] }}'>[{{ guildList[0] }}]<span></b></p>
         {% endif %}
 
         <!--- SENIORITY  --->
@@ -183,7 +183,7 @@
         </div>
     </div>
 </div>
-
+<hr>
 <!------ PLAYER STATS ------>
 <div class="stats">
 
@@ -205,11 +205,11 @@
                 <td><b>{{ swSouls }}</b> souls </td>
         </tr>
         <tr>
-                <td><b>{{ swKD }}</b> K/D</td>
+                <td style='color:red'><b>{{ swKD }}</b> K/D</td>
                 <td><b>{{ swHeads }}</b> heads </td>
         </tr>
         <tr>
-                <td><b>{{ swKDA }}</b> K/D/A</td>
+                <td style='color:red'><b>{{ swKDA }}</b> K/D/A</td>
                 <td><b>{{ swCoins }}</b> coins </td>
         </tr>
         <tr>
@@ -239,6 +239,19 @@
         <tr>
                 <td><b>{{ swSurvived }}</b> players survived </td>
                 <td>Highest kill game: <b>{{ swHighestKills }} kills</b></td>
+        </tr>
+        <tr>
+                <td><b>{{ swKW }}</b> kills per win </td>
+                <td><b>{{ swBPG }}</b> blocks broken per game </td>
+        </tr>
+        <tr>
+                <td><b>{{ swKL }}</b> kills per loss </td>
+                <td><b>{{ swEPG }}</b> eggs thrown per game </td>
+        </tr>
+        <tr>
+                <td><b>{{ swKG }}</b> kills per game </td>
+                <td><b>{{ swAPG }}</b> arrows shot per game </td>
+        </tr>
     </table>
     <p>
     <!-- <h3>Head Collection</h3>

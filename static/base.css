@@ -301,9 +301,13 @@ border-top: none;
 }
 
 .leftsw {
-    width: 15%;
+    width: 18%;
 }
 
 .rightsw {
-    width: 15%;
+    width: 18%;
+}
+
+.graylink {
+    color: black;
 }

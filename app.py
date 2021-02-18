@@ -557,6 +557,12 @@ def compute(q):
         # 23 - arrow hit rate
         # 24 - KDA
         # 25 - tastiness color
+        # 26 - K/W
+        # 27 - K/L
+        # 28 - K/G
+        # 29 - blocks per game
+        # 30 - eggs per game
+        # 31 - arrow shots per game
 
         swExpList = []
         # 0 - experience
@@ -567,17 +573,22 @@ def compute(q):
 
         # Adds 0 - 9 on swStatsList
         try:
-            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['losses'] + reqAPI['player']['stats']['SkyWars']['wins'], ','))
+            swgames = reqAPI['player']['stats']['SkyWars']['losses'] + reqAPI['player']['stats']['SkyWars']['wins']
+            swStatsList.append(format(swgames, ','))
             swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['quits'], ','))
 
-            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['kills'], ','))
             swkills = reqAPI['player']['stats']['SkyWars']['kills']
-            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['deaths'], ','))
-            swStatsList.append(round(swkills/reqAPI['player']['stats']['SkyWars']['deaths'], 4))
-            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['assists'], ','))
+            swStatsList.append(format(swkills, ','))
+            swdeaths = reqAPI['player']['stats']['SkyWars']['deaths']
+            swStatsList.append(format(swdeaths, ','))
+            swStatsList.append(round(swkills/swdeaths, 4))
+            swassists = reqAPI['player']['stats']['SkyWars']['assists']
+            swStatsList.append(format(swassists, ','))
 
-            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['wins'], ','))
-            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['losses'], ','))
+            swwins = reqAPI['player']['stats']['SkyWars']['wins']
+            swStatsList.append(format(swwins, ','))
+            swlosses = reqAPI['player']['stats']['SkyWars']['losses']
+            swStatsList.append(format(swlosses, ','))
             swStatsList.append(round(reqAPI['player']['stats']['SkyWars']['wins']/reqAPI['player']['stats']['SkyWars']['losses'], 4))
             swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['survived_players'], ','))
         except: pass
@@ -637,7 +648,15 @@ def compute(q):
         except: 
             twenty4plus = True
             swStatsList.append(0)
-            swStatsList.append("darkgray")     
+            swStatsList.append("darkgray")
+
+        # Add 26 - 31 on swStatsList
+        swStatsList.append(round(swkills/swwins, 4))
+        swStatsList.append(round(swkills/swlosses, 4))
+        swStatsList.append(round(swkills/swgames, 4))
+        swStatsList.append(round(reqAPI['player']['stats']['SkyWars']['blocks_broken']/swgames, 4))
+        swStatsList.append(round(reqAPI['player']['stats']['SkyWars']['egg_thrown']/swgames, 4))
+        swStatsList.append(round(reqAPI['player']['stats']['SkyWars']['arrows_shot']/swgames, 4))
 
         # Function that takes in experience and spits out level as a floating point number
         def swexp2level(experience):
@@ -696,10 +715,10 @@ def compute(q):
                 swExpList.append('0')
 
         # Adds filler zeroes for swStatsList and swExpList so people without a certain stat don't error out
-        for i in range(100-len(swStatsList)):
+        for i in range(50-len(swStatsList)):
             swStatsList.append('0')
         print("AAAAAAAAAAAAAAAAA")
-        for i in range(11-len(swExpList)):
+        for i in range(5-len(swExpList)):
             swExpList.append('0')
         print(swStatsList)
         print(len(swStatsList))
@@ -741,7 +760,7 @@ def compute(q):
             displayname += ' 🌸'
         print(rankParsed)
         print("--- %s seconds ---" % (time.time() - start_time))
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor, guildList=guildList)
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swKW=swStatsList[26], swKL=swStatsList[27], swKG=swStatsList[28], swBPG=swStatsList[29], swEPG=swStatsList[30], swAPG=swStatsList[31], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor, guildList=guildList)
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:

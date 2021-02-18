@@ -1,12 +1,3 @@
-@font-face {
-    font-family: "InterUISemiBold";
-    src: url('https://download1638.mediafire.com/7wfl763bysog/0eg0k1cuvn6gkvt/Inter-SemiBold.woff')
-}
-@font-face {
-    font-family: "LexendDeca";
-    src: url('https://download1487.mediafire.com/qo3vzos1gtkg/l9dkwa4wmp6pl3p/LexendDeca-Regular.ttf')
-}
-
 .logo {
     position: -webkit-sticky;
     position: sticky;
@@ -37,16 +28,21 @@ text-align: center;
     text-align: left;
 }
 
-
 footer {
 font-family: 'Inter';
 text-align: center;
 }
 
+.table {
+    width:auto;height:35%;line-height:3em;overflow:auto;padding:5px;border:1px solid;margin-right:10%;margin-left:10%;margin-top:50px;
+    border-radius:10px;
+}
+
 table {
-    width: 600px;
+    width: auto;
     margin-left: auto;
     margin-right: auto;
+    border-spacing: 10px 2px;
 }
 
 h1 {
@@ -58,6 +54,7 @@ h2 {
     font-size: 42px;
     font-weight:normal;
     text-shadow:2px 2px 1px gray;
+    margin: 5px;
 }
 
 h3 {
@@ -68,11 +65,11 @@ a {
     color: royalblue;
 }
 
-a.one { 
-    color: skyblue;
+.nhfirst { 
+    color: rgb(135, 175, 235);
 }
 
-a.two { 
+.nhmiddle { 
     color: cornflowerblue;
 }
 
@@ -87,6 +84,10 @@ th {
 
 .subtitle {
     font-family: "Meddon", cursive;
+}
+.uuid {
+    font-weight: normal;
+    font-family: "Inconsolata", monospace;
 }
 .black{
     color:black
@@ -208,33 +209,39 @@ color: darkgray;
 
 /* Track */
 ::-webkit-scrollbar-track {
-background: #f1f1f1;
+background: transparent;
 }
 
 /* Handle */
 ::-webkit-scrollbar-thumb {
 background: #888;
-border-radius: 5px;
+border-radius: 15px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
 background: #555;
-border-radius: 5px;
+border-radius: 15px;
 }
 
 ::-webkit-scrollbar-track-piece {
     width: 10px;
 }
 
+.columnZ {
+    float: left;
+    width: 25%;
+    margin-top: 15px;
+}
+
 .columnA {
     float: left;
-    width: 60%;
+    width: 45%;
 }
 
 .columnB {
     float: left;
-    width: 40%;
+    width: 30%;
 }
 
 /* Clear floats after the columns */

@@ -34,13 +34,35 @@
         <h2><span class="{{ rankbracketcolor }}"><b>[</b></span><span class="gray"></span><b>{{ rank }}</b></span><span class="{{ rankbracketcolor }}"><b>]</b></span> {{ displayname }}</h2>
     {% endif %}
 </div>
-{{ uuid }}
+<div class="uuid">
+    {{ uuid }}
+</div>
 <hr>
-
+<!--- help --->
+<style> 
+    body { 
+        animation: fadeInAnimation ease 3s; 
+        animation-iteration-count: 1; 
+        animation-fill-mode: forwards; 
+    } 
+    @keyframes fadeInAnimation { 
+        0% { 
+            opacity: 0; 
+        } 
+        100% { 
+            opacity: 1; 
+        } 
+    } 
+</style> 
+<!--- help --->
 <div class="row">
+    <div class="columnZ">
+        <img src='https://mc-heads.net/body/{{ uuid }}/right'><br>
+        <p><a href='https://mc-heads.net/download/{{ uuid }}'> Download {{ username }}'s skin</a></p>
+    </div>
     <div class="columnA">
         <!--- NAME HISTORY --->
-        <div style="width:auto;height:25%;line-height:3em;overflow:auto;padding:5px;border:1px solid #000000;margin-left:15%;margin-right:15%">
+        <div class='table'>
                 <table>
                     <tr>
                         <th>#</th>
@@ -56,9 +78,9 @@
                             {% elif value == namehis[0]['name'] %}
                                 <td style="color:midnightblue"><a href="/p/{{ value }}" style="text-decoration:none" >{{ value }}</a></td>
                             {% elif value == namehis[namehis|length-1]['name'] %}
-                                <td style="color:rgb(135, 170, 235)"><a href="/p/{{ value }}" style="text-decoration:none" >{{ value }}</a></td>
+                                <td style="color:rgb(135, 170, 235)"><a class="nhfirst" href="/p/{{ value }}" style="text-decoration:none" >{{ value }}</a></td>
                             {% elif value in dict_item['name'] %}
-                                <td style="color:rgb(107, 137, 221)"><a href="/p/{{ value }}" style="text-decoration:none" >{{ value }}</a></td>
+                                <td style="color:rgb(107, 137, 221)"><a class="nhmiddle" href="/p/{{ value }}" style="text-decoration:none" >{{ value }}</a></td>
                             {% else %}
                                 <td>{{ value }}</td>
                             {% endif %}
@@ -95,11 +117,11 @@
         <b>{{ quests }}</b> quests finished<br>
 
         <!--- FRIENDS --->
-        <b>X</b> friends - LISTLINK<br>
+        <a href="/f/{{ username }}">Friends List</a><br>
         
         <!--- GUILD --->
         {% if guildList[0] != 0 %}
-            <b>{{ guildList[2] }}</b> in guild <b>{{ guildList[1] }} <span class='{{ guildList[3] }}'>[{{ guildList[0] }}]<span></b></p>
+            <b>{{ guildList[2] }}</b> in guild <b><a href="/g/{{ username }}">{{ guildList[1] }}</a> <span class='{{ guildList[3] }}'>[{{ guildList[0] }}]<span></b></p>
         {% endif %}
 
         <!--- SENIORITY  --->
@@ -110,15 +132,18 @@
         <!--- RANK SENIORITY --->
         {% if 'VIP' in rank or 'MVP' in rank %}
             {% if '+' in rank %}
-                <span class="{{ rankcolor }}"><b>[{{ rank.replace('+','') }}<span class="{{ pluscolor }}">+</span>]</b></span> bought <b>{{ boughtPastTime }}</b> - <b>{{ boughtPastRank }}</b> ago
+                <span class="{{ rankcolor }}"><b>[{{ rank.replace('+','') }}<span class="{{ pluscolor }}">+</span>]</b></span> bought <b>{{ boughtPastTime }}</b> - <b>{{ boughtPastRank }}</b><br> ago
             {% elif boughtPastRank != 0 %}
-                <span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> bought <b>{{ boughtPastTime }}</b> - <b>{{ boughtPastRank }}</b> ago
+                <span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> bought <b>{{ boughtPastTime }}</b> - <b>{{ boughtPastRank }}</b><br> ago
             {% endif %}
         {% endif %}
-        <br>
+
 
         <!--- FIRST/LAST LOGIN --->
         <p>
+        {% if lastSession != False %}
+            Last session: <b>{{ lastSession }}</b><br> 
+        {% endif %}
         {% if lastLogoutUnix != 1 %}
             Last logout: <b>{{ lastLogout }}</b>
         {% endif %}
@@ -159,63 +184,13 @@
     </div>
 </div>
 
-<!--- I don't know what I'm doing --->
-<!-- Tab links 
-<div class="tab">
-<button class="tablinks" onclick="openCity(event, 'London')">London</button>
-<button class="tablinks" onclick="openCity(event, 'Paris')">Paris</button>
-<button class="tablinks" onclick="openCity(event, 'Tokyo')">Tokyo</button>
-</div>
-
- Tab content 
-<script>
-    function openCity(evt, cityName) {
-        // Declare all variables
-        var i, tabcontent, tablinks;
-    
-        // Get all elements with class="tabcontent" and hide them
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-        }
-    
-        // Get all elements with class="tablinks" and remove the class "active"
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-    
-        // Show the current tab, and add an "active" class to the button that opened the tab
-        document.getElementById(cityName).style.display = "block";
-        evt.currentTarget.className += " active";
-    }
-    document.getElementById("defaultOpen").click();
-    </script>
-
-<div id="London" class="tabcontent">
-<button class="tablinks" onclick="openCity(event, 'London')" id="defaultOpen"></button>
-<h3>London</h3>
-<p>London is the capital city of England.</p>
-</div>
-
-<div id="Paris" class="tabcontent">
-<h3>Paris</h3>
-<p>Paris is the capital of France.</p>
-</div>
-
-<div id="Tokyo" class="tabcontent">
-<h3>Tokyo</h3>
-<p>Tokyo is the capital of Japan.</p>
-</div>
--->
-
 <!------ PLAYER STATS ------>
 <div class="stats">
 
     <!--- SKYWARS STATS --->
-    <h2>SkyWars</h2>
-    <b>{{ swExp }}</b> SkyWars experience <br>
-    <b><span class="{{ swPrestigeColor }}">[{{ swLevel }}☆]</b></span>, {{ swPrestige }} Prestige - <span class="{{ swPrestigeColor }}"><b>{{ swToNL }}%</b></span> to <b>{{ swNextLevel }}</b><br>
+    <h2><b>SkyWars</b></h2>
+    <p><b>{{ swExp }}</b> SkyWars experience <br>
+    <b><span class="{{ swPrestigeColor }}">[{{ swLevel }}☆]</b></span>, {{ swPrestige }} Prestige - <span class="{{ swPrestigeColor }}"><b>{{ swToNL }}%</b></span> to <b>{{ swNextLevel }}</b><br></p>
     <table class='swgeneral'>
         <colgroup>
             <col class="leftsw">
@@ -251,7 +226,7 @@
         </tr>
         <tr>
                 <td><b>{{ swWL }}</b> W/L - <b>{{ swWinRate }}%</b> win rate </td>
-                <td><b>{{ swArrowRate }}%</b> hit rate</td>
+                <td><b>{{ swArrowRate }}%</b> arrow hit rate</td>
         </tr>
         <tr>
                 <td><b>{{ swWins }}</b> wins</td>
@@ -275,4 +250,3 @@
 </div>
 {% endblock %}
 <!--- VERSION DETAILS --->
-<

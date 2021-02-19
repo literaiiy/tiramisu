@@ -17,7 +17,7 @@ literaiiy is a pseudonym I adopted in March of 2018, as an intentionally incorre
 - While those sites do either name history or Hypixel player stats, Tiramisu aims to cover both in an efficient and non-cluttered way. Some things I might do better or worse. Large amount of respect goes to those three sites and their developers, as they were a huge inspiration for this project!
 
 **What is a UUID?**
-- A UUID, or Universally Unique IDentifier, is a unique string of characters that is tied directly to a Minecraft account. Regardless of whether you change your name or not, your UUID will stick to your account and can be used instead of a name (which can change).
+- A UUID, or Universally Unique IDentifier, is a unique hexadecimal value that is tied directly to a Minecraft account. Your UUID is persistently attatched to your Minecraft account, which is why it is better for tying statistics to an account.
 
 **Will you ever put ads?**
 - No. Tiramisu is ad-free and plans to never change that. I am fully supported by donations, which go directly to me and are recycled back into working on Tiramisu.
@@ -41,7 +41,7 @@ literaiiy is a pseudonym I adopted in March of 2018, as an intentionally incorre
 - Mojang doesn't provide an account's creation date in the API, so I used the account's Hypixel join date, instead, if it was before their first name change. This means that number is most likely not an accurate figure, but it is definitely more than whatever is listed there.
 
 **What is the "Hypixel ____" on my profile?**
-This Hypixel seniority index I created is entirely based on how long you have been playing on the server- or more accurately, the amount of time since your first login. There are nine ranks, of which are based on the formula `y=12log(x+1)`, where `x` is the amount, in years, an account has been on the Hypixel network, and where `y` is the rank's corresponding number.
+This Hypixel seniority index I created is entirely based on how long you have been playing on the server- or more accurately, the amount of time since your first login. There are nine ranks, of which are based on the formula `y=12log(x+1)`, where `x` is the amount, in years, required to achieve the `y`th rank.
 
 
 

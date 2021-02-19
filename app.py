@@ -19,13 +19,6 @@ app.secret_key = 'a34w7tfyner9ryhzrbfw7ynhhcdtg78as34'
 HAPIKEY = '1e5f6a57-6327-4888-886a-590c39861a6a'
 ADMINS = ['35a178c0c37043aea959983223c04de0']
 FLOWERS = ['27bcc1547423484683fd811155d8c472']
-VERSION = "0.0.1α"
-CODENAME ='Flour (Test Build)'
-TIRAMISUDATE = datetime.fromtimestamp(1612589848).strftime('%b %d, %Y')
-FLASKVER ='1.1.2'
-FLASKVERDATE = datetime.fromtimestamp(1597665600).strftime('%b %d, %Y')
-PYTHONVER ='3.7.9'
-PYTHONVERDATE = datetime.fromtimestamp(1585915200).strftime('%b %d, %Y')
 swearList = ['anal','anus','ass','bastard','bitch','blowjob','blow job','buttplug','clitoris','cock','cunt','dick','dildo','fag','fuck','hell','jizz','nigger','nigga','penis','piss','pussy','scrotum','sex','shit','slut','turd','vagina']
 sweetHeadsRanks = ['HELPER', 'MODERATOR', 'ADMIN', 'OWNER']
 
@@ -85,7 +78,7 @@ def compute(q):
             reqListKarma = reqAPI['player']['karma']
         except:
             reqListKarma = 0
-        reqList['karma']=(f'{reqListKarma:,}')
+        reqList['karma']=(f'{int(reqListKarma):,}')
         try:
             hypixelUN = reqAPI['player']['displayname']
         except:
@@ -484,7 +477,7 @@ def compute(q):
         sessionType = ''
         if reqAPIsession['success']:
             if reqAPIsession['session']['online'] == True:
-                currentSession = reqAPIsession['session']['gameType'].upper()
+                currentSession = reqAPIsession['session']['gameType'].replace('_',' ').upper()
                 sessionType = reqAPIsession['session']['mode'].replace('_',' ').title()
             else: currentSession = False
 ############################################################################ SOCIALS ##########################################################################################
@@ -761,7 +754,7 @@ def compute(q):
             displayname += ' 🌸'
         print(rankParsed)
         print("--- %s seconds ---" % (time.time() - start_time))
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI',reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, version=VERSION, codename=CODENAME, flaskver=FLASKVER, flaskverdate=FLASKVERDATE, pythonver=PYTHONVER, pythonverdate=PYTHONVERDATE, tiramisudate=TIRAMISUDATE, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swKW=swStatsList[26], swKL=swStatsList[27], swKG=swStatsList[28], swBPG=swStatsList[29], swEPG=swStatsList[30], swAPG=swStatsList[31], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor, guildList=guildList)
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swKW=swStatsList[26], swKL=swStatsList[27], swKG=swStatsList[28], swBPG=swStatsList[29], swEPG=swStatsList[30], swAPG=swStatsList[31], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor, guildList=guildList)
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:
@@ -778,6 +771,26 @@ def compute(q):
         return "This person doesn't seem to exist. Try again?"
         #except:
         #    return "Errored out. Lol"
+############################################################################ FRIENDS LIST ###################################################################################
+@app.route('/f/<q>', methods=['POST', 'GET'])
+def friends(q):
+    if len(q) == 32 or len(q) == 36:
+        q = q.replace('-','')
+        try:
+            if q == MojangAPI.get_uuid(MojangAPI.get_username(q)):
+                username = MojangAPI.get_username(q)
+                uuid = q
+            else:
+                return "That UUID doesn't exist. Try again with a different UUID."
+        except:
+            return "This UUID doesn't exist. Try again with a different UUID."
+
+    else:
+        uuid = MojangAPI.get_uuid(q)
+        username = MojangAPI.get_username(MojangAPI.get_uuid(q))
+
+    return render_template('friends.html', username=username, uuid=uuid)
+
 
 ############################################################################ ERROR HANDLING ###################################################################################
 @app.errorhandler(404)

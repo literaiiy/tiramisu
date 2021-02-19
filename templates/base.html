@@ -132,9 +132,9 @@
         <!--- RANK SENIORITY --->
         {% if 'VIP' in rank or 'MVP' in rank %}
             {% if '+' in rank %}
-                <span class="{{ rankcolor }}"><b>[{{ rank.replace('+','') }}<span class="{{ pluscolor }}">+</span>]</b></span> bought <b>{{ boughtPastTime }}</b> - <b>{{ boughtPastRank }}</b><br> ago
+                <span class="{{ rankcolor }}"><b>[{{ rank.replace('+','') }}<span class="{{ pluscolor }}">+</span>]</b></span> bought <b>{{ boughtPastTime }}</b> - {{ boughtPastRank }}<br> ago
             {% elif boughtPastRank != 0 %}
-                <span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> bought <b>{{ boughtPastTime }}</b> - <b>{{ boughtPastRank }}</b><br> ago
+                <span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> bought <b>{{ boughtPastTime }}</b> - {{ boughtPastRank }} ago<br>
             {% endif %}
         {% endif %}
 

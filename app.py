@@ -348,10 +348,10 @@ def compute(q):
         except:
             lastLoginUnix = 1
             lastLogoutUnix = 1
-        lastLogin = datetime.fromtimestamp(lastLoginUnix).strftime('%a, %b %d, %Y at %I:%M:%S %p %z')
+        lastLogin = datetime.fromtimestamp(lastLoginUnix).strftime('%a, %b %d, %Y at %I:%M %p %z')
 
         # Last logout
-        lastLogout = datetime.fromtimestamp(lastLogoutUnix).strftime('%a, %b %d, %Y at %I:%M:%S %p %z')
+        lastLogout = datetime.fromtimestamp(lastLogoutUnix).strftime('%a, %b %d, %Y at %I:%M %p %z')
             
         # First login
         try:
@@ -367,7 +367,7 @@ def compute(q):
         
         # If played on Hypixel before, changes the user's 2nd time_between to between the first name change and their first log-on to Hypixel
         if playedOnHypixel == True:
-            firstLogin = datetime.fromtimestamp(firstLoginUnix).strftime('%a, %b %d, %Y at %I:%M:%S %p %z')
+            firstLogin = datetime.fromtimestamp(firstLoginUnix).strftime('%a, %b %d, %Y at %I:%M %p %z')
             nhut3unix = nhut2unix/1000 - firstLoginUnix
             jon = sec2format(nhut3unix)
             if jon[0] > 0:
@@ -430,22 +430,23 @@ def compute(q):
 
         joinedAgo = 0
         joinedAgoText = ''
-        seniorityTimeTuple = (31536000, 63072000, 94608000, 126144000, 157680000, 189216000, 220752000, 252288000, 283824000)
+        seniorityTimeTuple = (0, 8895953, 20301357, 34924098, 53671752, 77707908, 108524398, 148033875, 198688534, 263632309, 346896000)
         seniority = 'Freshie'
         try:
             joinedAgo = time.time() - firstLoginUnix
             joinedAgoText = sec2format(joinedAgo)
             if joinedAgoText[0] == 0: joinedAgoText = str(joinedAgoText[1]) + 'd ' + str(joinedAgoText[2]) + 'h ' + str(joinedAgoText[3]) + 'm'
             else: joinedAgoText = str(joinedAgoText[0]) + 'y ' + str(joinedAgoText[1]) + 'd ' + str(joinedAgoText[2]) + 'h ' + str(joinedAgoText[3]) + 'm'
-            if joinedAgo < seniorityTimeTuple[0]: seniority = '☘ Hypixel Freshman'
-            elif joinedAgo < seniorityTimeTuple[1]: seniority = '➴ Hypixel Novice'
-            elif joinedAgo < seniorityTimeTuple[2]: seniority = '⚝ Hypixel Trainee'
-            elif joinedAgo < seniorityTimeTuple[3]: seniority = '⚜ Hypixel Expert'
-            elif joinedAgo < seniorityTimeTuple[4]: seniority = '➴ Hypixel Professional'
-            elif joinedAgo < seniorityTimeTuple[5]: seniority = '❖ Hypixel Elder'
-            elif joinedAgo < seniorityTimeTuple[6]: seniority = '♗ Hypixel Veteran'
-            elif joinedAgo < seniorityTimeTuple[7]: seniority = '♛ Hypixel Master'
-            elif joinedAgo < seniorityTimeTuple[8]: seniority = '♆ Hypixel Ancient'
+            if joinedAgo < 8895953: seniority = '☘ Hypixel Newcomer'
+            elif joinedAgo < 20301357: seniority = '☘ Hypixel Rookie'
+            elif joinedAgo < 34924098: seniority = '➴ Hypixel Novice'
+            elif joinedAgo < 53671752: seniority = '⚝ Hypixel Trainee'
+            elif joinedAgo < 77707908: seniority = '⚜ Hypixel Expert'
+            elif joinedAgo < 108524398: seniority = '➴ Hypixel Professional'
+            elif joinedAgo < 148033875: seniority = '❖ Hypixel Elder'
+            elif joinedAgo < 198688534: seniority = '♗ Hypixel Veteran'
+            elif joinedAgo < 263632309: seniority = '♛ Hypixel Master'
+            elif joinedAgo < 346896000: seniority = '♆ Hypixel Ancient'
         except: pass
 
         boughtPastRank = 0
@@ -458,7 +459,7 @@ def compute(q):
                 if boughtPastRank[0] != 0: boughtPastRank = str(boughtPastRank[0]) + 'y ' + str(boughtPastRank[1]) + 'd ' + str(boughtPastRank[2]) + 'h ' + str(boughtPastRank[3]) + 'm'
                 else: boughtPastRank = str(boughtPastRank[1]) + 'd ' + str(boughtPastRank[2]) + 'h ' + str(boughtPastRank[3]) + 'm'
                 boughtPastTimeUnix = reqAPI['player']['levelUp_' + rankUnparsed]/1000
-                boughtPastTime = datetime.fromtimestamp(boughtPastTimeUnix).strftime('%a, %b %d, %Y at %I:%M:%S %p %z')
+                boughtPastTime = datetime.fromtimestamp(boughtPastTimeUnix).strftime('%b %d, %Y at %I:%M %p %z')
                 if 'MVP_PLUS' in rankUnparsed: 
                     rankunparsedcolor = 'mvpaqua'
                     rankUnparsed2 = 'MVP+'
@@ -528,7 +529,7 @@ def compute(q):
                 youtube = [youtube.rsplit('/',1)[1], youtube]
         except: pass
 
-############################################################################ SKYWARS ##########################################################################################
+############################################################################ SKYWARS ##########################################################################################s
         
         swStatsList = []
         # 0 - games played
@@ -536,7 +537,7 @@ def compute(q):
         # 2 - kills
         # 3 - deaths
         # 4 - K/D
-        # 5 - assists1
+        # 5 - assists
         # 6 - wins
         # 7 - losses
         # 8 - W/L
@@ -647,16 +648,16 @@ def compute(q):
             if 'Heavenly' in swStatsList[13]: swStatsList.append('chocolate')
         except: 
             twenty4plus = True
-            swStatsList.append(0)
-            swStatsList.append("darkgray")
 
         # Add 26 - 31 on swStatsList
-        swStatsList.append(round(swkills/swwins, 4))
-        swStatsList.append(round(swkills/swlosses, 4))
-        swStatsList.append(round(swkills/swgames, 4))
-        swStatsList.append(round(reqAPI['player']['stats']['SkyWars']['blocks_broken']/swgames, 4))
-        swStatsList.append(round(reqAPI['player']['stats']['SkyWars']['egg_thrown']/swgames, 4))
-        swStatsList.append(round(reqAPI['player']['stats']['SkyWars']['arrows_shot']/swgames, 4))
+        try:
+            StatsList.append(round(swkills/swwins, 4))
+            swStatsList.append(round(swkills/swlosses, 4))
+            swStatsList.append(round(swkills/swgames, 4))
+            swStatsList.append(round(reqAPI['player']['stats']['SkyWars']['blocks_broken']/swgames, 4))
+            swStatsList.append(round(reqAPI['player']['stats']['SkyWars']['egg_thrown']/swgames, 4))
+            swStatsList.append(round(reqAPI['player']['stats']['SkyWars']['arrows_shot']/swgames, 4))
+        except: pass
 
         # Function that takes in experience and spits out level as a floating point number
         def swexp2level(experience):

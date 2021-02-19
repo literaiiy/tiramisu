@@ -4,7 +4,22 @@
 
 {% block content %}
 
-<h1>Friends list for {{ username }}</h1>
-<p>{{ uuid }}</p>
+<h2>Friends list for {{ username }}</h2>
+<p>{{ uuid }} <br></p>
+
+<div class='tablet'>
+    <table>
+        <tr>
+            <th>Name</th>
+            <th>Desc</th>
+        </tr>
+        {% for item in friendListList %}
+        <tr>
+            <td> {{ item }}<br></td>
+            <td> Added on {{ friendListList[item][1] }}, initiated by {{ friendListList[item][0] }}<br></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
 
 {% endblock %}

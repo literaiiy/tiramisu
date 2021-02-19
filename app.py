@@ -7,7 +7,6 @@ from wtforms import TextField
 from datetime import datetime
 import requests
 import math
-from flask_table import Table, Col
 import time
 import re
 from itertools import cycle, islice
@@ -774,6 +773,8 @@ def compute(q):
 ############################################################################ FRIENDS LIST ###################################################################################
 @app.route('/f/<q>', methods=['POST', 'GET'])
 def friends(q):
+    friendUUID = ''
+    friendListList = {}
     if len(q) == 32 or len(q) == 36:
         q = q.replace('-','')
         try:
@@ -789,8 +790,24 @@ def friends(q):
         uuid = MojangAPI.get_uuid(q)
         username = MojangAPI.get_username(MojangAPI.get_uuid(q))
 
-    return render_template('friends.html', username=username, uuid=uuid)
+    r = requests.get('https://api.hypixel.net/friends?key=' + HAPIKEY + '&uuid=' + uuid)
+    freqAPI = r.json()
+    
+    if freqAPI['records'] == []:
+        friendList = "This person hasn't friended anyone on the Hypixel Network yet!"
+    else:
+        friendList = freqAPI['records']
+        
+        for friend in friendList:
+            try:
+                if friend['uuidSender'] == uuid:
+                    friendListList[MojangAPI.get_username(friend['uuidReceiver'])] = (MojangAPI.get_username(uuid), time.strftime("%b %d, %Y @ %I:%M:%S %p",time.gmtime(friend['started']/1000)))
+                elif friend['uuidReceiver'] == uuid:
+                    fname = MojangAPI.get_username(friend['uuidSender'])
+                    friendListList[fname] = (fname, time.strftime("%b %d, %Y @ %I:%M:%S %p",time.gmtime(friend['started']/1000)))
+            except: pass
 
+    return render_template('friends.html', username=username, uuid=uuid, friendListList=friendListList)
 
 ############################################################################ ERROR HANDLING ###################################################################################
 @app.errorhandler(404)

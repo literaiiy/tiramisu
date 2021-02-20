@@ -1,6 +1,4 @@
 <meta charset="UTF-8">
-
-
 <link rel="shortcut icon" type="image/jpg" href="https://i.ibb.co/sw3P3zZ/tiramis2.png"/>
 <div id="loadOverlay" style="background-color:#fff; position:absolute; top:0px; left:0px; width:100%; height:100%; z-index:2000;"></div>
 <div class="logo">
@@ -24,6 +22,7 @@
 <body>
 	<table>
 		<tr>
+			<th>#</th>
 			<th>Game</th>
 			<th>Player Count</th>
 			<th>Portion</th>
@@ -31,29 +30,35 @@
 		{% for dictitem in gameDict %}
 		<tr>
 			{% if dictitem['game'] == 'Total Player Count' %}
+				<td><span class='red'>{{ dictitem['pos'] }}</span></td>
 				<td><span class='red'>{{ dictitem['game'] }}</span></td>
-				<td><span class='red'>{{ dictitem['playerCount'] }}</span></td>
+				<td><span class='red'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
 				<td><span class='red'>{{ (100*dictitem['playerCount'] / gameDict[0]['playerCount'])|round(3) }}%</span></td>
-<!-- 			{% elif key == 'Main Lobby' %}
-				<td><span class='firebrick'>{{ key }}</span></td>
-				<td><span class='firebrick'>{{ gameDict[key] }}</span></td>
-				<td><span class='firebrick'>{{ (gameDict[key] / (gameDict['Total Players']/100))|round(3) }}%</span></td>
-			{% elif key == 'Watching a replay' %}
-				<td><span class='cyan'>{{ key }}</span></td>
-				<td><span class='cyan'>{{ gameDict[key] }}</span></td>
-				<td><span class='cyan'>{{ (gameDict[key] / (gameDict['Total Players']/100))|round(3) }}%</span></td>
-			{% elif 'limbo' in key %}
-				<td><span class='green'>{{ key }}</span></td>
-				<td><span class='green'>{{ gameDict[key] }}</span></td>
-				<td><span class='green'>{{ (gameDict[key] / (gameDict['Total Players']/100))|round(3) }}%</span></td>
-			{% elif key == 'Idle' %}
-				<td><span class='gold'>{{ key }}</span></td>
-				<td><span class='gold'>{{ gameDict[key] }}</span></td>
-				<td><span class='gold'>{{ (gameDict[key] / (gameDict['Total Players']/100))|round(3) }}%</span></td> -->
+			{% elif dictitem['game'] == 'Main Lobby' %}
+				<td><span class='firebrick'>{{ dictitem['pos'] }}</span></td>
+				<td><span class='firebrick'>{{ dictitem['game'] }}</span></td>
+				<td><span class='firebrick'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
+				<td><span class='firebrick'>{{ (100*dictitem['playerCount'] / gameDict[0]['playerCount'])|round(3) }}%</span></td>
+			{% elif dictitem['game'] == 'Watching a replay' %}
+				<td><span class='cyan'>{{ dictitem['pos'] }}</span></td>
+				<td><span class='cyan'>{{ dictitem['game'] }}</span></td>
+				<td><span class='cyan'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
+				<td><span class='cyan'>{{ (100*dictitem['playerCount'] / gameDict[0]['playerCount'])|round(3) }}%</span></td>
+			{% elif dictitem['game'] == 'In limbo' %}
+				<td><span class='green'>{{ dictitem['pos'] }}</span></td>
+				<td><span class='green'>{{ dictitem['game'] }}</span></td>
+				<td><span class='green'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
+				<td><span class='green'>{{ (100*dictitem['playerCount'] / gameDict[0]['playerCount'])|round(3) }}%</span></td>
+			{% elif dictitem['game'] == 'Idle' %}
+				<td><span class='gold'>{{ dictitem['pos'] }}</span></td>
+				<td><span class='gold'>{{ dictitem['game'] }}</span></td>
+				<td><span class='gold'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
+				<td><span class='gold'>{{ (100*dictitem['playerCount'] / gameDict[0]['playerCount'])|round(3) }}%</span></td>
 			{% else %}
-			<td>{{ dictitem['game'] }}</td>
-			<td>{{ dictitem['playerCount'] }}</td>
-			<td>{{ (dictitem['playerCount'] / gameDict[0]['playerCount'])|round(3) }}%</td>
+				<td>{{ dictitem['pos'] }}</td>
+				<td>{{ dictitem['game'] }}</td>
+				<td>{{ '{0:,}'.format(dictitem['playerCount']) }}</td>
+				<td>{{ (100*dictitem['playerCount'] / gameDict[0]['playerCount'])|round(3) }}%</td>
 			{% endif %}
 		</tr>
 		{% endfor %}

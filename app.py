@@ -44,9 +44,119 @@ def queryt(path):
         {
             'game':'Total Player Count',
             'playerCount':hs.json()['playerCount']
+        },
+        {
+            'game':'🏹 SkyWars',
+            'playerCount':gameCount['SKYWARS']['players']
+        },
+        {
+            'game':'🌎 SkyBlock',
+            'playerCount':gameCount['SKYBLOCK']['players']
+        },
+        {
+            'game':'🛏️ BedWars',
+            'playerCount':gameCount['BEDWARS']['players']
+        },
+        {
+            'game':'⚔️ Duels',
+            'playerCount':gameCount['DUELS']['players']
+        },
+        {
+            'game':'🦸 Super Smash Mobs',
+            'playerCount':gameCount['SUPER_SMASH']['players']
+        },
+        {
+            'game':'💨 Speed UHC',
+            'playerCount':gameCount['SPEED_UHC']['players']
+        },
+        {
+            'game':'🔫 Cops and Crims',
+            'playerCount':gameCount['MCGO']['players']
+        },
+        {
+            'game':'🕳️ The Pit',
+            'playerCount':gameCount['PIT']['players']
+        },
+        {
+            'game':'🍎 UHC Champions',
+            'playerCount':gameCount['UHC']['players']
+        },
+        {
+            'game':'🛠️ Build Battle',
+            'playerCount':gameCount['BUILD_BATTLE']['players']
+        },
+        {
+            'game':'🕵️‍♂️ Murder Mystery',
+            'playerCount':gameCount['MURDER_MYSTERY']['players']
+        },
+        {
+            'game':'🏇 Warlords',
+            'playerCount':gameCount['BATTLEGROUND']['players']
+        },
+        {
+            'game':'🏠 Housing',
+            'playerCount':gameCount['HOUSING']['players']
+        },
+        {
+            'game':'🕹️ Arcade',
+            'playerCount':gameCount['ARCADE']['players']
+        },
+        {
+            'game':'🗡️ Blitz Survival Games',
+            'playerCount':gameCount['SURVIVAL_GAMES']['players']
+        },
+        {
+            'game':'🧱 Mega Walls',
+            'playerCount':gameCount['WALLS3']['players']
+        },
+        {
+            'game':'🏗️ Prototype',
+            'playerCount':gameCount['PROTOTYPE']['players']
+        },
+        {
+            'game':'💣 TNT Games',
+            'playerCount':gameCount['TNTGAMES']['players']
+        },
+        {
+            'game':'Main Lobby',
+            'playerCount':gameCount['MAIN_LOBBY']['players']
+        },
+        {
+            'game':'Watching a replay',
+            'playerCount':gameCount['REPLAY']['players']
+        },
+        {
+            'game':'In limbo',
+            'playerCount':gameCount['LIMBO']['players']
+        },
+        {
+            'game':'Idle',
+            'playerCount':gameCount['IDLE']['players']
+        },
+        {
+            'game':'🎉 Party Games',
+            'playerCount':gameCount['ARCADE']['modes']['PARTY']
+        },
+        {
+            'game':'🧟 Zombies',
+            'playerCount':gameCount['ARCADE']['modes']['ZOMBIES_DEAD_END'] + gameCount['ARCADE']['modes']['ZOMBIES_ALIEN_ARCADIUM'] + gameCount['ARCADE']['modes']['ZOMBIES_BAD_BLOOD']
+        },
+        {
+            'game':'🙈 Hide and Seek',
+            'playerCount':gameCount['ARCADE']['modes']['HIDE_AND_SEEK_PROP_HUNT'] + gameCount['ARCADE']['modes']['HIDE_AND_SEEK_PARTY_POOPER']
+        },
+        {
+            'game':'🛩️ Mini Walls',
+            'playerCount':gameCount['ARCADE']['modes']['MINI_WALLS']
+        },
+        {
+            'game':'📢 Hypixel Says',
+            'playerCount':gameCount['ARCADE']['modes']['SIMON_SAYS']
         }
     ]
-
+    gameDict = sorted(gameDict, reverse=True, key=lambda k: k['playerCount'])
+    for enum, game in enumerate(gameDict):
+        game['pos'] = enum
     form = searchBar()
     if request.method == 'POST':
         session['req'] = request.form

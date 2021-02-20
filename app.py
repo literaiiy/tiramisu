@@ -185,7 +185,6 @@ def compute(q):
             return "This UUID doesn't exist. Try again with a different UUID."
 
     else:
-        #if q == MojangAPI.get_username(MojangAPI.get_uuid(q)):
         uuid = MojangAPI.get_uuid(q)
         username = MojangAPI.get_username(MojangAPI.get_uuid(q))
         #else:
@@ -651,6 +650,8 @@ def compute(q):
 ############################################################################ SKYWARS ##########################################################################################s
         
         swStatsList = []
+        for i in range(33):
+            swStatsList.append('')
         # 0 - games played
         # 1 - games quit
         # 2 - kills
@@ -694,89 +695,89 @@ def compute(q):
         # Adds 0 - 9 on swStatsList
         try:
             swgames = reqAPI['player']['stats']['SkyWars']['losses'] + reqAPI['player']['stats']['SkyWars']['wins']
-            swStatsList.append(format(swgames, ','))
-            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['quits'], ','))
+            swStatsList[0]=(format(swgames, ','))
+            swStatsList[1]=format(reqAPI['player']['stats']['SkyWars']['quits'], ',')
 
             swkills = reqAPI['player']['stats']['SkyWars']['kills']
-            swStatsList.append(format(swkills, ','))
+            swStatsList[2]=(format(swkills, ','))
             swdeaths = reqAPI['player']['stats']['SkyWars']['deaths']
-            swStatsList.append(format(swdeaths, ','))
-            swStatsList.append(round(swkills/swdeaths, 4))
+            swStatsList[3]=(format(swdeaths, ','))
+            swStatsList[4]=(round(swkills/swdeaths, 4))
             swassists = reqAPI['player']['stats']['SkyWars']['assists']
-            swStatsList.append(format(swassists, ','))
+            swStatsList[5]=(format(swassists, ','))
 
             swwins = reqAPI['player']['stats']['SkyWars']['wins']
-            swStatsList.append(format(swwins, ','))
+            swStatsList[6]=(format(swwins, ','))
             swlosses = reqAPI['player']['stats']['SkyWars']['losses']
-            swStatsList.append(format(swlosses, ','))
-            swStatsList.append(round(reqAPI['player']['stats']['SkyWars']['wins']/reqAPI['player']['stats']['SkyWars']['losses'], 4))
-            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['survived_players'], ','))
+            swStatsList[7]=(format(swlosses, ','))
+            swStatsList[8]=(round(reqAPI['player']['stats']['SkyWars']['wins']/reqAPI['player']['stats']['SkyWars']['losses'], 4))
+            swStatsList[9]=(format(reqAPI['player']['stats']['SkyWars']['survived_players'], ','))
         except: pass
 
         # Adds 10 - 12 on swStatsList
         try:
-            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['win_streak'], ','))
-            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['souls_gathered'], ','))
-            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['heads'], ','))
+            swStatsList[10]=(format(reqAPI['player']['stats']['SkyWars']['win_streak'], ','))
+            swStatsList[11]=(format(reqAPI['player']['stats']['SkyWars']['souls_gathered'], ','))
+            swStatsList[12]=(format(reqAPI['player']['stats']['SkyWars']['heads'], ','))
         except: pass
 
         # Adds 13 on swStatsList
         jesushchrist = False
         try:
-            if swkills <= 49: swStatsList.append('Eww!')
-            if swkills > 49 and swkills < 200: swStatsList.append('Yucky!')
-            if swkills > 199 and swkills < 500: swStatsList.append('Meh.')
-            if swkills > 499 and swkills < 1000: swStatsList.append('Decent...')
-            if swkills > 999 and swkills < 2000: swStatsList.append('Salty.')
-            if swkills > 1999 and swkills < 5000: swStatsList.append('Tasty!')
-            if swkills > 4999 and swkills < 10000: swStatsList.append('Succulent!')
-            if swkills > 9999 and swkills < 25000: swStatsList.append('Divine!')
-            if swkills > 25000: swStatsList.append('Heavenly..!')
-            if swkills <= 10000 and rankParsed in sweetHeadsRanks: swStatsList.append('Sweet')
-        except: jesushchrist = True
+            if swkills <= 49: swStatsList[13]=('Eww!')
+            if swkills > 49 and swkills < 200: swStatsList[13]=('Yucky!')
+            if swkills > 199 and swkills < 500: swStatsList[13]=('Meh.')
+            if swkills > 499 and swkills < 1000: swStatsList[13]=('Decent...')
+            if swkills > 999 and swkills < 2000: swStatsList[13]=('Salty.')
+            if swkills > 1999 and swkills < 5000: swStatsList[13]=('Tasty!')
+            if swkills > 4999 and swkills < 10000: swStatsList[13]=('Succulent!')
+            if swkills > 9999 and swkills < 25000: swStatsList[13]=('Divine!')
+            if swkills > 25000: swStatsList[13]=('Heavenly..!')
+            if swkills <= 10000 and rankParsed in sweetHeadsRanks: swStatsList[13]=('Sweet')
+        except: swStatsList[13]='Eww!'
 
         def minsec(seconds):
             return str(math.floor(seconds / 60)) + 'm ' + str(seconds % 60) + 's'
 
         # Adds 14 - 23 on swStatsList
         try:
-            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['coins'], ','))
-            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['blocks_broken'], ','))
-            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['egg_thrown'], ','))
-            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['arrows_shot'], ','))
-            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['arrows_hit'], ','))
-            swStatsList.append(minsec(reqAPI['player']['stats']['SkyWars']['fastest_win']))
-            swStatsList.append(format(max(reqAPI['player']['stats']['SkyWars']['most_kills_game'], reqAPI['player']['stats']['SkyWars']['most_kills_game_team'], reqAPI['player']['stats']['SkyWars']['most_kills_game_solo']), ','))
-            swStatsList.append(format(reqAPI['player']['stats']['SkyWars']['chests_opened'], ','))
-            swStatsList.append(str(round((reqAPI['player']['stats']['SkyWars']['wins']/(reqAPI['player']['stats']['SkyWars']['wins']+reqAPI['player']['stats']['SkyWars']['losses'])) * 100, 4)))
-            swStatsList.append(str(round(reqAPI['player']['stats']['SkyWars']['arrows_hit']/(reqAPI['player']['stats']['SkyWars']['arrows_hit']+reqAPI['player']['stats']['SkyWars']['arrows_shot'])*100, 4)))
+            swStatsList[14]=(format(reqAPI['player']['stats']['SkyWars']['coins'], ','))
+            swStatsList[15]=(format(reqAPI['player']['stats']['SkyWars']['blocks_broken'], ','))
+            swStatsList[16]=(format(reqAPI['player']['stats']['SkyWars']['egg_thrown'], ','))
+            swStatsList[17]=(format(reqAPI['player']['stats']['SkyWars']['arrows_shot'], ','))
+            swStatsList[18]=(format(reqAPI['player']['stats']['SkyWars']['arrows_hit'], ','))
+            swStatsList[19]=(minsec(reqAPI['player']['stats']['SkyWars']['fastest_win']))
+            swStatsList[20]=(format(max(reqAPI['player']['stats']['SkyWars']['most_kills_game'], reqAPI['player']['stats']['SkyWars']['most_kills_game_team'], reqAPI['player']['stats']['SkyWars']['most_kills_game_solo']), ','))
+            swStatsList[21]=(format(reqAPI['player']['stats']['SkyWars']['chests_opened'], ','))
+            swStatsList[22]=(str(round((reqAPI['player']['stats']['SkyWars']['wins']/(reqAPI['player']['stats']['SkyWars']['wins']+reqAPI['player']['stats']['SkyWars']['losses'])) * 100, 4)))
+            swStatsList[23]=(str(round(reqAPI['player']['stats']['SkyWars']['arrows_hit']/(reqAPI['player']['stats']['SkyWars']['arrows_hit']+reqAPI['player']['stats']['SkyWars']['arrows_shot'])*100, 4)))
         except: pass
 
         # Adds 24 - 25 on swStatsList
         twenty4plus = False
         try:
-            swStatsList.append(round((swkills+reqAPI['player']['stats']['SkyWars']['assists'])/reqAPI['player']['stats']['SkyWars']['deaths'], 4))
-            if 'Eww' in swStatsList[13]: swStatsList.append('darkgray')
-            if 'Yucky' in swStatsList[13]: swStatsList.append('gray')
-            if 'Meh' in swStatsList[13]: swStatsList.append('lightgray')
-            if 'Decent' in swStatsList[13]: swStatsList.append('decentyellow')
-            if 'Salty' in swStatsList[13]: swStatsList.append('green')
-            if 'Tasty' in swStatsList[13]: swStatsList.append('cyan')
-            if 'Succulent' in swStatsList[13]: swStatsList.append('pink')
-            if 'Divine' in swStatsList[13]: swStatsList.append('gold')
-            if 'Heavenly' in swStatsList[13]: swStatsList.append('chocolate')
-        except: 
-            twenty4plus = True
+            swStatsList[24]=(round((swkills+reqAPI['player']['stats']['SkyWars']['assists'])/reqAPI['player']['stats']['SkyWars']['deaths'], 4))
+            if 'Eww' in swStatsList[13]: swStatsList[25]=('darkgray')
+            if 'Yucky' in swStatsList[13]: swStatsList[25]=('gray')
+            if 'Meh' in swStatsList[13]: swStatsList[25]=('lightgray')
+            if 'Decent' in swStatsList[13]: swStatsList[25]=('decentyellow')
+            if 'Salty' in swStatsList[13]: swStatsList[25]=('green')
+            if 'Tasty' in swStatsList[13]: swStatsList[25]=('cyan')
+            if 'Succulent' in swStatsList[13]: swStatsList[25]=('pink')
+            if 'Divine' in swStatsList[13]: swStatsList[25]=('gold')
+            if 'Heavenly' in swStatsList[13]: swStatsList[25]=('chocolate')
+        except: swStatsList[25]='darkgray'
 
         # Add 26 - 31 on swStatsList
         try:
-            StatsList.append(round(swkills/swwins, 4))
-            swStatsList.append(round(swkills/swlosses, 4))
-            swStatsList.append(round(swkills/swgames, 4))
-            swStatsList.append(round(reqAPI['player']['stats']['SkyWars']['blocks_broken']/swgames, 4))
-            swStatsList.append(round(reqAPI['player']['stats']['SkyWars']['egg_thrown']/swgames, 4))
-            swStatsList.append(round(reqAPI['player']['stats']['SkyWars']['arrows_shot']/swgames, 4))
+            swStatsList[26]=(round(swkills/swwins, 4))
+            swStatsList[27]=(round(swkills/swlosses, 4))
+            swStatsList[28]=(round(swkills/swgames, 4))
+            swStatsList[29]=(round(reqAPI['player']['stats']['SkyWars']['blocks_broken']/swgames, 4))
+            swStatsList[30]=(round(reqAPI['player']['stats']['SkyWars']['egg_thrown']/swgames, 4))
+            swStatsList[31]=(round(reqAPI['player']['stats']['SkyWars']['arrows_shot']/swgames, 4))
         except: pass
+    
 
         # Function that takes in experience and spits out level as a floating point number
         def swexp2level(experience):
@@ -820,33 +821,21 @@ def compute(q):
                 return ('No', 'black')
 
         # Adds 0 - 4 on swExpList
+        swExpList = [0,0,0,0,0]
         try:
             swexpee = reqAPI['player']['stats']['SkyWars']['skywars_experience']
         except:
             swexpee = 0
         try:
-            swExpList.append(format(swexpee, ','))
-            swExpList.append(swexp2level(swexpee))
-            swExpList.append(getPrestige(swExpList[1]))
-            swExpList.append(math.floor(swExpList[1]) + 1)
-            swExpList.append(round((swExpList[1] - math.floor(swExpList[1])) * 100, 2))
-        except: 
-            for x in range(5):
-                swExpList.append('0')
-
-        # Adds filler zeroes for swStatsList and swExpList so people without a certain stat don't error out
-        for i in range(50-len(swStatsList)):
-            swStatsList.append('0')
-        print("AAAAAAAAAAAAAAAAA")
-        for i in range(5-len(swExpList)):
-            swExpList.append('0')
+            swExpList[0]=(format(swexpee, ','))
+            swExpList[1]=(swexp2level(swexpee))
+            swExpList[2]=(getPrestige(swExpList[1]))
+            swExpList[3]=(math.floor(swExpList[1]) + 1)
+            swExpList[4]=(round((swExpList[1] - math.floor(swExpList[1])) * 100, 2))
+        except: pass
+        # Printing!
         print(swStatsList)
         print(len(swStatsList))
-
-        # Adds Eww! to accounts that screwed up the earlier condition
-        if jesushchrist == True: swStatsList[13] = ('Eww!')
-        if twenty4plus == True: swStatsList[25] = 'darkgray'
-############################################################################ FRIENDS ############################################################################
 
 ############################################################################ GUILD ############################################################################
         
@@ -892,9 +881,7 @@ def compute(q):
         for swear in swearList:
             if swear in q:
                 return "Username might be blocked by Mojang- username contains one of the following: \nhttps://paste.ee/p/RYo2C. \nIf this is a derivative of the Scunthorpe problem, sorry about that."
-            
-
-        return "This person doesn't seem to exist. Try again?"
+        return "You suck" #render_template('user404.html')
         #except:
         #    return "Errored out. Lol"
 ############################################################################ FRIENDS LIST ###################################################################################

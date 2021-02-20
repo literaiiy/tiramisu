@@ -57,7 +57,7 @@
 <!--- help --->
 <div class="row">
     <div class="columnZ">
-        <img src='https://mc-heads.net/body/{{ uuid }}/right'><br>
+        <img src='https://mc-heads.net/body/{{ uuid }}'><br>
         <p><a href='https://mc-heads.net/download/{{ uuid }}'> Download {{ username }}'s skin</a></p>
     </div>
     <div class="columnA">
@@ -117,7 +117,25 @@
         <b class="questfellow">{{ quests }}</b> quests finished<br>
 
         <!--- FRIENDS --->
-        <a class="graylink" href="/f/{{ username }}">Friends List</a><br>
+        <button id='myBtn' href="/f/{{ username }}">Friends List</button><br>
+        <div id="myModal" class="modal">
+        <script>
+        var modal = document.getElementById("myModal");
+        // Get the button that opens the modal
+        var btn = document.getElementById("myBtn");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on the button, open the modal
+        btn.onclick = function() {modal.style.display = "block"; window.location.replace('/f/{{ username }}')}
+        </script>
+
+        <div class="modal-content">
+        <div class="loader"></div>
+        <p>Friends list loading. It may take longer or shorter depending on the amount of friends you have. TEST</p>
+        </div>
+        </div>
         
         <!--- GUILD --->
         {% if guildList[0] != 0 %}

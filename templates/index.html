@@ -19,6 +19,8 @@
 {% endblock %}
 
 {% block content %}
+
+
 <body>
 	<table>
 		<tr>
@@ -30,10 +32,10 @@
 		{% for dictitem in gameDict %}
 		<tr>
 			{% if dictitem['game'] == 'Total Player Count' %}
-				<td><span class='red'>{{ dictitem['pos'] }}</span></td>
+				<td><span class='red'></span></td>
 				<td><span class='red'>{{ dictitem['game'] }}</span></td>
 				<td><span class='red'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
-				<td><span class='red'>{{ (100*dictitem['playerCount'] / gameDict[0]['playerCount'])|round(3) }}%</span></td>
+
 			{% elif dictitem['game'] == 'Main Lobby' %}
 				<td><span class='firebrick'>{{ dictitem['pos'] }}</span></td>
 				<td><span class='firebrick'>{{ dictitem['game'] }}</span></td>
@@ -71,5 +73,5 @@
 		<p>Tiramisu <b>v0.0.1α "Flour" (Testing Phase)</b> - February 18th, 2021 · 
 		Flask <b>v1.1.2</b> · 
 		Python <b>v3.7.9</b><p>
-	<p>Copyright © 2021 <a style='text-decoration:none;' href='/p/floraphile'>floraphile</a>. All rights reserved. Terms of Service. Privacy Policy.</p>
+	<p>Copyright © 2021 <a style='text-decoration:none;' href='/p/floraphile'>floraphile</a>. All rights reserved. Terms of Service. Privacy Policy. Fxmoji. MC-Heads. MojangAPI.</p>
 </div>

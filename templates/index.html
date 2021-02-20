@@ -1,30 +1,65 @@
 <meta charset="UTF-8">
 
-<html>
-	<link rel="shortcut icon" type="image/jpg" href="https://i.ibb.co/sw3P3zZ/tiramis2.png"/>
-	<div id="loadOverlay" style="background-color:#fff; position:absolute; top:0px; left:0px; width:100%; height:100%; z-index:2000;"></div>
-	<div class="logo">
-        <a href='/'><img src='https://gist.githubusercontent.com/literaiiy/29ee460b0eff572d439688d0236e6382/raw/3c289102814fab69f09bb51df0cc88e6afe16341/tiramisulogo.svg' alt="Tiramisu Logo" height='8%' width='auto'></a>
-		<form action="/" method="POST">
-			<input type="text" name="content" id="content" autofocus="autofocus" onfocus="this.select()" autocomplete="off" placeholder="Search username or UUID">
-			<script>
-				if ( window.history.replaceState ) {
-				  window.history.replaceState( null, null, window.location.href );
-				}
-			</script>
-			<input class="searchbutton" type="submit" value ="Q">
-		</form>
-    </div>
-	<link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet" type="text/css">
-	{% block head %}
-	<title>Tiramisu - Name History and Hypixel Stats</title>
-	{% endblock %}
 
-	{% block content %}
-	<body>
-		<img src='https://i.imgur.com/d8RMyh6.png'>
-	</body>
-	{% endblock %}
+<link rel="shortcut icon" type="image/jpg" href="https://i.ibb.co/sw3P3zZ/tiramis2.png"/>
+<div id="loadOverlay" style="background-color:#fff; position:absolute; top:0px; left:0px; width:100%; height:100%; z-index:2000;"></div>
+<div class="logo">
+	<a href='/'><img src='https://gist.githubusercontent.com/literaiiy/29ee460b0eff572d439688d0236e6382/raw/3c289102814fab69f09bb51df0cc88e6afe16341/tiramisulogo.svg' alt="Tiramisu Logo" height='8%' width='auto'></a>
+	<form action="/" method="POST">
+		<input type="text" name="content" id="content" autofocus="autofocus" onfocus="this.select()" autocomplete="off" placeholder="Search username or UUID">
+		<script>
+			if ( window.history.replaceState ) {
+				window.history.replaceState( null, null, window.location.href );
+			}
+		</script>
+		<input class="searchbutton" type="submit" value ="Q">
+	</form>
+</div>
+<link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet" type="text/css">
+{% block head %}
+<title>Tiramisu - Name History and Hypixel Stats</title>
+{% endblock %}
+
+{% block content %}
+<body>
+	<table>
+		<tr>
+			<th>Game</th>
+			<th>Player Count</th>
+			<th>Portion</th>
+		</tr>
+		{% for dictitem in gameDict %}
+		<tr>
+			{% if dictitem['game'] == 'Total Player Count' %}
+				<td><span class='red'>{{ dictitem['game'] }}</span></td>
+				<td><span class='red'>{{ dictitem['playerCount'] }}</span></td>
+				<td><span class='red'>{{ (100*dictitem['playerCount'] / gameDict[0]['playerCount'])|round(3) }}%</span></td>
+<!-- 			{% elif key == 'Main Lobby' %}
+				<td><span class='firebrick'>{{ key }}</span></td>
+				<td><span class='firebrick'>{{ gameDict[key] }}</span></td>
+				<td><span class='firebrick'>{{ (gameDict[key] / (gameDict['Total Players']/100))|round(3) }}%</span></td>
+			{% elif key == 'Watching a replay' %}
+				<td><span class='cyan'>{{ key }}</span></td>
+				<td><span class='cyan'>{{ gameDict[key] }}</span></td>
+				<td><span class='cyan'>{{ (gameDict[key] / (gameDict['Total Players']/100))|round(3) }}%</span></td>
+			{% elif 'limbo' in key %}
+				<td><span class='green'>{{ key }}</span></td>
+				<td><span class='green'>{{ gameDict[key] }}</span></td>
+				<td><span class='green'>{{ (gameDict[key] / (gameDict['Total Players']/100))|round(3) }}%</span></td>
+			{% elif key == 'Idle' %}
+				<td><span class='gold'>{{ key }}</span></td>
+				<td><span class='gold'>{{ gameDict[key] }}</span></td>
+				<td><span class='gold'>{{ (gameDict[key] / (gameDict['Total Players']/100))|round(3) }}%</span></td> -->
+			{% else %}
+			<td>{{ dictitem['game'] }}</td>
+			<td>{{ dictitem['playerCount'] }}</td>
+			<td>{{ (dictitem['playerCount'] / gameDict[0]['playerCount'])|round(3) }}%</td>
+			{% endif %}
+		</tr>
+		{% endfor %}
+	</table>
+</body>
+{% endblock %}
 
 <div class="end">
 	<hr>
@@ -32,5 +67,4 @@
 		Flask <b>v1.1.2</b> · 
 		Python <b>v3.7.9</b><p>
 	<p>Copyright © 2021 <a style='text-decoration:none;' href='/p/floraphile'>floraphile</a>. All rights reserved. Terms of Service. Privacy Policy.</p>
-	</div>
-</html>
+</div>

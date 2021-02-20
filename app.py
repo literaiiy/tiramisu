@@ -11,15 +11,22 @@ import time
 import re
 from itertools import cycle, islice
 from num2words import num2words
+import requests_cache
+from flask_sqlalchemy import SQLAlchemy
 
 ############################################################################ INITIALIZATION & CONSTANTS ############################################################################
 app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+db = SQLAlchemy(app)
+
 app.secret_key = 'a34w7tfyner9ryhzrbfw7ynhhcdtg78as34'
 HAPIKEY = '1e5f6a57-6327-4888-886a-590c39861a6a'
 ADMINS = ['35a178c0c37043aea959983223c04de0']
 FLOWERS = ['27bcc1547423484683fd811155d8c472']
 swearList = ['anal','anus','ass','bastard','bitch','blowjob','blow job','buttplug','clitoris','cock','cunt','dick','dildo','fag','fuck','hell','jizz','nigger','nigga','penis','piss','pussy','scrotum','sex','shit','slut','turd','vagina']
 sweetHeadsRanks = ['HELPER', 'MODERATOR', 'ADMIN', 'OWNER']
+
+requests_cache.install_cache('test_cache', backend='sqlite', expire_after=15)
 
 username = ''
 uuid = ''
@@ -30,12 +37,22 @@ class searchBar():
 ############################################################################ ROUTING FOR HOMEPAGE ############################################################################
 @app.route('/', methods=['POST', 'GET'], defaults={'path':''})
 def queryt(path):
+    gameDict = []
+    hs = requests.get('https://api.hypixel.net/gameCounts?key=' + HAPIKEY)
+    gameCount = hs.json()['games']
+    gameDict = [
+        {
+            'game':'Total Player Count',
+            'playerCount':hs.json()['playerCount']
+        }
+    ]
+
     form = searchBar()
     if request.method == 'POST':
         session['req'] = request.form
         if not session['req']['content'] == '':
             return redirect(url_for('compute', q=str(session['req']['content'])))
-    return render_template('index.html')
+    return render_template('index.html', gameDict=gameDict)
 
 @app.route('/<k>', methods=['POST', 'GET'])
 def reddorect(k):

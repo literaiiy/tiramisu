@@ -155,9 +155,6 @@ color: darkgray;
 .dark_red{
     color:#AA0000
 }
-.green{
-    color:#55FF55
-}
 .yellow{
     color:#ffff00
 }
@@ -302,15 +299,15 @@ border-top: none;
 }
 
 .swgeneral {
-    width:30%;
+    width:500px;
 }
 
 .leftsw {
-    width: 18%;
+    width: 100vw;
 }
 
 .rightsw {
-    width: 18%;
+    width: 100vw;
 }
 
 .graylink {

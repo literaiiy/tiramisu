@@ -4,6 +4,7 @@
     top: 0; 
     background-color: honeydew;
     margin: -8px;
+    z-index:-1
 }
 
 .subtitle {

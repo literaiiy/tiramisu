@@ -1,25 +1,44 @@
-{% extends "index.html" %}
+{% extends "base.html" %}
 
-<title>{{ username }}'s Friends | Tiramisu
+{% block head %}
+<head>
+    <link rel='icon' href='https://mc-heads.net/head/{{ uuid }}'/>
+    <title>{{ username }}'s Friends | Tiramisu</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='datatables.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+</head>
+{% endblock %}
 
 {% block content %}
-
-<h2>Friends list for {{ username }}</h2>
-<p>{{ uuid }} <br></p>
-
+<div class="uuid">
+    {{ uuid }}
+</div>
 <div class='tablet'>
-    <table>
+<table id="table_id" class='display'>
+    <thead>
         <tr>
             <th>Name</th>
-            <th>Desc</th>
+            <th>Date added</th>
+            <th>Sent by</th>
+            <th>Friends for</th>
         </tr>
+    </thead>
+    <tbody>
         {% for item in friendListList %}
         <tr>
             <td><a href="/p/{{ item }}"> {{ item }}</a><br></td>
-            <td> Added on {{ friendListList[item][1] }}, initiated by {{ friendListList[item][0] }}<br></td>
+            <td>{{ friendListList[item][1] }} </td>
+            <td>{{ friendListList[item][0] }}</td>
+            <td>{{ friendListList[item][2] }}</td>
         </tr>
         {% endfor %}
-    </table>
+    </tbody>
+</table>
 </div>
-
+<script>
+    $(document).ready( function () {
+    $('#table_id').DataTable();
+} );
+</script>
 {% endblock %}

@@ -11,8 +11,9 @@ import time
 import re
 from itertools import cycle, islice
 from num2words import num2words
-import requests_cache
+# import requests_cache
 from flask_sqlalchemy import SQLAlchemy
+from flask_caching import Cache
 
 ############################################################################ INITIALIZATION & CONSTANTS ############################################################################
 app = Flask(__name__)
@@ -26,16 +27,26 @@ FLOWERS = ['27bcc1547423484683fd811155d8c472']
 swearList = ['anal','anus','ass','bastard','bitch','blowjob','blow job','buttplug','clitoris','cock','cunt','dick','dildo','fag','fuck','hell','jizz','nigger','nigga','penis','piss','pussy','scrotum','sex','shit','slut','turd','vagina']
 sweetHeadsRanks = ['HELPER', 'MODERATOR', 'ADMIN', 'OWNER']
 
-requests_cache.install_cache('test_cache', backend='sqlite', expire_after=15)
+# requests_cache.install_cache('test_cache', backend='sqlite', expire_after=30)
 
 username = ''
 uuid = ''
+
+config = {
+    "DEBUG": True,          # some Flask specific configs
+    "CACHE_TYPE": "simple", # Flask-Caching related configs
+    "CACHE_DEFAULT_TIMEOUT": 60
+}
+# tell Flask to use the above defined config
+app.config.from_mapping(config)
+cache = Cache(app)
 
 class searchBar():
     query = TextField("Search...")
 
 ############################################################################ ROUTING FOR HOMEPAGE ############################################################################
 @app.route('/', methods=['POST', 'GET'], defaults={'path':''})
+@cache.cached(timeout=3)
 def queryt(path):
     gameDict = []
     hs = requests.get('https://api.hypixel.net/gameCounts?key=' + HAPIKEY)
@@ -166,6 +177,7 @@ def queryt(path):
 
 ############################################################################ ROUTING FOR SEARCH PAGE ############################################################################
 @app.route('/p/<q>', methods=['POST','GET'])
+@cache.cached(timeout=25)
 def compute(q):
     #try:
     start_time = time.time()
@@ -590,7 +602,6 @@ def compute(q):
             else: boughtPastRank = 0
         except: pass
 
-
 ############################################################################ PLAYER SESSION DATA ##########################################################################################
         reqAPIsess = requests.get('https://api.hypixel.net/status?key=' + HAPIKEY + '&uuid=' + uuid)
         reqAPIsession = reqAPIsess.json()
@@ -601,6 +612,7 @@ def compute(q):
                 currentSession = reqAPIsession['session']['gameType'].replace('_',' ').upper()
                 sessionType = reqAPIsession['session']['mode'].replace('_',' ').title()
             else: currentSession = False
+
 ############################################################################ SOCIALS ##########################################################################################
  
             twitter = []
@@ -880,10 +892,11 @@ def compute(q):
         return "You suck" #render_template('user404.html')
         #except:
         #    return "Errored out. Lol"
+
 ############################################################################ FRIENDS LIST ###################################################################################
 
-
 @app.route('/f/<q>', methods=['POST', 'GET'])
+@cache.cached(timeout=50)
 def friends(q):
     friendUUID = ''
     friendListList = {}
@@ -902,25 +915,38 @@ def friends(q):
         uuid = MojangAPI.get_uuid(q)
         username = MojangAPI.get_username(MojangAPI.get_uuid(q))
 
-    r = requests.get('https://api.hypixel.net/friends?key=' + HAPIKEY + '&uuid=' + uuid)
-    freqAPI = r.json()
-    
-    if freqAPI['records'] == []:
-        friendList = "This person hasn't friended anyone on the Hypixel Network yet!"
-    else:
-        friendList = freqAPI['records']
+    try:
+        r = requests.get('https://api.hypixel.net/friends?key=' + HAPIKEY + '&uuid=' + uuid)
+        freqAPI = r.json()
         
-        for friend in friendList:
-            try:
-                if friend['uuidSender'] == uuid:
-                    friendListList[MojangAPI.get_username(friend['uuidReceiver'])] = (MojangAPI.get_username(uuid), time.strftime("%b %d, %Y @ %I:%M:%S %p",time.gmtime(friend['started']/1000)))
-                elif friend['uuidReceiver'] == uuid:
-                    fname = MojangAPI.get_username(friend['uuidSender'])
-                    friendListList[fname] = (fname, time.strftime("%b %d, %Y @ %I:%M:%S %p",time.gmtime(friend['started']/1000)))
-            except: pass
-        print(friendList)
+        if freqAPI['records'] == []:
+            friendList = "This person hasn't friended anyone on the Hypixel Network yet!"
+        else:
+            friendList = freqAPI['records']
+            
+            for friend in friendList:
+                try:
+                    if friend['uuidSender'] == uuid:
+                        friendListList[MojangAPI.get_username(friend['uuidReceiver'])] = (MojangAPI.get_username(uuid), time.strftime("%Y/%m/%d @ %I:%M:%S %p", time.gmtime(friend['started']/1000)), int(time.time()-friend['started']/1000))
+
+                    elif friend['uuidReceiver'] == uuid:
+                        fname = MojangAPI.get_username(friend['uuidSender'])
+                        friendListList[fname] = (fname, time.strftime("%Y/%m/%d @ %I:%M:%S %p", time.gmtime(friend['started']/1000)), int(time.time()-friend['started']/1000))
+                except: pass
+    except:
+        if len(q) < 3 or len(q) > 16:
+            return "A Minecraft username has to be between 3 and 16 characters (with a few special exceptions), and can only contain alphanumeric characters and underscores."
+        for letter in q:
+            if letter not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_':
+                return 'Username contains invalid characters. A Minecraft username can only contain alphanumeric characters and underscores.'
+        for swear in swearList:
+            if swear in q:
+                return "Username might be blocked by Mojang- username contains one of the following: \nhttps://paste.ee/p/RYo2C. \nIf this is a derivative of the Scunthorpe problem, sorry about that."
+        return "Either this person doesn't exist, or something went wrong."
 
     return render_template('friends.html', username=username, uuid=uuid, friendListList=friendListList)
+
+############################################################################ ACTUAL GUILD ###################################################################################
 
 ############################################################################ ERROR HANDLING ###################################################################################
 @app.errorhandler(404)

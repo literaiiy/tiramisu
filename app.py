@@ -164,10 +164,6 @@ def queryt(path):
             return redirect(url_for('compute', q=str(session['req']['content'])))
     return render_template('index.html', gameDict=gameDict)
 
-@app.route('/<k>', methods=['POST', 'GET'])
-def reddorect(k):
-    return redirect(url_for('compute', q=k))
-
 ############################################################################ ROUTING FOR SEARCH PAGE ############################################################################
 @app.route('/p/<q>', methods=['POST','GET'])
 def compute(q):
@@ -885,6 +881,8 @@ def compute(q):
         #except:
         #    return "Errored out. Lol"
 ############################################################################ FRIENDS LIST ###################################################################################
+
+
 @app.route('/f/<q>', methods=['POST', 'GET'])
 def friends(q):
     friendUUID = ''
@@ -920,6 +918,7 @@ def friends(q):
                     fname = MojangAPI.get_username(friend['uuidSender'])
                     friendListList[fname] = (fname, time.strftime("%b %d, %Y @ %I:%M:%S %p",time.gmtime(friend['started']/1000)))
             except: pass
+        print(friendList)
 
     return render_template('friends.html', username=username, uuid=uuid, friendListList=friendListList)
 

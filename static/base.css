@@ -324,10 +324,14 @@ input {
     font-size: auto;
     margin-bottom: 5px;
     border: darkgray solid 2px;
+    border-radius: 4px;
     font-family: 'Inter';
-    border-radius: 10px;
     text-align: center;
 }
+
+/* input:focus {
+    outline-width: 0px;
+} */
 
 .searchbutton{
     background-color:transparent;
@@ -335,6 +339,10 @@ input {
     height:35px;
     width:35px;
     cursor:pointer;
+}
+
+.searchbutton:focus {
+    outline-width: 0px;
 }
 
 /* The Modal (background) */

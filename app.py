@@ -47,7 +47,7 @@ class searchBar():
 
 ############################################################################ ROUTING FOR HOMEPAGE ############################################################################
 @app.route('/', methods=['POST', 'GET'], defaults={'path':''})
-@cache.cached(timeout=15)
+@cache.cached(timeout=3)
 def queryt(path):
     gameDict = []
     hs = requests.get('https://api.hypixel.net/gameCounts?key=' + HAPIKEY)

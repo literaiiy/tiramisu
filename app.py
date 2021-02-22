@@ -660,7 +660,7 @@ def compute(q):
         
         swStatsList = []
         for i in range(33):
-            swStatsList.append('')
+            swStatsList.append(0)
         # 0 - games played
         # 1 - games quit
         # 2 - kills

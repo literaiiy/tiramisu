@@ -34,7 +34,8 @@ uuid = ''
 
 config = {
     "DEBUG": True,          # some Flask specific configs
-    "CACHE_TYPE": "simple", # Flask-Caching related configs
+    'CACHE_TYPE': 'filesystem', # Flask-Caching related configs
+     'CACHE_DIR': '/tmp',  # Flask-Caching directory
     "CACHE_DEFAULT_TIMEOUT": 60
 }
 # tell Flask to use the above defined config

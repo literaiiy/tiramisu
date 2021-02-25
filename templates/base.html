@@ -1,21 +1,28 @@
 {% extends "index.html" %}
 
-{% block head %}
-<link rel='icon' href='https://mc-heads.net/head/{{ uuid }}'/>
-<title>Profile for {{ displayname }} | Tiramisu</title>
-<link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet" type="text/css">
-{% endblock %}
-
-<!--- HEADER --->
-<header>
+<link rel="shortcut icon" type="image/jpg" href="https://i.ibb.co/sw3P3zZ/tiramis2.png"/>
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Meddon&display=swap" rel="stylesheet">
-</header>
 
+{% block head %}
+<header>
+<title>Profile for {{ displayname }} | Tiramisu</title>
+<link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet" type="text/css">
+<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
+<link href="{{ url_for('static', filename='splide.css') }}" rel="stylesheet" type="text/css">
+
+</header>
+<!--- HEADER --->
+
+{% endblock %}
+
+{% block content %}
 <!--- SUBTITLE --->
+
 <body>
+
 <!--- USERNAME --->
 <div class="username">
     {% if '+++' in rank %}
@@ -35,9 +42,7 @@
 <div class="uuid">
     {{ uuid }}
 </div>
-<hr>
 
-{% block content %}
 <!--- help --->
 <style> 
     body { 
@@ -53,12 +58,43 @@
             opacity: 1; 
         } 
     } 
-</style> 
+</style>
+
+
+
 <!--- help --->
 <div class="row">
     <div class="columnZ">
         <img src='https://mc-heads.net/body/{{ uuid }}'><br>
         <p><a href='https://mc-heads.net/download/{{ uuid }}'> Download {{ username }}'s skin</a></p>
+
+        <div class="splide">
+            <div class="splide__track">
+                <ul class="splide__list">
+                    <li class="splide__slide">{{ reqList }} karma</li>
+                    <li class="splide__slide">achpot</li>
+                    <li class="splide__slide">quests</li>
+                    <style>
+                          .splide {
+                            visibility: hidden;
+                            background-color: green;
+                            border-radius: 25px;
+                          }                 
+                    </style>
+                </ul>
+            </div>
+        </div>
+        <script>
+            // new Splide( '.splide' ).mount();
+            new Splide( '.splide', {
+            type   : 'loop',
+            autoplay: true,
+            interval: 3000,
+            pauseOnHover: true,
+            speed: 750,
+        } ).mount();
+        </script>
+        
     </div>
     <div class="columnA">
         <!--- NAME HISTORY --->

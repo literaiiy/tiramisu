@@ -27,10 +27,10 @@
     <tbody>
         {% for item in friendListList %}
         <tr>
-            <td><a href="/p/{{ item }}"> {{ item }}</a><br></td>
-            <td>{{ friendListList[item][1] }} </td>
-            <td>{{ friendListList[item][0] }}</td>
-            <td>{{ friendListList[item][2] }}</td>
+            <td>{{ item['name'] }} </td>
+            <td>{{ item['date'] }}</td>
+            <td>{{ item['initiated'] }}</td>
+            <td>{{ item['duration'] }}</td>
         </tr>
         {% endfor %}
     </tbody>

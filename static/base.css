@@ -2,8 +2,9 @@
     position: -webkit-sticky;
     position: sticky;
     top: 0; 
-    background-color: honeydew;
+    background-color: rgb(50,49,63);
     margin: -8px;
+    z-index: 15;
 }
 
 .subtitle {
@@ -14,11 +15,17 @@ font-family: 'Inter';
 body {
 font-family: 'Inter';
 text-align: center;
+margin:0;
 }
 
 .username {
 font-family: 'Inconsolata', monospace;
-margin-top: 40px;
+padding-top: 40px;
+padding-bottom: 40px;
+margin-right: -8px;
+margin-left: -8px;
+color:#ffffff;
+background-color:rgb(81,79,101);
 }
 
 .uuid {
@@ -40,7 +47,7 @@ text-align: center;
 }
 
 .table {
-    width:auto;height:auto;max-height:35%;line-height:3em;overflow:auto;padding:5px;border:1px solid;margin-right:10%;margin-left:10%;margin-top:35px;
+    width:auto;height:auto;max-height:100%;line-height:3em;overflow:auto; margin-top:35px;
     border-radius:10px;
 }
 
@@ -48,7 +55,7 @@ table {
     width: auto;
     margin-left: auto;
     margin-right: auto;
-    border-spacing: 25px 2px;
+    border-spacing: 1px 1px;
 }
 
 h1 {
@@ -236,18 +243,18 @@ border-radius: 15px;
 
 .columnZ {
     float: left;
-    width: 22%;
+    width: 45%;
     margin-top: 15px;
 }
 
 .columnA {
     float: left;
-    width: 50%;
+    width: 30%;
 }
 
 .columnB {
     float: left;
-    width: 28%;
+    width: 25%;
 }
 
 /* Clear floats after the columns */
@@ -322,7 +329,7 @@ input {
     height: 35px;
     width: 20%;
     font-size: auto;
-    margin-bottom: 5px;
+    margin-bottom: 25px;
     border: darkgray solid 2px;
     border-radius: 4px;
     font-family: 'Inter';
@@ -600,13 +607,6 @@ border-radius: 15px;
     width: 0;
     height: 3px;
     background: #20b2aa;
-  }
-  
-  .splide {
-  }
-  
-  .splide__slide {
-    border-radius: 4px;
   }
   
   .splide__spinner {

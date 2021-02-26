@@ -37,10 +37,11 @@
     {% elif 'YOUTUBE' in rank %}
         <h2><span class="{{ rankbracketcolor }}"><b>[</b></span><span class="gray"></span><b>{{ rank }}</b></span><span class="{{ rankbracketcolor }}"><b>]</b></span> {{ displayname }}</h2>
     {% endif %}
+    <div class="uuid">
+        {{ uuid }}
+    </div>
 </div>
-<div class="uuid">
-    {{ uuid }}
-</div>
+
 
 <!--- help --->
 <style> 
@@ -59,27 +60,33 @@
     } 
 </style>
 
-
-
 <!--- help --->
 <div class="row">
     <div class="columnZ">
-        <img src='https://mc-heads.net/body/{{ uuid }}'><br>
-        <p><a href='https://mc-heads.net/download/{{ uuid }}'> Download {{ username }}'s skin</a></p>
-
-        <div class="splide">
+        <img style='margin-top:200px; margin-left:-200px;' src='https://mc-heads.net/body/{{ uuid }}'><br>
+        <!--- <p><a href='https://mc-heads.net/download/{{ uuid }}'> Download {{ username }}'s skin</a></p>--->
+        <div style='margin-right:1%;margin-top:-250px;' class="splide">
             <div class="splide__track">
                 <ul class="splide__list">
-                    <li style='background-color:hotpink;padding:70px;border-radius: 15px;' class="splide__slide">{{ reqList }} karma</li>
-                    <li style='background-color:yellow;padding:70px;border-radius: 15px;' class="splide__slide">{{ achpot }} achievement points from {{achievements}} achievents</li>
-                    <li style='background-color:mintcream;padding:70px;border-radius: 15px;' class="splide__slide">{{quests}} quests</li>
+                    <li style='background-color:#ff55ff;padding:70px;border-radius: 15px;color: #aa00aa;' class="splide__slide">
+                        <p><span style='font-size: 45;'>{{ reqList }}</span></p>
+                        karma
+                    </li>
+                    <li style='background-color:#ffff55;padding:70px;border-radius: 15px;color:#55ffff' class="splide__slide">
+                        <p><span style='font-size: 45;'>{{ achpot }}</span></p> 
+                        achievement points from <b>{{achievements}}</b> achievents
+                    </li>
+                    <li style='background-color:mintcream;padding:70px;border-radius: 15px;color:#aaaaaa' class="splide__slide">
+                        <p><span style='font-size: 45;'>{{quests}}</span></p>
+                        quests
+                    </li>
                 </ul>
             </div>
         </div>
         <script type="text/javascript" src="{{ url_for('static', filename='splide.js') }}"></script>
-        
     </div>
     <div class="columnA">
+        
         <!--- NAME HISTORY --->
         <div class='table'>
                 <table>
@@ -220,6 +227,7 @@
     </div>
 </div>
 <hr>
+
 <!------ PLAYER STATS ------>
 <div class="stats">
 

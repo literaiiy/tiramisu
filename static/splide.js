@@ -2,7 +2,7 @@
 new Splide( '.splide', {
     type   : 'loop',
     autoplay: true,
-    interval: 3000,
+    interval: 5000,
     pauseOnHover: true,
-    speed: 750,
+    speed: 1000,
 } ).mount();

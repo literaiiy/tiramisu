@@ -11,7 +11,6 @@
 <title>Profile for {{ displayname }} | Tiramisu</title>
 <link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet" type="text/css">
 <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
-<link href="{{ url_for('static', filename='splide.css') }}" rel="stylesheet" type="text/css">
 
 </header>
 <!--- HEADER --->
@@ -71,29 +70,13 @@
         <div class="splide">
             <div class="splide__track">
                 <ul class="splide__list">
-                    <li class="splide__slide">{{ reqList }} karma</li>
-                    <li class="splide__slide">achpot</li>
-                    <li class="splide__slide">quests</li>
-                    <style>
-                          .splide {
-                            visibility: hidden;
-                            background-color: green;
-                            border-radius: 25px;
-                          }                 
-                    </style>
+                    <li style='background-color:hotpink;padding:70px;border-radius: 15px;' class="splide__slide">{{ reqList }} karma</li>
+                    <li style='background-color:yellow;padding:70px;border-radius: 15px;' class="splide__slide">{{ achpot }} achievement points from {{achievements}} achievents</li>
+                    <li style='background-color:mintcream;padding:70px;border-radius: 15px;' class="splide__slide">{{quests}} quests</li>
                 </ul>
             </div>
         </div>
-        <script>
-            // new Splide( '.splide' ).mount();
-            new Splide( '.splide', {
-            type   : 'loop',
-            autoplay: true,
-            interval: 3000,
-            pauseOnHover: true,
-            speed: 750,
-        } ).mount();
-        </script>
+        <script type="text/javascript" src="{{ url_for('static', filename='splide.js') }}"></script>
         
     </div>
     <div class="columnA">

@@ -8,5 +8,11 @@ node_modules/
 npm-debug.log
 bower_components/
 .module-cache
-.history/
-/static/datatables.css
+static/datatables.css
+./.vscode/
+__pycache__
+package-lock.json
+./.hallofcomments
+
+
+

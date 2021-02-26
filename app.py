@@ -890,7 +890,7 @@ def compute(q):
         for swear in swearList:
             if swear in q:
                 return "Username might be blocked by Mojang- username contains one of the following: \nhttps://paste.ee/p/RYo2C. \nIf this is a derivative of the Scunthorpe problem, sorry about that."
-        return "You suck" #render_template('user404.html')
+        return render_template('user404.html')
         #except:
         #    return "Errored out. Lol"
 
@@ -951,7 +951,7 @@ def friends(q):
         for swear in swearList:
             if swear in q:
                 return "Username might be blocked by Mojang- username contains one of the following: \nhttps://paste.ee/p/RYo2C. \nIf this is a derivative of the Scunthorpe problem, sorry about that."
-        return "Either this person doesn't exist, or something went wrong."
+        return render_template('user404.html')
     print("--- %s seconds ---" % (time.time() - start_time))    
     return render_template('friends.html', username=username, uuid=uuid, friendListList=friendListList)
 

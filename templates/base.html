@@ -63,20 +63,20 @@
 <!--- help --->
 <div class="row">
     <div class="columnZ">
-        <img style='margin-top:200px; margin-left:-200px;' src='https://mc-heads.net/body/{{ uuid }}'><br>
+        <img style='margin-top:200px; margin-left:-500px;' src='https://mc-heads.net/body/{{ uuid }}'><br>
         <!--- <p><a href='https://mc-heads.net/download/{{ uuid }}'> Download {{ username }}'s skin</a></p>--->
-        <div style='margin-right:1%;margin-top:-250px;' class="splide">
+        <div style='margin-right:1%;margin-top:-250px;z-index:-1;' class="splide">
             <div class="splide__track">
                 <ul class="splide__list">
-                    <li style='background-color:#ff55ff;padding:70px;border-radius: 15px;color: #aa00aa;' class="splide__slide">
+                    <li style='background-color:#ff55ff;padding:70px;border-radius: 10px;color: #aa00aa;' class="splide__slide">
                         <p><span style='font-size: 45;'>{{ reqList }}</span></p>
                         karma
                     </li>
-                    <li style='background-color:#ffff55;padding:70px;border-radius: 15px;color:#55ffff' class="splide__slide">
+                    <li style='background-color:#ffff55;padding:70px;border-radius: 10px;color:#55ffff' class="splide__slide">
                         <p><span style='font-size: 45;'>{{ achpot }}</span></p> 
                         achievement points from <b>{{achievements}}</b> achievents
                     </li>
-                    <li style='background-color:mintcream;padding:70px;border-radius: 15px;color:#aaaaaa' class="splide__slide">
+                    <li style='background-color:mintcream;padding:70px;border-radius: 10px;color:#aaaaaa' class="splide__slide">
                         <p><span style='font-size: 45;'>{{quests}}</span></p>
                         quests
                     </li>
@@ -226,15 +226,13 @@
         </div>
     </div>
 </div>
-<hr>
 
 <!------ PLAYER STATS ------>
 <div class="stats">
 
     <!--- SKYWARS STATS --->
-    <h2><b>SkyWars</b></h2>
-    <p><b>{{ swExp }}</b> SkyWars experience <br>
-    <b><span class="{{ swPrestigeColor }}">[{{ swLevel }}☆]</b></span>, {{ swPrestige }} Prestige - <span class="{{ swPrestigeColor }}"><b>{{ swToNL }}%</b></span> to <b>{{ swNextLevel }}</b><br></p>
+    <div class='h2d'><h2><b>SkyWars</b></h2></div>
+    <div class='h3d'><h3><p><span class="{{ swPrestigeColor }}"><b></span>{{ swExp }}</b> SkyWars experience · <b><span class="{{ swPrestigeColor }}">[{{ swLevel }}☆]</b></span>, {{ swPrestige }} Prestige - <span class="{{ swPrestigeColor }}"><b>{{ swToNL }}%</b></span> to <b>{{ swNextLevel }}</b><br></p></h3></div>
     <table class='swgeneral'>
         <colgroup>
             <col class="leftsw">

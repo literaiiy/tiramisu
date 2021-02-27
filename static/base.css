@@ -305,6 +305,7 @@ border-radius: 15px;
     content: "";
     display: table;
     clear: both;
+    padding-bottom: 50px;
 }
 
 /* .vl {

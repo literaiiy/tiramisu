@@ -11,6 +11,10 @@
 <title>Profile for {{ displayname }} | Tiramisu</title>
 <link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet" type="text/css">
 <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='datatables.css') }}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+
 
 </header>
 <!--- HEADER --->
@@ -63,7 +67,7 @@
 <!--- help --->
 <div class="row">
     <div class="columnZ">
-        <img style='margin-top:200px; margin-left:-500px;' src='https://mc-heads.net/body/{{ uuid }}'><br>
+        <img style='margin-top:10px; margin-left:-500px;' src='https://mc-heads.net/body/{{ uuid }}'><br>
         <!--- <p><a href='https://mc-heads.net/download/{{ uuid }}'> Download {{ username }}'s skin</a></p>--->
         <div style='margin-right:1%;margin-top:-250px;z-index:-1;' class="splide">
             <div class="splide__track">
@@ -89,13 +93,16 @@
         
         <!--- NAME HISTORY --->
         <div class='table'>
-                <table>
+            <table id="table_id" class="display">
+                <thead>
                     <tr>
                         <th>#</th>
                         <th>Name</th> 
                         <th>Time changed</th>
                         <th>Duration had</th>
                     </tr>
+                </thead>
+                <tbody>
                     {% for dict_item in namehis %}
                     <tr>
                         {% for value in dict_item.values() %}
@@ -113,7 +120,14 @@
                         {% endfor %}
                     </tr>
                     {% endfor %}
-                </table>
+                </tbody>
+            </table>
+
+            <script>
+                $(document).ready( function () {
+                    $('#table_id').DataTable();
+                } );
+            </script>
         </div>
         </body>
     </div>

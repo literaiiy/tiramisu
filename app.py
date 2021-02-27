@@ -815,7 +815,7 @@ def compute(q):
         # Function that takes in level and spits out prestige and color as a tuple
         def getPrestige(level):
             try:
-                if level < 5: return ('No', 'black')
+                if level < 5: return ('No', 'lightgray')
                 elif level < 10: return ('Iron', 'darkgray')
                 elif level < 15: return ('Gold', 'gold')
                 elif level < 20: return ('Diamond', 'turquoise')
@@ -827,7 +827,7 @@ def compute(q):
                 elif level < 50: return ('Amethyst', 'indigo')
                 elif level >= 50: return ('Rainbow', 'chocolate')
             except:
-                return ('No', 'black')
+                return ('No', 'lightgray')
 
         # Adds 0 - 4 on swExpList
         swExpList = [0,0,0,0,0]

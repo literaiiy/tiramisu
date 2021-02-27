@@ -41,7 +41,7 @@ literaiiy is a pseudonym I adopted in March of 2018, as an intentionally incorre
 - Mojang doesn't provide an account's creation date in the API, so I used the account's Hypixel join date, instead, if it was before their first name change. This means that number is most likely not an accurate figure, but it is definitely more than whatever is listed there.
 
 **What is the "Hypixel ____" on my profile?**
-This Hypixel seniority index I created is entirely based on how long you have been playing on the server- or more accurately, the amount of time since your first login. There are nine ranks, of which are based on the formula `y=12log(x+1)`, where `x` is the amount, in years, required to achieve the `y`th rank.
+This Hypixel seniority index I created is entirely based on how long you have been playing on the server- or more accurately, the amount of time since your first login. There are nine ranks, of which are based on the formula ![equation]("https://latex.codecogs.com/gif.latex?y=12(log(x&plus;1)"), where `x` is the amount, in years, required to achieve the `y`th rank.
 
 **Why don't the player counts instantly update every time I refresh?**
 They only update once every 15 seconds to avoid spam and going over the API's rate limit of 120 requests per minute.

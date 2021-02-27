@@ -3,7 +3,8 @@
     position: sticky;
     top: 0; 
     background-color: rgb(50,49,63);
-    margin: -8px;
+    margin-top: -8px;
+    margin-bottom: -8px;
     z-index: 15;
 }
 
@@ -22,14 +23,44 @@ margin:0;
 font-family: 'Inconsolata', monospace;
 padding-top: 40px;
 padding-bottom: 40px;
-margin-right: -8px;
-margin-left: -8px;
 color:#ffffff;
 background-color:rgb(81,79,101);
 }
 
+.h2d {
+  font-family: 'Inconsolata', monospace;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  margin-top:-8px;
+  color:#ffffff;
+  background-color:rgb(81,79,101);
+  }
+
+.h3d {
+  font-family: 'Inconsolata', monospace;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  margin-top:-8px;
+  color:#ffffff;
+  background-color:#727185;
+  }
+
+.paragraphd {
+  margin-left: 25%;
+  margin-right: 25%;
+}
+
+.footerd {
+  font-family: 'Inconsolata', monospace;
+  padding-top: 15px;
+  padding-bottom: 15px;
+  color:#ffffff;
+  background-color:rgb(81,79,101);
+  }
+  
 .uuid {
     margin-bottom: 35px;
+    margin-top: 15px;
 }
 
 .stats {
@@ -47,8 +78,11 @@ text-align: center;
 }
 
 .table {
-    width:auto;height:auto;max-height:100%;line-height:3em;overflow:auto; margin-top:35px;
-    border-radius:10px;
+    width:auto;height:auto;max-height:65%;line-height:3em;overflow:auto; margin-top:35px;margin-bottom:35px;
+    -webkit-mask-image: linear-gradient(to bottom, black 95%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 95%, transparent 100%);
+    mask-image: linear-gradient(to top, black 5%, transparent 0%);
+    overflow-y: scroll;
 }
 
 table {
@@ -56,6 +90,14 @@ table {
     margin-left: auto;
     margin-right: auto;
     border-spacing: 1px 1px;
+}
+
+.tabbol {
+  width: auto;
+  margin-left: auto;
+  margin-right: auto;
+  border-spacing: 30px 3px;
+  padding-top: 15px;
 }
 
 h1 {
@@ -71,7 +113,7 @@ h2 {
 }
 
 h3 {
-    font-size: 36px;
+    font-size: 22px;
 }
 
 a { 
@@ -249,12 +291,13 @@ border-radius: 15px;
 
 .columnA {
     float: left;
-    width: 30%;
+    width: 32%;
+    padding-right: 1%;
 }
 
 .columnB {
     float: left;
-    width: 25%;
+    width: 22%;
 }
 
 /* Clear floats after the columns */

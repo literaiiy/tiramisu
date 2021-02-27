@@ -2,9 +2,9 @@
 
 <link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet" type="text/css">
 <div class="logo">
-	<a href='/'><img src='https://raw.githubusercontent.com/gist/literaiiy/1681b4454b0855a538f3005b38d56973/raw/76c2d7457dc8f9969de90a541f00080098d4b193/tmud.svg' alt="Tiramisu Logo" height='8%' width='auto'></a>
+	<a href='/'><img src='https://raw.githubusercontent.com/gist/literaiiy/33ee272214fd81eb35a54f083bf1a4ed/raw/90ea53a78161bbda95c00fa17c4ddd88c015a27c/tiramisudelta2.svg' alt="Tiramisu Logo" height='6%' width='auto'></a>
 	<form action="/" method="POST">
-		<input type="text" name="content" id="content" autofocus="autofocus" onfocus="this.select()" autocomplete="off" placeholder="Search username or UUID">
+		<input type="text" name="content" id="content" autofocus="autofocus" onfocus="this.select()" autocomplete="off" spellcheck="false" placeholder="Search username or UUID">
 		<script>
 			if ( window.history.replaceState ) {
 				window.history.replaceState( null, null, window.location.href );
@@ -25,9 +25,11 @@
 <link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet" type="text/css">
 
 {% block content %}
-
+<div class='h2d'>
+	<h2>Player Counts</h2>
+</div>
 <body>
-	<table>
+	<table class='tabbol'>
 		<tr>
 			<th>#</th>
 			<th>Game</th>
@@ -71,12 +73,18 @@
 		{% endfor %}
 	</table>
 </body>
+<div class='h2d'>
+	<h2>Welcome to <b>tiramisu</b>!</h2>
+</div>
+
+<div class='paragraphd'>
+<p>Welcome to tiramisu. Lorem ipsum some dumb BS here. I was made by floraphile in 2021, something about Visual Studio Code, which is a software created by Microsoft somewhere after 2015. Wikipedia might have a good article on it, but I'm not sure, because I didn't look it up. This is just filler text. I don't even know if this is going to wrap correctly.</p>
+</div>
 {% endblock %}
 
-<div class="end">
-	<hr>
-		<p>Tiramisu <b>v0.0.1α "Flour" (Testing Phase)</b> - February 18th, 2021 · 
-		Flask <b>v1.1.2</b> · 
-		Python <b>v3.7.9</b><p>
-	<p>Copyright © 2021 <a style='text-decoration:none;' href='/p/floraphile'>floraphile</a>. All rights reserved. Terms of Service. Privacy Policy. Fxmoji. MC-Heads. MojangAPI.</p>
+
+
+<div class="footerd">
+		<p>tiramisu <b>v0.4δ "delta" (Testing Phase)</b> - February 18th, 2021 · Flask <b>v1.1.2</b> · Python <b>v3.7.9</b><p>
+	<p>Copyright © 2021 <a style='text-decoration:none;color:rgb(205, 248, 227);' href='/p/floraphile'>floraphile</a>. All rights reserved. Terms of Service. Privacy Policy. Credits.</p>
 </div>

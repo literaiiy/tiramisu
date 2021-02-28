@@ -17,8 +17,8 @@ from flask_caching import Cache
 
 ############################################################################ INITIALIZATION & CONSTANTS ############################################################################
 app = Flask(__name__)
-# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-# db = SQLAlchemy(app)
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+#db = SQLAlchemy(app)
 
 app.secret_key = 'a34w7tfyner9ryhzrbfw7ynhhcdtg78as34'
 HAPIKEY = '1e5f6a57-6327-4888-886a-590c39861a6a'
@@ -178,9 +178,13 @@ def queryt(path):
             return redirect(url_for('compute', q=str(session['req']['content'])))
     return render_template('index.html', gameDict=gameDict)
 
+@app.route('/<k>', methods=['POST', 'GET'])
+def reddorect(k):
+    return redirect(url_for('compute', q=k))
+
 ############################################################################ ROUTING FOR SEARCH PAGE ############################################################################
 @app.route('/p/<q>', methods=['POST','GET'])
-@cache.cached(timeout=25)
+@cache.cached(timeout=15)
 def compute(q):
     #try:
     start_time = time.time()

@@ -1,22 +1,21 @@
 {% extends "index.html" %}
 
-<link rel="shortcut icon" type="image/jpg" href="https://i.ibb.co/sw3P3zZ/tiramis2.png"/>
+
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Meddon&display=swap" rel="stylesheet">
 
 {% block head %}
-<header>
-<title>Profile for {{ displayname }} | Tiramisu</title>
-<link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet" type="text/css">
-<script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='datatables.css') }}">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
-
-
-</header>
+<head>
+    <title>Profile for {{ displayname }} | Tiramisu</title>
+    <link rel="icon" href="{{ url_for('static', filename='tiramisu.ico') }}">
+    <link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='datatables.css') }}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+</head>
 <!--- HEADER --->
 
 {% endblock %}
@@ -67,21 +66,21 @@
 <!--- help --->
 <div class="row">
     <div class="columnZ">
-        <img style='margin-top:10px; margin-left:-500px;' src='https://mc-heads.net/body/{{ uuid }}'><br>
+        <img style='position: relative;margin-top:10px; margin-left:-500px;z-index:3;' src='https://mc-heads.net/body/{{ uuid }}'><br>
         <!--- <p><a href='https://mc-heads.net/download/{{ uuid }}'> Download {{ username }}'s skin</a></p>--->
-        <div style='margin-right:1%;margin-top:-250px;z-index:-1;' class="splide">
+        <div style='margin-right:1%;margin-top:-300px;z-index:2;' class="splide">
             <div class="splide__track">
                 <ul class="splide__list">
-                    <li style='background-color:#ff55ff;padding:70px;border-radius: 10px;color: #aa00aa;' class="splide__slide">
-                        <p><span style='font-size: 45;'>{{ reqList }}</span></p>
+                    <li style='background-color:#ff55ff;padding:100px;border-radius: 25px;color: #aa00aa;' class="splide__slide">
+                        <p><span style='font-size: 55;'>{{ reqList }}</span></p>
                         karma
                     </li>
-                    <li style='background-color:#ffff55;padding:70px;border-radius: 10px;color:#55ffff' class="splide__slide">
-                        <p><span style='font-size: 45;'>{{ achpot }}</span></p> 
+                    <li style='background-color:#ffff55;padding:100px;border-radius: 25px;color:#55ffff' class="splide__slide">
+                        <p><span style='font-size: 55;'>{{ achpot }}</span></p> 
                         achievement points from <b>{{achievements}}</b> achievents
                     </li>
-                    <li style='background-color:mintcream;padding:70px;border-radius: 10px;color:#aaaaaa' class="splide__slide">
-                        <p><span style='font-size: 45;'>{{quests}}</span></p>
+                    <li style='background-color:mintcream;padding:100px;border-radius: 25px;color:#aaaaaa' class="splide__slide">
+                        <p><span style='font-size: 55;'>{{quests}}</span></p>
                         quests
                     </li>
                 </ul>
@@ -90,10 +89,9 @@
         <script type="text/javascript" src="{{ url_for('static', filename='splide.js') }}"></script>
     </div>
     <div class="columnA">
-        
         <!--- NAME HISTORY --->
         <div class='table'>
-            <table id="table_id" class="display">
+            <table id="table_id" class="compact hover order-column stripe">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -125,8 +123,14 @@
 
             <script>
                 $(document).ready( function () {
-                    $('#table_id').DataTable();
-                } );
+                    $('#table_id').DataTable( {
+                        "order": [[ 0, "desc" ]],
+                        "bLengthChange": false,
+                        "pageLength": 200,
+                        "bPaginate": false,
+                        "sDom": '<"top"if>rt<"clear">'
+                    });
+                });
             </script>
         </div>
         </body>
@@ -169,7 +173,7 @@
         <!--- RANK SENIORITY --->
         {% if 'VIP' in rank or 'MVP' in rank %}
             {% if '+' in rank %}
-                <span class="{{ rankcolor }}"><b>[{{ rank.replace('+','') }}<span class="{{ pluscolor }}">+</span>]</b></span> bought <b>{{ boughtPastTime }}</b> - {{ boughtPastRank }}<br> ago
+                <span class="{{ rankcolor }}"><b>[{{ rank.replace('+','') }}<span class="{{ pluscolor }}">+</span>]</b></span> bought <b>{{ boughtPastTime }}</b> - {{ boughtPastRank }} ago
             {% elif boughtPastRank != 0 %}
                 <span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> bought <b>{{ boughtPastTime }}</b> - {{ boughtPastRank }} ago<br>
             {% endif %}

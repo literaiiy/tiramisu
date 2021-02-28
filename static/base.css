@@ -2,7 +2,7 @@
     position: -webkit-sticky;
     position: sticky;
     top: 0; 
-    background-color: rgb(50,49,63);
+    background-color: rgb(62, 61, 83);
     margin-top: -8px;
     margin-bottom: -8px;
     z-index: 15;
@@ -79,10 +79,6 @@ text-align: center;
 
 .table {
     width:auto;height:auto;max-height:65%;line-height:3em;overflow:auto; margin-top:35px;margin-bottom:35px;
-    -webkit-mask-image: linear-gradient(to bottom, black 95%, transparent 100%);
-    mask-image: linear-gradient(to bottom, black 95%, transparent 100%);
-    mask-image: linear-gradient(to top, black 5%, transparent 0%);
-    overflow-y: scroll;
 }
 
 table {
@@ -285,13 +281,13 @@ border-radius: 15px;
 
 .columnZ {
     float: left;
-    width: 45%;
+    width: 42%;
     margin-top: 15px;
 }
 
 .columnA {
     float: left;
-    width: 32%;
+    width: 35%;
     padding-right: 1%;
 }
 
@@ -305,7 +301,6 @@ border-radius: 15px;
     content: "";
     display: table;
     clear: both;
-    padding-bottom: 50px;
 }
 
 /* .vl {

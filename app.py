@@ -11,14 +11,14 @@ import time
 import re
 from itertools import cycle, islice
 from num2words import num2words
-# import requests_cache
+import requests_cache
 from flask_sqlalchemy import SQLAlchemy
 from flask_caching import Cache
 
 ############################################################################ INITIALIZATION & CONSTANTS ############################################################################
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
-db = SQLAlchemy(app)
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+# db = SQLAlchemy(app)
 
 app.secret_key = 'a34w7tfyner9ryhzrbfw7ynhhcdtg78as34'
 HAPIKEY = '1e5f6a57-6327-4888-886a-590c39861a6a'
@@ -42,6 +42,8 @@ config = {
 app.config.from_mapping(config)
 cache = Cache(app)
 
+requests_cache.install_cache('demo_cache', backend='sqlite', expire_after=3)
+
 class searchBar():
     query = TextField("Search...")
 
@@ -50,7 +52,7 @@ class searchBar():
 @app.route('/', methods=['POST', 'GET'], defaults={'path':''})
 def queryt(path):
     gameDict = []
-    hs = requests.get('https://api.hypixel.net/gameCounts?key=' + HAPIKEY)
+    hs = requests.Session().get('https://api.hypixel.net/gameCounts?key=' + HAPIKEY)
     gameCount = hs.json()['games']
     gameDict = [
         {

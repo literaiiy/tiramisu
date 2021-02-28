@@ -48,3 +48,5 @@ They only update once every 15 seconds to avoid spam and going over the API's ra
 
 **How old are you?**
 - 470\. Give or take a few hundred years.
+
+*Last updated on February 27th, 2021*

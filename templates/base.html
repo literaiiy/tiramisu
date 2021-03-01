@@ -7,24 +7,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Meddon&display=swap" rel="stylesheet">
 
 {% block head %}
+<!--- HEADER --->
 <head>
     <title>Profile for {{ displayname }} | Tiramisu</title>
-    <link rel="icon" href="{{ url_for('static', filename='tiramisu.ico') }}">
+    <link rel="icon" href="https://cached.imagescaler.hbpl.co.uk/resize/scaleHeight/815/cached.offlinehbpl.hbpl.co.uk/news/OMC/AsdaResized-20150223115224441.jpg">
     <link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='datatables.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
 </head>
-<!--- HEADER --->
-
 {% endblock %}
 
 {% block content %}
 <!--- SUBTITLE --->
-
 <body>
-
 <!--- USERNAME --->
 <div class="username">
     {% if '+++' in rank %}
@@ -311,6 +308,15 @@
                 <td><b>{{ swAPG }}</b> arrows shot per game </td>
         </tr>
     </table>
+    <!-- SW SOLO -->
+    <h3> Solo </h3>
+    This is Solo
+    SOLO KILLS: {{ swSoloStatsList['solokills'] }}
+    / SOLO DEATHS: {{ swSoloStatsList['solodeaths'] }}
+    / SOLO KD: {{ swSoloStatsList['solokd'] }}
+    / SOLO WL: {{ swSoloStatsList['solowl'] }}
+    / SOLO KD RELATIVE: {{ swSoloStatsList['kdrel'][0] }} +/- rel. to overall, {{ swSoloStatsList['kdrel'][1] }}% chg.
+    / SOLO WL RELATIVE: {{ swSoloStatsList['solowlrelative'][0] }} +/- rel. to overall, {{ swSoloStatsList['solowlrelative'][1] }}% chg.
     <p>
     <!-- <h3>Head Collection</h3>
         <p>

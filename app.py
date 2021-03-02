@@ -850,32 +850,63 @@ def compute(q):
         except: pass
 
         # SkyWars Solo
-        swSOLOVAR = reqAPI['player']['stats']['SkyWars']
         swSoloStatsList = {
-            "solokills": swSOLOVAR['kills_solo'],
-            "solodeaths": swSOLOVAR['deaths_solo'],
-            "soloassists": swSOLOVAR['assists_solo'],
-            "solokd": round(swSOLOVAR['kills_solo']/swSOLOVAR['deaths_solo'],4),
-            'solowl': round(swSOLOVAR['wins_solo']/swSOLOVAR['losses_solo'],4),
-            """ "solosurvived"
-            "sologames"
-            'solowins'
-            'sololosses'
-
-            'solokit'
-            'solofastestwin'
-            'solohighkill' """
+            "solokills":0,
+            "solodeaths": 0,
+            "soloassists": 0,
+            "solokd": 0,
+            "solosurvived":0,
+            "sologames": 0,
+            "solowins": 0,
+            "sololosses": 0,
+            "solowl": 0,
+            "solokit": "None",
+            "solofastestwin": 0,
+            'solohighkill': 0,
             'kdrel':
                 [
-                    round(swStatsList[4]-swSOLOVAR['kills_solo']/swSOLOVAR['deaths_solo'],2),
-                    round(100*(swStatsList[4]/(swSOLOVAR['kills_solo']/swSOLOVAR['deaths_solo'])-1),2)
+                    0,0
                 ],
             'solowlrelative':
                 [
-                    round(swStatsList[8]-(swSOLOVAR['wins_solo']/swSOLOVAR['losses_solo']),2),
-                    round(100*(swStatsList[8]/(swSOLOVAR['wins_solo']/swSOLOVAR['losses_solo'])-1),2)
+                    0,0
                 ],
         }
+
+        swSOLOVAR = reqAPI['player']['stats']['SkyWars']
+        try:
+            solokd = round(swSOLOVAR.get('kills_solo',0)/swSOLOVAR.get('deaths_solo', 1),4)
+        except:
+            solokd = 'undefined!!!'
+        try:
+            solowl = round(swSOLOVAR.get('wins_solo',0)/swSOLOVAR.get('losses_solo', 1),4)
+        except:
+            solowl = 'undefined!!!'
+        swSoloStatsList = {
+            "solokills": swSOLOVAR.get('kills_solo',0),
+            "solodeaths": swSOLOVAR.get('deaths_solo', 0),
+            "solokd": solokd,
+            "soloassists": swSOLOVAR.get('assists_solo', 0),
+            "solosurvived":swSOLOVAR.get('survived_players_solo',0),
+            "sologames": swSOLOVAR.get('wins_solo',0) + swSOLOVAR.get('losses_solo',0),
+            "solowins": swSOLOVAR.get('wins_solo',0),
+            "sololosses": swSOLOVAR.get('losses_solo',0),
+            "solowl": solowl,
+            "solokit": swSOLOVAR.get('activeKit_SOLO','No kit').split('_')[-1].capitalize(),
+            "solofastestwin": swSOLOVAR.get('fastest_win_solo',0),
+            'solohighkill': swSOLOVAR.get('most_kills_game_solo',0),
+            'kdrel':
+                [
+                    round(swStatsList[4]-solokd,4),
+                    round(100*solokd-1,2)
+                ],
+            'solowlrelative':
+                [
+                    round(swStatsList[8]-solowl,4),
+                    round(100*solowl-1,2)
+                ],
+        }
+    
 
         # Printing!
         print(swStatsList)

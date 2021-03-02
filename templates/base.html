@@ -310,13 +310,45 @@
     </table>
     <!-- SW SOLO -->
     <h3> Solo </h3>
-    This is Solo
-    SOLO KILLS: {{ swSoloStatsList['solokills'] }}
-    / SOLO DEATHS: {{ swSoloStatsList['solodeaths'] }}
-    / SOLO KD: {{ swSoloStatsList['solokd'] }}
-    / SOLO WL: {{ swSoloStatsList['solowl'] }}
-    / SOLO KD RELATIVE: {{ swSoloStatsList['kdrel'][0] }} +/- rel. to overall, {{ swSoloStatsList['kdrel'][1] }}% chg.
-    / SOLO WL RELATIVE: {{ swSoloStatsList['solowlrelative'][0] }} +/- rel. to overall, {{ swSoloStatsList['solowlrelative'][1] }}% chg.
+
+    <p>This is Solo
+    <br>SOLO KILLS: {{ swSoloStatsList['solokills'] }}
+    <br>SOLO DEATHS: {{ swSoloStatsList['solodeaths'] }}
+    <br>SOLO ASSISTS: {{swSoloStatsList['soloassists']}}
+    <br>SOLO KD: {{ swSoloStatsList['solokd'] }}
+    <br>SOLO SURVIVED: {{ swSoloStatsList['solosurvived'] }}
+    <br>SOLO GAMES: {{swSoloStatsList['sologames']}}
+    <br>SOLO WINS: {{swSoloStatsList['solowins']}}
+    <br>SOLO LOSSES: {{swSoloStatsList['sololosses']}}
+    <br>SOLO WL: {{ swSoloStatsList['solowl'] }}
+    <br>SOLO KIT: {{swSoloStatsList['solokit']}}
+    <br>SOLO FASTEST WIN: {{swSoloStatsList['solofastestwin']}}
+    <br>SOLO HIGHEST KILL GAME: {{swSoloStatsList['solohighkill']}}
+    <p>
+    {% if swSoloStatsList['kdrel'][0] > 0 %}
+        You perform better in Solo than overall, with a <b>{{ swSoloStatsList['kdrel'][0]|abs }}</b> higher K/D (+{{ swSoloStatsList['kdrel'][1] }}%)
+        {% if swSoloStatsList['solowlrelative'][0] > 0 %}
+        and a <b>{{ swSoloStatsList['solowlrelative'][0]|abs }}</b> higher W/L (+{{ swSoloStatsList['solowlrelative'][1]|abs }}%)
+        {% elif swSoloStatsList['solowlrelative'][0] < 0 %}
+            but a  <b>{{ swSoloStatsList['solowlrelative'][0]|abs }}</b> lower W/L ({{ swSoloStatsList['solowlrelative'][1] }}%)
+        {% endif %}</p>
+
+    {% elif swSoloStatsList['kdrel'][0] < 0  %}
+        You perform worse in Solo than overall, with a <b>{{ swSoloStatsList['kdrel'][0]|abs }}</b> lower K/D ({{ swSoloStatsList['kdrel'][1] }}%)
+        {% if swSoloStatsList['solowlrelative'][0] > 0 %}
+        but a <b>{{ swSoloStatsList['solowlrelative'][0]|abs }}</b> higher W/L (+{{ swSoloStatsList['solowlrelative'][1]|abs }}%)
+        {% elif swSoloStatsList['solowlrelative'][0] < 0 %}
+        and a  <b>{{ swSoloStatsList['solowlrelative'][0]|abs }}</b> lower W/L ({{ swSoloStatsList['solowlrelative'][1] }}%)
+        {% endif %}</p>
+
+    {% else %}
+    You perform average in Solo.
+    {% endif %}
+
+
+    
+
+    </p>
     <p>
     <!-- <h3>Head Collection</h3>
         <p>

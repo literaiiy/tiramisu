@@ -326,7 +326,7 @@
     <br>SOLO HIGHEST KILL GAME: {{swSoloStatsList['solohighkill']}}
     <p>
     {% if swSoloStatsList['kdrel'][0] > 0 %}
-        You perform better in Solo than overall, with a <b>{{ swSoloStatsList['kdrel'][0]|abs }}</b> higher K/D (+{{ swSoloStatsList['kdrel'][1] }}%)
+        {{username}} performs better in Solo than overall, with a <b>{{ swSoloStatsList['kdrel'][0]|abs }}</b> higher K/D (+{{ swSoloStatsList['kdrel'][1] }}%)
         {% if swSoloStatsList['solowlrelative'][0] > 0 %}
         and a <b>{{ swSoloStatsList['solowlrelative'][0]|abs }}</b> higher W/L (+{{ swSoloStatsList['solowlrelative'][1]|abs }}%)
         {% elif swSoloStatsList['solowlrelative'][0] < 0 %}
@@ -334,7 +334,7 @@
         {% endif %}</p>
 
     {% elif swSoloStatsList['kdrel'][0] < 0  %}
-        You perform worse in Solo than overall, with a <b>{{ swSoloStatsList['kdrel'][0]|abs }}</b> lower K/D ({{ swSoloStatsList['kdrel'][1] }}%)
+        {{username}} performs worse in Solo than overall, with a <b>{{ swSoloStatsList['kdrel'][0]|abs }}</b> lower K/D ({{ swSoloStatsList['kdrel'][1] }}%)
         {% if swSoloStatsList['solowlrelative'][0] > 0 %}
         but a <b>{{ swSoloStatsList['solowlrelative'][0]|abs }}</b> higher W/L (+{{ swSoloStatsList['solowlrelative'][1]|abs }}%)
         {% elif swSoloStatsList['solowlrelative'][0] < 0 %}
@@ -342,7 +342,7 @@
         {% endif %}</p>
 
     {% else %}
-    You perform average in Solo.
+    {{username}} performs average in Solo.
     {% endif %}
 
 

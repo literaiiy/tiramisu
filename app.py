@@ -850,28 +850,6 @@ def compute(q):
         except: pass
 
         # SkyWars Solo
-        swSoloStatsList = {
-            "solokills":0,
-            "solodeaths": 0,
-            "soloassists": 0,
-            "solokd": 0,
-            "solosurvived":0,
-            "sologames": 0,
-            "solowins": 0,
-            "sololosses": 0,
-            "solowl": 0,
-            "solokit": "None",
-            "solofastestwin": 0,
-            'solohighkill': 0,
-            'kdrel':
-                [
-                    0,0
-                ],
-            'solowlrelative':
-                [
-                    0,0
-                ],
-        }
 
         swSOLOVAR = reqAPI['player']['stats']['SkyWars']
         try:
@@ -905,7 +883,7 @@ def compute(q):
             "solowins": swSOLOVAR.get('wins_solo',0),
             "sololosses": swSOLOVAR.get('losses_solo',0),
             "solowl": solowl,
-            "solokit": swSOLOVAR.get('activeKit_SOLO','No kit').split('_')[-1].capitalize(),
+            "solokit": swSOLOVAR.get('activeKit_SOLO','Default').split('_')[-1].capitalize(),
             "solofastestwin": swSOLOVAR.get('fastest_win_solo',0),
             'solohighkill': swSOLOVAR.get('most_kills_game_solo',0),
             'kdrel': solokdrelative,

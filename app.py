@@ -42,7 +42,7 @@ config = {
 app.config.from_mapping(config)
 cache = Cache(app)
 
-requests_cache.install_cache('demo_cache', backend='sqlite', expire_after=3)
+requests_cache.install_cache('demo_cache', expire_after=3)
 
 class searchBar():
     query = TextField("Search...")
@@ -898,12 +898,12 @@ def compute(q):
             'kdrel':
                 [
                     round(swStatsList[4]-solokd,4),
-                    round(100*solokd-1,2)
+                    round(100*(swStatsList[4]/solokd-1),2)
                 ],
             'solowlrelative':
                 [
                     round(swStatsList[8]-solowl,4),
-                    round(100*solowl-1,2)
+                    round(100*(swStatsList[8]/solowl-1),2)
                 ],
         }
     

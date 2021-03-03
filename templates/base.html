@@ -12,6 +12,7 @@
     <title>Profile for {{ displayname }} | Tiramisu</title>
     <link rel="icon" href="https://cached.imagescaler.hbpl.co.uk/resize/scaleHeight/815/cached.offlinehbpl.hbpl.co.uk/news/OMC/AsdaResized-20150223115224441.jpg">
     <link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='splide.css') }}" rel="stylesheet" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='datatables.css') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -23,25 +24,38 @@
 <!--- SUBTITLE --->
 <body>
 <!--- USERNAME --->
-<div class="username">
+<div id='username' class="header username">
     {% if '+++' in rank %}
-        <h2><span class="light_purple"><b>[{{ rank.replace('+++','') }}<span class="mvpaqua">+++</span>]</b></span> {{ displayname }}</h2>
+        <span class="light_purple"><b>[{{ rank.replace('+++','') }}<span class="mvpaqua">+++</span>]</b></span> {{ displayname }}
     {% elif '++' in rank %}
-        <h2><span class="{{ rankcolor }}"><b>[{{ rank.replace('++','') }}<span class="{{ pluscolor }}">++</span>]</b></span> {{ displayname }}</h2>
+        <span class="{{ rankcolor }}"><b>[{{ rank.replace('++','') }}<span class="{{ pluscolor }}">++</span>]</b></span> {{ displayname }}
     {% elif '+' in rank %}
-        <h2><span class="{{ rankcolor }}"><b>[{{ rank.replace('+','') }}<span class="{{ pluscolor }}">+</span>]</b></span> {{ displayname }}</h2>
+        <span class="{{ rankcolor }}"><b>[{{ rank.replace('+','') }}<span class="{{ pluscolor }}">+</span>]</b></span> {{ displayname }}
     {% elif rank != '' and 'YOUTUBE' not in rank %}
-        <h2><span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> {{ displayname }}</h2>
+        <span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> {{ displayname }}
     {% elif rank == '' %}
-        <h2>{{ displayname }}</h2>
+        {{ displayname }}
     {% elif 'YOUTUBE' in rank %}
-        <h2><span class="{{ rankbracketcolor }}"><b>[</b></span><span class="gray"></span><b>{{ rank }}</b></span><span class="{{ rankbracketcolor }}"><b>]</b></span> {{ displayname }}</h2>
+        <span class="{{ rankbracketcolor }}"><b>[</b></span><span class="gray"></span><b>{{ rank }}</b></span><span class="{{ rankbracketcolor }}"><b>]</b></span> {{ displayname }}</h2>
     {% endif %}
-    <div class="uuid">
+    <div id='uuid' class="uuid">
         {{ uuid }}
-    </div>
+    </div>    
 </div>
 
+<script>
+window.onscroll = function() {scrollFunction()};
+
+function scrollFunction() {
+  if (document.body.scrollTop > 70 || document.documentElement.scrollTop > 70) {
+    document.getElementById("username").style.fontSize = "30px";
+    document.getElementById("uuid").style.fontSize = "0";
+  } else {
+    document.getElementById("username").style.fontSize = "42px";
+    document.getElementById("uuid").style.fontSize = "16px";
+  }
+}
+</script>
 
 <!--- help --->
 <style> 
@@ -60,7 +74,6 @@
     } 
 </style>
 
-<!--- help --->
 <div class="row">
     <div class="columnZ">
         <img style='position: relative;margin-top:10px; margin-left:-500px;z-index:3;' src='https://mc-heads.net/body/{{ uuid }}'><br>
@@ -244,8 +257,8 @@
 <div class="stats">
 
     <!--- SKYWARS STATS --->
-    <div class='h2d'><h2><b>SkyWars</b></h2></div>
-    <div class='h3d'><h3><p><span class="{{ swPrestigeColor }}"><b></span>{{ swExp }}</b> SkyWars experience · <b><span class="{{ swPrestigeColor }}">[{{ swLevel }}☆]</b></span>, {{ swPrestige }} Prestige - <span class="{{ swPrestigeColor }}"><b>{{ swToNL }}%</b></span> to <b>{{ swNextLevel }}</b><br></p></h3></div>
+    <div class='header h2d'>SkyWars</div>
+    <div class='h3d'><p><span class="{{ swPrestigeColor }}"><b></span>{{ swExp }}</b> SkyWars experience · <b><span class="{{ swPrestigeColor }}">[{{ swLevel }}☆]</b></span>, {{ swPrestige }} Prestige - <span class="{{ swPrestigeColor }}"><b>{{ swToNL }}%</b></span> to <b>{{ swNextLevel }}</b><br></p></div>
     <table class='swgeneral'>
         <colgroup>
             <col class="leftsw">
@@ -293,7 +306,7 @@
         </tr>
         <tr>
                 <td><b>{{ swSurvived }}</b> players survived </td>
-                <td>Highest kill game: <b>{{ swHighestKills }} kills</b></td>
+                <td>Highest-kill game: <b>{{ swHighestKills }} kills</b></td>
         </tr>
         <tr>
                 <td><b>{{ swKW }}</b> kills per win </td>
@@ -308,54 +321,80 @@
                 <td><b>{{ swAPG }}</b> arrows shot per game </td>
         </tr>
     </table>
+
     <!-- SW SOLO -->
     <h3> Solo </h3>
-
-    <p>This is Solo
-    <br>SOLO KILLS: {{ swSoloStatsList['solokills'] }}
-    <br>SOLO DEATHS: {{ swSoloStatsList['solodeaths'] }}
-    <br>SOLO ASSISTS: {{swSoloStatsList['soloassists']}}
-    <br>SOLO KD: {{ swSoloStatsList['solokd'] }}
-    <br>SOLO SURVIVED: {{ swSoloStatsList['solosurvived'] }}
-    <br>SOLO GAMES: {{swSoloStatsList['sologames']}}
-    <br>SOLO WINS: {{swSoloStatsList['solowins']}}
-    <br>SOLO LOSSES: {{swSoloStatsList['sololosses']}}
-    <br>SOLO WL: {{ swSoloStatsList['solowl'] }}
-    <br>SOLO KIT: {{swSoloStatsList['solokit']}}
-    <br>SOLO FASTEST WIN: {{swSoloStatsList['solofastestwin']}}
-    <br>SOLO HIGHEST KILL GAME: {{swSoloStatsList['solohighkill']}}
     <p>
-    {% if swSoloStatsList['kdrel'][0] > 0 %}
-        {{username}} performs better in Solo than overall, with a <b>{{ swSoloStatsList['kdrel'][0]|abs }}</b> higher K/D (+{{ swSoloStatsList['kdrel'][1] }}%)
-        {% if swSoloStatsList['solowlrelative'][0] > 0 %}
-        and a <b>{{ swSoloStatsList['solowlrelative'][0]|abs }}</b> higher W/L (+{{ swSoloStatsList['solowlrelative'][1]|abs }}%)
-        {% elif swSoloStatsList['solowlrelative'][0] < 0 %}
-            but a  <b>{{ swSoloStatsList['solowlrelative'][0]|abs }}</b> lower W/L ({{ swSoloStatsList['solowlrelative'][1] }}%)
-        {% endif %}</p>
-
-    {% elif swSoloStatsList['kdrel'][0] < 0  %}
-        {{username}} performs worse in Solo than overall, with a <b>{{ swSoloStatsList['kdrel'][0]|abs }}</b> lower K/D ({{ swSoloStatsList['kdrel'][1] }}%)
-        {% if swSoloStatsList['solowlrelative'][0] > 0 %}
-        but a <b>{{ swSoloStatsList['solowlrelative'][0]|abs }}</b> higher W/L (+{{ swSoloStatsList['solowlrelative'][1]|abs }}%)
-        {% elif swSoloStatsList['solowlrelative'][0] < 0 %}
-        and a  <b>{{ swSoloStatsList['solowlrelative'][0]|abs }}</b> lower W/L ({{ swSoloStatsList['solowlrelative'][1] }}%)
-        {% endif %}</p>
-
-    {% else %}
-    {{username}} performs average in Solo.
-    {% endif %}
-
-
+        {% if swSoloStatsList['kdrel'][0] > 0 %}
+            {{username}} performs better in Solo than overall, with a <b>{{ swSoloStatsList['kdrel'][0]|abs }}</b> higher K/D (<span class='green'>+{{ swSoloStatsList['kdrel'][1] }}%</span>)
+            {% if swSoloStatsList['solowlrelative'][0] > 0 %}
+                and a <b>{{ swSoloStatsList['solowlrelative'][0]|abs }}</b> higher W/L (<span class='green'>+{{ swSoloStatsList['solowlrelative'][1]|abs }}%</span>).
+            {% elif swSoloStatsList['solowlrelative'][0] < 0 %}
+                but a  <b>{{ swSoloStatsList['solowlrelative'][0]|abs }}</b> lower W/L (<span class='red'>{{ swSoloStatsList['solowlrelative'][1] }}%</span>).
+            {% endif %}</p>
     
-
+        {% elif swSoloStatsList['kdrel'][0] < 0  %}
+            {{username}} performs worse in Solo than overall, with a <b>{{ swSoloStatsList['kdrel'][0]|abs }}</b> lower K/D <span class='red'>({{swSoloStatsList['kdrel'][1] }}%</span>)
+            {% if swSoloStatsList['solowlrelative'][0] > 0 %}
+                but a <b>{{ swSoloStatsList['solowlrelative'][0]|abs }}</b> higher W/L (<span class='green'>+{{ swSoloStatsList['solowlrelative'][1]|abs }}%</span>).
+            {% elif swSoloStatsList['solowlrelative'][0] < 0 %}
+                and a  <b>{{ swSoloStatsList['solowlrelative'][0]|abs }}</b> lower W/L (<span class='red'>{{ swSoloStatsList['solowlrelative'][1] }}%</span>).
+            {% endif %}</p>
+        {% else %}
+            {{username}} performs as average in Solo.
+        {% endif %}
     </p>
     <p>
-    <!-- <h3>Head Collection</h3>
-        <p>
-            {% for head in headsCollection %}
-                {{ head['uuid'] }}'s {{ head['sacrifice'] }} head gathered on {{ head['timestamp'] }} in {{ head['mode'] }} <br>
-            {% endfor %} -->
-        </p>
+    <br>{{ swSoloStatsList['solokills'] }} kills
+    <br>{{ swSoloStatsList['solodeaths'] }} deaths
+    <br>{{swSoloStatsList['soloassists']}} assists 
+    <br>{{ swSoloStatsList['solokd'] }} K/D
+    <br>{{ swSoloStatsList['solosurvived'] }} players survived
+    <br>{{swSoloStatsList['sologames']}} games played
+    <br>{{swSoloStatsList['solowins']}} wins
+    <br>{{swSoloStatsList['sololosses']}} losses
+    <br>{{ swSoloStatsList['solowl'] }} W/L - {{swSoloStatsList['solowinperc']}}% win rate
+    <br>{{swSoloStatsList['solokit']}} currently equipped
+    <br>Fastest win: {{swSoloStatsList['solofastestwin']}} <b>(FIX THIS SHIT)</b>
+    <br>Highest-kill game: {{swSoloStatsList['solohighkill']}} kill
+    </p>
+
+    <h3> Team </h3>
+    <p>
+        {% if swTeamStatsList['kdrel'][0] > 0 %}
+            {{username}} performs better in Team than overall, with a <b>{{ swTeamStatsList['kdrel'][0]|abs }}</b> higher K/D (<span class='green'>+{{ swTeamStatsList['kdrel'][1] }}%</span>)
+            {% if swTeamStatsList['teamwlrelative'][0] > 0 %}
+                and a <b>{{ swTeamStatsList['teamwlrelative'][0]|abs }}</b> higher W/L (<span class='green'>+{{ swTeamStatsList['teamwlrelative'][1]|abs }}%</span>).
+            {% elif swTeamStatsList['teamwlrelative'][0] < 0 %}
+                but a  <b>{{ swTeamStatsList['teamwlrelative'][0]|abs }}</b> lower W/L (<span class='red'>{{ swTeamStatsList['teamwlrelative'][1] }}%</span>).
+            {% endif %}</p>
+    
+        {% elif swTeamStatsList['kdrel'][0] < 0  %}
+            {{username}} performs worse in Team than overall, with a <b>{{ swTeamStatsList['kdrel'][0]|abs }}</b> lower K/D <span class='red'>({{swTeamStatsList['kdrel'][1] }}%</span>)
+            {% if swTeamStatsList['teamwlrelative'][0] > 0 %}
+                but a <b>{{ swTeamStatsList['teamwlrelative'][0]|abs }}</b> higher W/L (<span class='green'>+{{ swTeamStatsList['teamwlrelative'][1]|abs }}%</span>).
+            {% elif swTeamStatsList['teamwlrelative'][0] < 0 %}
+                and a  <b>{{ swTeamStatsList['teamwlrelative'][0]|abs }}</b> lower W/L (<span class='red'>{{ swTeamStatsList['teamwlrelative'][1] }}%</span>).
+            {% endif %}</p>
+        {% else %}
+            {{username}} performs as average in Team.
+        {% endif %}
+    </p>
+    <p>
+    <br>{{ swTeamStatsList['teamkills'] }} kills
+    <br>{{ swTeamStatsList['teamdeaths'] }} deaths
+    <br>{{swTeamStatsList['teamassists']}} assists 
+    <br>{{ swTeamStatsList['teamkd'] }} K/D
+    <br>{{ swTeamStatsList['teamsurvived'] }} players survived
+    <br>{{swTeamStatsList['teamgames']}} games played
+    <br>{{swTeamStatsList['teamwins']}} wins
+    <br>{{swTeamStatsList['teamlosses']}} losses
+    <br>{{ swTeamStatsList['teamwl'] }} W/L - {{swTeamStatsList['teamwinperc']}}% win rate
+    <br>{{swTeamStatsList['teamkit']}} currently equipped
+    <br>Fastest win: {{swTeamStatsList['teamfastestwin']}} <b>(FIX THIS SHIT)</b>
+    <br>Highest-kill game: {{swTeamStatsList['teamhighkill']}} kill
+    </p>
+
+
 </div>
 {% endblock %}
-<!--- VERSION DETAILS --->

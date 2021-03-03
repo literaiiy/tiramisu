@@ -748,7 +748,7 @@ def compute(q):
             if swkills > 4999 and swkills < 10000: swStatsList[13]=('Succulent!')
             if swkills > 9999 and swkills < 25000: swStatsList[13]=('Divine!')
             if swkills > 25000: swStatsList[13]=('Heavenly..!')
-            if swkills <= 10000 and rankParsed in sweetHeadsRanks: swStatsList[13]=('Sweet')
+            if swkills <= 10000 and rankParsed in sweetHeadsRanks: swStatsList[13]=('Sweet!')
         except: swStatsList[13]='Eww!'
 
         def minsec(seconds):
@@ -821,8 +821,8 @@ def compute(q):
         # Function that takes in level and spits out prestige and color as a tuple
         def getPrestige(level):
             try:
-                if level < 5: return ('No', 'lightgray')
-                elif level < 10: return ('Iron', 'darkgray')
+                if level < 5: return ('No', 'white')
+                elif level < 10: return ('Iron', 'lightgray')
                 elif level < 15: return ('Gold', 'gold')
                 elif level < 20: return ('Diamond', 'turquoise')
                 elif level < 25: return ('Emerald', 'chartreuse')
@@ -833,7 +833,7 @@ def compute(q):
                 elif level < 50: return ('Amethyst', 'indigo')
                 elif level >= 50: return ('Rainbow', 'chocolate')
             except:
-                return ('No', 'lightgray')
+                return ('No', 'white')
 
         # Adds 0 - 4 on swExpList
         swExpList = [0,0,0,0,0]
@@ -850,7 +850,6 @@ def compute(q):
         except: pass
 
         # SkyWars Solo
-
         swSOLOVAR = reqAPI['player']['stats']['SkyWars']
         try:
             solokd = round(swSOLOVAR.get('kills_solo',0)/swSOLOVAR.get('deaths_solo', 1),4)
@@ -862,15 +861,16 @@ def compute(q):
             solowl = '1'
                        
         solowlrelative = [0,0]
+        
         try:
-            solowlrelative[0] = round(swStatsList[8]-solowl,4)
-            solowlrelative[1] = round(100*(swStatsList[8]/solowl-1),2)
+            solowlrelative[0] = round(solowl-swStatsList[8],4)
+            solowlrelative[1] = round(100*(solowl/swStatsList[8]-1),2)
         except: pass
 
         solokdrelative = [0,0]
         try:
-            solokdrelative[0] = round(swStatsList[4]-solokd,4)
-            solokdrelative[1] = round(100*(swStatsList[4]/solokd-1),2)
+            solokdrelative[0] = round(solokd-swStatsList[4],4)
+            solokdrelative[1] = round(100*(solokd/swStatsList[4]-1),2)
         except: pass
 
         swSoloStatsList = {
@@ -888,8 +888,50 @@ def compute(q):
             'solohighkill': swSOLOVAR.get('most_kills_game_solo',0),
             'kdrel': solokdrelative,
             'solowlrelative': solowlrelative,
+            'solowinperc': round(100*(solowl/(1+solowl)), 4)
         }
-    
+
+        # SkyWars Team
+        swTEAMSVAR = reqAPI['player']['stats']['SkyWars']
+        try:
+            teamkd = round(swTEAMSVAR.get('kills_team',0)/swTEAMSVAR.get('deaths_team', 1),4)
+        except:
+            teamkd = '1'
+        try:
+            teamwl = round(swTEAMSVAR.get('wins_team',0)/swTEAMSVAR.get('losses_team', 1),4)
+        except:
+            teamwl = '1'
+                       
+        teamwlrelative = [0,0]
+        
+        try:
+            teamwlrelative[0] = round(teamwl-swStatsList[8],4)
+            teamwlrelative[1] = round(100*(teamwl/swStatsList[8]-1),2)
+        except: pass
+
+        teamkdrelative = [0,0]
+        try:
+            teamkdrelative[0] = round(teamkd-swStatsList[4],4)
+            teamkdrelative[1] = round(100*(teamkd/swStatsList[4]-1),2)
+        except: pass
+
+        swTeamStatsList = {
+            "teamkills": swTEAMSVAR.get('kills_team',0),
+            "teamdeaths": swTEAMSVAR.get('deaths_team', 0),
+            "teamkd": teamkd,
+            "teamassists": swTEAMSVAR.get('assists_team', 0),
+            "teamsurvived":swTEAMSVAR.get('survived_players_team',0),
+            "teamgames": swTEAMSVAR.get('wins_team',0) + swTEAMSVAR.get('losses_team',0),
+            "teamwins": swTEAMSVAR.get('wins_team',0),
+            "teamlosses": swTEAMSVAR.get('losses_team',0),
+            "teamwl": teamwl,
+            "teamkit": swTEAMSVAR.get('activeKit_TEAMS','Default').split('_')[-1].replace('-',' ').title(),
+            "teamfastestwin": swTEAMSVAR.get('fastest_win_team',0),
+            'teamhighkill': swTEAMSVAR.get('most_kills_game_team',0),
+            'kdrel': teamkdrelative,
+            'teamwlrelative': teamwlrelative,
+            'teamwinperc': round(100*(teamwl/(1+teamwl)), 4)
+        }
 
         # Printing!
         print(swStatsList)
@@ -927,7 +969,7 @@ def compute(q):
             displayname += ' 🌸'
         print(rankParsed)
         print("--- %s seconds ---" % (time.time() - start_time))
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swKW=swStatsList[26], swKL=swStatsList[27], swKG=swStatsList[28], swBPG=swStatsList[29], swEPG=swStatsList[30], swAPG=swStatsList[31], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor, guildList=guildList, swSoloStatsList=swSoloStatsList)
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swKW=swStatsList[26], swKL=swStatsList[27], swKG=swStatsList[28], swBPG=swStatsList[29], swEPG=swStatsList[30], swAPG=swStatsList[31], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor, guildList=guildList, swSoloStatsList=swSoloStatsList, swTeamStatsList=swTeamStatsList)
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:

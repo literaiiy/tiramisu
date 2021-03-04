@@ -324,17 +324,20 @@ function scrollFunction() {
 
     <!-- SW SOLO -->
     <h3> Solo </h3>
-    <p>
-        {% if swSoloStatsList['kdrel'][0] > 0 %}
-            {{username}} performs better in Solo than overall, with a <b>{{ swSoloStatsList['kdrel'][0]|abs }}</b> higher K/D (<span class='green'>+{{ swSoloStatsList['kdrel'][1] }}%</span>)
+    {% if swSoloStatsList['sologames'] == 0 %}
+    {{username}} has never played Solo SkyWars.
+    {% else %}
+        <p>
+        {% if swSoloStatsList['solokdrelative'][0] > 0 %}
+            {{username}} performs better in Solo than overall, with a <b>{{ swSoloStatsList['solokdrelative'][0]|abs }}</b> higher K/D (<span class='green'>+{{ swSoloStatsList['solokdrelative'][1] }}%</span>)
             {% if swSoloStatsList['solowlrelative'][0] > 0 %}
                 and a <b>{{ swSoloStatsList['solowlrelative'][0]|abs }}</b> higher W/L (<span class='green'>+{{ swSoloStatsList['solowlrelative'][1]|abs }}%</span>).
             {% elif swSoloStatsList['solowlrelative'][0] < 0 %}
                 but a  <b>{{ swSoloStatsList['solowlrelative'][0]|abs }}</b> lower W/L (<span class='red'>{{ swSoloStatsList['solowlrelative'][1] }}%</span>).
             {% endif %}</p>
     
-        {% elif swSoloStatsList['kdrel'][0] < 0  %}
-            {{username}} performs worse in Solo than overall, with a <b>{{ swSoloStatsList['kdrel'][0]|abs }}</b> lower K/D <span class='red'>({{swSoloStatsList['kdrel'][1] }}%</span>)
+        {% elif swSoloStatsList['solokdrelative'][0] < 0  %}
+            {{username}} performs worse in Solo than overall, with a <b>{{ swSoloStatsList['solokdrelative'][0]|abs }}</b> lower K/D <span class='red'>({{swSoloStatsList['solokdrelative'][1] }}%</span>)
             {% if swSoloStatsList['solowlrelative'][0] > 0 %}
                 but a <b>{{ swSoloStatsList['solowlrelative'][0]|abs }}</b> higher W/L (<span class='green'>+{{ swSoloStatsList['solowlrelative'][1]|abs }}%</span>).
             {% elif swSoloStatsList['solowlrelative'][0] < 0 %}
@@ -343,34 +346,38 @@ function scrollFunction() {
         {% else %}
             {{username}} performs as average in Solo.
         {% endif %}
-    </p>
-    <p>
-    <br>{{ swSoloStatsList['solokills'] }} kills
-    <br>{{ swSoloStatsList['solodeaths'] }} deaths
-    <br>{{swSoloStatsList['soloassists']}} assists 
-    <br>{{ swSoloStatsList['solokd'] }} K/D
-    <br>{{ swSoloStatsList['solosurvived'] }} players survived
-    <br>{{swSoloStatsList['sologames']}} games played
-    <br>{{swSoloStatsList['solowins']}} wins
-    <br>{{swSoloStatsList['sololosses']}} losses
-    <br>{{ swSoloStatsList['solowl'] }} W/L - {{swSoloStatsList['solowinperc']}}% win rate
-    <br>{{swSoloStatsList['solokit']}} currently equipped
-    <br>Fastest win: {{swSoloStatsList['solofastestwin']}} <b>(FIX THIS SHIT)</b>
-    <br>Highest-kill game: {{swSoloStatsList['solohighkill']}} kill
-    </p>
+        </p>
+        <p>
+        <br>{{ swSoloStatsList['solokills'] }} kills
+        <br>{{ swSoloStatsList['solodeaths'] }} deaths
+        <br>{{swSoloStatsList['soloassists']}} assists 
+        <br>{{ swSoloStatsList['solokd'] }} K/D
+        <br>{{ swSoloStatsList['solosurvived'] }} players survived
+        <br>{{swSoloStatsList['sologames']}} games played
+        <br>{{swSoloStatsList['solowins']}} wins
+        <br>{{swSoloStatsList['sololosses']}} losses
+        <br>{{ swSoloStatsList['solowl'] }} W/L - {{swSoloStatsList['solowinperc']}}% win rate
+        <br>{{swSoloStatsList['solokit']}} currently equipped
+        <br>Fastest win: {{swSoloStatsList['solofastestwin']}}
+        <br>Highest-kill game: {{swSoloStatsList['solohighkill']}} kills
+        </p>
+        {% endif %}
 
     <h3> Team </h3>
-    <p>
-        {% if swTeamStatsList['kdrel'][0] > 0 %}
-            {{username}} performs better in Team than overall, with a <b>{{ swTeamStatsList['kdrel'][0]|abs }}</b> higher K/D (<span class='green'>+{{ swTeamStatsList['kdrel'][1] }}%</span>)
+    {% if swTeamStatsList['teamgames'] == 0 %}
+    {{username}} has never played Teams SkyWars.
+    {% else %}
+        <p>
+        {% if swTeamStatsList['teamkdrelative'][0] > 0 %}
+            {{username}} performs better in Team than overall, with a <b>{{ swTeamStatsList['teamkdrelative'][0]|abs }}</b> higher K/D (<span class='green'>+{{ swTeamStatsList['teamkdrelative'][1] }}%</span>)
             {% if swTeamStatsList['teamwlrelative'][0] > 0 %}
                 and a <b>{{ swTeamStatsList['teamwlrelative'][0]|abs }}</b> higher W/L (<span class='green'>+{{ swTeamStatsList['teamwlrelative'][1]|abs }}%</span>).
             {% elif swTeamStatsList['teamwlrelative'][0] < 0 %}
                 but a  <b>{{ swTeamStatsList['teamwlrelative'][0]|abs }}</b> lower W/L (<span class='red'>{{ swTeamStatsList['teamwlrelative'][1] }}%</span>).
             {% endif %}</p>
-    
-        {% elif swTeamStatsList['kdrel'][0] < 0  %}
-            {{username}} performs worse in Team than overall, with a <b>{{ swTeamStatsList['kdrel'][0]|abs }}</b> lower K/D <span class='red'>({{swTeamStatsList['kdrel'][1] }}%</span>)
+
+        {% elif swTeamStatsList['teamkdrelative'][0] < 0  %}
+            {{username}} performs worse in Team than overall, with a <b>{{ swTeamStatsList['teamkdrelative'][0]|abs }}</b> lower K/D <span class='red'>({{swTeamStatsList['teamkdrelative'][1] }}%</span>)
             {% if swTeamStatsList['teamwlrelative'][0] > 0 %}
                 but a <b>{{ swTeamStatsList['teamwlrelative'][0]|abs }}</b> higher W/L (<span class='green'>+{{ swTeamStatsList['teamwlrelative'][1]|abs }}%</span>).
             {% elif swTeamStatsList['teamwlrelative'][0] < 0 %}
@@ -379,22 +386,61 @@ function scrollFunction() {
         {% else %}
             {{username}} performs as average in Team.
         {% endif %}
-    </p>
-    <p>
-    <br>{{ swTeamStatsList['teamkills'] }} kills
-    <br>{{ swTeamStatsList['teamdeaths'] }} deaths
-    <br>{{swTeamStatsList['teamassists']}} assists 
-    <br>{{ swTeamStatsList['teamkd'] }} K/D
-    <br>{{ swTeamStatsList['teamsurvived'] }} players survived
-    <br>{{swTeamStatsList['teamgames']}} games played
-    <br>{{swTeamStatsList['teamwins']}} wins
-    <br>{{swTeamStatsList['teamlosses']}} losses
-    <br>{{ swTeamStatsList['teamwl'] }} W/L - {{swTeamStatsList['teamwinperc']}}% win rate
-    <br>{{swTeamStatsList['teamkit']}} currently equipped
-    <br>Fastest win: {{swTeamStatsList['teamfastestwin']}} <b>(FIX THIS SHIT)</b>
-    <br>Highest-kill game: {{swTeamStatsList['teamhighkill']}} kill
-    </p>
+        </p>
+        <p>
+        <br>{{ swTeamStatsList['teamkills'] }} kills
+        <br>{{ swTeamStatsList['teamdeaths'] }} deaths
+        <br>{{swTeamStatsList['teamassists']}} assists 
+        <br>{{ swTeamStatsList['teamkd'] }} K/D
+        <br>{{ swTeamStatsList['teamsurvived'] }} players survived
+        <br>{{swTeamStatsList['teamgames']}} games played
+        <br>{{swTeamStatsList['teamwins']}} wins
+        <br>{{swTeamStatsList['teamlosses']}} losses
+        <br>{{ swTeamStatsList['teamwl'] }} W/L - {{swTeamStatsList['teamwinperc']}}% win rate
+        <br>{{swTeamStatsList['teamkit']}} currently equipped
+        <br>Fastest win: {{swTeamStatsList['teamfastestwin']}}
+        <br>Highest-kill game: {{swTeamStatsList['teamhighkill']}} kills
+        </p>
+    {% endif %}
 
+    <h3> Ranked </h3>
+    {% if swRankedStatsList['rankedgames'] == 0 %}
+    {{username}} has never played Ranked SkyWars.
+    {% else %}
+        <p>
+            {% if swRankedStatsList['rankedkdrelative'][0] > 0 %}
+                {{username}} performs better in Ranked than overall, with a <b>{{ swRankedStatsList['rankedkdrelative'][0]|abs }}</b> higher K/D (<span class='green'>+{{ swRankedStatsList['rankedkdrelative'][1] }}%</span>)
+                {% if swRankedStatsList['rankedwlrelative'][0] > 0 %}
+                    and a <b>{{ swRankedStatsList['rankedwlrelative'][0]|abs }}</b> higher W/L (<span class='green'>+{{ swRankedStatsList['rankedwlrelative'][1]|abs }}%</span>).
+                {% elif swRankedStatsList['rankedwlrelative'][0] < 0 %}
+                    but a  <b>{{ swRankedStatsList['rankedwlrelative'][0]|abs }}</b> lower W/L (<span class='red'>{{ swRankedStatsList['rankedwlrelative'][1] }}%</span>).
+                {% endif %}</p>
+        
+            {% elif swRankedStatsList['rankedkdrelative'][0] < 0  %}
+                {{username}} performs worse in Ranked than overall, with a <b>{{ swRankedStatsList['rankedkdrelative'][0]|abs }}</b> lower K/D (<span class='red'>{{swRankedStatsList['rankedkdrelative'][1] }}%</span>)
+                {% if swRankedStatsList['rankedwlrelative'][0] > 0 %}
+                    but a <b>{{ swRankedStatsList['rankedwlrelative'][0]|abs }}</b> higher W/L (<span class='green'>+{{ swRankedStatsList['rankedwlrelative'][1]|abs }}%</span>).
+                {% elif swRankedStatsList['rankedwlrelative'][0] < 0 %}
+                    and a  <b>{{ swRankedStatsList['rankedwlrelative'][0]|abs }}</b> lower W/L (<span class='red'>{{ swRankedStatsList['rankedwlrelative'][1] }}%</span>).
+                {% endif %}</p>
+            {% else %}
+                {{username}} performs as average in Ranked.
+            {% endif %}
+        </p>
+        <p>
+        <br>{{ swRankedStatsList['rankedkills'] }} kills
+        <br>{{ swRankedStatsList['rankeddeaths'] }} deaths
+        <br>{{swRankedStatsList['rankedassists']}} assists 
+        <br>{{ swRankedStatsList['rankedkd'] }} K/D
+        <br>{{ swRankedStatsList['rankedsurvived'] }} players survived
+        <br>{{swRankedStatsList['rankedgames']}} games played
+        <br>{{swRankedStatsList['rankedwins']}} wins
+        <br>{{swRankedStatsList['rankedlosses']}} losses
+        <br>{{ swRankedStatsList['rankedwl'] }} W/L - {{swRankedStatsList['rankedwinperc']}}% win rate
+        <br>{{swRankedStatsList['rankedkit']}} currently equipped
+        <br>Fastest win: {{swRankedStatsList['rankedfastestwin']}}
+        </p>
+    {% endif %}
 
 </div>
 {% endblock %}

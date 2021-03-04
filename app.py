@@ -849,89 +849,171 @@ def compute(q):
             swExpList[4]=(round((swExpList[1] - math.floor(swExpList[1])) * 100, 2))
         except: pass
 
-        # SkyWars Solo
-        swSOLOVAR = reqAPI['player']['stats']['SkyWars']
-        try:
-            solokd = round(swSOLOVAR.get('kills_solo',0)/swSOLOVAR.get('deaths_solo', 1),4)
-        except:
-            solokd = '1'
-        try:
-            solowl = round(swSOLOVAR.get('wins_solo',0)/swSOLOVAR.get('losses_solo', 1),4)
-        except:
-            solowl = '1'
-                       
-        solowlrelative = [0,0]
+    ########## SkyWars Solo
+        try: 
+            swVAR = reqAPI['player']['stats']['SkyWars']
+            try:
+                solokd = round(swVAR.get('kills_solo',0)/swVAR.get('deaths_solo', 1),4)
+            except:
+                solokd = '1'
+            try:
+                solowl = round(swVAR.get('wins_solo',0)/swVAR.get('losses_solo', 1),4)
+            except:
+                solowl = '1'       
+            solowlrelative = [0,0]
+            try:
+                solowlrelative[0] = round(solowl-swStatsList[8],4)
+                solowlrelative[1] = round(100*(solowl/swStatsList[8]-1),2)
+            except: pass
+            solokdrelative = [0,0]
+            try:
+                solokdrelative[0] = round(solokd-swStatsList[4],4)
+                solokdrelative[1] = round(100*(solokd/swStatsList[4]-1),2)
+            except: pass
+            swSoloStatsList = {
+                "solokills": swVAR.get('kills_solo',0),
+                "solodeaths": swVAR.get('deaths_solo', 0),
+                "solokd": solokd,
+                "soloassists": swVAR.get('assists_solo', 0),
+                "solosurvived":swVAR.get('survived_players_solo',0),
+                "sologames": swVAR.get('wins_solo',0) + swVAR.get('losses_solo',0),
+                "solowins": swVAR.get('wins_solo',0),
+                "sololosses": swVAR.get('losses_solo',0),
+                "solowl": solowl,
+                "solokit": swVAR.get('activeKit_SOLO','Default').split('_')[-1].capitalize(),
+                "solofastestwin": minsec(swVAR.get('fastest_win_solo',0)),
+                'solohighkill': swVAR.get('most_kills_game_solo',0),
+                'solokdrelative': solokdrelative,
+                'solowlrelative': solowlrelative,
+                'solowinperc': round(100*(solowl/(1+solowl)), 4)
+            }
+
+        ############### SkyWars Team
+            try:
+                teamkd = round(swVAR.get('kills_team',0)/swVAR.get('deaths_team', 1),4)
+            except:
+                teamkd = '1'
+            try:
+                teamwl = round(swVAR.get('wins_team',0)/swVAR.get('losses_team', 1),4)
+            except:
+                teamwl = '1'     
+            teamwlrelative = [0,0]
+            try:
+                teamwlrelative[0] = round(teamwl-swStatsList[8],4)
+                teamwlrelative[1] = round(100*(teamwl/swStatsList[8]-1),2)
+            except: pass
+            teamkdrelative = [0,0]
+            try:
+                teamkdrelative[0] = round(teamkd-swStatsList[4],4)
+                teamkdrelative[1] = round(100*(teamkd/swStatsList[4]-1),2)
+            except: pass
+            swTeamStatsList = {
+                "teamkills": swVAR.get('kills_team',0),
+                "teamdeaths": swVAR.get('deaths_team', 0),
+                "teamkd": teamkd,
+                "teamassists": swVAR.get('assists_team', 0),
+                "teamsurvived":swVAR.get('survived_players_team',0),
+                "teamgames": swVAR.get('wins_team',0) + swVAR.get('losses_team',0),
+                "teamwins": swVAR.get('wins_team',0),
+                "teamlosses": swVAR.get('losses_team',0),
+                "teamwl": teamwl,
+                "teamkit": swVAR.get('activeKit_TEAMS','Default').split('_')[-1].replace('-',' ').title(),
+                "teamfastestwin": minsec(swVAR.get('fastest_win_team',0)),
+                'teamhighkill': swVAR.get('most_kills_game_team',0),
+                'teamkdrelative': teamkdrelative,
+                'teamwlrelative': teamwlrelative,
+                'teamwinperc': round(100*(teamwl/(1+teamwl)), 4)
+            }
+        ################ SkyWars Ranked
+            try:
+                rankedkd = round(swVAR.get('kills_ranked',0)/swVAR.get('deaths_ranked', 1),4)
+            except:
+                rankedkd = '1'
+            try:
+                rankedwl = round(swVAR.get('wins_ranked',0)/swVAR.get('losses_ranked', 1),4)
+            except:
+                rankedwl = '1'
+            rankedwlrelative = [0,0]
+            try:
+                rankedwlrelative[0] = round(rankedwl-swStatsList[8],4)
+                rankedwlrelative[1] = round(100*(rankedwl/swStatsList[8]-1),2)
+            except: pass
+            rankedkdrelative = [0,0]
+            try:
+                rankedkdrelative[0] = round(rankedkd-swStatsList[4],4)
+                rankedkdrelative[1] = round(100*(rankedkd/swStatsList[4]-1),2)
+            except: pass
+            swRankedStatsList = {
+                "rankedkills": swVAR.get('kills_ranked',0),
+                "rankeddeaths": swVAR.get('deaths_ranked', 0),
+                "rankedkd": rankedkd,
+                "rankedassists": swVAR.get('assists_ranked', 0),
+                "rankedsurvived":swVAR.get('survived_players_ranked',0),
+                "rankedgames": swVAR.get('wins_ranked',0) + swVAR.get('losses_ranked',0),
+                "rankedwins": swVAR.get('wins_ranked',0),
+                "rankedlosses": swVAR.get('losses_ranked',0),
+                "rankedwl": rankedwl,
+                "rankedkit": swVAR.get('activeKit_RANKED','Default').split('_')[-1].replace('-',' ').title(),
+                "rankedfastestwin": minsec(swVAR.get('fastest_win_ranked',0)),
+                'rankedkdrelative': rankedkdrelative,
+                'rankedwlrelative': rankedwlrelative,
+                'rankedwinperc': round(100*(rankedwl/(1+rankedwl)), 4)
+            }
         
-        try:
-            solowlrelative[0] = round(solowl-swStatsList[8],4)
-            solowlrelative[1] = round(100*(solowl/swStatsList[8]-1),2)
-        except: pass
-
-        solokdrelative = [0,0]
-        try:
-            solokdrelative[0] = round(solokd-swStatsList[4],4)
-            solokdrelative[1] = round(100*(solokd/swStatsList[4]-1),2)
-        except: pass
-
-        swSoloStatsList = {
-            "solokills": swSOLOVAR.get('kills_solo',0),
-            "solodeaths": swSOLOVAR.get('deaths_solo', 0),
-            "solokd": solokd,
-            "soloassists": swSOLOVAR.get('assists_solo', 0),
-            "solosurvived":swSOLOVAR.get('survived_players_solo',0),
-            "sologames": swSOLOVAR.get('wins_solo',0) + swSOLOVAR.get('losses_solo',0),
-            "solowins": swSOLOVAR.get('wins_solo',0),
-            "sololosses": swSOLOVAR.get('losses_solo',0),
-            "solowl": solowl,
-            "solokit": swSOLOVAR.get('activeKit_SOLO','Default').split('_')[-1].capitalize(),
-            "solofastestwin": swSOLOVAR.get('fastest_win_solo',0),
-            'solohighkill': swSOLOVAR.get('most_kills_game_solo',0),
-            'kdrel': solokdrelative,
-            'solowlrelative': solowlrelative,
-            'solowinperc': round(100*(solowl/(1+solowl)), 4)
-        }
-
-        # SkyWars Team
-        swTEAMSVAR = reqAPI['player']['stats']['SkyWars']
-        try:
-            teamkd = round(swTEAMSVAR.get('kills_team',0)/swTEAMSVAR.get('deaths_team', 1),4)
         except:
-            teamkd = '1'
-        try:
-            teamwl = round(swTEAMSVAR.get('wins_team',0)/swTEAMSVAR.get('losses_team', 1),4)
-        except:
-            teamwl = '1'
-                       
-        teamwlrelative = [0,0]
-        
-        try:
-            teamwlrelative[0] = round(teamwl-swStatsList[8],4)
-            teamwlrelative[1] = round(100*(teamwl/swStatsList[8]-1),2)
-        except: pass
+            swSoloStatsList = {
+            "solokills": 0,
+            "solodeaths": 0,
+            "solokd": 0,
+            "soloassists": 0,
+            "solosurvived":0,
+            "sologames": 0,
+            "solowins": 0,
+            "sololosses": 0,
+            "solowl": 0,
+            "solokit": "Default",
+            "solofastestwin": "N/A",
+            'solohighkill': 0,
+            'solokdrelative': (0,0),
+            'solowlrelative': (0,0),
+            'solowinperc': 0
+            }
 
-        teamkdrelative = [0,0]
-        try:
-            teamkdrelative[0] = round(teamkd-swStatsList[4],4)
-            teamkdrelative[1] = round(100*(teamkd/swStatsList[4]-1),2)
-        except: pass
+            swTeamStatsList = {
+            "teamkills": 0,
+            "teamdeaths": 0,
+            "teamkd": 0,
+            "teamassists": 0,
+            "teamsurvived":0,
+            "teamgames": 0,
+            "teamwins": 0,
+            "teamlosses": 0,
+            "teamwl": 0,
+            "teamkit": "Default",
+            "teamfastestwin": "N/A",
+            'teamhighkill': 0,
+            'teamkdrelative': (0,0),
+            'teamwlrelative': (0,0),
+            'teamwinperc': 0
+            }
 
-        swTeamStatsList = {
-            "teamkills": swTEAMSVAR.get('kills_team',0),
-            "teamdeaths": swTEAMSVAR.get('deaths_team', 0),
-            "teamkd": teamkd,
-            "teamassists": swTEAMSVAR.get('assists_team', 0),
-            "teamsurvived":swTEAMSVAR.get('survived_players_team',0),
-            "teamgames": swTEAMSVAR.get('wins_team',0) + swTEAMSVAR.get('losses_team',0),
-            "teamwins": swTEAMSVAR.get('wins_team',0),
-            "teamlosses": swTEAMSVAR.get('losses_team',0),
-            "teamwl": teamwl,
-            "teamkit": swTEAMSVAR.get('activeKit_TEAMS','Default').split('_')[-1].replace('-',' ').title(),
-            "teamfastestwin": swTEAMSVAR.get('fastest_win_team',0),
-            'teamhighkill': swTEAMSVAR.get('most_kills_game_team',0),
-            'kdrel': teamkdrelative,
-            'teamwlrelative': teamwlrelative,
-            'teamwinperc': round(100*(teamwl/(1+teamwl)), 4)
-        }
+            swRankedStatsList = {
+            "rankedkills": 0,
+            "rankeddeaths": 0,
+            "rankedkd": 0,
+            "rankedassists": 0,
+            "rankedsurvived":0,
+            "rankedgames": 0,
+            "rankedwins": 0,
+            "rankedlosses": 0,
+            "rankedwl": 0,
+            "rankedkit": "Default",
+            "rankedfastestwin": "N/A",
+            'rankedhighkill': 0,
+            'rankedkdrelative': (0,0),
+            'rankedwlrelative': (0,0),
+            'rankedwinperc': 0
+            }
 
         # Printing!
         print(swStatsList)
@@ -969,7 +1051,7 @@ def compute(q):
             displayname += ' 🌸'
         print(rankParsed)
         print("--- %s seconds ---" % (time.time() - start_time))
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swKW=swStatsList[26], swKL=swStatsList[27], swKG=swStatsList[28], swBPG=swStatsList[29], swEPG=swStatsList[30], swAPG=swStatsList[31], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor, guildList=guildList, swSoloStatsList=swSoloStatsList, swTeamStatsList=swTeamStatsList)
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swKW=swStatsList[26], swKL=swStatsList[27], swKG=swStatsList[28], swBPG=swStatsList[29], swEPG=swStatsList[30], swAPG=swStatsList[31], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor, guildList=guildList, swSoloStatsList=swSoloStatsList, swTeamStatsList=swTeamStatsList, swRankedStatsList=swRankedStatsList)
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:

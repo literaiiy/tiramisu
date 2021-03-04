@@ -67,9 +67,9 @@ to{transform:rotate(1turn)}
 .splide--ttb>.splide__track>.splide__list{display:block}
 .splide--ttb>.splide__pagination{width:auto}
 .splide__arrow{position:absolute;z-index:1;top:50%;transform:translateY(-50%);border:0;padding:0;background:transparent}
-.splide__arrow svg{width:2.5em;height:2.5em;fill:#20b2aa;transition:fill .2s linear}
+.splide__arrow svg{width:2.5em;height:2.5em;fill:#444444;transition:fill .2s linear}
 .splide__arrow:hover{cursor:pointer}
-.splide__arrow:hover svg{fill:#57e1d9}
+.splide__arrow:hover svg{fill:#444444}
 .splide__arrow:focus{outline:0}
 .splide__arrow--prev{left:1em}
 .splide__arrow--prev svg{transform:scaleX(-1)}
@@ -78,13 +78,13 @@ to{transform:rotate(1turn)}
 .splide__slider>.splide__arrows .splide__arrow--next{right:-2.5em}
 .splide__pagination{position:absolute;z-index:1;bottom:1em;left:50%;transform:translateX(-50%);padding:0}
 .splide__pagination__page{display:inline-block;width:20px;height:5px;background:#ccc;border-radius:2.5px;margin:3px;padding:0;transition:all .2s linear;border:0}
-.splide__pagination__page.is-active{background:#20b2aa}
-.splide__pagination__page:hover{cursor:pointer;background:#57e1d9}
+.splide__pagination__page.is-active{background:#514F65}
+.splide__pagination__page:hover{cursor:pointer;background:#514F65}
 .splide__pagination__page:focus{outline:0}
-.splide__progress__bar{width:0;height:3px;background:#20b2aa}
-.splide__spinner{border:2px solid #20b2aa;border-left-color:transparent}
+.splide__progress__bar{width:0;height:3px;background:#514F65}
+.splide__spinner{border:2px solid #514F65;border-left-color:transparent}
 .splide--nav>.splide__track>.splide__list>.splide__slide{border:3px solid #fff;cursor:pointer;opacity:.7;border-radius:4px}
-.splide--nav>.splide__track>.splide__list>.splide__slide.is-active{border-color:#20b2aa;opacity:1}
+.splide--nav>.splide__track>.splide__list>.splide__slide.is-active{border-color:#514F65;opacity:1}
 .splide--nav>.splide__track>.splide__list>.splide__slide:focus{outline:0}
 .splide--rtl>.splide__arrows .splide__arrow--prev,.splide--rtl>.splide__track>.splide__arrows .splide__arrow--prev{right:1em;left:auto}
 .splide--rtl>.splide__arrows .splide__arrow--prev svg,.splide--rtl>.splide__track>.splide__arrows .splide__arrow--prev svg{transform:scaleX(1)}

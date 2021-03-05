@@ -338,7 +338,7 @@ function scrollFunction() {
                 {% endif %}</p>
         
             {% elif x['kdrelative'][0] < 0  %}
-                {{username}} performs worse in {{y}} than overall, with a <b>{{ x['kdrelative'][0]|abs }}</b> lower K/D <span class='red'>({{x['kdrelative'][1] }}%</span>)
+                {{username}} performs worse in {{y}} than overall, with a <b>{{ x['kdrelative'][0]|abs }}</b> lower K/D (<span class='red'>{{x['kdrelative'][1] }}%</span>)
                 {% if x['wlrelative'][0] > 0 %}
                     but a <b>{{ x['wlrelative'][0]|abs }}</b> higher W/L (<span class='green'>+{{ x['wlrelative'][1]|abs }}%</span>).
                 {% elif x['wlrelative'][0] < 0 %}
@@ -349,23 +349,23 @@ function scrollFunction() {
             {% endif %}
             </p>
             <p>
-            <br>{{ x['kills'] }} kills
-            <br>{{ x['deaths'] }} deaths
-            <br>{{x['assists']}} assists 
-            <br>{{ x['kd'] }} K/D
-            <br>{{ x['survived'] }} players survived
-            <br>{{x['games']}} games played
-            <br>{{x['wins']}} wins
-            <br>{{x['losses']}} losses
-            <br>{{ x['wl'] }} W/L - {{x['winperc']}}% win rate
-            <br>{{x['kit']}} currently equipped
-            <br>Fastest win: {{x['fastestwin']}}
-            <br>Highest-kill game: {{x['highkill']}} kills
+            <br><b>{{ x['kills'][0] }}</b> kills <b>({{ x['kills'][1]|round(2) }}%)</b>
+            <br><b>{{ x['deaths'][0] }}</b> deaths <b>({{ x['deaths'][1]|round(2) }}%)</b>
+            <br><b>{{x['assists'][0]}}</b> assists  <b>({{ x['assists'][1]|round(2) }}%)</b>
+            <br><b>{{ x['kd'] }}</b> K/D
+            <br><b>{{ x['survived'][0] }}</b> players survived <b>({{ x['survived'][1]|round(2) }}%)</b>
+            <br><b>{{x['games'][0]}}</b> games played <b>({{ x['games'][1]|round(2) }}%)</b>
+            <br><b>{{x['wins'][0]}}</b> wins <b>({{ x['wins'][1]|round(2) }}%)</b>
+            <br><b>{{x['losses'][0]}}</b> losses <b>({{ x['losses'][1]|round(2) }}%)</b>
+            <br><b>{{ x['wl'][0] }}</b> W/L - <b>{{x['winperc']}}%</b> win rate
+            <br><b>{{x['kit']}}</b> currently equipped
+            <br>Fastest win: <b>{{x['fastestwin']}}</b>
+            <br>Highest-kill game: <b>{{x['highkill']}}</b> kills
             </p>
             {% endif %}
         {% endfor %}
 
-        <div class="splide">
+<!--         <div class="splide">
             <div class="splide__track">
                 <ul class="splide__list">
                     <li class="splide__slide">Slide 01</li>
@@ -378,6 +378,6 @@ function scrollFunction() {
             document.addEventListener( 'DOMContentLoaded', function () {
                 new Splide( '.splide' ).mount();
             } );
-        </script>
+        </script> -->
 </div>
 {% endblock %}

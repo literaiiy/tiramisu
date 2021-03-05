@@ -849,224 +849,95 @@ def compute(q):
             swExpList[4]=(round((swExpList[1] - math.floor(swExpList[1])) * 100, 2))
         except: pass
 
-    ########## SkyWars Solo
-        try: 
-            swVAR = reqAPI['player']['stats']['SkyWars']
+    ########## SkyWars Mode Stats I
+        def swModeStats(statsList, gamemoder):
             try:
-                solokd = round(swVAR.get('kills_solo',0)/swVAR.get('deaths_solo', 1),4)
-            except:
-                solokd = '1'
-            try:
-                solowl = round(swVAR.get('wins_solo',0)/swVAR.get('losses_solo', 1),4)
-            except:
-                solowl = '1'       
-            solowlrelative = [0,0]
-            try:
-                solowlrelative[0] = round(solowl-swStatsList[8],4)
-                solowlrelative[1] = round(100*(solowl/swStatsList[8]-1),2)
-            except: pass
-            solokdrelative = [0,0]
-            try:
-                solokdrelative[0] = round(solokd-swStatsList[4],4)
-                solokdrelative[1] = round(100*(solokd/swStatsList[4]-1),2)
-            except: pass
-            swSoloStatsList = {
-                "kills": [swVAR.get('kills_solo',0), round(100*(swVAR.get('kills_solo',0)/swkills),2)],
-                "deaths": [swVAR.get('deaths_solo', 0), swVAR.get('deaths_solo', 0)/swdeaths],
-                "kd": [solokd, solokdrelative[0]],
-                "assists": [swVAR.get('assists_solo', 0), swVAR.get('assists_solo', 0)/swassists],
-                "survived": [swVAR.get('survived_players_solo',0),swVAR.get('survived_players_solo',0)/swStatsList[9]],
-                "games": swVAR.get('wins_solo',0) + swVAR.get('losses_solo',0),
-                "wins": [swVAR.get('wins_solo',0), swVAR.get('wins_solo',0)/swwins],
-                "losses": [swVAR.get('losses_solo',0), swVAR.get('losses_solo',0)/swlosses],
-                "wl": [solowl, solowlrelative[0]],
-                "kit": swVAR.get('activeKit_SOLO','Default').split('_')[-1].capitalize(),
-                "fastestwin": minsec(swVAR.get('fastest_win_solo',0)),
-                'highkill': swVAR.get('most_kills_game_solo',0),
-                'kdrelative': solokdrelative,
-                'wlrelative': solowlrelative,
-                'winperc': round(100*(solowl/(1+solowl)), 4)
-            }
+                swVAR = reqAPI['player']['stats']['SkyWars']
+                try:
+                    solokd = round(swVAR.get('kills_' + gamemoder,0)/swVAR.get('deaths_'+gamemoder, 1),4)
+                except:
+                    solokd = 1
+                try:
+                    solowl = round(swVAR.get('wins_'+gamemoder,0)/swVAR.get('losses_'+gamemoder, 1),4)
+                except:
+                    solowl = 1
+                solowlrelative = [0,0]
+                try:
+                    solowlrelative[0] = round(solowl-swStatsList[8],4)
+                    solowlrelative[1] = round(100*(solowl/swStatsList[8]-1),2)
+                except: pass
+                solokdrelative = [0,0]
+                try:
+                    solokdrelative[0] = round(solokd-swStatsList[4],4)
+                    solokdrelative[1] = round(100*(solokd/swStatsList[4]-1),2)
+                except: pass
+                try:
+                    statsList["kills"]= [swVAR.get('kills_'+gamemoder,0), round(100*(swVAR.get('kills_'+gamemoder,0)/swkills),2)]
+                except: statsList["kills"]=[0,0]
+                try:
+                    statsList["deaths"]= [swVAR.get('deaths_'+gamemoder, 0), round(100*(swVAR.get('deaths_'+gamemoder, 0)/swdeaths),2)]
+                except: statsList["deaths"] = [0,0]
+                try:
+                    statsList["kd"]= solokd
+                except: statsList["kd"] = [0,0]
+                try:
+                    statsList["assists"]= [swVAR.get('assists_'+gamemoder, 0), round(100*(swVAR.get('assists_'+gamemoder, 0)/swStatsList[5]),2)]
+                except: statsList["assists"] = (0,0)
+                try:
+                    statsList["survived"]= [swVAR.get('survived_players_'+gamemoder,0), round(100*(swVAR.get('survived_players_'+gamemoder,0)/swStatsList[9]),2)]
+                except: statsList["survived"] = (0,0)
+                try:
+                    statsList["games"]= [swVAR.get('wins_'+gamemoder,0) + swVAR.get('losses_'+gamemoder,0), round(100*(swVAR.get('wins_'+gamemoder,0) + swVAR.get('losses_'+gamemoder,0))/swgames,2)]
+                except: statsList["games"] = (0,0)
+                try:
+                    statsList["wins"]= [swVAR.get('wins_'+gamemoder,0), round(100*(swVAR.get('wins_'+gamemoder,0)/swwins),2)]
+                except: statsList["wins"] = (0,0)
+                try:
+                    statsList["losses"]= [swVAR.get('losses_'+gamemoder,0), round(100*(swVAR.get('losses_'+gamemoder,0)/swlosses),2)]
+                except: statsList["losses"] = (0,0)
+                statsList["wl"]= solowl
+                statsList["kit"]= swVAR.get('activeKit_'+gamemoder.upper(),'Default').split('_')[-1].capitalize()
+                statsList["fastestwin"]= minsec(swVAR.get('fastest_win_'+gamemoder,0))
+                statsList['highkill']= swVAR.get('most_kills_game_'+gamemoder,0)
+                statsList['kdrelative']= solokdrelative
+                statsList['wlrelative']= solowlrelative
+                statsList['winperc']= round(100*(solowl/(1+solowl)), 4)
 
-        # REWRITE THESE THREE ############### SkyWars Team
-            try:
-                teamkd = round(swVAR.get('kills_team',0)/swVAR.get('deaths_team', 1),4)
+                if gamemoder == 'team':
+                    statsList['kit'] = swVAR.get('activeKit_TEAMS','Default').split('_')[-1].capitalize().replace('-',' ').title()
+                
+                if gamemoder == 'ranked':
+                    if statsList['highkill'] > 3:
+                        statsList['highkill'] = 3
+
             except:
-                teamkd = '1'
-            try:
-                teamwl = round(swVAR.get('wins_team',0)/swVAR.get('losses_team', 1),4)
-            except:
-                teamwl = '1'     
-            teamwlrelative = [0,0]
-            try:
-                teamwlrelative[0] = round(teamwl-swStatsList[8],4)
-                teamwlrelative[1] = round(100*(teamwl/swStatsList[8]-1),2)
-            except: pass
-            teamkdrelative = [0,0]
-            try:
-                teamkdrelative[0] = round(teamkd-swStatsList[4],4)
-                teamkdrelative[1] = round(100*(teamkd/swStatsList[4]-1),2)
-            except: pass
-            swTeamStatsList = {
-                "kills": swVAR.get('kills_team',0),
-                "deaths": swVAR.get('deaths_team', 0),
-                "kd": teamkd,
-                "assists": swVAR.get('assists_team', 0),
-                "survived":swVAR.get('survived_players_team',0),
-                "games": swVAR.get('wins_team',0) + swVAR.get('losses_team',0),
-                "wins": swVAR.get('wins_team',0),
-                "losses": swVAR.get('losses_team',0),
-                "wl": teamwl,
-                "kit": swVAR.get('activeKit_TEAMS','Default').split('_')[-1].replace('-',' ').title(),
-                "fastestwin": minsec(swVAR.get('fastest_win_team',0)),
-                'highkill': swVAR.get('most_kills_game_team',0),
-                'kdrelative': teamkdrelative,
-                'wlrelative': teamwlrelative,
-                'winperc': round(100*(teamwl/(1+teamwl)), 4)
-            }
-        ################ SkyWars Ranked
-            try:
-                rankedkd = round(swVAR.get('kills_ranked',0)/swVAR.get('deaths_ranked', 1),4)
-            except:
-                rankedkd = '1'
-            try:
-                rankedwl = round(swVAR.get('wins_ranked',0)/swVAR.get('losses_ranked', 1),4)
-            except:
-                rankedwl = '1'
-            rankedwlrelative = [0,0]
-            try:
-                rankedwlrelative[0] = round(rankedwl-swStatsList[8],4)
-                rankedwlrelative[1] = round(100*(rankedwl/swStatsList[8]-1),2)
-            except: pass
-            rankedkdrelative = [0,0]
-            try:
-                rankedkdrelative[0] = round(rankedkd-swStatsList[4],4)
-                rankedkdrelative[1] = round(100*(rankedkd/swStatsList[4]-1),2)
-            except: pass
-            swRankedStatsList = {
-                "kills": swVAR.get('kills_ranked',0),
-                "deaths": swVAR.get('deaths_ranked', 0),
-                "kd": rankedkd,
-                "assists": swVAR.get('assists_ranked', 0),
-                "survived":swVAR.get('survived_players_ranked',0),
-                "games": swVAR.get('wins_ranked',0) + swVAR.get('losses_ranked',0),
-                "wins": swVAR.get('wins_ranked',0),
-                "losses": swVAR.get('losses_ranked',0),
-                "wl": rankedwl,
-                "kit": swVAR.get('activeKit_RANKED','Default').split('_')[-1].replace('-',' ').title(),
-                "fastestwin": minsec(swVAR.get('fastest_win_ranked',0)),
-                'kdrelative': rankedkdrelative,
-                'wlrelative': rankedwlrelative,
-                'winperc': round(100*(rankedwl/(1+rankedwl)), 4)
-            }
-        ################ SkyWars Mega
-            try:
-                megakd = round(swVAR.get('kills_mega',0)/swVAR.get('deaths_mega', 1),4)
-            except:
-                megakd = '1'
-            try:
-                megawl = round(swVAR.get('wins_mega',0)/swVAR.get('losses_mega', 1),4)
-            except:
-                megawl = '1'
-            megawlrelative = [0,0]
-            try:
-                megawlrelative[0] = round(megawl-swStatsList[8],4)
-                megawlrelative[1] = round(100*(megawl/swStatsList[8]-1),2)
-            except: pass
-            megakdrelative = [0,0]
-            try:
-                megakdrelative[0] = round(megakd-swStatsList[4],4)
-                megakdrelative[1] = round(100*(megakd/swStatsList[4]-1),2)
-            except: pass
-            swMegaStatsList = {
-                "kills": swVAR.get('kills_mega',0),
-                "deaths": swVAR.get('deaths_mega', 0),
-                "kd": megakd,
-                "assists": swVAR.get('assists_mega', 0),
-                "survived":swVAR.get('survived_players_mega',0),
-                "games": swVAR.get('wins_mega',0) + swVAR.get('losses_mega',0),
-                "wins": swVAR.get('wins_mega',0),
-                "losses": swVAR.get('losses_mega',0),
-                "wl": megawl,
-                "kit": swVAR.get('activeKit_RANKED','Default').split('_')[-1].replace('-',' ').title(),
-                "fastestwin": minsec(swVAR.get('fastest_win_mega',0)),
-                'kdrelative': megakdrelative,
-                'wlrelative': megawlrelative,
-                'winperc': round(100*(megawl/(1+megawl)), 4)
-            }
+                statsList = {
+                "kills": (0,0),
+                "deaths": (0,0),
+                "kd": 0,
+                "assists": (0,0),
+                "survived":(0,0),
+                "games": (0,0),
+                "wins": (0,0),
+                "losses": (0,0),
+                "wl": 0,
+                "kit": "Default",
+                "fastestwin": "N/A",
+                'highkill': 0,
+                'kdrelative': [0,0],
+                'wlrelative': [0,0],
+                'winperc': 0,
+                }
+            return statsList
         
-        except:
-            swSoloStatsList = { # MAKE THESE INDIVIDUAL FROM EACH OTHER IN 4 DIFF TRY STATEMENTS
-            "kills": 0,
-            "deaths": 0,
-            "kd": 0,
-            "assists": 0,
-            "survived":0,
-            "games": 0,
-            "wins": 0,
-            "losses": 0,
-            "wl": 0,
-            "kit": "Default",
-            "fastestwin": "N/A",
-            'highkill': 0,
-            'kdrelative': (0,0),
-            'wlrelative': (0,0),
-            'winperc': 0
-            }
-
-            swTeamStatsList = {
-            "kills": 0,
-            "deaths": 0,
-            "kd": 0,
-            "assists": 0,
-            "survived":0,
-            "games": 0,
-            "wins": 0,
-            "losses": 0,
-            "wl": 0,
-            "kit": "Default",
-            "fastestwin": "N/A",
-            'highkill': 0,
-            'kdrelative': (0,0),
-            'wlrelative': (0,0),
-            'winperc': 0
-            }
-
-            swRankedStatsList = {
-            "kills": 0,
-            "deaths": 0,
-            "kd": 0,
-            "assists": 0,
-            "survived":0,
-            "games": 0,
-            "wins": 0,
-            "losses": 0,
-            "wl": 0,
-            "kit": "Default",
-            "fastestwin": "N/A",
-            'highkill': 0,
-            'kdrelative': (0,0),
-            'wlrelative': (0,0),
-            'winperc': 0
-            }
-
-            swMegaStatsList = {
-            "kills": 0,
-            "deaths": 0,
-            "kd": 0,
-            "assists": 0,
-            "survived":0,
-            "games": 0,
-            "wins": 0,
-            "losses": 0,
-            "wl": 0,
-            "kit": "Default",
-            "fastestwin": "N/A",
-            'highkill': 0,
-            'kdrelative': (0,0),
-            'wlrelative': (0,0),
-            'winperc': 0
-            }
+        swSoloStatsList = {}
+        swTeamStatsList = {}
+        swRankedStatsList = {}
+        swMegaStatsList = {}
+        swSoloStatsList = swModeStats(swSoloStatsList, 'solo')
+        swTeamStatsList = swModeStats(swTeamStatsList, 'team')
+        swRankedStatsList = swModeStats(swRankedStatsList, 'ranked')
+        swMegaStatsList = swModeStats(swMegaStatsList, 'mega')
 
         # Printing!
         print(swStatsList)

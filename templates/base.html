@@ -481,7 +481,34 @@ function scrollFunction() {
             </p>
         {% endif %}
 
-
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+        <div class='canvasContainer' style='position:relative;height:25%; width:25%'>
+            <canvas id="myChart"></canvas>
+            <script>
+            var ctx = document.getElementById('myChart');
+            // @ts-ignore
+            var swKTL = {{swKTLList}};
+            var myChart = new Chart(ctx, {
+                type: 'doughnut',
+                responsive: true,
+                maintainAspectRatio:false,
+                data: {
+                    labels: ['Melee', 'Void', 'Bow', 'Mob', 'Fall'],
+                    datasets: [{
+                        label: 'I dunno',
+                        data: swKTL,
+                        borderWidth: 1,
+                        backgroundColor: [
+                            'rgba(255, 99, 132)',
+                            'rgba(54, 162, 235)',
+                            'rgba(255, 206, 86)',
+                            'rgba(75, 192, 192)',
+                            'rgba(153, 102, 255)',
+                        ],
+                    }]
+                },
+            });
+            </script>
         </div>
 
         <!-- Time Wasted -->

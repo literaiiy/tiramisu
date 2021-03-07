@@ -469,14 +469,13 @@ function scrollFunction() {
             }
         </script>
 
-        <h2>{{swKTLList}}</h2>
         <!-- Kills by -->
         {% if swKillTypeList['success'] == True %}
             <div class='h3d'>Kills by:</div>
             <p>
                 {% for killType in swKillTypeList %}
                     {% if killType != 'success' %}
-                        {{killType}}: {{ swKillTypeList[killType][0] }} ({{swKillTypeList[killType][1] }}%)<br>
+                        {{killType|title}}: {{ swKillTypeList[killType][0] }} ({{swKillTypeList[killType][1] }}%)<br>
                     {% endif %}
                 {% endfor %}
             </p>
@@ -498,11 +497,27 @@ function scrollFunction() {
                     datasets: [{
                         label: 'I dunno',
                         data: swKTL,
-                        borderWidth: 1
+                        borderWidth: 1,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)',
+                        ],
                     }]
                 },
             });
             </script>
         </div>
+
+        <!-- Time Wasted -->
+        <div class='h3d'>Time Wasted</div> 
+        <p>
+            {% for mode in range(6) %}
+            {{ swTimeModeList[mode] }}: {{ swTimeLists[0][mode] }} seconds - {{swTimeLists[1][mode]}}% <br>
+            {% endfor %}
+        </p>
+
 </body>
 {% endblock %}

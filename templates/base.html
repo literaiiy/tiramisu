@@ -518,6 +518,27 @@ function scrollFunction() {
             {{ swTimeModeList[mode] }}: {{ swTimeLists[0][mode] }} seconds - {{swTimeLists[1][mode]}}% <br>
             {% endfor %}
         </p>
+        <div class='canvasContainer2' style='position:relative;height:25%; width:25%'>
+            <canvas id="myChart2"></canvas>
+            <script>
+            var ctx = document.getElementById('myChart2');
+            // @ts-ignore
+            var swKTL = {{swKTLList}};
+            var myChart = new Chart(ctx, {
+                type: 'doughnut',
+                responsive: true,
+                maintainAspectRatio:false,
+                data: {
+                    labels: ['sw', 'Void', 'Bow', 'Mob', 'Fall'],
+                    datasets: [{
+                        label: 'I dunno',
+                        data: swKTL,
+                        borderWidth: 1,
+                    }]
+                },
+            });
+            </script>
+        </div>
 
 </body>
 {% endblock %}

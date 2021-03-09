@@ -517,8 +517,10 @@ def compute(q):
         if playedOnHypixel == True:
             firstLogin = datetime.fromtimestamp(firstLoginUnix).strftime('%a, %b %d, %Y at %I:%M %p %z')
         ###
-            nhut3unix = namehispure[1]['changed_to_at']/1000 - firstLoginUnix	
-            jon = sec2format(nhut3unix)	
+            try:
+                nhut3unix = namehispure[1]['changed_to_at']/1000 - firstLoginUnix
+            except: nhut3unix = 0
+            jon = sec2format(nhut3unix)
             if jon[0] > 0:	
                 namehis[len(namehis)-1]['time_between'] = '>' + str(jon[0]) + 'y ' + str(jon[1]) + 'd ' + str(jon[2]) + 'h ' + str(jon[3]) + 'm'	
             elif nhutdate[0] == 0:	
@@ -526,13 +528,8 @@ def compute(q):
             if jon[0] > 10:	
                 namehis[len(namehis)-1]['time_between'] = ''	
         else:	
-            namehis[len(namehis)-1]['time_between'] = ''	
+            namehis[len(namehis)-1]['time_between'] = ''
         namehisDiffe = namehis[len(namehis)-2]['time_between']	
-        
-        print(sec2format(nhut2unix/1000))
-        print(sec2format(firstLoginUnix))
-        print(sec2format(nhut3unix))
-        print(namehispure)
 
         # Does this serve a purpose?
         # try:	
@@ -547,7 +544,8 @@ def compute(q):
 
         #else:
          #   namehis[-1]['time_between'] = ''
-        namehis[0]['time_between'] = sec2format2ydhms(sec2format(int(time.time())-nhut2unix/1000))
+        if firstLoginUnix > 1357027200:
+            namehis[0]['time_between'] = sec2format2ydhms(sec2format(int(time.time())-nhut2unix/1000))
         
 ############################################################################ QUESTS, AP, & ACHIEVEMENTS ############################################################################
         try:

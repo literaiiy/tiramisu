@@ -226,57 +226,65 @@ def compute(q):
 
 ############################################################################ NAME HISTORY ############################################################################
         namehis = MojangAPI.get_name_history(uuid)
-        try:
-            namehisFirstNameUnix = namehis[1]['changed_to_at']
-        except: pass
+        namehispure = MojangAPI.get_name_history(uuid)
         namehisLength = len(namehis)
         nhutminus1 = 0
-        namehisUnix2 = 0
+        nhutChangedToAt = 0
         nhutindex = 0
         nhut2unix = 0
-        try:
-            namehis[0]['changed_to_at'] = reqAPI['player']['firstLogin']
-        except:
-            namehis[0]['changed_to_at'] = ''
 
-        nhutdate = [0,0,0,0,0]
+        # Takes in seconds, returns list of Y, D, H, M, S
         def sec2format(namehisDiff):
             nhutdate[0] = math.floor(namehisDiff / 31536000)
             nhutdate[1] = math.floor(namehisDiff / 86400) - nhutdate[0] * 365
             nhutdate[2] = math.floor(namehisDiff / 3600) - nhutdate[1] * 24 - nhutdate[0] * 365 * 24
             nhutdate[3] = math.floor(namehisDiff / 60) -nhutdate[2] * 60 - nhutdate[1] * 24 * 60 - nhutdate[0] * 365 * 24 * 60
             nhutdate[4] = int(namehisDiff % 60)
-            if nhutdate[0] != 0: return str(nhutdate[0])+'y '+str(nhutdate[1])+'d '+str(nhutdate[2])+'h '+str(nhutdate[3])+'m '+str(nhutdate[4])+'s'
-            elif nhutdate[0] == 0: return str(nhutdate[1])+'d '+str(nhutdate[2])+'h '+str(nhutdate[3])+'m '+str(nhutdate[4])+'s'
-            elif nhutdate[0] == 0 and namehisDiff[1] == 0 : return str(nhutdate[2])+'h '+str(nhutdate[3])+'m '+str(nhutdate[4])+'s'
-            elif nhutdate[0] == 0 and namehisDiff[1] == 0 and namehisDiff[2] == 0 : return +str(nhutdate[3])+'m '+str(nhutdate[4])+'s'
-            else: return nhutdate[4]+'s'
+            return [nhutdate[0],nhutdate[1],nhutdate[2],nhutdate[3],nhutdate[4]]
+        try:
+            sec2format(namehisDiff)
+        except:
+            pass
+        
+        # Takes in list of Y, D, H, M, S and formats it into a readable string
+        def sec2format2ydhms(sec2formatted):
+            if sec2formatted[0] > 0:
+                return str(sec2formatted[0]) + 'y ' + str(sec2formatted[1]) + 'd ' + str(sec2formatted[2]) + 'h ' + str(sec2formatted[3]) + 'm ' + str(sec2formatted[4]) + 's'
+            elif sec2formatted[0] == 0:
+                return str(sec2formatted[1]) + 'd ' + str(sec2formatted[2]) + 'h ' + str(sec2formatted[3]) + 'm ' + str(sec2formatted[4]) + 's'
+            elif sec2formatted[0] == 0 and sec2formatted[1] == 0:
+                return str(sec2formatted[2]) + 'h ' + str(sec2formatted[3]) + 'm ' + str(sec2formatted[4]) + 's'
+            elif sec2formatted[0] == 0 and sec2formatted[1] == 0 and sec2formatted[2] == 0:
+                return str(sec2formatted[3]) + 'm ' + str(sec2formatted[4]) + 's'
+            elif sec2formatted[0] == 0 and sec2formatted[1] == 0 and sec2formatted[2] == 0 and sec2formatted[3] == 0:
+                return str(sec2formatted[4] + 's')
+
+        # If the person has played on Hypixel, the last column's changed_to_at should be their first login
+        try:
+            namehis[0]['changed_to_at'] = reqAPI['player']['firstLogin']
+        except:
+            namehis[0]['changed_to_at'] = ''
 
         # Iterate through dict to add changed_to_at & time_between columns
+        nhutdate = [0,0,0,0,0]
         for namehisUnixTime in namehis:
             try:
-                namehisUnix2 = namehisUnixTime['changed_to_at']
-                namehisUnixTime['changed_to_at'] = datetime.fromtimestamp(namehisUnix2/1000).strftime('%b %d, %Y @ %I:%M:%S %p')
-                namehisDiff = (namehisUnix2 - nhutminus1)/1000
-                namehisUnixTime['time_between'] = sec2format(namehisDiff)
-                nhutminus1 = namehisUnix2
+                nhutChangedToAt = namehisUnixTime['changed_to_at']
+                namehisUnixTime['changed_to_at'] = datetime.fromtimestamp(nhutChangedToAt/1000).strftime('%b %d, %Y @ %I:%M:%S %p')
+                namehisDiff = (nhutChangedToAt - nhutminus1)/1000
+                namehisUnixTime['time_between'] = sec2format2ydhms(sec2format(namehisDiff))
+                nhutminus1 = nhutChangedToAt
                 nhutindex += 1
-                if nhutindex == 2:
-                    nhut2unix = namehisUnix2
-            except:
-                True
 
-        # Gives time_between list
-            try:
-                sec2format(namehisDiff)
+                # This fixes it somehow
+                if nhutindex == len(namehis):
+                    nhut2unix = nhutChangedToAt
+
             except:
                 pass
-        
-        # Adds the first fucking name time for the second time
-        try:
-            print("this is namehis")
-            #namehis[]['time_between'] = sec2format(namehisFirstNameUnix/1000-reqAPI['player']['firstLogin']/1000)
-        except: print("Fuck")
+
+        # Gives time_between list
+            
 
         # Shifts position of time_changed one over
         dhmclist = []
@@ -290,10 +298,10 @@ def compute(q):
                 xe['time_between'] = dhmclist[ranger]
                 ranger += 1
         except:
-            True
+            pass
         namehis[0]['time_between'] = ''
 
-        # Switches position of columns
+        # Switches position of columns so that it goes #, Name, Time changed, Duration had
         value = 1
         for i in namehis:
             i['num'] = value
@@ -494,6 +502,7 @@ def compute(q):
         lastLogout = datetime.fromtimestamp(lastLogoutUnix).strftime('%a, %b %d, %Y at %I:%M %p %z')
             
         # First login
+        try:
             firstLoginUnix = int(reqAPI['player']['firstLogin']/1000)
         except:
             firstLoginUnix = 1
@@ -507,15 +516,39 @@ def compute(q):
         # If played on Hypixel before, changes the user's 2nd time_between to between the first name change and their first log-on to Hypixel
         if playedOnHypixel == True:
             firstLogin = datetime.fromtimestamp(firstLoginUnix).strftime('%a, %b %d, %Y at %I:%M %p %z')
-            timeBetween = nhut2unix/1000 - firstLoginUnix
-        else:
-           namehis[len(namehis)-1]['time_between'] = ''
+        ###
+            nhut3unix = namehispure[1]['changed_to_at']/1000 - firstLoginUnix	
+            jon = sec2format(nhut3unix)	
+            if jon[0] > 0:	
+                namehis[len(namehis)-1]['time_between'] = '>' + str(jon[0]) + 'y ' + str(jon[1]) + 'd ' + str(jon[2]) + 'h ' + str(jon[3]) + 'm'	
+            elif nhutdate[0] == 0:	
+                namehis[len(namehis)-1]['time_between'] = '>' + str(jon[1]) + 'd ' + str(jon[2]) + 'h ' + str(jon[3]) + 'm'	
+            if jon[0] > 10:	
+                namehis[len(namehis)-1]['time_between'] = ''	
+        else:	
+            namehis[len(namehis)-1]['time_between'] = ''	
+        namehisDiffe = namehis[len(namehis)-2]['time_between']	
+        
+        print(sec2format(nhut2unix/1000))
+        print(sec2format(firstLoginUnix))
+        print(sec2format(nhut3unix))
+        print(namehispure)
 
-        # Why is this shit even here? It does the time.time() thing to make sure that the latest name duration is accurate
-        try:
-            namehis[0]['time_between'] = sec2format(int(time.time())-namehisUnix2/1000)
-        except: pass
+        # Does this serve a purpose?
+        # try:	
+        #     nhutdate3 = [0,0,0,0]	
+        #     nhutdate3[0] = math.floor(nhut2ndindex / 31536000)	
+        #     nhutdate3[1] = math.floor(nhut2ndindex / 86400) - nhutdate3[0] * 365	
+        #     nhutdate3[2] = math.floor(nhut2ndindex / 3600) - nhutdate3[1] * 24 - nhutdate3[0] * 365 * 24	
+        #     nhutdate3[3] = math.floor(nhut2ndindex / 60) -nhutdate3[2] * 60 - nhutdate3[1] * 24 * 60 - nhutdate3[0] * 365 * 24 * 60	
+        # except:	
+        #     nhutdate3=[0,0,0,0]
+        ###
 
+        #else:
+         #   namehis[-1]['time_between'] = ''
+        namehis[0]['time_between'] = sec2format2ydhms(sec2format(int(time.time())-nhut2unix/1000))
+        
 ############################################################################ QUESTS, AP, & ACHIEVEMENTS ############################################################################
         try:
             achievements = len(reqAPI['player']['achievements'])+len(reqAPI['player']['achievementsOneTime'])
@@ -543,10 +576,12 @@ def compute(q):
 
         joinedAgo = 0
         joinedAgoText = ''
-        seniority = '☘ Hypixel Newcomer'
+        seniorityTimeTuple = (0, 8895953, 20301357, 34924098, 53671752, 77707908, 108524398, 148033875, 198688534, 263632309, 346896000)
+        seniority = 'Freshie'
         try:
             joinedAgo = time.time() - firstLoginUnix
-            joinedAgoText = sec2format(joinedAgo)
+            joinedAgoText = sec2format2ydhms(sec2format(joinedAgo))
+                
             if joinedAgo < 8895953: seniority = '☘ Hypixel Newcomer'
             elif joinedAgo < 20301357: seniority = '☘ Hypixel Rookie'
             elif joinedAgo < 34924098: seniority = '➴ Hypixel Novice'
@@ -565,7 +600,7 @@ def compute(q):
         rankunparsedcolor = ''
         try:
             if rankUnparsed != 0:
-                boughtPastRank = sec2format(time.time() - reqAPI['player']['levelUp_' + rankUnparsed]/1000)
+                boughtPastRank = sec2format2ydhms(sec2format(time.time() - reqAPI['player']['levelUp_' + rankUnparsed]/1000))
                 boughtPastTimeUnix = reqAPI['player']['levelUp_' + rankUnparsed]/1000
                 boughtPastTime = datetime.fromtimestamp(boughtPastTimeUnix).strftime('%b %d, %Y at %I:%M %p %z')
                 if 'MVP_PLUS' in rankUnparsed: 
@@ -1010,13 +1045,14 @@ def compute(q):
         swTimeModeList = ['Overall', 'Solo', 'Teams', 'Mega', 'Ranked', 'Laboratory']
         for mode in ['','_solo', '_team','_mega','_ranked','_lab']:
             try:
-                swTimeList.append(reqAPI['player']['stats']['SkyWars']['time_played'+mode])
-                swTimeListPerc.append(round(100*(reqAPI['player']['stats']['SkyWars']['time_played'+mode]/reqAPI['player']['stats']['SkyWars']['time_played']), 2))
+                timePlayedForThisMode = reqAPI['player']['stats']['SkyWars']['time_played'+mode]
+                swTimeList.append(sec2format2ydhms(sec2format(timePlayedForThisMode)))
+                swTimeListPerc.append(round(100*(timePlayedForThisMode/reqAPI['player']['stats']['SkyWars']['time_played']), 2))
             except:
                 swTimeList.append(0)
                 swTimeListPerc.append(0)
 
-        # Printing!
+        ########## Printing!
         print(swStatsList)
         print(len(swStatsList))
 

@@ -76,7 +76,7 @@ function scrollFunction() {
 
 <div class="row">
     <div class="columnZ">
-        <img style='position: relative;margin-top:10px; margin-left:-500px;z-index:3;' src='https://mc-heads.net/body/{{ uuid }}'><br>
+        <img style='position: relative;margin-top:10px; margin-left:-500px;z-index:3;' src='https://mc-heads.net/body/{{ uuid }}/right'><br>
         <div style='margin-right:1%;margin-top:-300px;z-index:2;' class="splide">
             <div class="splide__track">
                 <ul class="splide__list">
@@ -499,11 +499,11 @@ function scrollFunction() {
                         data: swKTL,
                         borderWidth: 1,
                         backgroundColor: [
-                            'rgba(255, 99, 132)',
-                            'rgba(54, 162, 235)',
-                            'rgba(255, 206, 86)',
-                            'rgba(75, 192, 192)',
-                            'rgba(153, 102, 255)',
+                            '#4357ad',
+                            '#48a9a6',
+                            '#e4dfda',
+                            '#D4B483',
+                            '#C1666B',
                         ],
                     }]
                 },
@@ -516,9 +516,9 @@ function scrollFunction() {
         <p>
             {% for mode in range(6) %}
                 {% if swTimeModeList[mode] == 'Overall' %}
-                     {{ swTimeLists[0][mode] }} in total <br>
+                     <b>{{ swTimeLists[0][mode] }}</b> in total <br>
                 {% else %}
-                    {{ swTimeModeList[mode] }}: {{ swTimeLists[0][mode] }} - {{swTimeLists[1][mode]}}% <br>
+                    {{ swTimeModeList[mode] }}: <b>{{ swTimeLists[0][mode] }}</b> - {{swTimeLists[1][mode]}}% <br>
                 {% endif %}
             {% endfor %}
         </p>
@@ -527,22 +527,40 @@ function scrollFunction() {
             <script>
             var ctx = document.getElementById('myChart2');
             // @ts-ignore
-            var swKTL = {{swKTLList}};
-            var myChart = new Chart(ctx, {
+            var swTWL = {{swTimeListPercMinusOverall}}
+            var myChart2 = new Chart(ctx, {
                 type: 'doughnut',
                 responsive: true,
                 maintainAspectRatio:false,
                 data: {
-                    labels: ['Melee', 'Void', 'Bow', 'Mob', 'Fall'],
+                    labels: ['Solo', 'Teams', 'Mega', 'Ranked', 'Laboratory'],
                     datasets: [{
-                        label: 'I dunno',
-                        data: swKTL,
+                        data: swTWL,
                         borderWidth: 1,
+                        backgroundColor: [
+                            '#283044',
+                            '#78a1bb',
+                            '#ebf5ee',
+                            'bfa89e',
+                            '8b786d',
+                        ]
                     }]
                 },
             });
             </script>
         </div>
+
+        <p>
+        {% for item in swUnitConvList %}
+            <b>{{ '{0:,}'.format(item[0]) }}</b> {{ item[1] }} <br>
+        {% endfor %}
+        </p>
+
+        <p>
+        {% for item in swUnitConvList2 %}
+            {{ item[0] }}<b>{{ '{0:,}'.format(item[1]) }}</b>{{ item[2] }} <br>
+        {% endfor %}
+        </p>
 
 </body>
 {% endblock %}

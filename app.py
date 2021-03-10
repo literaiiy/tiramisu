@@ -248,16 +248,20 @@ def compute(q):
         
         # Takes in list of Y, D, H, M, S and formats it into a readable string
         def sec2format2ydhms(sec2formatted):
+            print(sec2formatted)
             if sec2formatted[0] > 0:
                 return str(sec2formatted[0]) + 'y ' + str(sec2formatted[1]) + 'd ' + str(sec2formatted[2]) + 'h ' + str(sec2formatted[3]) + 'm ' + str(sec2formatted[4]) + 's'
-            elif sec2formatted[0] == 0:
-                return str(sec2formatted[1]) + 'd ' + str(sec2formatted[2]) + 'h ' + str(sec2formatted[3]) + 'm ' + str(sec2formatted[4]) + 's'
-            elif sec2formatted[0] == 0 and sec2formatted[1] == 0:
-                return str(sec2formatted[2]) + 'h ' + str(sec2formatted[3]) + 'm ' + str(sec2formatted[4]) + 's'
-            elif sec2formatted[0] == 0 and sec2formatted[1] == 0 and sec2formatted[2] == 0:
-                return str(sec2formatted[3]) + 'm ' + str(sec2formatted[4]) + 's'
             elif sec2formatted[0] == 0 and sec2formatted[1] == 0 and sec2formatted[2] == 0 and sec2formatted[3] == 0:
                 return str(sec2formatted[4] + 's')
+            elif sec2formatted[0] == 0 and sec2formatted[1] == 0 and sec2formatted[2] == 0:
+                return str(sec2formatted[3]) + 'm ' + str(sec2formatted[4]) + 's'
+            elif sec2formatted[0] == 0 and sec2formatted[1] == 0:
+                return str(sec2formatted[2]) + 'h ' + str(sec2formatted[3]) + 'm ' + str(sec2formatted[4]) + 's'
+            elif sec2formatted[0] == 0:
+                return str(sec2formatted[1]) + 'd ' + str(sec2formatted[2]) + 'h ' + str(sec2formatted[3]) + 'm ' + str(sec2formatted[4]) + 's'
+
+
+
 
         # If the person has played on Hypixel, the last column's changed_to_at should be their first login
         try:
@@ -1044,11 +1048,14 @@ def compute(q):
         for mode in ['','_solo', '_team','_mega','_ranked','_lab']:
             try:
                 timePlayedForThisMode = reqAPI['player']['stats']['SkyWars']['time_played'+mode]
+                print("important shit coming through")
+                print(sec2format(timePlayedForThisMode))
                 swTimeList.append(sec2format2ydhms(sec2format(timePlayedForThisMode)))
                 swTimeListPerc.append(round(100*(timePlayedForThisMode/reqAPI['player']['stats']['SkyWars']['time_played']), 2))
             except:
                 swTimeList.append(0)
                 swTimeListPerc.append(0)
+        print(swTimeList)
 
         ########## Printing!
         print(swStatsList)
@@ -1172,11 +1179,11 @@ def four04(e):
 
 @app.errorhandler(403)
 def four03(e):
-    return "You got a 403 error. How, I don't know. Contact me @kofjeko on Twitter."
+    return "You got a 403 error. How, I don't know. Contact me on Twitter."
 
 @app.errorhandler(502)
 def five02(e):
-    return "Something screwed up with the gateway. Contact me @kofjeko on Twitter."
+    return "Something screwed up with the gateway. Contact me on Twitter."
 
 ############################################################################ FLASK INITIALIZATION ############################################################################
 if __name__ == "__main__":

@@ -515,7 +515,11 @@ function scrollFunction() {
         <div class='h3d'>Time Wasted</div> 
         <p>
             {% for mode in range(6) %}
-            {{ swTimeModeList[mode] }}: {{ swTimeLists[0][mode] }} seconds - {{swTimeLists[1][mode]}}% <br>
+                {% if swTimeModeList[mode] == 'Overall' %}
+                     {{ swTimeLists[0][mode] }} in total <br>
+                {% else %}
+                    {{ swTimeModeList[mode] }}: {{ swTimeLists[0][mode] }} - {{swTimeLists[1][mode]}}% <br>
+                {% endif %}
             {% endfor %}
         </p>
         <div class='canvasContainer2' style='position:relative;height:25%; width:25%'>

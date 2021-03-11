@@ -562,5 +562,40 @@ function scrollFunction() {
         {% endfor %}
         </p>
 
+        <div class="h3d">Souls</div>
+
+        <p>
+        {% for thing in swSoulList %}
+            <span class="{{ thing[2] }}"><b>{{ thing[0] }}</b> {{ thing[1] }} <br></span>
+        {% endfor %}
+        </p>
+
+        <div class='canvasContainerSouls' style='position:relative;height:25%; width:25%'>
+            <canvas id="myChartSouls"></canvas>
+            <script>
+            var ctx = document.getElementById('myChartSouls');
+            // @ts-ignore
+            var swSRL = {{swSoulsRaritiesList}};
+            var myChartSouls = new Chart(ctx, {
+                type: 'doughnut',
+                responsive: true,
+                maintainAspectRatio:false,
+                data: {
+                    labels: ['Commons', 'Rares', 'Legendaries'],
+                    datasets: [{
+                        label: 'I dunno',
+                        data: swSRL,
+                        borderWidth: 1,
+                        backgroundColor: [
+                            '#0a0',
+                            '#55f',
+                            '#fa0',
+                        ],
+                    }]
+                },
+            });
+            </script>
+        </div>
+
 </body>
 {% endblock %}

@@ -24,6 +24,8 @@ app.secret_key = 'a34w7tfyner9ryhzrbfw7ynhhcdtg78as34'
 HAPIKEY = '1e5f6a57-6327-4888-886a-590c39861a6a'
 ADMINS = ['35a178c0c37043aea959983223c04de0']
 FLOWERS = ['27bcc1547423484683fd811155d8c472']
+SPARKLES = ['903100946468408aaf2462365389059c', '35bb69ce904a4380a03ffd55acbc2331', '35a178c0c37043aea959983223c04de0']
+PENGUINS = ['cfc42e543d834b4f9f7a23c059783ba5']
 swearList = ['anal','anus','ass','bastard','bitch','blowjob','blow job','buttplug','clitoris','cock','cunt','dick','dildo','fag','fuck','hell','jizz','nigger','nigga','penis','piss','pussy','scrotum','sex','shit','slut','turd','vagina']
 sweetHeadsRanks = ['HELPER', 'MODERATOR', 'ADMIN', 'OWNER']
 
@@ -1076,6 +1078,44 @@ def compute(q):
         swUnitConvList2.append(('Driven across the United States ', round(TIMEOVERALL/1.2038e+06, 2), ' times'))
         swUnitConvList2.append(('Earned ', round(TIMEOVERALL/1829088, 4), '% of a PhD'))
 
+        # Souls
+        swSoulList = []
+        try:
+            SWVARSOULS = reqAPI['player']['stats']['SkyWars']
+        except: pass
+        try:
+            swSoulList.append((SWVARSOULS['souls'], ' total souls'))
+        except: swSoulList.append((0, ' total souls'))
+        try:
+            swSoulList.append((SWVARSOULS['souls_gathered'], ' souls harvested'))
+        except: swSoulList.append((0, ' souls harvested'))
+        try:
+            swSoulList.append((SWVARSOULS['paid_souls'], ' souls bought'))
+        except: swSoulList.append((0, ' souls bought'))
+        try:
+            swSoulList.append((SWVARSOULS['souls_gathered_lab'], ' souls from lab modes'))
+        except: swSoulList.append((0, ' souls from lab modes'))
+        try:
+            swSoulList.append((swSoulList[1][0]-swSoulList[3][0], ' souls from non-lab modes'))
+        except: swSoulList.append((0, ' souls from non-lab modes'))
+        try:
+            swSoulList.append((SWVARSOULS['paid_souls'], ' souls bought'))
+        except: swSoulList.append((0, ' souls bought'))
+
+        try:
+            swSoulList.append((SWVARSOULS['soul_well_legendaries'], ' legendaries', 'gold'))
+        except: swSoulList.append((0, ' legendaries', 'gold'))
+        try:
+            swSoulList.append((SWVARSOULS['soul_well_rares'], ' rares', 'blue'))
+        except: swSoulList.append((0, ' rares', 'blue'))
+        try:
+            swSoulList.append((SWVARSOULS['soul_well']-SWVARSOULS['soul_well_legendaries']-SWVARSOULS['soul_well_rares'], ' commons', 'green'))
+        except: swSoulList.append((0, ' commons', 'green'))
+        try:
+            swSoulList.append((SWVARSOULS['soul_well'], ' total souls'))
+        except: swSoulList.append((0, ' total souls',))
+
+        swSoulsRaritiesList = [swSoulList[-2][0], swSoulList[-3][0], swSoulList[-4][0]]
 
         ########## Printing!
         #print(swStatsList)
@@ -1111,9 +1151,13 @@ def compute(q):
             displayname += ' 🍰'
         if uuid in FLOWERS:
             displayname += ' 🌸'
+        if uuid in SPARKLES:
+            displayname += ' ✨'
+        if uuid in PENGUINS:
+            displayname += ' 🐧'
         #print(rankParsed)
         print("--- %s seconds ---" % (time.time() - start_time))
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swKW=swStatsList[26], swKL=swStatsList[27], swKG=swStatsList[28], swBPG=swStatsList[29], swEPG=swStatsList[30], swAPG=swStatsList[31], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor, guildList=guildList, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2)
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swKW=swStatsList[26], swKL=swStatsList[27], swKG=swStatsList[28], swBPG=swStatsList[29], swEPG=swStatsList[30], swAPG=swStatsList[31], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor, guildList=guildList, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList)
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:

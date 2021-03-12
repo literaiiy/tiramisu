@@ -1118,10 +1118,10 @@ def compute(q):
         swSoulsRaritiesList = [swSoulList[-2][0], swSoulList[-3][0], swSoulList[-4][0]]
 
         # Heads
-        try:
-            headCollection = reqAPI['player']['stats']['SkyWars']['head_collection']['recent'] + reqAPI['player']['stats']['SkyWars']['head_collection']['prestigious']
+        #try:
+            #headCollection = reqAPI['player']['stats']['SkyWars']['head_collection']['recent'] + reqAPI['player']['stats']['SkyWars']['head_collection']['prestigious']
             #print(headCollection)
-        except: pass
+        #except: pass
 
 
         ########## Printing!

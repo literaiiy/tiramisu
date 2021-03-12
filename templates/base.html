@@ -495,7 +495,6 @@ function scrollFunction() {
                 data: {
                     labels: ['Melee', 'Void', 'Bow', 'Mob', 'Fall'],
                     datasets: [{
-                        label: 'I dunno',
                         data: swKTL,
                         borderWidth: 1,
                         backgroundColor: [
@@ -583,7 +582,6 @@ function scrollFunction() {
                 data: {
                     labels: ['Commons', 'Rares', 'Legendaries'],
                     datasets: [{
-                        label: 'I dunno',
                         data: swSRL,
                         borderWidth: 1,
                         backgroundColor: [
@@ -596,6 +594,120 @@ function scrollFunction() {
             });
             </script>
         </div>
+        <div class="h3d">Heads</div>
+        <p><b>OVERALL</b><br>
+        {% for item in swHeadsListList[0] %}
+            <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]}} ({{item[3]}}%)<br>
+        {% endfor %} </p>
+        <div class='headscont' style='position:relative;height:25%; width:25%'>
+            <canvas id="heads"></canvas>
+            <script>
+            var ctx = document.getElementById('heads');
+            // @ts-ignore
+            var swHLO = {{swHeadsRaw}};
+            var heads = new Chart(ctx, {
+                type: 'doughnut',
+                responsive: true,
+                maintainAspectRatio:false,
+                data: {
+                    labels: ['Eww', 'Yucky', 'Meh', 'Decent', 'Salty', 'Tasty', 'Succulent', 'Sweet', 'Divine', 'Heavenly'],
+                    datasets: [{
+                        data: swHLO,
+                        borderWidth: 1,
+                        backgroundColor: [
+                            '#808080',
+                            '#A9A9A9',
+                            '#D3D3D3',
+                            '#DACB00',
+                            '#0a0',
+                            '#00AAAA',
+                            '#FF55FF',
+                            '#AA00AA',
+                            'gold',
+                            'chocolate',
+                        ],
+                    }]
+                },
+            });
+            </script>
+        </div>
+
+        <p><b>SOLO</b><br>
+        {% for item in swHeadsListList[1] %}
+            <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]}} ({{item[3]}}%)<br>
+        {% endfor %}</p>
+        <div class='headscontsolo' style='position:relative;height:25%; width:25%'>
+            <canvas id="headssolo"></canvas>
+            <script>
+            var ctx = document.getElementById('headssolo');
+            // @ts-ignore
+            var swHLS = {{swHeadsRawSolo}};
+            var headssolo = new Chart(ctx, {
+                type: 'doughnut',
+                responsive: true,
+                maintainAspectRatio:false,
+                data: {
+                    labels: ['Eww', 'Yucky', 'Meh', 'Decent', 'Salty', 'Tasty', 'Succulent', 'Sweet', 'Divine', 'Heavenly'],
+                    datasets: [{
+                        data: swHLS,
+                        borderWidth: 1,
+                        backgroundColor: [
+                            '#808080',
+                            '#A9A9A9',
+                            '#D3D3D3',
+                            '#DACB00',
+                            '#0a0',
+                            '#00AAAA',
+                            '#FF55FF',
+                            '#AA00AA',
+                            'gold',
+                            'chocolate',
+                        ],
+                    }]
+                },
+            });
+            </script>
+        </div>
+
+        <p><b>TEAMS</b><br>
+        {% for item in swHeadsListList[2] %}
+            <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]}} ({{item[3]}}%)<br>
+        {% endfor %}</p>
+        <div class='headscontteam' style='position:relative;height:25%; width:25%'>
+            <canvas id="headsteam"></canvas>
+            <script>
+            var ctx = document.getElementById('headsteam');
+            // @ts-ignore
+            var swHLT = {{swHeadsRawTeam}};
+            var headsteam = new Chart(ctx, {
+                type: 'doughnut',
+                responsive: true,
+                maintainAspectRatio:false,
+                data: {
+                    labels: ['Eww', 'Yucky', 'Meh', 'Decent', 'Salty', 'Tasty', 'Succulent', 'Sweet', 'Divine', 'Heavenly'],
+                    datasets: [{
+                        data: swHLT,
+                        borderWidth: 1,
+                        backgroundColor: [
+                            '#808080',
+                            '#A9A9A9',
+                            '#D3D3D3',
+                            '#DACB00',
+                            '#0a0',
+                            '#00AAAA',
+                            '#FF55FF',
+                            '#AA00AA',
+                            'gold',
+                            'chocolate',
+                        ],
+                    }]
+                },
+            });
+            </script>
+        </div>
+
+        {{ swHeadsRawListList }}
+
 
 </body>
 {% endblock %}

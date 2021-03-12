@@ -213,7 +213,7 @@ def compute(q):
 ############################################################################ JSON PARSING ############################################################################
 
 ############################################################################ RETRIEVE FROM API & INITIALIZE ############################################################################
-        r = requests.get('https://api.hypixel.net/player?key=' + HAPIKEY + '&uuid=' + uuid)
+        r = requests.Session().get('https://api.hypixel.net/player?key=' + HAPIKEY + '&uuid=' + uuid)
         reqAPI = r.json()
         reqList = {}
         try:
@@ -620,7 +620,7 @@ def compute(q):
         except: pass
 
 ############################################################################ PLAYER SESSION DATA ##########################################################################################
-        reqAPIsess = requests.get('https://api.hypixel.net/status?key=' + HAPIKEY + '&uuid=' + uuid)
+        reqAPIsess = requests.Session().get('https://api.hypixel.net/status?key=' + HAPIKEY + '&uuid=' + uuid)
         reqAPIsession = reqAPIsess.json()
         currentSession = ''
         sessionType = ''
@@ -1117,6 +1117,13 @@ def compute(q):
 
         swSoulsRaritiesList = [swSoulList[-2][0], swSoulList[-3][0], swSoulList[-4][0]]
 
+        # Heads
+        #try:
+            #headCollection = reqAPI['player']['stats']['SkyWars']['head_collection']['recent'] + reqAPI['player']['stats']['SkyWars']['head_collection']['prestigious']
+            #print(headCollection)
+        #except: pass
+
+
         ########## Printing!
         #print(swStatsList)
         #print(len(swStatsList))
@@ -1128,7 +1135,7 @@ def compute(q):
         # 2 - guild role
         # 3 - guild color
 
-        VVV = requests.get('https://api.hypixel.net/guild?key=' + HAPIKEY + '&player=' + uuid)
+        VVV = requests.Session().get('https://api.hypixel.net/guild?key=' + HAPIKEY + '&player=' + uuid)
         reqGUILD = VVV.json()
         guildList = [0,0,0,0]
         try:
@@ -1205,7 +1212,7 @@ def friends(q):
         username = MojangAPI.get_username(MojangAPI.get_uuid(q))
 
     try:
-        r = requests.get('https://api.hypixel.net/friends?key=' + HAPIKEY + '&uuid=' + uuid)
+        r = requests.Session().get('https://api.hypixel.net/friends?key=' + HAPIKEY + '&uuid=' + uuid)
         freqAPI = r.json()
         
         if freqAPI['records'] == ['']:

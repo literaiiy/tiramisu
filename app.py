@@ -1043,10 +1043,6 @@ def compute(q):
             swSoulList.append((swSoulList[1][0]-swSoulList[3][0], ' souls from non-lab modes'))
         except: swSoulList.append((0, ' souls from non-lab modes'))
         try:
-            swSoulList.append((SWVARSOULS['paid_souls'], ' souls bought'))
-        except: swSoulList.append((0, ' souls bought'))
-
-        try:
             swSoulList.append((SWVARSOULS['soul_well_legendaries'], ' legendaries', 'gold'))
         except: swSoulList.append((0, ' legendaries', 'gold'))
         try:
@@ -1056,8 +1052,8 @@ def compute(q):
             swSoulList.append((SWVARSOULS['soul_well']-SWVARSOULS['soul_well_legendaries']-SWVARSOULS['soul_well_rares'], ' commons', 'green'))
         except: swSoulList.append((0, ' commons', 'green'))
         try:
-            swSoulList.append((SWVARSOULS['soul_well'], ' total souls'))
-        except: swSoulList.append((0, ' total souls',))
+            swSoulList.append((SWVARSOULS['soul_well'], ' soul well uses'))
+        except: swSoulList.append((0, ' soul well uses',))
 
         swSoulsRaritiesList = [swSoulList[-2][0], swSoulList[-3][0], swSoulList[-4][0]]
 

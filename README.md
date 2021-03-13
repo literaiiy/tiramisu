@@ -27,7 +27,7 @@ My main landing page is at literaiiy.me, where you can read more about me!
 - No. tiramisu is ad-free and plans to never change that. I am fully supported by donations, which go directly to me and are recycled back into working on Tiramisu. Although donations are very nice and are a great way to show support, please don't be pressured to leave one if you don't want to. The site is free to use for all. :slightly_smiling_face:
 
 **Are you stealing my data?**
-- Also- no. This is covered in the (Privacy Policy)[/privacy]. I don't take any personally identifiable information, or share anything with third parties.
+- Also- no. This is covered in the (Privacy Policy)[/404.html]. I don't take any personally identifiable information, or share anything with third parties.
 
 **Why don't you have (this feature)?**
 - tiramisu is a relatively new project. I am actively working on it as a project alongside school and other things, but most major features will be added as soon as possible.
@@ -45,7 +45,7 @@ My main landing page is at literaiiy.me, where you can read more about me!
 - Mojang doesn't provide an account's creation date in the API, so if an account's Hypixel join date was before their first name change, that would be used as a substitute for a pseudo account creation date. This means that number is almost certainly not an accurate figure.
 
 **What is the "Hypixel ____" on my profile?**
-- This Hypixel seniority index is entirely based on how long you have been playing on the server- or more accurately, the amount of time since your first login. There are nine ranks, of which are based on the formula `y=12(log(x+1)`, where `x is the amount, in years, required to achieve the `y`th rank.
+- This Hypixel seniority index is entirely based on how long you have been playing on the server- or more accurately, the amount of time since your first login. There are nine ranks, of which are based on the formula `y=12(log(x+1)`, where `x` is the amount, in years, required to achieve the `y`th rank.
 
 **Why don't the player counts instantly update every time I refresh?**
 - Player counts only update once every 15 seconds to avoid spam and running over the Hypixel API's rate limit of 120 requests per minute.

@@ -27,7 +27,7 @@ My main landing page is at literaiiy.me, where you can read more about me!
 - No. tiramisu is ad-free and plans to never change that. I am fully supported by donations, which go directly to me and are recycled back into working on Tiramisu. Although donations are very nice and are a great way to show support, please don't be pressured to leave one if you don't want to. The site is free to use for all. :slightly_smiling_face:
 
 **Are you stealing my data?**
-- Also- no. This is covered in the (Privacy Policy)[/404.html]. I don't take any personally identifiable information, or share anything with third parties.
+- Also- no. This is covered in the (Privacy Policy)[404.html]. I don't take any personally identifiable information, or share anything with third parties.
 
 **Why don't you have (this feature)?**
 - tiramisu is a relatively new project. I am actively working on it as a project alongside school and other things, but most major features will be added as soon as possible.

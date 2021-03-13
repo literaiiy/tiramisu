@@ -49,127 +49,50 @@ requests_cache.install_cache('demo_cache', expire_after=3)
 class searchBar():
     query = TextField("Search...")
 
-
 ############################################################################ ROUTING FOR HOMEPAGE ############################################################################
 @app.route('/', methods=['POST', 'GET'], defaults={'path':''})
 def queryt(path):
     gameDict = []
     hs = requests.Session().get('https://api.hypixel.net/gameCounts?key=' + HAPIKEY)
     gameCount = hs.json()['games']
-    gameDict = [
-        {
-            'game':'Total Player Count',
-            'playerCount':hs.json()['playerCount']
-        },
-        {
-            'game':'🏹 SkyWars',
-            'playerCount':gameCount['SKYWARS']['players']
-        },
-        {
-            'game':'🌎 SkyBlock',
-            'playerCount':gameCount['SKYBLOCK']['players']
-        },
-        {
-            'game':'🛏️ BedWars',
-            'playerCount':gameCount['BEDWARS']['players']
-        },
-        {
-            'game':'⚔️ Duels',
-            'playerCount':gameCount['DUELS']['players']
-        },
-        {
-            'game':'🦸 Super Smash Mobs',
-            'playerCount':gameCount['SUPER_SMASH']['players']
-        },
-        {
-            'game':'💨 Speed UHC',
-            'playerCount':gameCount['SPEED_UHC']['players']
-        },
-        {
-            'game':'🔫 Cops and Crims',
-            'playerCount':gameCount['MCGO']['players']
-        },
-        {
-            'game':'🕳️ The Pit',
-            'playerCount':gameCount['PIT']['players']
-        },
-        {
-            'game':'🍎 UHC Champions',
-            'playerCount':gameCount['UHC']['players']
-        },
-        {
-            'game':'🛠️ Build Battle',
-            'playerCount':gameCount['BUILD_BATTLE']['players']
-        },
-        {
-            'game':'🕵️‍♂️ Murder Mystery',
-            'playerCount':gameCount['MURDER_MYSTERY']['players']
-        },
-        {
-            'game':'🏇 Warlords',
-            'playerCount':gameCount['BATTLEGROUND']['players']
-        },
-        {
-            'game':'🏠 Housing',
-            'playerCount':gameCount['HOUSING']['players']
-        },
-        {
-            'game':'🕹️ Arcade',
-            'playerCount':gameCount['ARCADE']['players']
-        },
-        {
-            'game':'🗡️ Blitz Survival Games',
-            'playerCount':gameCount['SURVIVAL_GAMES']['players']
-        },
-        {
-            'game':'🧱 Mega Walls',
-            'playerCount':gameCount['WALLS3']['players']
-        },
-        {
-            'game':'🏗️ Prototype',
-            'playerCount':gameCount['PROTOTYPE']['players']
-        },
-        {
-            'game':'💣 TNT Games',
-            'playerCount':gameCount['TNTGAMES']['players']
-        },
-        {
-            'game':'Main Lobby',
-            'playerCount':gameCount['MAIN_LOBBY']['players']
-        },
-        {
-            'game':'Watching a replay',
-            'playerCount':gameCount['REPLAY']['players']
-        },
-        {
-            'game':'In limbo',
-            'playerCount':gameCount['LIMBO']['players']
-        },
-        {
-            'game':'Idle',
-            'playerCount':gameCount['IDLE']['players']
-        },
-        {
-            'game':'🎉 Party Games',
-            'playerCount':gameCount['ARCADE']['modes']['PARTY']
-        },
-        {
-            'game':'🧟 Zombies',
-            'playerCount':gameCount['ARCADE']['modes']['ZOMBIES_DEAD_END'] + gameCount['ARCADE']['modes']['ZOMBIES_ALIEN_ARCADIUM'] + gameCount['ARCADE']['modes']['ZOMBIES_BAD_BLOOD']
-        },
-        {
-            'game':'🙈 Hide and Seek',
-            'playerCount':gameCount['ARCADE']['modes']['HIDE_AND_SEEK_PROP_HUNT'] + gameCount['ARCADE']['modes']['HIDE_AND_SEEK_PARTY_POOPER']
-        },
-        {
-            'game':'🛩️ Mini Walls',
-            'playerCount':gameCount['ARCADE']['modes']['MINI_WALLS']
-        },
-        {
-            'game':'📢 Hypixel Says',
-            'playerCount':gameCount['ARCADE']['modes']['SIMON_SAYS']
-        }
+    gameList = [
+        ('Total Players', hs.json()['playerCount']),
+        ('🏹 SkyWars', gameCount['SKYWARS']['players']),
+        ('🌎 SkyBlock', gameCount['SKYBLOCK']['players']),
+        ('️🛌 BedWars', gameCount['BEDWARS']['players']),
+        ('⚔️ Duels', gameCount['DUELS']['players']),
+        ('🦸 Super Smash Mobs', gameCount['SUPER_SMASH']['players']),
+        ('💨 Speed UHC', gameCount['SPEED_UHC']['players']),
+        ('🔫 Cops and Crims', gameCount['MCGO']['players']),
+        ('🕳️ The Pit', gameCount['PIT']['players']),
+        ('🍎 UHC Champions', gameCount['UHC']['players']),
+        ('🛠️ Build Battle', gameCount['BUILD_BATTLE']['players']),
+        ('🕵️‍♂️ Murder Mystery', gameCount['MURDER_MYSTERY']['players']),
+        ('🏇 Warlords', gameCount['BATTLEGROUND']['players']),
+        ('🏠 Housing', gameCount['HOUSING']['players']),
+        ('🕹️ Arcade', gameCount['ARCADE']['players']),
+        ('🗡️ Blitz Survival Games', gameCount['SURVIVAL_GAMES']['players']),
+        ('🧱 Mega Walls', gameCount['WALLS3']['players']),
+        ('🏗️ Prototype', gameCount['PROTOTYPE']['players']),
+        ('💣 TNT Games', gameCount['TNTGAMES']['players']),
+        ('Main Lobby', gameCount['MAIN_LOBBY']['players']),
+        ('Watching a replay', gameCount['REPLAY']['players']),
+        ('In limbo', gameCount['LIMBO']['players']),
+        ('Idle', gameCount['IDLE']['players']),
+        ('🎉 Party Games', gameCount['ARCADE']['modes']['PARTY']),
+        ('🧟 Zombies', gameCount['ARCADE']['modes']['ZOMBIES_DEAD_END'] + gameCount['ARCADE']['modes']['ZOMBIES_ALIEN_ARCADIUM'] + gameCount['ARCADE']['modes']['ZOMBIES_BAD_BLOOD']),
+        ('🙈 Hide and Seek', gameCount['ARCADE']['modes']['HIDE_AND_SEEK_PROP_HUNT'] + gameCount['ARCADE']['modes']['HIDE_AND_SEEK_PARTY_POOPER']),
+        ('🛩️ Mini Walls', gameCount['ARCADE']['modes']['MINI_WALLS']),
+        ('📢 Hypixel Says', gameCount['ARCADE']['modes']['SIMON_SAYS']),
+        
     ]
+    gameDict = []
+    for item in gameList:
+        try:
+            gameDict.append({'game':item[0],'playerCount':item[1],})
+        except:
+            gameDict.append({'game':item[0],'playerCount':0,})
+
     gameDict = sorted(gameDict, reverse=True, key=lambda k: k['playerCount'])
     for enum, game in enumerate(gameDict):
         game['pos'] = enum
@@ -1045,6 +968,9 @@ def compute(q):
             TIMEOVERALL = reqAPI['player']['stats']['SkyWars']['time_played']
         except:
             TIMEOVERALL = 0
+        try:
+            swPercPlayedLife = round(100*TIMEOVERALL/(time.time()-firstLoginUnix),4)
+        except: swPercPlayedLife = 0
         swTimeList = []
         swTimeListPerc = []
         swTimeModeList = ['Overall', 'Solo', 'Teams', 'Mega', 'Ranked', 'Laboratory']
@@ -1078,6 +1004,23 @@ def compute(q):
         swUnitConvList2.append(('Watched Law and Order ', round(TIMEOVERALL/1.148e+6, 2), ' times'))
         swUnitConvList2.append(('Driven across the United States ', round(TIMEOVERALL/1.2038e+06, 2), ' times'))
         swUnitConvList2.append(('Earned ', round(TIMEOVERALL/1829088, 4), '% of a PhD'))
+
+        swKperList = []
+        swWperList = []
+        for kw in ('year', 31536000),('day', 86400), ('hour', 3600), ('minute', 60), ('second', 1):
+            try:
+                if kw[0] == 'second' or kw[0] == 'minute':
+                    swKperList.append((round(swStatsList[2]/TIMEOVERALL * kw[1],4), kw[0]))
+                else:
+                    swKperList.append((round(swStatsList[2]/TIMEOVERALL * kw[1],2), kw[0]))
+            except: swKperList.append(0, kw[0])
+
+            try:
+                if kw[0] == 'second' or kw[0] == 'minute':
+                    swWperList.append((round(swStatsList[6]/TIMEOVERALL * kw[1],4), kw[0]))
+                else:
+                    swWperList.append((round(swStatsList[6]/TIMEOVERALL * kw[1],2), kw[0]))
+            except: swWperList.append(0, kw[0])
 
         # Souls
         swSoulList = []
@@ -1137,6 +1080,50 @@ def compute(q):
             try:
                 swHeadsTeam.append([x[0].capitalize(), swHEADVAR['heads_'+x[0]+'_team'], x[1], round(100*swHEADVAR['heads_'+x[0]+'_team']/int(swStatsList[12]),2)])
             except: swHeadsTeam.append([x[0].capitalize(), 0, x[1], 0])
+        
+        swHeads.reverse()
+        swHeadsSolo.reverse()
+        swHeadsTeam.reverse()
+
+        # Angel's Descent
+        try:
+            swADVAR = reqAPI['player']['stats']['SkyWars']
+        except: pass
+        swOpals = {}
+        try:
+            swOpals['opals'] = swADVAR['opals']
+        except: swOpals['opals'] = 0
+        try:
+            swOpals['shards'] = swADVAR['shard']
+            swOpals['until next opal'] = swOpals['shards'] % 20000
+            swOpals['shardsTilNextPerc'] = round(100*swOpals['until next opal']/20000,2)
+            swOpals['shardsTilNextPrBa'] = int(32*(swOpals['shardsTilNextPerc']/100))
+        except:
+            swOpals['shards'] = 0
+            swOpals['until next opal'] = 0
+            swOpals['shardsTilNextPerc'] = 0
+            swOpals['shardsTilNextPrBa'] = 0
+        try:
+            swOpals['opals from prestige'] = int(swExpList[1]/5)
+        except: swOpals['opals from prestige'] = 0
+        try:
+            swOpals['shard_solo'] = swADVAR['shard_solo']
+            swOpals['shard_solo_perc'] = round(100*swOpals['shard_solo']/swOpals['shards'],2)
+        except:
+            swOpals['shard_solo'] =0
+            swOpals['shard_solo_perc'] = 0
+        try:
+            swOpals['shard_team'] = swADVAR['shard_team']
+            swOpals['shard_team_perc'] = round(100*swOpals['shard_team']/swOpals['shards'],2)
+        except: 
+            swOpals['shard_team'] = 0
+            swOpals['shard_team_perc'] = 0
+        try:
+            swOpals['shards per kill'] = round(swOpals['shards']/int(swStatsList[2]),2)
+        except: swOpals['shards per kill'] = 0
+        try:
+            swOpals['shards per game'] = round(swOpals['shards']/int(swStatsList[0]),2)
+        except: swOpals['shards per game'] = 0
 
         ########## Printing!
         #print(swStatsList)
@@ -1178,7 +1165,7 @@ def compute(q):
             displayname += ' 🐧'
         #print(rankParsed)
         print("--- %s seconds ---" % (time.time() - start_time))
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swKW=swStatsList[26], swKL=swStatsList[27], swKG=swStatsList[28], swBPG=swStatsList[29], swEPG=swStatsList[30], swAPG=swStatsList[31], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor, guildList=guildList, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]])
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swKW=swStatsList[26], swKL=swStatsList[27], swKG=swStatsList[28], swBPG=swStatsList[29], swEPG=swStatsList[30], swAPG=swStatsList[31], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor, guildList=guildList, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals)
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:

@@ -561,6 +561,15 @@ function scrollFunction() {
         {% endfor %}
         </p>
 
+        <p>Since your first login, you have spent <b>{{ swKWperLists[2] }}%</b> of life playing SkyWars. </p>
+        
+        {% for item in swKWperLists[0] %}
+            <b>{{item[0]}}</b> kills per {{item[1]}}<br>
+        {% endfor %}
+        {% for item in swKWperLists[1] %}
+            <b>{{item[0]}}</b> wins per {{item[1]}}<br>
+        {% endfor %}
+
         <div class="h3d">Souls</div>
 
         <p>
@@ -706,8 +715,23 @@ function scrollFunction() {
             </script>
         </div>
 
-        {{ swHeadsRawListList }}
-
+        <div class="h3d">Angel's Descent</div>
+        {% for a, b in swOpals.items() %}
+            {% if a == 'shards per kill' or a == 'shards per game' or a == 'opals from prestige' %}
+                <b>{{b}}</b> {{a}} <br>
+            {% elif a == 'opals' %}
+                <span class="dark_blue"><b>{{b}}</b> {{a}}</span><br>
+            {% elif a == 'shards' %}
+                <span class="mvpaqua"><b>{{b}}</b> {{a}}</span><br>
+            {% elif a == 'until next opal' %}
+                <b>{{b}}</b> ({{swOpals['shardsTilNextPerc']}}%) shards until next opal <br>
+                    {% for x in range(swOpals['shardsTilNextPrBa']) %}<b><span class="dark_blue">/</span></b>{% endfor %}{% for x in range(32-swOpals['shardsTilNextPrBa']) %}<span class='blue'>/</span>{% endfor %}<br>
+            {% elif a == 'shard_solo' %}
+                <b>{{b}}</b> shards from solo ({{swOpals['shard_solo_perc']}}%) <br>
+            {% elif a == 'shard_team' %}
+                <b>{{b}}</b> shards from teams ({{swOpals['shard_team_perc']}}%) <br>
+            {% endif %}
+        {% endfor %}
 
 </body>
 {% endblock %}

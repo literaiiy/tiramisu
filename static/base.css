@@ -273,6 +273,10 @@ th {
 	color: #a0a
 }
 
+.dark_blue {
+	color: #00a
+}
+
 .black {
 	color: #000
 }
@@ -300,6 +304,7 @@ th {
 .youtube {
 	color: red
 }
+
 
 ::-webkit-scrollbar {
 	width: 10px;

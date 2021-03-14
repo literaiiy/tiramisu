@@ -259,6 +259,7 @@ function scrollFunction() {
     <div class='header h2d'>SkyWars</div>
     <div class='h3d'><p><span class="{{ swPrestigeColor }}"><b></span>{{ swExp }}</b> SkyWars experience · <b><span class="{{ swPrestigeColor }}">[{{ swLevel }}☆]</b></span>, {{ swPrestige }} Prestige - <span class="{{ swPrestigeColor }}"><b>{{ swToNL }}%</b></span> to <b>{{ swNextLevel }}</b><br></p></div>
     <table class='swgeneral'>
+        {{ username }} plays <b>{{ swBestGame[1] }}</b> most often, with <b>{{ swBestGame[0]}}</b> games played.
         <colgroup>
             <col class="leftsw">
             <col class="rightsw">
@@ -431,13 +432,11 @@ function scrollFunction() {
                         <p>
                             <br><b>{{ x['kills'][0] }}</b> kills <b>({{ x['kills'][1]|round(2) }}%)</b>
                             <br><b>{{ x['deaths'][0] }}</b> deaths <b>({{ x['deaths'][1]|round(2) }}%)</b>
-                            <br><b>{{x['assists'][0]}}</b> assists  <b>({{ x['assists'][1]|round(2) }}%)</b>
                             {% if x['kd'] > 100000 %}
                                 <br><b>∞</b> K/D
                             {% else %}
                                 <br><b>{{ x['kd'] }}</b> K/D
                             {% endif %}
-                            <br><b>{{ x['survived'][0] }}</b> players survived <b>({{ x['survived'][1]|round(2) }}%)</b>
                             <br><b>{{x['games'][0]}}</b> games played <b>({{ x['games'][1]|round(2) }}%)</b>
                             <br><b>{{x['wins'][0]}}</b> wins <b>({{ x['wins'][1]|round(2) }}%)</b>
                             <br><b>{{x['losses'][0]}}</b> losses <b>({{ x['losses'][1]|round(2) }}%)</b>
@@ -732,6 +731,29 @@ function scrollFunction() {
                 <b>{{b}}</b> shards from teams ({{swOpals['shard_team_perc']}}%) <br>
             {% endif %}
         {% endfor %}
+
+        <div class="h2d">BedWars</div>
+        <p>[DOTHIS☆] {{username}} <br>
+        DOTHIS Prestige - DOTHIS% to [DOTHIS☆] <br>
+        {{bwOverallStats['Experience']}} experience <br></p>
+
+        {{bwOverallStats['games_played_bedwars']}} games played <br>
+        {{bwOverallStats['K/D']}} K/D<br>
+        {{bwOverallStats['finK/D']}} final K/D<br>
+        {{bwOverallStats['kills_bedwars']}} kills<br>
+        {{bwOverallStats['deaths_bedwars']}} deaths<br>
+        {{bwOverallStats['final_kills_bedwars']}} final kills<br>
+        {{bwOverallStats['final_deaths_bedwars']}} final deaths<br>
+        {{bwOverallStats['K/FD']}} kills/final deaths<br>
+        {{bwOverallStats['FK/D']}} final kills/deaths<br>
+        {{bwOverallStats['winstreak']}} winstreak<br>
+        {{bwOverallStats['W/L']}} W/L<br>
+        {{bwOverallStats['winrate']}}% win rate<br>
+        {{bwOverallStats['wins_bedwars']}} wins<br>
+        {{bwOverallStats['losses_bedwars']}} losses<br>
+        {{bwOverallStats['beds_broken_bedwars']}} beds broken<br>
+        {{bwOverallStats['beds_lost_bedwars']}} beds lost<br>
+        {{bwOverallStats['B/L']}} bed break/lose<br>
 
 </body>
 {% endblock %}

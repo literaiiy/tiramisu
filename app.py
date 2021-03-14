@@ -1,5 +1,5 @@
 ############################################################################ IMPORTING ############################################################################
-from flask import Flask, render_template, request, url_for, redirect, flash, session
+from flask import Flask, render_template, request, url_for, redirect, session
 import json
 from mojang import MojangAPI
 from flask_wtf import Form
@@ -9,10 +9,10 @@ import requests
 import math
 import time
 import re
-from itertools import cycle, islice
-from num2words import num2words
+#from itertools import cycle, islice
+#from num2words import num2words
 import requests_cache
-from flask_sqlalchemy import SQLAlchemy
+#from flask_sqlalchemy import SQLAlchemy
 from flask_caching import Cache
 
 ############################################################################ INITIALIZATION & CONSTANTS ############################################################################
@@ -176,7 +176,7 @@ def compute(q):
             if sec2formatted[0] > 0:
                 return str(sec2formatted[0]) + 'y ' + str(sec2formatted[1]) + 'd ' + str(sec2formatted[2]) + 'h ' + str(sec2formatted[3]) + 'm ' + str(sec2formatted[4]) + 's'
             elif sec2formatted[0] == 0 and sec2formatted[1] == 0 and sec2formatted[2] == 0 and sec2formatted[3] == 0:
-                return str(sec2formatted[4] + 's')
+                return str(sec2formatted[4]) + 's'
             elif sec2formatted[0] == 0 and sec2formatted[1] == 0 and sec2formatted[2] == 0:
                 return str(sec2formatted[3]) + 'm ' + str(sec2formatted[4]) + 's'
             elif sec2formatted[0] == 0 and sec2formatted[1] == 0:
@@ -907,7 +907,7 @@ def compute(q):
 
         ########## Time Wasted
         try:
-            TIMEOVERALL = reqAPI['player']['stats']['SkyWars']['time_played']
+            TIMEOVERALL = reqAPI['player']['stats']['SkyWars']['time_played']-reqAPI['player']['stats']['SkyWars']['time_played_mega_doubles']+reqAPI['player']['stats']['SkyWars']['time_played_lab']
         except:
             TIMEOVERALL = 0
         try:
@@ -915,16 +915,19 @@ def compute(q):
         except: swPercPlayedLife = 0
         swTimeList = []
         swTimeListPerc = []
-        swTimeModeList = ['Overall', 'Solo', 'Teams', 'Mega', 'Ranked', 'Laboratory']
-        for mode in ['','_solo', '_team','_mega','_ranked','_lab']:
+        swTimeModeList = ['Solo', 'Teams', 'Mega', 'Ranked', 'Laboratory']
+        for mode in ['_solo', '_team','_mega','_ranked','_lab']:
             try:
                 timePlayedForThisMode = reqAPI['player']['stats']['SkyWars']['time_played'+mode]
                 swTimeList.append(sec2format2ydhms(sec2format(timePlayedForThisMode)))
-                swTimeListPerc.append(round(100*(timePlayedForThisMode/reqAPI['player']['stats']['SkyWars']['time_played']), 2))
+                swTimeListPerc.append(round(100*(timePlayedForThisMode/TIMEOVERALL), 2))
             except:
                 swTimeList.append(0)
                 swTimeListPerc.append(0)
-        swTimeListPercMinusOverall = swTimeListPerc[1:]
+        swTimeList.append(sec2format2ydhms(sec2format(TIMEOVERALL)))
+        swTimeListPercMinusOverall = swTimeListPerc#[:-1]
+        print(swTimeList)
+        print(swTimeListPerc)
         #print(swTimeList)
 
         swUnitConvList = []
@@ -955,14 +958,14 @@ def compute(q):
                     swKperList.append((round(swStatsList[2]/TIMEOVERALL * kw[1],4), kw[0]))
                 else:
                     swKperList.append((round(swStatsList[2]/TIMEOVERALL * kw[1],2), kw[0]))
-            except: swKperList.append(0, kw[0])
+            except: swKperList.append((0, kw[0]))
 
             try:
                 if kw[0] == 'second' or kw[0] == 'minute':
                     swWperList.append((round(swStatsList[6]/TIMEOVERALL * kw[1],4), kw[0]))
                 else:
                     swWperList.append((round(swStatsList[6]/TIMEOVERALL * kw[1],2), kw[0]))
-            except: swWperList.append(0, kw[0])
+            except: swWperList.append((0, kw[0]))
 
         # Souls
         swSoulList = []
@@ -1070,7 +1073,9 @@ def compute(q):
 ############################################################################ BEDWARS ############################################################################
 
         bwOverallStats = {}
-        bwSTATVAR = reqAPI['player']['stats']['Bedwars']
+        try:
+            bwSTATVAR = reqAPI['player']['stats']['Bedwars']
+        except: pass
 
         # Add the stats retrieved from the API
         bwStatsChooseList = [
@@ -1099,19 +1104,21 @@ def compute(q):
             try:
                 bwOverallStats[x[0]] = round(bwOverallStats[x[1]]/bwOverallStats[x[2]],4)
             except ZeroDivisionError:
-                bwOverallStats[x[0]] = float('inf')
+                if bwOverallStats[x[1]] == bwOverallStats[x[2]]:
+                    bwOverallStats[x[0]] = 0
+                else: bwOverallStats[x[0]] = float('inf')
             except:
                 bwOverallStats[x[0]] = 0
-         
+        
         # Add winrate
         try:
             bwOverallStats['winrate'] = round(100*bwOverallStats['wins_bedwars']/bwOverallStats['games_played_bedwars'], 4)
         except ZeroDivisionError:
-            bwOverallStats['winrate'] = 100
+            if bwOverallStats['wins_bedwars'] == bwOverallStats['games_played_bedwars']:
+                bwOverallStats['winrate'] = 0
+            else: bwOverallStats['winrate'] = 100
         except:
             bwOverallStats['winrate'] = 0
-
-        print(bwOverallStats)
 
 ############################################################################ GUILD ############################################################################
         

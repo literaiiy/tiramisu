@@ -512,12 +512,9 @@ function scrollFunction() {
         <!-- Time Wasted -->
         <div class='h3d'>Time Wasted</div> 
         <p>
-            {% for mode in range(6) %}
-                {% if swTimeModeList[mode] == 'Overall' %}
-                     <b>{{ swTimeLists[0][mode] }}</b> in total <br>
-                {% else %}
-                    {{ swTimeModeList[mode] }}: <b>{{ swTimeLists[0][mode] }}</b> - {{swTimeLists[1][mode]}}% <br>
-                {% endif %}
+            <b>{{ swTimeLists[0][5] }}</b> in total <br>
+            {% for mode in range(5) %}
+                {{ swTimeModeList[mode] }}: <b>{{ swTimeLists[0][mode] }} ({{swTimeLists[1][mode]}}%) </b><br>
             {% endfor %}
         </p>
         <div class='canvasContainer2' style='position:relative;height:25%; width:25%'>

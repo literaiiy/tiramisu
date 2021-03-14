@@ -14,6 +14,7 @@ import re
 import requests_cache
 #from flask_sqlalchemy import SQLAlchemy
 from flask_caching import Cache
+from livereload import Server
 
 ############################################################################ INITIALIZATION & CONSTANTS ############################################################################
 app = Flask(__name__)
@@ -1089,7 +1090,9 @@ def compute(q):
             'wins_bedwars',
             'losses_bedwars',
             'beds_broken_bedwars',
-            'beds_lost_bedwars'
+            'beds_lost_bedwars',
+            'level',
+            'prestige'
             ]
 
         # Add through iteration
@@ -1250,4 +1253,6 @@ def five02(e):
 
 ############################################################################ FLASK INITIALIZATION ############################################################################
 if __name__ == "__main__":
-    app.run(debug=True)
+    #app.run(debug=True)
+    server = Server(app.wsgi_app)
+    server.serve()

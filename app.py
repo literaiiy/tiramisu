@@ -1253,6 +1253,6 @@ def five02(e):
 
 ############################################################################ FLASK INITIALIZATION ############################################################################
 if __name__ == "__main__":
-    #app.run(debug=True)
-    server = Server(app.wsgi_app)
-    server.serve()
+    app.run(debug=True)
+    # server = Server(app.wsgi_app)
+    # server.serve()

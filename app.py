@@ -14,7 +14,7 @@ import re
 import requests_cache
 #from flask_sqlalchemy import SQLAlchemy
 from flask_caching import Cache
-from livereload import Server
+#from livereload import Server
 
 ############################################################################ INITIALIZATION & CONSTANTS ############################################################################
 app = Flask(__name__)
@@ -927,9 +927,6 @@ def compute(q):
                 swTimeListPerc.append(0)
         swTimeList.append(sec2format2ydhms(sec2format(TIMEOVERALL)))
         swTimeListPercMinusOverall = swTimeListPerc#[:-1]
-        print(swTimeList)
-        print(swTimeListPerc)
-        #print(swTimeList)
 
         swUnitConvList = []
         swUnitConvList.append((round(TIMEOVERALL/31536000, 4), 'years'))

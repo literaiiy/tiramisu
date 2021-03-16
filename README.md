@@ -48,7 +48,7 @@ My main landing page is at literaiiy.me, where you can read more about me!
 - This Hypixel seniority index is entirely based on how long you have been playing on the server- or more accurately, the amount of time since your first login. There are nine ranks, of which are based on the formula `y=12(log(x+1)`, where `x` is the amount, in years, required to achieve the `y`th rank.
 
 **Why don't the player counts instantly update every time I refresh?**
-- Player counts only update once every 15 seconds to avoid spam and running over the Hypixel API's rate limit of 120 requests per minute.
+- Player counts only update once every 3 seconds to avoid spam and running over the Hypixel API's rate limit of 120 requests per minute.
 
 **Why can't I search for a previous name I had?**
 - At some point in November of 2020, Mojang stopped support for querying a UUID to receive a username at a certain timestamp, making it impossible to find a player's current name from a previous one. Sorry about that. Source: [Mojang API Documentation](https://wiki.vg/Mojang_API). See [this ticket](https://bugs.mojang.com/browse/WEB-3367) for more information on the topic.

@@ -699,7 +699,7 @@ def compute(q):
             swStatsList[20]=reqAPI['player']['stats']['SkyWars']['most_kills_game']
             swStatsList[21]=reqAPI['player']['stats']['SkyWars']['chests_opened']
             swStatsList[22]=round((reqAPI['player']['stats']['SkyWars']['wins']/(reqAPI['player']['stats']['SkyWars']['wins']+reqAPI['player']['stats']['SkyWars']['losses'])) * 100, 4)
-            swStatsList[23]=round(reqAPI['player']['stats']['SkyWars']['arrows_hit']/(reqAPI['player']['stats']['SkyWars']['arrows_hit']+reqAPI['player']['stats']['SkyWars']['arrows_shot'])*100, 4)
+            swStatsList[23]=round(reqAPI['player']['stats']['SkyWars']['arrows_hit']/reqAPI['player']['stats']['SkyWars']['arrows_shot']*100, 4)
         except: pass
 
         # Adds 24 - 25 on swStatsList
@@ -756,11 +756,11 @@ def compute(q):
         # Function that takes in level and spits out prestige and color as a tuple
         def getPrestige(level):
             try:
-                if level < 5: return ('No', 'white')
+                if level < 5: return ('No', 'gray')
                 elif level < 10: return ('Iron', 'lightgray')
                 elif level < 15: return ('Gold', 'gold')
                 elif level < 20: return ('Diamond', 'turquoise')
-                elif level < 25: return ('Emerald', 'chartreuse')
+                elif level < 25: return ('Emerald', 'dark_green')
                 elif level < 30: return ('Sapphire', 'blue')
                 elif level < 35: return ('Ruby', 'firebrick')
                 elif level < 40: return ('Crystal', 'hotpink')
@@ -768,7 +768,7 @@ def compute(q):
                 elif level < 50: return ('Amethyst', 'indigo')
                 elif level >= 50: return ('Rainbow', 'chocolate')
             except:
-                return ('No', 'white')
+                return ('No', 'gray')
 
         # Adds 0 - 4 on swExpList
         swExpList = [0,0,0,0,0]
@@ -1088,8 +1088,6 @@ def compute(q):
             'losses_bedwars',
             'beds_broken_bedwars',
             'beds_lost_bedwars',
-            'level',
-            'prestige'
             ]
 
         # Add through iteration
@@ -1119,6 +1117,46 @@ def compute(q):
             else: bwOverallStats['winrate'] = 100
         except:
             bwOverallStats['winrate'] = 0
+        
+        # Stuff with leveling
+        def bwxp2level(xp):
+            if xp < 486500: #FIX THIS SHIT IT DOESN"T WORK FIX THIS SHIT IT DOESN"T WORK FIX THIS SHIT IT DOESN"T WORK FIX THIS SHIT IT DOESN"T WORK FIX THIS SHIT IT DOESN"T WORK
+                if xp < 1500: return 1 + (xp-500)/1000
+                elif xp < 3500: return 2 + (xp-1500)/2000
+                elif xp < 7000: return 3 + (xp-3500)/3500
+                else: return 4 + (xp-7000)/5000
+            else: #FIX THIS SHIT IT DOESN"T WORK FIX THIS SHIT IT DOESN"T WORK FIX THIS SHIT IT DOESN"T WORK FIX THIS SHIT IT DOESN"T WORK FIX THIS SHIT IT DOESN"T WORK FIX THIS SHIT IT DOESN"T WORK
+                xp4pres = xp % 487000
+                pres = xp // 487000
+                if xp4pres < 500: return pres*100 + xp4pres/500
+                elif xp4pres < 1500: return pres*100 + 1 + (xp4pres-500)/1000
+                elif xp4pres < 3500: return pres*100 + 2 + (xp4pres-1500)/2000
+                elif xp4pres < 7000: return pres*100 + 3 + (xp4pres-3500)/3500
+                else: return pres*100 + 4 +(xp4pres-7000)/5000
+        bwOverallStats['level'] = round(bwxp2level(bwOverallStats['Experience']),4)
+        #bwOverallStats['level'].append(bwOverallStats['level'][0]+1)
+
+        # Prestige
+        def lvl2prestige(level):
+            try:
+                if level < 100: return ('No', 'gray', round(100*(level-math.floor(level)),2))
+                elif level < 200: return ('Iron', 'lightgray', round(100*(level-math.floor(level)),2))
+                elif level < 300: return ('Gold', 'gold', round(100*(level-math.floor(level)),2))
+                elif level < 400: return ('Diamond', 'turquoise', round(100*(level-math.floor(level)),2))
+                elif level < 500: return ('Emerald', 'dark_green', round(100*(level-math.floor(level)),2))
+                elif level < 600: return ('Sapphire', 'cyan', round(100*(level-math.floor(level)),2))
+                elif level < 700: return ('Ruby', 'firebrick', round(100*(level-math.floor(level)),2))
+                elif level < 800: return ('Crystal', 'hotpink', round(100*(level-math.floor(level)),2))
+                elif level < 900: return ('Opal', 'darkblue', round(100*(level-math.floor(level)),2))
+                elif level < 1000: return ('Amethyst', 'indigo', round(100*(level-math.floor(level)),2))
+                elif level >= 1000: return ('Rainbow', 'chocolate', round(100*(level-math.floor(level)),2))
+            except:
+                return ('No', 'gray')
+
+        bwOverallStats['prestige'] = lvl2prestige(bwOverallStats['level'])
+        #bwOverallStats['prestige'].append(lvl2prestige(bwOverallStats['level'][1]))
+        bwOverallStats['level'] = math.floor(bwOverallStats['level'])
+        print(bwOverallStats['prestige'])
 
 ############################################################################ GUILD ############################################################################
         

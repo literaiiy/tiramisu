@@ -756,6 +756,40 @@ function scrollFunction() {
         {{bwOverallStats['beds_broken_bedwars']}} beds broken<br>
         {{bwOverallStats['beds_lost_bedwars']}} beds lost<br>
         {{bwOverallStats['B/L']}} bed break/lose<br>
+        {{bwOverallStats['_items_purchased_bedwars']}} items bought<br>
+        {{bwOverallStats['resources_collected_bedwars']}} resources collected<br>
 
+        {% for mode in bwModeStats %}
+            {% if bwModeStats[mode]['games_played_bedwars'][0] > 0 %}
+                <div class="h3d">{{ bwTranslateList[mode] }}</div>
+                <p>
+                    {{ bwModeStats[mode]['kills_bedwars'][0] }} kills ({{ bwModeStats[mode]['kills_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['deaths_bedwars'][0] }} deaths ({{ bwModeStats[mode]['deaths_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['K/D'] }} K/D <br>
+                    {{ bwModeStats[mode]['final_kills_bedwars'][0] }} final kills ({{ bwModeStats[mode]['final_kills_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['final_deaths_bedwars'][0] }} final deaths ({{ bwModeStats[mode]['final_deaths_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['finK/D'] }} final K/D<br>
+                    {{ bwModeStats[mode]['K/FD'] }} kills/final deaths<br>
+                    {{ bwModeStats[mode]['FK/D'] }} final kills/deaths<br>
+                    {{ bwModeStats[mode]['games_played_bedwars'][0] }} games played ({{ bwModeStats[mode]['games_played_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['winstreak'][0] }} winstreak<br>
+                    {{ bwModeStats[mode]['wins_bedwars'][0] }} wins ({{ bwModeStats[mode]['wins_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['losses_bedwars'][0] }} losses ({{ bwModeStats[mode]['losses_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['W/L'] }} W/L<br>
+                    {{ bwModeStats[mode]['winrate'] }}% win rate<br>
+                    {{ bwModeStats[mode]['beds_broken_bedwars'][0] }} beds broken ({{ bwModeStats[mode]['beds_broken_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['beds_lost_bedwars'][0] }} beds lost ({{ bwModeStats[mode]['beds_lost_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['B/L'] }} bed break/lose ratio <br>
+                    {{ bwModeStats[mode]['_items_purchased_bedwars'][0]}} items purchased ({{ bwModeStats[mode]['_items_purchased_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['purc/game']}} items purchased per game <br>
+                    {{ bwModeStats[mode]['resc/game']}} resources collected per game <br>
+                    {{ bwModeStats[mode]['resources_collected_bedwars'][0]}} resources collected ({{ bwModeStats[mode]['resources_collected_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['iron_resources_collected_bedwars'][0] }} iron collected ({{ bwModeStats[mode]['iron_resources_collected_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['gold_resources_collected_bedwars'][0] }} gold collected ({{ bwModeStats[mode]['gold_resources_collected_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['diamond_resources_collected_bedwars'][0] }} diamonds collected ({{ bwModeStats[mode]['diamond_resources_collected_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['emerald_resources_collected_bedwars'][0] }} emeralds collected ({{ bwModeStats[mode]['emerald_resources_collected_bedwars'][1]}}%) <br>
+                </p>
+                {% endif %}
+        {% endfor %}
 </body>
 {% endblock %}

@@ -1070,6 +1070,7 @@ def compute(q):
 
 ############################################################################ BEDWARS ############################################################################
 
+    # Overall Stats
         bwOverallStats = {}
         try:
             bwSTATVAR = reqAPI['player']['stats']['Bedwars']
@@ -1120,7 +1121,7 @@ def compute(q):
         except:
             bwOverallStats['winrate'] = 0
         
-        # Stuff with leveling
+    # Stuff with leveling
         def bwxp2level(xp):
             if xp == 0:
                 return 1
@@ -1140,7 +1141,7 @@ def compute(q):
         bwOverallStats['level'] = round(bwxp2level(bwOverallStats['Experience']),4)
         #bwOverallStats['level'].append(bwOverallStats['level'][0]+1)
 
-        # Prestige
+    # Prestige
         def lvl2prestige(level):
             try:
                 if level < 100: return ('No', 'gray', round(100*(level-math.floor(level)),2))
@@ -1161,7 +1162,7 @@ def compute(q):
         #bwOverallStats['prestige'].append(lvl2prestige(bwOverallStats['level'][1]))
         bwOverallStats['level'] = math.floor(bwOverallStats['level'])
 
-        # Per mode stats
+    # Per mode stats
         bwTheStatsList =  [
             'kills_bedwars',
             'deaths_bedwars',
@@ -1199,10 +1200,11 @@ def compute(q):
             'eight_two_voidless':'Duos Voidless',
             'four_four_voidless':'4s Voidless',
             'tourney_bedwars4s_1':'Tournament (4s)',
-            'tourney_bedwars_two_four_0':'Tournament (4v4)'
-        }
-
+            'tourney_bedwars_two_four_0':'Tournament (4v4)'}
+        bwMKWList = [0,0,0,'','','']
         bwModeStats = {}
+        bwCompList = {}
+        bwKillsPerMode = {}
         for mode in [
             'eight_one','eight_two','four_three','four_four','two_four',
             'eight_two_armed','four_four_armed',
@@ -1211,8 +1213,7 @@ def compute(q):
             'eight_one_ultimate','eight_two_ultimate','four_four_ultimate',
             'eight_two_lucky','four_four_lucky',
             'eight_two_voidless','four_four_voidless',
-            'tourney_bedwars4s_1','tourney_bedwars_two_four_0'
-        ]:
+            'tourney_bedwars4s_1','tourney_bedwars_two_four_0']:
             bwModeStats[mode] = {}
             for stat in bwTheStatsList:
                 if stat in ['eight_one','eight_two','four_three','four_four','two_four']:
@@ -1223,8 +1224,9 @@ def compute(q):
                     try:
                         bwModeStats[mode][stat] = (bwSTATVAR[mode+'_'+stat], round(100*bwSTATVAR[mode+'_'+stat]/bwSTATVAR[stat],2))
                     except: bwModeStats[mode][stat] = (0,0)
+                bwKillsPerMode[bwTranslateList[mode]] = bwModeStats[mode]['kills_bedwars'][0]
             
-            # Kills per deaths with some final mixing in calculations
+        # Kills per deaths with some final mixing in calculations
             try:
                 bwModeStats[mode]['K/D'] = round(bwModeStats[mode]['kills_bedwars'][0]/bwModeStats[mode]['deaths_bedwars'][0],4)
             except: bwModeStats[mode]['K/D'] = 0
@@ -1238,7 +1240,7 @@ def compute(q):
                 bwModeStats[mode]['FK/D'] = round(bwModeStats[mode]['final_kills_bedwars'][0]/bwModeStats[mode]['deaths_bedwars'][0],4)
             except: bwModeStats[mode]['FK/D'] = 0
 
-            # Win/loss ratio & winrate
+        # Win/loss ratio & winrate
             try:
                 bwModeStats[mode]['W/L'] = round(bwModeStats[mode]['wins_bedwars'][0]/bwModeStats[mode]['losses_bedwars'][0],4)
             except: bwModeStats[mode]['W/L'] = 0
@@ -1259,8 +1261,51 @@ def compute(q):
                 bwModeStats[mode]['resc/game'] = round(bwModeStats[mode]['resources_collected_bedwars'][0]/bwModeStats[mode]['games_played_bedwars'][0],4)
             except: bwModeStats[mode]['resc/game'] = 0
 
-############################################################################ GUILD ############################################################################
+        # Comparative skills
+            bwCompList[mode] = {}
+            try:
+                bwCompList[mode]['compkd'] = (round(bwModeStats[mode]['K/D'] - bwOverallStats['K/D'],4), round(100*(bwModeStats[mode]['K/D']/bwOverallStats['K/D'] - 1),2))
+            except: bwCompList[mode]['compkd'] = (0,0)
+            try:
+                bwCompList[mode]['compfkd'] = (round(bwModeStats[mode]['finK/D'] - bwOverallStats['finK/D'],4), round(100*(bwModeStats[mode]['finK/D']/bwOverallStats['finK/D'] - 1),2))
+            except: bwCompList[mode]['compfkd'] = (0,0)
+            try:
+                bwCompList[mode]['compwl'] = (round(bwModeStats[mode]['W/L'] - bwOverallStats['W/L'],4), round(100*(bwModeStats[mode]['W/L']/bwOverallStats['W/L'] - 1),2))
+            except: bwCompList[mode]['compwl'] = (0,0)
         
+        # Most, Best, Worst
+            if bwModeStats[mode]['games_played_bedwars'][0] > bwMKWList[0]:
+                bwMKWList[0] = bwModeStats[mode]['games_played_bedwars'][0]
+                bwMKWList[3] = bwTranslateList[mode]
+            if bwModeStats[mode]['K/D'] > bwMKWList[1]: 
+                bwMKWList[1] =bwModeStats[mode]['K/D']
+                bwMKWList[4] = bwTranslateList[mode]
+            if bwModeStats[mode]['W/L'] > bwMKWList[2]: 
+                bwMKWList[2] = bwModeStats[mode]['W/L']
+                bwMKWList[5] = bwTranslateList[mode]
+
+    # Kills via
+        bwKillsVia = {
+            '🏹 Projectile':'projectile',
+            '🌌 Void':'void',
+            '🪄 Magic':'magic',
+            '🐕 Entity':'entity',
+            '🤯 Entity explosion':'entity_explosion',
+            '🔥 Fire':'final_tick',
+            '👞 Fall damage':'fall',
+        }
+        bwTakeKillsCount = 0
+
+        for x, y in bwKillsVia.items():
+            try:
+                bwKillsVia[x] = bwSTATVAR[y+'_kills_bedwars']
+                bwTakeKillsCount += bwKillsVia[x]
+            except: bwKillsVia[x] = 0
+        bwKillsVia['🗡 Melee'] = bwOverallStats['kills_bedwars'] - bwTakeKillsCount
+        print(bwKillsVia)
+
+############################################################################ GUILD ############################################################################
+
         # 0 - guild tag
         # 1 - guild name
         # 2 - guild role
@@ -1295,7 +1340,7 @@ def compute(q):
             displayname += ' 🐧'
         #print(rankParsed)
         print("--- %s seconds ---" % (time.time() - start_time))
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swKW=swStatsList[26], swKL=swStatsList[27], swKG=swStatsList[28], swBPG=swStatsList[29], swEPG=swStatsList[30], swAPG=swStatsList[31], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor, guildList=guildList, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList)
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swKW=swStatsList[26], swKL=swStatsList[27], swKG=swStatsList[28], swBPG=swStatsList[29], swEPG=swStatsList[30], swAPG=swStatsList[31], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor, guildList=guildList, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode))
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:

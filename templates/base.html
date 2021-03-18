@@ -759,9 +759,33 @@ function scrollFunction() {
         {{bwOverallStats['_items_purchased_bedwars']}} items bought<br>
         {{bwOverallStats['resources_collected_bedwars']}} resources collected<br>
 
+        <div class="h3d">BedWars - by Mode</div>
+            {% if bwMKWList[3] != '' and bwMKWList[4] != '' and bwMKWList[5] != '' %}
+                <p>{{username}} plays <b>{{bwMKWList[3]}}</b> the most, has the highest K/D in <b>{{bwMKWList[4]}}</b>, and has the highest W/L in <b>{{bwMKWList[5]}}</b>.
+            {% endif %}
         {% for mode in bwModeStats %}
             {% if bwModeStats[mode]['games_played_bedwars'][0] > 0 %}
                 <div class="h3d">{{ bwTranslateList[mode] }}</div>
+                <p>
+                    {% if bwCompList[mode]['compkd'][0] > 0 %}
+                        <span class="green"><b>{{bwCompList[mode]['compkd'][0]}}</b></span> higher K/D (<span class="green">+{{bwCompList[mode]['compkd'][1]}}%</span>)
+                    {% else %}
+                        <span class="red"><b>{{bwCompList[mode]['compkd'][0]}}</b></span> lower K/D (<span class="red">{{bwCompList[mode]['compkd'][1]}}%</span>)
+                    {% endif %}
+                     | 
+                    {% if bwCompList[mode]['compfkd'][0] > 0 %}
+                        <span class="green"><b>{{bwCompList[mode]['compfkd'][0]}}</b></span> higher final K/D (<span class="green">+{{bwCompList[mode]['compfkd'][1]}}%</span>)
+                    {% else %}
+                        <span class="red"><b>{{bwCompList[mode]['compfkd'][0]}}</b></span> lower final K/D (<span class="red">{{bwCompList[mode]['compfkd'][1]}}%</span>)
+                    {% endif %} 
+                     | 
+                    {% if bwCompList[mode]['compwl'][0] > 0 %}
+                        <span class="green"><b>{{bwCompList[mode]['compwl'][0]}}</b></span> higher W/L (<span class="green">+{{bwCompList[mode]['compwl'][1]}}%</span>)
+                    {% else %}
+                        <span class="red"><b>{{bwCompList[mode]['compwl'][0]}}</b></span> lower W/L (<span class="red">{{bwCompList[mode]['compwl'][1]}}%</span>)
+                    {% endif %}
+                </p>
+                
                 <p>
                     {{ bwModeStats[mode]['kills_bedwars'][0] }} kills ({{ bwModeStats[mode]['kills_bedwars'][1]}}%) <br>
                     {{ bwModeStats[mode]['deaths_bedwars'][0] }} deaths ({{ bwModeStats[mode]['deaths_bedwars'][1]}}%) <br>
@@ -791,5 +815,20 @@ function scrollFunction() {
                 </p>
                 {% endif %}
         {% endfor %}
+        
+        <div class="h3d">Kills via</div>
+            <p><b>🗡 Melee</b>: {{bwKillsList[0]['🗡 Melee']}} <br>
+            {% for name, num in bwKillsList[0].items() %}
+                {% if 'Melee' not in name %}
+                    <b>{{name}}</b>: {{num}} <br>
+                {% endif %}
+            {% endfor %}</p>
+
+            {% for name, num in bwKillsList[1].items() %}
+                {% if num != 0 %}
+                    <b>{{name}}</b>: {{num}} <br>
+                {% endif %}
+            {% endfor %}
+
 </body>
 {% endblock %}

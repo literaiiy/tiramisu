@@ -30,7 +30,7 @@ PENGUINS = ['cfc42e543d834b4f9f7a23c059783ba5']
 swearList = ['anal','anus','ass','bastard','bitch','blowjob','blow job','buttplug','clitoris','cock','cunt','dick','dildo','fag','fuck','hell','jizz','nigger','nigga','penis','piss','pussy','scrotum','sex','shit','slut','turd','vagina']
 sweetHeadsRanks = ['HELPER', 'MODERATOR', 'ADMIN', 'OWNER']
 
-# requests_cache.install_cache('test_cache', backend='sqlite', expire_after=30)
+requests_cache.install_cache('test_cache', backend='sqlite', expire_after=30)
 
 username = ''
 uuid = ''
@@ -45,6 +45,7 @@ config = {
 app.config.from_mapping(config)
 cache = Cache(app)
 
+# requests_cache.install_cache('demo_cache', expire_after=3)
 requests_cache.install_cache('demo_cache', expire_after=3)
 
 class searchBar():
@@ -53,6 +54,7 @@ class searchBar():
 ############################################################################ ROUTING FOR HOMEPAGE ############################################################################
 @app.route('/', methods=['POST', 'GET'], defaults={'path':''})
 def queryt(path):
+    
     gameDict = []
     hs = requests.Session().get('https://api.hypixel.net/gameCounts?key=' + HAPIKEY)
     gameCount = hs.json()['games']

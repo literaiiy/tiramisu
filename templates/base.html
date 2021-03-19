@@ -817,14 +817,28 @@ function scrollFunction() {
         {% endfor %}
         
         <div class="h3d">Kills via</div>
-            <p><b>🗡 Melee</b>: {{bwKillsList[0]['🗡 Melee']}} <br>
+            <p><b>🗡 Melee</b>: {{bwKillsList[0]['🗡 Melee'][0]}} ({{bwKillsList[0]['🗡 Melee'][1]}}%)<br>
             {% for name, num in bwKillsList[0].items() %}
                 {% if 'Melee' not in name %}
-                    <b>{{name}}</b>: {{num}} <br>
+                    <b>{{name}}</b>: {{num[0]}} ({{num[1]}}%)<br>
                 {% endif %}
             {% endfor %}</p>
 
             {% for name, num in bwKillsList[1].items() %}
+                {% if num != 0 %}
+                    <b>{{name}}</b>: {{num}} <br>
+                {% endif %}
+            {% endfor %}
+
+        <div class="h3d">Final kills via</div>
+            <p><b>🗡 Melee</b>: {{bwKillsList[2]['🗡 Melee'][0]}} ({{bwKillsList[2]['🗡 Melee'][1]}}%)<br>
+            {% for name, num in bwKillsList[2].items() %}
+                {% if 'Melee' not in name %}
+                    <b>{{name}}</b>: {{num[0]}} ({{num[1]}}%)<br>
+                {% endif %}
+            {% endfor %}</p>
+
+            {% for name, num in bwKillsList[3].items() %}
                 {% if num != 0 %}
                     <b>{{name}}</b>: {{num}} <br>
                 {% endif %}

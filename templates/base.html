@@ -830,6 +830,37 @@ function scrollFunction() {
                 {% endif %}
             {% endfor %}
 
+        <div class='canvasKillsVia' style='position:relative;height:25%; width:25%'>
+            <canvas id="killsvia"></canvas>
+            <script>
+            var ctx = document.getElementById('killsvia');
+            // @ts-ignore
+            var killsvia = {{bwPureKillsLists[0]}};
+            var killsva = new Chart(ctx, {
+                type: 'doughnut',
+                responsive: true,
+                maintainAspectRatio:false,
+                data: {
+                    labels: ['Projectile', 'Void', 'Magic', 'Entity', 'Entity explosion', 'Fire', 'Fall Damage', 'Melee'],
+                    datasets: [{
+                        data: killsvia,
+                        borderWidth: 1,
+                        backgroundColor: [
+                            '#2364AA',
+                            '#3DA5D9',
+                            '#73BFB8',
+                            '#FEC601',
+                            '#EA7317',
+                            '#5F1A37',
+                            '#04030F',
+                            '#AF5D63',
+                        ],
+                    }]
+                },
+            });
+            </script>
+        </div>
+
         <div class="h3d">Final kills via</div>
             <p><b>🗡 Melee</b>: {{bwKillsList[2]['🗡 Melee'][0]}} ({{bwKillsList[2]['🗡 Melee'][1]}}%)<br>
             {% for name, num in bwKillsList[2].items() %}
@@ -843,6 +874,37 @@ function scrollFunction() {
                     <b>{{name}}</b>: {{num}} <br>
                 {% endif %}
             {% endfor %}
+
+        <div class='cvFKV' style='position:relative;height:25%; width:25%'>
+            <canvas id="finkillsvia"></canvas>
+            <script>
+            var ctx = document.getElementById('finkillsvia');
+            // @ts-ignore
+            var finkillsvia = {{bwPureKillsLists[1]}};
+            var fkillsva = new Chart(ctx, {
+                type: 'doughnut',
+                responsive: true,
+                maintainAspectRatio:false,
+                data: {
+                    labels: ['Projectile', 'Void', 'Magic', 'Entity', 'Entity explosion', 'Fire', 'Fall Damage', 'Melee'],
+                    datasets: [{
+                        data: finkillsvia,
+                        borderWidth: 1,
+                        backgroundColor: [
+                            '#A8763E',
+                            '#F7F3E3',
+                            '#ECF0F1',
+                            '#6F1A07',
+                            '#2B2118',
+                            '#52154E',
+                            '#111344',
+                            '#595F72',
+                        ],
+                    }]
+                },
+            });
+            </script>
+        </div>
 
 </body>
 {% endblock %}

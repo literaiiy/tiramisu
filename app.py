@@ -136,9 +136,9 @@ def compute(q):
     if isinstance(uuid, str):
         #username = MojangAPI.get_username(uuid)
 
-############################################################################ JSON PARSING ############################################################################
+    ############################################################################ JSON PARSING ############################################################################
 
-############################################################################ RETRIEVE FROM API & INITIALIZE ############################################################################
+    ############################################################################ RETRIEVE FROM API & INITIALIZE ############################################################################
         r = requests.Session().get('https://api.hypixel.net/player?key=' + HAPIKEY + '&uuid=' + uuid)
         reqAPI = r.json()
         reqList = {}
@@ -152,7 +152,7 @@ def compute(q):
         except:
             hypixelUN = username
 
-############################################################################ NAME HISTORY ############################################################################
+    ############################################################################ NAME HISTORY ############################################################################
         namehis = MojangAPI.get_name_history(uuid)
         namehispure = MojangAPI.get_name_history(uuid)
         namehisLength = len(namehis)
@@ -173,21 +173,21 @@ def compute(q):
             sec2format(namehisDiff)
         except:
             pass
-        
+    
         # Takes in list of Y, D, H, M, S and formats it into a readable string
         def sec2format2ydhms(sec2formatted):
             if sec2formatted[0] > 0:
                 return str(sec2formatted[0]) + 'y ' + str(sec2formatted[1]) + 'd ' + str(sec2formatted[2]) + 'h ' + str(sec2formatted[3]) + 'm ' + str(sec2formatted[4]) + 's'
-            elif sec2formatted[0] == 0 and sec2formatted[1] == 0 and sec2formatted[2] == 0 and sec2formatted[3] == 0:
+            if sec2formatted[0] == 0 and sec2formatted[1] == 0 and sec2formatted[2] == 0 and sec2formatted[3] == 0:
                 return str(sec2formatted[4]) + 's'
-            elif sec2formatted[0] == 0 and sec2formatted[1] == 0 and sec2formatted[2] == 0:
+            if sec2formatted[0] == 0 and sec2formatted[1] == 0 and sec2formatted[2] == 0:
                 return str(sec2formatted[3]) + 'm ' + str(sec2formatted[4]) + 's'
-            elif sec2formatted[0] == 0 and sec2formatted[1] == 0:
+            if sec2formatted[0] == 0 and sec2formatted[1] == 0:
                 return str(sec2formatted[2]) + 'h ' + str(sec2formatted[3]) + 'm ' + str(sec2formatted[4]) + 's'
-            elif sec2formatted[0] == 0:
+            if sec2formatted[0] == 0:
                 return str(sec2formatted[1]) + 'd ' + str(sec2formatted[2]) + 'h ' + str(sec2formatted[3]) + 'm ' + str(sec2formatted[4]) + 's'
 
-        # If the person has played on Hypixel, the last column's changed_to_at should be their first login
+            # If the person has played on Hypixel, the last column's changed_to_at should be their first login
         try:
             namehis[0]['changed_to_at'] = reqAPI['player']['firstLogin']
         except:
@@ -211,10 +211,10 @@ def compute(q):
             except:
                 pass
 
-        # Gives time_between list
-            
+            # Gives time_between list
+        
 
-        # Shifts position of time_changed one over
+            # Shifts position of time_changed one over
         dhmclist = []
         try:
             for xd in namehis:
@@ -242,7 +242,7 @@ def compute(q):
         #key_list = list(namehis.keys())
         #val_list = list(namehis.values())
 
-############################################################################ RANK ############################################################################
+    ############################################################################ RANK ############################################################################
         rankParsed = ''
         rankcolor = 'darkgray'
         changerbc = False
@@ -254,7 +254,7 @@ def compute(q):
             rank = reqAPI['player']['newPackageRank']
         except:
             rank = ''
-        
+    
         # Very inefficiently checks for VIP / VIP+ / MVP / MVP+ / MVP++
         try:
             MVPplusplus = reqAPI['player']['monthlyPackageRank']
@@ -285,7 +285,7 @@ def compute(q):
         else:
             rankParsed = ''
         rankUnparsed = rank
-        
+    
         if rankParsed !='[MVP++]':
             # Checks for normal ranks for PACKAGERANKers
             try:
@@ -309,10 +309,10 @@ def compute(q):
                 else:
                     rankParsed = ''
                 rankUnparsed = ranke
-                
+            
             except:
                 pass
-            
+        
             # Checks for normal ranks for NEWPACKAGERANKers
             try:
                 rankw = reqAPI['player']['newPackageRank']
@@ -338,7 +338,7 @@ def compute(q):
             except:
                 True
 
-        # Looks for YOUTUBE rank and other ranks categorized under 'player' > 'rank'
+            # Looks for YOUTUBE rank and other ranks categorized under 'player' > 'rank'
         try:
             jona = reqAPI['player']['rank']
             if '[' not in jona:
@@ -360,7 +360,7 @@ def compute(q):
                 rankParsed = ''
         except:
             True
-        
+    
         # Format rank if not 'normal' includes Admin
         try:
             rankParsed = re.sub("[§a-z1-9]+", '', reqAPI['player']['prefix'])
@@ -374,20 +374,20 @@ def compute(q):
                 rankcolor = 'pink'
         except:
             True
-        
+    
         # Only works for YouTube rank right now
         if changerbc:
             rankbracketcolor = 'red'
             rankcolor = 'darkgray'
         else:
             rankbracketcolor = rankcolor
-        
+    
         try:
             if reqAPI['player']['monthlyRankColor'] == 'AQUA':
                 rankcolor = 'mvpaqua'
         except: pass
 
-############################################################################ NETWORK LEVEL & XP ############################################################################
+    ############################################################################ NETWORK LEVEL & XP ############################################################################
         try:
             networkExp = int(reqAPI['player']['networkExp'])
         except:
@@ -412,7 +412,7 @@ def compute(q):
         if level >= 200 and level <= 249: multiplier = '(7×)'
         if level >= 250: multiplier = '(8×)'
 
-############################################################################ FIRST & LAST LOGINS ############################################################################
+    ############################################################################ FIRST & LAST LOGINS ############################################################################
         firstLogin = ''
         playedOnHypixel = True
         lastSession = False
@@ -420,10 +420,10 @@ def compute(q):
         # Last login
         try:
             lastLoginUnix = int(reqAPI['player']['lastLogin']/1000)
-            
+        
         except:
             lastLoginUnix = 1
-            
+        
         lastLogin = datetime.fromtimestamp(lastLoginUnix).strftime('%a, %b %d, %Y at %I:%M %p %z')
 
         # Last logout
@@ -432,23 +432,23 @@ def compute(q):
         except:
             lastLogoutUnix = 1
         lastLogout = datetime.fromtimestamp(lastLogoutUnix).strftime('%a, %b %d, %Y at %I:%M %p %z')
-            
+        
         # First login
         try:
             firstLoginUnix = int(reqAPI['player']['firstLogin']/1000)
         except:
             firstLoginUnix = 1
             playedOnHypixel = False
-        
+    
         # Last session
         try:
             if lastLoginUnix < lastLogoutUnix: lastSession = time.strftime("%Hh %Mm %Ss",time.gmtime(lastLogoutUnix-lastLoginUnix))
         except: pass
-        
+    
         # If played on Hypixel before, changes the user's 2nd time_between to between the first name change and their first log-on to Hypixel
         if playedOnHypixel == True:
             firstLogin = datetime.fromtimestamp(firstLoginUnix).strftime('%a, %b %d, %Y at %I:%M %p %z')
-        ###
+            ###
             try:
                 nhut3unix = namehispure[1]['changed_to_at']/1000 - firstLoginUnix
             except: nhut3unix = 0
@@ -478,8 +478,8 @@ def compute(q):
          #   namehis[-1]['time_between'] = ''
         if firstLoginUnix > 1357027200:
             namehis[0]['time_between'] = sec2format2ydhms(sec2format(int(time.time())-nhut2unix/1000))
-        
-############################################################################ QUESTS, AP, & ACHIEVEMENTS ############################################################################
+    
+    ############################################################################ QUESTS, AP, & ACHIEVEMENTS ############################################################################
         try:
             achievements = len(reqAPI['player']['achievements'])+len(reqAPI['player']['achievementsOneTime'])
             achievements = format(achievements, ',')
@@ -490,7 +490,7 @@ def compute(q):
             achpot = format(achpot, ',')
         except:
             achpot = 0
-        
+    
         quests = 0
         try:
             for j in reqAPI['player']['quests']:
@@ -502,7 +502,7 @@ def compute(q):
         except:
             pass
 
-############################################################################ TITLE ############################################################################
+    ############################################################################ TITLE ############################################################################
 
         joinedAgo = 0
         joinedAgoText = ''
@@ -511,7 +511,7 @@ def compute(q):
         try:
             joinedAgo = time.time() - firstLoginUnix
             joinedAgoText = sec2format2ydhms(sec2format(joinedAgo))
-                
+            
             if joinedAgo < 8895953: seniority = '☘ Hypixel Newcomer'
             elif joinedAgo < 20301357: seniority = '☘ Hypixel Rookie'
             elif joinedAgo < 34924098: seniority = '➴ Hypixel Novice'
@@ -549,7 +549,7 @@ def compute(q):
             else: boughtPastRank = 0
         except: pass
 
-############################################################################ PLAYER SESSION DATA ##########################################################################################
+    ############################################################################ PLAYER SESSION DATA ##########################################################################################
         reqAPIsess = requests.Session().get('https://api.hypixel.net/status?key=' + HAPIKEY + '&uuid=' + uuid)
         reqAPIsession = reqAPIsess.json()
         currentSession = ''
@@ -560,7 +560,7 @@ def compute(q):
                 sessionType = reqAPIsession['session']['mode'].replace('_',' ').title()
             else: currentSession = False
 
-############################################################################ SOCIALS ##########################################################################################
+    ############################################################################ SOCIALS ##########################################################################################
  
             twitter = []
             instagram = []
@@ -586,7 +586,7 @@ def compute(q):
                 twitch = reqAPI['player']['socialMedia']['links']['TWITCH']
                 if twitch[-1] == '/': twitch = twitch[:-1]
                 twitch = [twitch.rsplit('/',1)[1], twitch]
-            
+        
             if 'DISCORD' in socialsList:
                 discord = reqAPI['player']['socialMedia']['links']['DISCORD']
 
@@ -595,15 +595,15 @@ def compute(q):
                 if hypixelForums[-1] == '/': hypixelForums = hypixelForums[:-1]
                 hypixelForums = [hypixelForums.rsplit('/',1)[1], hypixelForums]
                 hypixelForums[0] = hypixelForums[0].rsplit('.',1)[0]
-            
+        
             if "YOUTUBE" in socialsList:
                 youtube = reqAPI['player']['socialMedia']['links']['YOUTUBE']
                 if youtube[-1] == '/': youtube = youtube[:-1]
                 youtube = [youtube.rsplit('/',1)[1], youtube]
         except: pass
 
-############################################################################ SKYWARS ##########################################################################################s
-        
+    ############################################################################ SKYWARS ##########################################################################################s
+    
         swStatsList = []
         for i in range(33):
             swStatsList.append(0)
@@ -753,17 +753,17 @@ def compute(q):
                     elif experience < 10000: level = 10 + (experience - 6000) / 5000
                     elif experience < 15000: level = 11 + (experience - 10000) / 10000
                     return level
-                elif experience > 14999:
+                if experience > 14999:
                     expertest = experience - 15000
                     return expertest / 10000 + 12
             except:
                 return 0
 
-        # Function that takes in level and spits out prestige and color as a tuple
+            # Function that takes in level and spits out prestige and color as a tuple
         def getPrestige(level):
             try:
                 if level < 5: return ('No', 'gray')
-                elif level < 10: return ('Iron', 'lightgray')
+                if level < 10: return ('Iron', 'lightgray')
                 elif level < 15: return ('Gold', 'gold')
                 elif level < 20: return ('Diamond', 'turquoise')
                 elif level < 25: return ('Emerald', 'dark_green')
@@ -776,7 +776,7 @@ def compute(q):
             except:
                 return ('No', 'gray')
 
-        # Adds 0 - 4 on swExpList
+            # Adds 0 - 4 on swExpList
         swExpList = [0,0,0,0,0]
         try:
             swexpee = reqAPI['player']['stats']['SkyWars']['skywars_experience']
@@ -850,7 +850,7 @@ def compute(q):
 
                 if gamemoder == 'team':
                     statsList['kit'] = swVAR.get('activeKit_TEAMS','Default').split('_')[-1].capitalize().replace('-',' ').title()
-                
+            
                 if gamemoder == 'ranked':
                     if statsList['highkill'] > 3:
                         statsList['highkill'] = 3
@@ -874,7 +874,7 @@ def compute(q):
                 'winperc': 0,
                 }
             return statsList
-        
+    
         swSoloStatsList = {}
         swTeamStatsList = {}
         swRankedStatsList = {}
@@ -912,7 +912,7 @@ def compute(q):
             except:
                 swKillTypeList[killType] = (0, 0)
 
-        ########## Time Wasted
+            ########## Time Wasted
         try:
             TIMEOVERALL = reqAPI['player']['stats']['SkyWars']['time_played']-reqAPI['player']['stats']['SkyWars']['time_played_mega_doubles']+reqAPI['player']['stats']['SkyWars']['time_played_lab']
         except:
@@ -1025,7 +1025,7 @@ def compute(q):
             try:
                 swHeadsTeam.append([x[0].capitalize(), swHEADVAR['heads_'+x[0]+'_team'], x[1], round(100*swHEADVAR['heads_'+x[0]+'_team']/int(swStatsList[12]),2)])
             except: swHeadsTeam.append([x[0].capitalize(), 0, x[1], 0])
-        
+    
         swHeads.reverse()
         swHeadsSolo.reverse()
         swHeadsTeam.reverse()
@@ -1074,9 +1074,9 @@ def compute(q):
         #print(swStatsList)
         #print(len(swStatsList))
 
-############################################################################ BEDWARS ############################################################################
+    ############################################################################ BEDWARS ############################################################################
 
-    # Overall Stats
+        # Overall Stats
         bwOverallStats = {}
         try:
             bwSTATVAR = reqAPI['player']['stats']['Bedwars']
@@ -1106,7 +1106,7 @@ def compute(q):
             except:
                 bwOverallStats[item] = 0
 
-        # Add 4 criss cross final kill death crap, W/L, and B/L
+            # Add 4 criss cross final kill death crap, W/L, and B/L
         for x in [['K/D','kills_bedwars','deaths_bedwars'], ['finK/D','final_kills_bedwars','final_deaths_bedwars'], ['K/FD', 'kills_bedwars', 'final_deaths_bedwars'], ['FK/D', 'final_kills_bedwars', 'deaths_bedwars'], ['W/L', 'wins_bedwars', 'losses_bedwars'], ['B/L', 'beds_broken_bedwars', 'beds_lost_bedwars']]:
             try:
                 bwOverallStats[x[0]] = round(bwOverallStats[x[1]]/bwOverallStats[x[2]],4)
@@ -1117,7 +1117,7 @@ def compute(q):
             except:
                 bwOverallStats[x[0]] = 0
         
-        # Add winrate
+            # Add winrate
         try:
             bwOverallStats['winrate'] = round(100*bwOverallStats['wins_bedwars']/bwOverallStats['games_played_bedwars'], 4)
         except ZeroDivisionError:
@@ -1126,32 +1126,32 @@ def compute(q):
             else: bwOverallStats['winrate'] = 100
         except:
             bwOverallStats['winrate'] = 0
-        
-    # Stuff with leveling
+    
+        # Stuff with leveling
         def bwxp2level(xp):
             if xp == 0:
                 return 1
             if xp < 486500: #FIX THIS SHIT IT DOESN"T WORK FIX THIS SHIT IT DOESN"T WORK FIX THIS SHIT IT DOESN"T WORK FIX THIS SHIT IT DOESN"T WORK FIX THIS SHIT IT DOESN"T WORK
                 if xp < 1500: return 1 + (xp-500)/1000
-                elif xp < 3500: return 2 + (xp-1500)/2000
+                if xp < 3500: return 2 + (xp-1500)/2000
                 elif xp < 7000: return 3 + (xp-3500)/3500
                 else: return 4 + (xp-7000)/5000
             else: #FIX THIS SHIT IT DOESN"T WORK FIX THIS SHIT IT DOESN"T WORK FIX THIS SHIT IT DOESN"T WORK FIX THIS SHIT IT DOESN"T WORK FIX THIS SHIT IT DOESN"T WORK FIX THIS SHIT IT DOESN"T WORK
                 xp4pres = xp % 487000
                 pres = xp // 487000
                 if xp4pres < 500: return pres*100 + xp4pres/500
-                elif xp4pres < 1500: return pres*100 + 1 + (xp4pres-500)/1000
+                if xp4pres < 1500: return pres*100 + 1 + (xp4pres-500)/1000
                 elif xp4pres < 3500: return pres*100 + 2 + (xp4pres-1500)/2000
                 elif xp4pres < 7000: return pres*100 + 3 + (xp4pres-3500)/3500
                 else: return pres*100 + 4 +(xp4pres-7000)/5000
         bwOverallStats['level'] = round(bwxp2level(bwOverallStats['Experience']),4)
         #bwOverallStats['level'].append(bwOverallStats['level'][0]+1)
 
-    # Prestige
+        # Prestige
         def lvl2prestige(level):
             try:
                 if level < 100: return ('No', 'gray', round(100*(level-math.floor(level)),2))
-                elif level < 200: return ('Iron', 'lightgray', round(100*(level-math.floor(level)),2))
+                if level < 200: return ('Iron', 'lightgray', round(100*(level-math.floor(level)),2))
                 elif level < 300: return ('Gold', 'gold', round(100*(level-math.floor(level)),2))
                 elif level < 400: return ('Diamond', 'turquoise', round(100*(level-math.floor(level)),2))
                 elif level < 500: return ('Emerald', 'dark_green', round(100*(level-math.floor(level)),2))
@@ -1168,7 +1168,7 @@ def compute(q):
         #bwOverallStats['prestige'].append(lvl2prestige(bwOverallStats['level'][1]))
         bwOverallStats['level'] = math.floor(bwOverallStats['level'])
 
-    # Per mode stats
+        # Per mode stats
         bwTheStatsList =  [
             'kills_bedwars',
             'deaths_bedwars',
@@ -1240,8 +1240,8 @@ def compute(q):
                     bwFinKillsPerMode[bwTranslateList[mode]] = bwModeStats[mode]['final_kills_bedwars'][0]
                     bwModeLabels[1].append(bwTranslateList[mode])
                 except: pass
-            
-        # Kills per deaths with some final mixing in calculations
+        
+            # Kills per deaths with some final mixing in calculations
             try:
                 bwModeStats[mode]['K/D'] = round(bwModeStats[mode]['kills_bedwars'][0]/bwModeStats[mode]['deaths_bedwars'][0],4)
             except: bwModeStats[mode]['K/D'] = 0
@@ -1255,7 +1255,7 @@ def compute(q):
                 bwModeStats[mode]['FK/D'] = round(bwModeStats[mode]['final_kills_bedwars'][0]/bwModeStats[mode]['deaths_bedwars'][0],4)
             except: bwModeStats[mode]['FK/D'] = 0
 
-        # Win/loss ratio & winrate
+            # Win/loss ratio & winrate
             try:
                 bwModeStats[mode]['W/L'] = round(bwModeStats[mode]['wins_bedwars'][0]/bwModeStats[mode]['losses_bedwars'][0],4)
             except: bwModeStats[mode]['W/L'] = 0
@@ -1276,7 +1276,7 @@ def compute(q):
                 bwModeStats[mode]['resc/game'] = round(bwModeStats[mode]['resources_collected_bedwars'][0]/bwModeStats[mode]['games_played_bedwars'][0],4)
             except: bwModeStats[mode]['resc/game'] = 0
 
-        # Comparative skills
+            # Comparative skills
             bwCompList[mode] = {}
             try:
                 bwCompList[mode]['compkd'] = (round(bwModeStats[mode]['K/D'] - bwOverallStats['K/D'],4), round(100*(bwModeStats[mode]['K/D']/bwOverallStats['K/D'] - 1),2))
@@ -1288,7 +1288,7 @@ def compute(q):
                 bwCompList[mode]['compwl'] = (round(bwModeStats[mode]['W/L'] - bwOverallStats['W/L'],4), round(100*(bwModeStats[mode]['W/L']/bwOverallStats['W/L'] - 1),2))
             except: bwCompList[mode]['compwl'] = (0,0)
         
-        # Most, Best, Worst
+            # Most, Best, Worst
             if bwModeStats[mode]['games_played_bedwars'][0] > bwMKWList[0]:
                 bwMKWList[0] = bwModeStats[mode]['games_played_bedwars'][0]
                 bwMKWList[3] = bwTranslateList[mode]
@@ -1299,7 +1299,7 @@ def compute(q):
                 bwMKWList[2] = bwModeStats[mode]['W/L']
                 bwMKWList[5] = bwTranslateList[mode]
 
-    # Kills via
+        # Kills via
         bwKillsVia = {
             '🏹 Projectile':'projectile',
             '🌌 Void':'void',
@@ -1326,7 +1326,7 @@ def compute(q):
             bwKillsVia['🗡 Melee'] = (0,0)
             bwPureKillsVia.append(0)
 
-    # Final kills via
+        # Final kills via
         bwFinKillsVia = {
             '🏹 Projectile':'projectile',
             '🌌 Void':'void',
@@ -1353,7 +1353,7 @@ def compute(q):
             bwFinKillsVia['🗡 Melee'] = (0,0)
             bwPureFinKillsVia.append(0)
     
-    # Loot crates or whatever this bullshit is called
+        # Loot crates or whatever this bullshit is called
         bwLootBoxes = {} # boxes opened, legendaries, epics, rares, commons, lunar, easter, halloween, christmas
         bwLootPure = []
         try:
@@ -1368,7 +1368,7 @@ def compute(q):
                 bwLootPure.append(0)
         print(bwLootPure)
 
-############################################################################ GUILD ############################################################################
+    ############################################################################ GUILD ############################################################################
 
         # 0 - guild tag
         # 1 - guild name
@@ -1392,7 +1392,7 @@ def compute(q):
                     guildList[3] = 'darkgray'
         except: pass
 
-############################################################################ RENDERS BASE.HTML ############################################################################
+    ############################################################################ RENDERS BASE.HTML ############################################################################
         displayname = username
         if uuid in ADMINS:
             displayname += ' 🍰'
@@ -1408,20 +1408,15 @@ def compute(q):
         # Designated Crapification
 
         return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swKW=swStatsList[26], swKL=swStatsList[27], swKG=swStatsList[28], swBPG=swStatsList[29], swEPG=swStatsList[30], swAPG=swStatsList[31], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor, guildList=guildList, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure)
-    
-############################################################################ INVALID USERNAME CHECK ############################################################################
-    else:
-        if len(q) < 3 or len(q) > 16:
-            return "A Minecraft username has to be between 3 and 16 characters (with a few special exceptions), and can only contain alphanumeric characters and underscores."
-        for letter in q:
-            if letter not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_':
-                return 'Username contains invalid characters. A Minecraft username can only contain alphanumeric characters and underscores.'
-        for swear in swearList:
-            if swear in q:
-                return "Username might be blocked by Mojang- username contains one of the following: \nhttps://paste.ee/p/RYo2C. \nIf this is a derivative of the Scunthorpe problem, sorry about that."
-        return render_template('user404.html')
-        #except:
-        #    return "Errored out. Lol"
+    if len(q) < 3 or len(q) > 16:
+        return "A Minecraft username has to be between 3 and 16 characters (with a few special exceptions), and can only contain alphanumeric characters and underscores."
+    for letter in q:
+        if letter not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_':
+            return 'Username contains invalid characters. A Minecraft username can only contain alphanumeric characters and underscores.'
+    for swear in swearList:
+        if swear in q:
+            return "Username might be blocked by Mojang- username contains one of the following: \nhttps://paste.ee/p/RYo2C. \nIf this is a derivative of the Scunthorpe problem, sorry about that."
+    return render_template('user404.html')
 
 ############################################################################ FRIENDS LIST ###################################################################################
 
@@ -1457,19 +1452,18 @@ def friends(q):
     try:
         r = requests.Session().get('https://api.hypixel.net/friends?key=' + HAPIKEY + '&uuid=' + uuid)
         freqAPI = r.json()
-        
+
         if freqAPI['records'] == ['']:
             return "This person hasn't friended anyone on the Hypixel Network yet!"
-        else:
-            friendList = freqAPI['records']
-            
-            for friend in friendList:
-                try:
-                    if friend['uuidSender'] == uuid:
-                        friendListList.append({'name':(friend['uuidReceiver']), 'date':friend['started'], 'initiated':friend['uuidSender'], 'duration':time.time()-friend['started']/1000})
-                    elif friend['uuidReceiver'] == uuid:
-                        friendListList.append({'name':(friend['uuidSender']), 'date':friend['started'], 'initiated':friend['uuidSender'], 'duration':time.time()-friend['started']/1000})
-                except: pass
+        friendList = freqAPI['records']
+
+        for friend in friendList:
+            try:
+                if friend['uuidSender'] == uuid:
+                    friendListList.append({'name':(friend['uuidReceiver']), 'date':friend['started'], 'initiated':friend['uuidSender'], 'duration':time.time()-friend['started']/1000})
+                elif friend['uuidReceiver'] == uuid:
+                    friendListList.append({'name':(friend['uuidSender']), 'date':friend['started'], 'initiated':friend['uuidSender'], 'duration':time.time()-friend['started']/1000})
+            except: pass
 
     except:
         if len(q) < 3 or len(q) > 16:

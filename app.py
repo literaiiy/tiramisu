@@ -454,13 +454,13 @@ def compute(q):
             except: nhut3unix = 0
             jon = sec2format(nhut3unix)
             if jon[0] > 0:	
-                namehis[len(namehis)-1]['time_between'] = '>' + str(jon[0]) + 'y ' + str(jon[1]) + 'd ' + str(jon[2]) + 'h ' + str(jon[3]) + 'm'	
+                namehis[-1][-1] = '>' + str(jon[0]) + 'y ' + str(jon[1]) + 'd ' + str(jon[2]) + 'h ' + str(jon[3]) + 'm'	
             elif nhutdate[0] == 0:	
-                namehis[len(namehis)-1]['time_between'] = '>' + str(jon[1]) + 'd ' + str(jon[2]) + 'h ' + str(jon[3]) + 'm'	
+                namehis[-1][-1] = '>' + str(jon[1]) + 'd ' + str(jon[2]) + 'h ' + str(jon[3]) + 'm'	
             if jon[0] > 10:	
-                namehis[len(namehis)-1]['time_between'] = ''	
+                namehis[-1][-1] = ''	
         else:	
-            namehis[len(namehis)-1]['time_between'] = ''
+            namehis[-1][-1] = ''
         namehisDiffe = namehis[len(namehis)-2]['time_between']	
 
         # Does this serve a purpose?

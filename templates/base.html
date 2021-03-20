@@ -904,5 +904,49 @@ function scrollFunction() {
             </script>
         </div>
 
+        <div class="h3d">Loot Crates</div>
+        <p>
+            <b>Total loot crates</b>: {{bwLootBoxes['bedwars_box']}} <br>
+            <b>Current loot crates</b>: {{bwLootBoxes['bedwars_boxes'][0]}} ({{bwLootBoxes['bedwars_boxes'][1]}}%) <br>
+        </p>
+        <p>
+            <b><span class="gold">Legendaries</span></b>: {{bwLootBoxes['bedwars_box_legendaries'][0]}} ({{bwLootBoxes['bedwars_box_legendaries'][1]}}%) <br>
+            <b><span class="dark_purple">Epics</span></b>: {{bwLootBoxes['bedwars_box_epics'][0]}} ({{bwLootBoxes['bedwars_box_epics'][1]}}%) <br>
+            <b><span class="blue">Rares</span></b>: {{bwLootBoxes['bedwars_box_rares'][0]}} ({{bwLootBoxes['bedwars_box_rares'][1]}}%) <br>
+            <b><span class="green">Commons</span></b>: {{bwLootBoxes['bedwars_box_commons'][0]}} ({{bwLootBoxes['bedwars_box_commons'][1]}}%) <br>
+        </p>
+        <p>
+            <b>🧧 <span class="red">Lunar</span> Crates</b>: {{bwLootBoxes['bedwars_lunar_boxes'][0]}} ({{bwLootBoxes['bedwars_lunar_boxes'][1]}}%) <br>
+            <b>🐇 <span class="mvpaqua">Easter</span> Crates</b>: {{bwLootBoxes['bedwars_easter_boxes'][0]}} ({{bwLootBoxes['bedwars_easter_boxes'][1]}}%) <br>
+            <b>🎃 <span class="orange">Halloween</span> Crates</b>: {{bwLootBoxes['bedwars_halloween_boxes'][0]}} ({{bwLootBoxes['bedwars_halloween_boxes'][1]}}%) <br>
+            <b>🎄 <span class="green">Christmas</span> Crates</b>: {{bwLootBoxes['bedwars_christmas_boxes'][0]}} ({{bwLootBoxes['bedwars_christmas_boxes'][1]}}%) <br>
+        </p>
+
+        <div class='cvLootBox' style='position:relative;height:25%; width:25%'>
+            <canvas id="lootbox"></canvas>
+            <script>
+            var ctx = document.getElementById('lootbox');
+            // @ts-ignore
+            var lootboxed = {{bwLootPure[1:5]}};
+            var lootboxer = new Chart(ctx, {
+                type: 'doughnut',
+                responsive: true,
+                maintainAspectRatio:false,
+                data: {
+                    labels: ['Legendaries','Epics','Rares','Commons'],
+                    datasets: [{
+                        data: lootboxed,
+                        borderWidth: 1,
+                        backgroundColor: [
+                            '#fa0',
+                            '#a0a',
+                            '#55f',
+                            '#0a0',
+                        ],
+                    }]
+                },
+            });
+            </script>
+        </div>
 </body>
 {% endblock %}

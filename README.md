@@ -1,5 +1,5 @@
-# 🍰 tiramisu: Name History and Hypixel Stats Analysis ☕
-tiramisu is a player statistics site that gives a comprehensive outlook on your Minecraft & Hypixel profiles- complete name history, detailed breakdowns of your Hypixel statistics (including an elaborate analysis of your SkyWars and BedWars stats), among other things. It is currently in an open Beta, and there are bound to be a lot of bugs, but I am actively working on resolving these bugs and improving the experience tiramisu provides.
+# 🍰 tiramisu: Minecraft Name History & Hypixel Stats Analysis ☕
+tiramisu is a Minecraft player statistics site that gives a comprehensive outlook on your Minecraft account and Hypixel profile- complete name history, detailed breakdowns of your Hypixel statistics (including an elaborate analysis of your SkyWars and BedWars stats), among other things. It is currently in an open Beta, and there are bound to be a lot of bugs, but I am actively working on resolving these bugs and improving the experience tiramisu provides.
 
 This is a private repository containing the source code for the project solely for backup purposes. This code may be released for the open-source community once the project hits a certain milestone in popularity. But probably not, we don't need no bum ass clones. If you're reading this, it means that I fucked up and didn't update the readme.
 

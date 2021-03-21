@@ -802,7 +802,7 @@ def compute(q):
             swExpList[2]=(getPrestige(swExpList[1]))
             swExpList[3]=(math.floor(swExpList[1]) + 1)
             swExpList[4]=(round((swExpList[1] - math.floor(swExpList[1])) * 100, 2))
-            swExpList[5]=swSTATSVAR['levelFormatted'][-1]
+            swExpList[5]=re.sub('[0-9a-zA-Z§]', '', swSTATSVAR['levelFormatted'])
         except: pass
 
         ########## SkyWars Mode Stats I

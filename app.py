@@ -2,7 +2,6 @@
 from flask import Flask, render_template, request, url_for, redirect, session
 import json
 from mojang import MojangAPI
-from flask_wtf import Form
 from wtforms import TextField
 from datetime import datetime
 import requests
@@ -420,10 +419,8 @@ def compute(q):
         # Last login
         try:
             lastLoginUnix = int(reqAPI['player']['lastLogin']/1000)
-            
         except:
             lastLoginUnix = 1
-            
         lastLogin = datetime.fromtimestamp(lastLoginUnix).strftime('%a, %b %d, %Y at %I:%M %p %z')
 
         # Last logout
@@ -442,11 +439,11 @@ def compute(q):
         
         # Last session
         try:
-            if lastLoginUnix < lastLogoutUnix: lastSession = time.strftime("%Hh %Mm %Ss",time.gmtime(lastLogoutUnix-lastLoginUnix))
+            if lastLoginUnix < lastLogoutUnix: lastSession = sec2format2ydhms(sec2format(lastLogoutUnix-lastLoginUnix))
         except: pass
         
         # If played on Hypixel before, changes the user's 2nd time_between to between the first name change and their first log-on to Hypixel
-        if playedOnHypixel == True:
+        if playedOnHypixel:
             firstLogin = datetime.fromtimestamp(firstLoginUnix).strftime('%a, %b %d, %Y at %I:%M %p %z')
         ###
             try:
@@ -454,13 +451,13 @@ def compute(q):
             except: nhut3unix = 0
             jon = sec2format(nhut3unix)
             if jon[0] > 0:	
-                namehis[len(namehis)-1]['time_between'] = '>' + str(jon[0]) + 'y ' + str(jon[1]) + 'd ' + str(jon[2]) + 'h ' + str(jon[3]) + 'm'	
+                namehis[-1]['time_between'] = '>' + str(jon[0]) + 'y ' + str(jon[1]) + 'd ' + str(jon[2]) + 'h ' + str(jon[3]) + 'm'	
             elif nhutdate[0] == 0:	
-                namehis[len(namehis)-1]['time_between'] = '>' + str(jon[1]) + 'd ' + str(jon[2]) + 'h ' + str(jon[3]) + 'm'	
+                namehis[-1]['time_between'] = '>' + str(jon[1]) + 'd ' + str(jon[2]) + 'h ' + str(jon[3]) + 'm'	
             if jon[0] > 10:	
-                namehis[len(namehis)-1]['time_between'] = ''	
+                namehis[-1]['time_between'] = ''	
         else:	
-            namehis[len(namehis)-1]['time_between'] = ''
+            namehis[-1]['time_between'] = ''
         namehisDiffe = namehis[len(namehis)-2]['time_between']	
 
         # Does this serve a purpose?
@@ -550,27 +547,41 @@ def compute(q):
         except: pass
 
 ############################################################################ PLAYER SESSION DATA ##########################################################################################
-        reqAPIsess = requests.Session().get('https://api.hypixel.net/status?key=' + HAPIKEY + '&uuid=' + uuid)
-        reqAPIsession = reqAPIsess.json()
-        currentSession = ''
+        currentSession = False
         sessionType = ''
-        if reqAPIsession['success']:
-            if reqAPIsession['session']['online'] == True:
-                currentSession = reqAPIsession['session']['gameType'].replace('_',' ').upper()
-                sessionType = reqAPIsession['session']['mode'].replace('_',' ').title()
-            else: currentSession = False
+        if playedOnHypixel:
+            reqAPIsess = requests.Session().get('https://api.hypixel.net/status?key=' + HAPIKEY + '&uuid=' + uuid)
+            reqAPIsession = reqAPIsess.json()
+            if reqAPIsession['success']:
+                if reqAPIsession['session']['online']:
+                    if reqAPIsession['session']['gameType'] == 'SKYWARS': currentSession = 'SkyWars'
+                    elif reqAPIsession['session']['gameType'] == 'SKYBLOCK': currentSession = 'SkyBlock'
+                    elif reqAPIsession['session']['gameType'] == 'BEDWARS': currentSession = 'BedWars'
+                    elif reqAPIsession['session']['gameType'] == 'SUPER_SMASH': currentSession = 'Smash Heroes'
+                    elif reqAPIsession['session']['gameType'] == 'SPEED_UHC': currentSession = 'Speed UHC'
+                    elif reqAPIsession['session']['gameType'] == 'MCGO': currentSession = 'Cops and Crims'
+                    elif reqAPIsession['session']['gameType'] == 'PIT': currentSession = 'The Pit'
+                    elif reqAPIsession['session']['gameType'] == 'UHC': currentSession = 'UHC Champions'
+                    elif reqAPIsession['session']['gameType'] == 'BATTLEGROUND': currentSession = 'Warlords'
+                    elif reqAPIsession['session']['gameType'] == 'SURVIVAL_GAMES': currentSession = 'Blitz Survival Games'
+                    elif reqAPIsession['session']['gameType'] == 'WALLS3': currentSession = 'Mega Walls'
+                    elif reqAPIsession['session']['gameType'] == 'TNTGAMES': currentSession = 'TNT Games'
+                    else: currentSession = reqAPIsession['session']['gameType'].replace('_',' ').title()
+                    try:
+                        sessionType = reqAPIsession['session']['mode'].replace('_',' ').title()
+                    except:
+                        sessionType = 'somewhere...'
 
 ############################################################################ SOCIALS ##########################################################################################
- 
-            twitter = []
-            instagram = []
-            twitch = []
-            discord = ''
-            hypixelForums = []
-            youtube = []
+
+        twitter = []
+        instagram = []
+        twitch = []
+        discord = ''
+        hypixelForums = []
+        youtube = []
         try:
             socialsList = reqAPI['player']['socialMedia']['links']
-
 
             if "TWITTER" in socialsList:
                 twitter = reqAPI['player']['socialMedia']['links']['TWITTER']
@@ -605,6 +616,9 @@ def compute(q):
 ############################################################################ SKYWARS ##########################################################################################s
         
         swStatsList = []
+        try:
+            swSTATSVAR = reqAPI['player']['stats']['SkyWars']
+        except: swSTATSVAR = {}
         for i in range(33):
             swStatsList.append(0)
         # 0 - games played
@@ -649,31 +663,31 @@ def compute(q):
 
         # Adds 0 - 9 on swStatsList
         try:
-            swgames = reqAPI['player']['stats']['SkyWars']['losses'] + reqAPI['player']['stats']['SkyWars']['wins']
+            swgames = swSTATSVAR['losses'] + swSTATSVAR['wins']
             swStatsList[0]=swgames
-            swStatsList[1]=reqAPI['player']['stats']['SkyWars']['quits']
+            swStatsList[1]=swSTATSVAR['quits']
 
-            swkills = reqAPI['player']['stats']['SkyWars']['kills']
+            swkills = swSTATSVAR['kills']
             swStatsList[2]=swkills
-            swdeaths = reqAPI['player']['stats']['SkyWars']['deaths']
+            swdeaths = swSTATSVAR['deaths']
             swStatsList[3]=swdeaths
             swStatsList[4]=(round(swkills/swdeaths, 4))
-            swassists = reqAPI['player']['stats']['SkyWars']['assists']
+            swassists = swSTATSVAR['assists']
             swStatsList[5]=swassists
 
-            swwins = reqAPI['player']['stats']['SkyWars']['wins']
+            swwins = swSTATSVAR['wins']
             swStatsList[6]=swwins
-            swlosses = reqAPI['player']['stats']['SkyWars']['losses']
+            swlosses = swSTATSVAR['losses']
             swStatsList[7]=swlosses
-            swStatsList[8]=round(reqAPI['player']['stats']['SkyWars']['wins']/reqAPI['player']['stats']['SkyWars']['losses'],4)
-            swStatsList[9]=reqAPI['player']['stats']['SkyWars']['survived_players']
+            swStatsList[8]=round(swSTATSVAR['wins']/swSTATSVAR['losses'],4)
+            swStatsList[9]=swSTATSVAR['survived_players']
         except: pass
 
         # Adds 10 - 12 on swStatsList
         try:
-            swStatsList[10]=(format(reqAPI['player']['stats']['SkyWars']['win_streak'], ','))
-            swStatsList[11]=(format(reqAPI['player']['stats']['SkyWars']['souls_gathered'], ','))
-            swStatsList[12]=(format(reqAPI['player']['stats']['SkyWars']['heads'], ','))
+            swStatsList[10]=(format(swSTATSVAR['win_streak'], ','))
+            swStatsList[11]=(format(swSTATSVAR['souls_gathered'], ','))
+            swStatsList[12]=(format(swSTATSVAR['heads'], ','))
         except: pass
 
         # Adds 13 on swStatsList
@@ -696,22 +710,22 @@ def compute(q):
 
         # Adds 14 - 23 on swStatsList
         try:
-            swStatsList[14]=int(reqAPI['player']['stats']['SkyWars']['coins'])
-            swStatsList[15]=reqAPI['player']['stats']['SkyWars']['blocks_broken']
-            swStatsList[16]=reqAPI['player']['stats']['SkyWars']['egg_thrown']
-            swStatsList[17]=reqAPI['player']['stats']['SkyWars']['arrows_shot']
-            swStatsList[18]=reqAPI['player']['stats']['SkyWars']['arrows_hit']
-            swStatsList[19]=(minsec(reqAPI['player']['stats']['SkyWars']['fastest_win']))
-            swStatsList[20]=reqAPI['player']['stats']['SkyWars']['most_kills_game']
-            swStatsList[21]=reqAPI['player']['stats']['SkyWars']['chests_opened']
-            swStatsList[22]=round((reqAPI['player']['stats']['SkyWars']['wins']/(reqAPI['player']['stats']['SkyWars']['wins']+reqAPI['player']['stats']['SkyWars']['losses'])) * 100, 4)
-            swStatsList[23]=round(reqAPI['player']['stats']['SkyWars']['arrows_hit']/reqAPI['player']['stats']['SkyWars']['arrows_shot']*100, 4)
+            swStatsList[14]=int(swSTATSVAR['coins'])
+            swStatsList[15]=swSTATSVAR['blocks_broken']
+            swStatsList[16]=swSTATSVAR['egg_thrown']
+            swStatsList[17]=swSTATSVAR['arrows_shot']
+            swStatsList[18]=swSTATSVAR['arrows_hit']
+            swStatsList[19]=(minsec(swSTATSVAR['fastest_win']))
+            swStatsList[20]=swSTATSVAR['most_kills_game']
+            swStatsList[21]=swSTATSVAR['chests_opened']
+            swStatsList[22]=round((swSTATSVAR['wins']/(swSTATSVAR['wins']+swSTATSVAR['losses'])) * 100, 4)
+            swStatsList[23]=round(swSTATSVAR['arrows_hit']/swSTATSVAR['arrows_shot']*100, 4)
         except: pass
 
         # Adds 24 - 25 on swStatsList
         twenty4plus = False
         try:
-            swStatsList[24]=(round((swkills+reqAPI['player']['stats']['SkyWars']['assists'])/reqAPI['player']['stats']['SkyWars']['deaths'], 4))
+            swStatsList[24]=(round((swkills+swSTATSVAR['assists'])/swSTATSVAR['deaths'], 4))
             if 'Eww' in swStatsList[13]: swStatsList[25]=('darkgray')
             if 'Yucky' in swStatsList[13]: swStatsList[25]=('gray')
             if 'Meh' in swStatsList[13]: swStatsList[25]=('lightgray')
@@ -729,9 +743,9 @@ def compute(q):
             swStatsList[26]=(round(swkills/swwins, 4))
             swStatsList[27]=(round(swkills/swlosses, 4))
             swStatsList[28]=(round(swkills/swgames, 4))
-            swStatsList[29]=(round(reqAPI['player']['stats']['SkyWars']['blocks_broken']/swgames, 4))
-            swStatsList[30]=(round(reqAPI['player']['stats']['SkyWars']['egg_thrown']/swgames, 4))
-            swStatsList[31]=(round(reqAPI['player']['stats']['SkyWars']['arrows_shot']/swgames, 4))
+            swStatsList[29]=(round(swSTATSVAR['blocks_broken']/swgames, 4))
+            swStatsList[30]=(round(swSTATSVAR['egg_thrown']/swgames, 4))
+            swStatsList[31]=(round(swSTATSVAR['arrows_shot']/swgames, 4))
         except: pass
     
 
@@ -777,9 +791,9 @@ def compute(q):
                 return ('No', 'gray')
 
         # Adds 0 - 4 on swExpList
-        swExpList = [0,0,0,0,0]
+        swExpList = [0,0,0,0,0,'☆']
         try:
-            swexpee = reqAPI['player']['stats']['SkyWars']['skywars_experience']
+            swexpee = swSTATSVAR['skywars_experience']
         except:
             swexpee = 0
         try:
@@ -788,91 +802,71 @@ def compute(q):
             swExpList[2]=(getPrestige(swExpList[1]))
             swExpList[3]=(math.floor(swExpList[1]) + 1)
             swExpList[4]=(round((swExpList[1] - math.floor(swExpList[1])) * 100, 2))
+            swExpList[5]=swSTATSVAR['levelFormatted'][-1]
         except: pass
 
         ########## SkyWars Mode Stats I
         swBestGame = [0, False]
         def swModeStats(statsList, gamemoder):
             try:
-                swVAR = reqAPI['player']['stats']['SkyWars']
-                try:
-                    solokd = round(swVAR.get('kills_' + gamemoder,0)/swVAR.get('deaths_'+gamemoder, 0.000001),4)
-                except:
-                    solokd = [0,0]
-                try:
-                    solowl = round(swVAR.get('wins_'+gamemoder,0)/swVAR.get('losses_'+gamemoder, 0.000001),4)
-                except:
-                    solowl = [0,0]
-                solowlrelative = [0,0]
-                try:
-                    solowlrelative[0] = round(solowl-swStatsList[8],4)
-                    solowlrelative[1] = round(100*(solowl/swStatsList[8]-1),2)
-                except: pass
-                solokdrelative = [0,0]
-                try:
-                    solokdrelative[0] = round(solokd-swStatsList[4],4)
-                    solokdrelative[1] = round(100*(solokd/swStatsList[4]-1),2)
-                except: pass
-                try:
-                    statsList["kills"]= [swVAR.get('kills_'+gamemoder,0), round(100*(swVAR.get('kills_'+gamemoder,0)/swkills),2)]
-                except: statsList["kills"]=[0,0]
-                try:
-                    statsList["deaths"]= [swVAR.get('deaths_'+gamemoder, 0), round(100*(swVAR.get('deaths_'+gamemoder, 0)/swdeaths),2)]
-                except: statsList["deaths"] = [0,0]
-                try:
-                    statsList["kd"]= solokd
-                except: statsList["kd"] = [0,0]
-                try:
-                    statsList["assists"]= [swVAR.get('assists_'+gamemoder, 0), round(100*(swVAR.get('assists_'+gamemoder, 0)/swStatsList[5]),2)]
-                except: statsList["assists"] = (0,0)
-                try:
-                    statsList["survived"]= [swVAR.get('survived_players_'+gamemoder,0), round(100*(swVAR.get('survived_players_'+gamemoder,0)/swStatsList[9]),2)]
-                except: statsList["survived"] = (0,0)
-                try:
-                    statsList["games"]= [swVAR.get('wins_'+gamemoder,0) + swVAR.get('losses_'+gamemoder,0), round(100*(swVAR.get('wins_'+gamemoder,0) + swVAR.get('losses_'+gamemoder,0))/swgames,2)]
-                    if statsList['games'][0] > swBestGame[0] and '_' in gamemoder:
-                        swBestGame[0] = statsList['games'][0]
-                        swBestGame[1] = gamemoder
-                except: statsList["games"] = (0,0)
-                try:
-                    statsList["wins"]= [swVAR.get('wins_'+gamemoder,0), round(100*(swVAR.get('wins_'+gamemoder,0)/swwins),2)]
-                except: statsList["wins"] = (0,0)
-                try:
-                    statsList["losses"]= [swVAR.get('losses_'+gamemoder,0), round(100*(swVAR.get('losses_'+gamemoder,0)/swlosses),2)]
-                except: statsList["losses"] = (0,0)
-                statsList["wl"]= solowl
-                statsList["kit"]= swVAR.get('activeKit_'+gamemoder.upper(),'Default').split('_')[-1].capitalize()
-                statsList["fastestwin"]= minsec(swVAR.get('fastest_win_'+gamemoder,0))
-                statsList['highkill']= swVAR.get('most_kills_game_'+gamemoder,0)
-                statsList['kdrelative']= solokdrelative
-                statsList['wlrelative']= solowlrelative
-                statsList['winperc']= round(100*(solowl/(1+solowl)), 4)
-
-                if gamemoder == 'team':
-                    statsList['kit'] = swVAR.get('activeKit_TEAMS','Default').split('_')[-1].capitalize().replace('-',' ').title()
-                
-                if gamemoder == 'ranked':
-                    if statsList['highkill'] > 3:
-                        statsList['highkill'] = 3
-
+                solokd = round(swSTATSVAR.get('kills_' + gamemoder,0)/swSTATSVAR.get('deaths_'+gamemoder, 0.000001),4)
             except:
-                statsList = {
-                "kills": (0,0),
-                "deaths": (0,0),
-                "kd": 0,
-                "assists": (0,0),
-                "survived":(0,0),
-                "games": (0,0),
-                "wins": (0,0),
-                "losses": (0,0),
-                "wl": 0,
-                "kit": "Default",
-                "fastestwin": "N/A",
-                'highkill': 0,
-                'kdrelative': [0,0],
-                'wlrelative': [0,0],
-                'winperc': 0,
-                }
+                solokd = [0,0]
+            try:
+                solowl = round(swSTATSVAR.get('wins_'+gamemoder,0)/swSTATSVAR.get('losses_'+gamemoder, 0.000001),4)
+            except:
+                solowl = [0,0]
+            solowlrelative = [0,0]
+            try:
+                solowlrelative[0] = round(solowl-swStatsList[8],4)
+                solowlrelative[1] = round(100*(solowl/swStatsList[8]-1),2)
+            except: pass
+            solokdrelative = [0,0]
+            try:
+                solokdrelative[0] = round(solokd-swStatsList[4],4)
+                solokdrelative[1] = round(100*(solokd/swStatsList[4]-1),2)
+            except: pass
+            try:
+                statsList["kills"]= [swSTATSVAR.get('kills_'+gamemoder,0), round(100*(swSTATSVAR.get('kills_'+gamemoder,0)/swkills),2)]
+            except: statsList["kills"]=[0,0]
+            try:
+                statsList["deaths"]= [swSTATSVAR.get('deaths_'+gamemoder, 0), round(100*(swSTATSVAR.get('deaths_'+gamemoder, 0)/swdeaths),2)]
+            except: statsList["deaths"] = [0,0]
+            try:
+                statsList["kd"]= solokd
+            except: statsList["kd"] = [0,0]
+            try:
+                statsList["assists"]= [swSTATSVAR.get('assists_'+gamemoder, 0), round(100*(swSTATSVAR.get('assists_'+gamemoder, 0)/swStatsList[5]),2)]
+            except: statsList["assists"] = (0,0)
+            try:
+                statsList["survived"]= [swSTATSVAR.get('survived_players_'+gamemoder,0), round(100*(swSTATSVAR.get('survived_players_'+gamemoder,0)/swStatsList[9]),2)]
+            except: statsList["survived"] = (0,0)
+            try:
+                statsList["games"]= [swSTATSVAR.get('wins_'+gamemoder,0) + swSTATSVAR.get('losses_'+gamemoder,0), round(100*(swSTATSVAR.get('wins_'+gamemoder,0) + swSTATSVAR.get('losses_'+gamemoder,0))/swgames,2)]
+                if statsList['games'][0] > swBestGame[0] and '_' in gamemoder:
+                    swBestGame[0] = statsList['games'][0]
+                    swBestGame[1] = gamemoder
+            except: statsList["games"] = (0,0)
+            try:
+                statsList["wins"]= [swSTATSVAR.get('wins_'+gamemoder,0), round(100*(swSTATSVAR.get('wins_'+gamemoder,0)/swwins),2)]
+            except: statsList["wins"] = (0,0)
+            try:
+                statsList["losses"]= [swSTATSVAR.get('losses_'+gamemoder,0), round(100*(swSTATSVAR.get('losses_'+gamemoder,0)/swlosses),2)]
+            except: statsList["losses"] = (0,0)
+            statsList["wl"]= solowl
+            statsList["kit"]= swSTATSVAR.get('activeKit_'+gamemoder.upper(),'Default').split('_')[-1].capitalize()
+            statsList["fastestwin"]= minsec(swSTATSVAR.get('fastest_win_'+gamemoder,0))
+            statsList['highkill']= swSTATSVAR.get('most_kills_game_'+gamemoder,0)
+            statsList['kdrelative']= solokdrelative
+            statsList['wlrelative']= solowlrelative
+            statsList['winperc']= round(100*(solowl/(1+solowl)), 4)
+
+            if gamemoder == 'team':
+                statsList['kit'] = swSTATSVAR.get('activeKit_TEAMS','Default').split('_')[-1].capitalize().replace('-',' ').title()
+            
+            if gamemoder == 'ranked':
+                if statsList['highkill'] > 3:
+                    statsList['highkill'] = 3
             return statsList
         
         swSoloStatsList = {}
@@ -906,7 +900,7 @@ def compute(q):
         swKTLList = []
         for killType in ['melee', 'void', 'bow', 'mob', 'fall']:
             try:
-                swKillTypeList[killType] = (reqAPI['player']['stats']['SkyWars'][killType + '_kills'], round(100*(reqAPI['player']['stats']['SkyWars'][killType + '_kills']/swStatsList[2]), 2))
+                swKillTypeList[killType] = (swSTATSVAR[killType + '_kills'], round(100*(swSTATSVAR[killType + '_kills']/swStatsList[2]), 2))
                 swKillTypeList['success'] = True
                 swKTLList.append(swKillTypeList[killType][0])
             except:
@@ -914,7 +908,7 @@ def compute(q):
 
         ########## Time Wasted
         try:
-            TIMEOVERALL = reqAPI['player']['stats']['SkyWars']['time_played']-reqAPI['player']['stats']['SkyWars']['time_played_mega_doubles']+reqAPI['player']['stats']['SkyWars']['time_played_lab']
+            TIMEOVERALL = swSTATSVAR['time_played']-swSTATSVAR['time_played_mega_doubles']+swSTATSVAR['time_played_lab']
         except:
             TIMEOVERALL = 0
         try:
@@ -925,7 +919,7 @@ def compute(q):
         swTimeModeList = ['Solo', 'Teams', 'Mega', 'Ranked', 'Laboratory']
         for mode in ['_solo', '_team','_mega','_ranked','_lab']:
             try:
-                timePlayedForThisMode = reqAPI['player']['stats']['SkyWars']['time_played'+mode]
+                timePlayedForThisMode = swSTATSVAR['time_played'+mode]
                 swTimeList.append(sec2format2ydhms(sec2format(timePlayedForThisMode)))
                 swTimeListPerc.append(round(100*(timePlayedForThisMode/TIMEOVERALL), 2))
             except:
@@ -974,56 +968,50 @@ def compute(q):
         # Souls
         swSoulList = []
         try:
-            SWVARSOULS = reqAPI['player']['stats']['SkyWars']
-        except: pass
-        try:
-            swSoulList.append((SWVARSOULS['souls'], ' total souls'))
+            swSoulList.append((swSTATSVAR['souls'], ' total souls'))
         except: swSoulList.append((0, ' total souls'))
         try:
-            swSoulList.append((SWVARSOULS['souls_gathered'], ' souls harvested'))
+            swSoulList.append((swSTATSVAR['souls_gathered'], ' souls harvested'))
         except: swSoulList.append((0, ' souls harvested'))
         try:
-            swSoulList.append((SWVARSOULS['paid_souls'], ' souls bought'))
+            swSoulList.append((swSTATSVAR['paid_souls'], ' souls bought'))
         except: swSoulList.append((0, ' souls bought'))
         try:
-            swSoulList.append((SWVARSOULS['souls_gathered_lab'], ' souls from lab modes'))
+            swSoulList.append((swSTATSVAR['souls_gathered_lab'], ' souls from lab modes'))
         except: swSoulList.append((0, ' souls from lab modes'))
         try:
             swSoulList.append((swSoulList[1][0]-swSoulList[3][0], ' souls from non-lab modes'))
         except: swSoulList.append((0, ' souls from non-lab modes'))
         try:
-            swSoulList.append((SWVARSOULS['soul_well_legendaries'], ' legendaries', 'gold'))
+            swSoulList.append((swSTATSVAR['soul_well_legendaries'], ' legendaries', 'gold'))
         except: swSoulList.append((0, ' legendaries', 'gold'))
         try:
-            swSoulList.append((SWVARSOULS['soul_well_rares'], ' rares', 'blue'))
+            swSoulList.append((swSTATSVAR['soul_well_rares'], ' rares', 'blue'))
         except: swSoulList.append((0, ' rares', 'blue'))
         try:
-            swSoulList.append((SWVARSOULS['soul_well']-SWVARSOULS['soul_well_legendaries']-SWVARSOULS['soul_well_rares'], ' commons', 'green'))
+            swSoulList.append((swSTATSVAR['soul_well']-swSTATSVAR['soul_well_legendaries']-swSTATSVAR['soul_well_rares'], ' commons', 'green'))
         except: swSoulList.append((0, ' commons', 'green'))
         try:
-            swSoulList.append((SWVARSOULS['soul_well'], ' soul well uses'))
+            swSoulList.append((swSTATSVAR['soul_well'], ' soul well uses'))
         except: swSoulList.append((0, ' soul well uses',))
 
         swSoulsRaritiesList = [swSoulList[-2][0], swSoulList[-3][0], swSoulList[-4][0]]
 
         # Heads
         #headCollection = reqAPI['player']['stats']['SkyWars']['head_collection']['prestigious']
-        try:
-            swHEADVAR = reqAPI['player']['stats']['SkyWars']
-        except: pass
         swHeads = []
         swHeadsSolo = []
         swHeadsTeam = []
 
         for x in [('eww','darkgray'),('yucky','gray'),('meh','lightgray'),('decent','decentyellow'),('salty','green'),('tasty','cyan'),('succulent','pink'), ('sweet','dark_purple'), ('divine','gold'),('heavenly','chocolate')]:
             try:
-                swHeads.append([x[0].capitalize(), swHEADVAR['heads_'+x[0]], x[1], round(100*swHEADVAR['heads_'+x[0]]/int(swStatsList[12]),2)])
+                swHeads.append([x[0].capitalize(), swSTATSVAR['heads_'+x[0]], x[1], round(100*swSTATSVAR['heads_'+x[0]]/int(swStatsList[12]),2)])
             except: swHeads.append([x[0].capitalize(), 0, x[1], 0])
             try:
-                swHeadsSolo.append([x[0].capitalize(), swHEADVAR['heads_'+x[0]+'_solo'], x[1], round(100*swHEADVAR['heads_'+x[0]+'_solo']/int(swStatsList[12]),2)])
+                swHeadsSolo.append([x[0].capitalize(), swSTATSVAR['heads_'+x[0]+'_solo'], x[1], round(100*swSTATSVAR['heads_'+x[0]+'_solo']/int(swStatsList[12]),2)])
             except: swHeadsSolo.append([x[0].capitalize(), 0, x[1], 0])
             try:
-                swHeadsTeam.append([x[0].capitalize(), swHEADVAR['heads_'+x[0]+'_team'], x[1], round(100*swHEADVAR['heads_'+x[0]+'_team']/int(swStatsList[12]),2)])
+                swHeadsTeam.append([x[0].capitalize(), swSTATSVAR['heads_'+x[0]+'_team'], x[1], round(100*swSTATSVAR['heads_'+x[0]+'_team']/int(swStatsList[12]),2)])
             except: swHeadsTeam.append([x[0].capitalize(), 0, x[1], 0])
         
         swHeads.reverse()
@@ -1031,15 +1019,12 @@ def compute(q):
         swHeadsTeam.reverse()
 
         # Angel's Descent
-        try:
-            swADVAR = reqAPI['player']['stats']['SkyWars']
-        except: pass
         swOpals = {}
         try:
-            swOpals['opals'] = swADVAR['opals']
+            swOpals['opals'] = swSTATSVAR['opals']
         except: swOpals['opals'] = 0
         try:
-            swOpals['shards'] = swADVAR['shard']
+            swOpals['shards'] = swSTATSVAR['shard']
             swOpals['until next opal'] = swOpals['shards'] % 20000
             swOpals['shardsTilNextPerc'] = round(100*swOpals['until next opal']/20000,2)
             swOpals['shardsTilNextPrBa'] = int(32*(swOpals['shardsTilNextPerc']/100))
@@ -1052,13 +1037,13 @@ def compute(q):
             swOpals['opals from prestige'] = int(swExpList[1]/5)
         except: swOpals['opals from prestige'] = 0
         try:
-            swOpals['shard_solo'] = swADVAR['shard_solo']
+            swOpals['shard_solo'] = swSTATSVAR['shard_solo']
             swOpals['shard_solo_perc'] = round(100*swOpals['shard_solo']/swOpals['shards'],2)
         except:
             swOpals['shard_solo'] =0
             swOpals['shard_solo_perc'] = 0
         try:
-            swOpals['shard_team'] = swADVAR['shard_team']
+            swOpals['shard_team'] = swSTATSVAR['shard_team']
             swOpals['shard_team_perc'] = round(100*swOpals['shard_team']/swOpals['shards'],2)
         except: 
             swOpals['shard_team'] = 0
@@ -1080,7 +1065,7 @@ def compute(q):
         bwOverallStats = {}
         try:
             bwSTATVAR = reqAPI['player']['stats']['Bedwars']
-        except: pass
+        except: bwSTATVAR = {}
 
         # Add the stats retrieved from the API
         bwStatsChooseList = [
@@ -1353,7 +1338,7 @@ def compute(q):
             bwFinKillsVia['🗡 Melee'] = (0,0)
             bwPureFinKillsVia.append(0)
     
-    # Loot crates or whatever this bullshit is called
+    # Loot crates
         bwLootBoxes = {} # boxes opened, legendaries, epics, rares, commons, lunar, easter, halloween, christmas
         bwLootPure = []
         try:
@@ -1366,7 +1351,19 @@ def compute(q):
             except:
                 bwLootBoxes[x] = (0,0)
                 bwLootPure.append(0)
-        print(bwLootPure)
+    
+    # Resources collected
+        bwResCol = [] # Iron, Gold, Diamonds, Emeralds, Wrapped Presents
+        bwItemsPurchased = bwSTATVAR['_items_purchased_bedwars'] if '_items_purchased_bedwars' in bwSTATVAR else 0
+        bwTotalResources = bwSTATVAR['resources_collected_bedwars'] if 'resources_collected_bedwars' in bwSTATVAR else 0
+        bwResColPerc = []
+        for x in ['iron','gold','diamond','emerald','wrapped_present']:
+            if x+'_resources_collected_bedwars' in bwSTATVAR:
+                bwResCol.append(bwSTATVAR[x+'_resources_collected_bedwars'])
+                bwResColPerc.append(round(100*bwSTATVAR[x+'_resources_collected_bedwars']/bwTotalResources,2))
+            else:
+                bwResCol.append(0)
+        print(bwResCol)
 
 ############################################################################ GUILD ############################################################################
 
@@ -1374,23 +1371,23 @@ def compute(q):
         # 1 - guild name
         # 2 - guild role
         # 3 - guild color
-
-        VVV = requests.Session().get('https://api.hypixel.net/guild?key=' + HAPIKEY + '&player=' + uuid)
-        reqGUILD = VVV.json()
         guildList = [0,0,0,0]
-        try:
-            if reqGUILD['guild'] != 'null':
-                guildList[0] = reqGUILD['guild']['tag']
-                guildList[1] = reqGUILD['guild']['name']
-                for member in reqGUILD['guild']['members']:
-                    if member['uuid'] == uuid:
-                        guildList[2] = member['rank']
-                        break
-                try:
-                    guildList[3] = reqGUILD['guild']['tagColor'].lower()
-                except:
-                    guildList[3] = 'darkgray'
-        except: pass
+        if playedOnHypixel:
+            VVV = requests.Session().get('https://api.hypixel.net/guild?key=' + HAPIKEY + '&player=' + uuid)
+            reqGUILD = VVV.json()
+            try:
+                if reqGUILD['guild'] != 'null':
+                    guildList[0] = reqGUILD['guild']['tag']
+                    guildList[1] = reqGUILD['guild']['name']
+                    for member in reqGUILD['guild']['members']:
+                        if member['uuid'] == uuid:
+                            guildList[2] = member['rank']
+                            break
+                    try:
+                        guildList[3] = reqGUILD['guild']['tagColor'].lower()
+                    except:
+                        guildList[3] = 'darkgray'
+            except: pass
 
 ############################################################################ RENDERS BASE.HTML ############################################################################
         displayname = username
@@ -1407,7 +1404,7 @@ def compute(q):
 
         # Designated Crapification
 
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swKW=swStatsList[26], swKL=swStatsList[27], swKG=swStatsList[28], swBPG=swStatsList[29], swEPG=swStatsList[30], swAPG=swStatsList[31], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor, guildList=guildList, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure)
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swKW=swStatsList[26], swKL=swStatsList[27], swKG=swStatsList[28], swBPG=swStatsList[29], swEPG=swStatsList[30], swAPG=swStatsList[31], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], swPresCard=swExpList[5],joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor, guildList=guildList, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources)
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:

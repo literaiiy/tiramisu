@@ -68,7 +68,6 @@ function scrollFunction() {
         } 
     } 
 </style>
-
 <div class="row">
     <div class="columnZ">
         <img style='position: relative;margin-top:10px; margin-left:-500px;z-index:3;' src='https://crafatar.com/renders/body/{{uuid}}?overlay'><br>
@@ -211,7 +210,7 @@ function scrollFunction() {
         {% if discord != '' and 'discord.gg' not in discord %}
             <span class="discord"><b>Discord: </b></span>@{{ discord }}<br>
         {% elif 'https://discord.gg' in discord or 'http://discord.gg' in discord %}
-            <span class="discord"><b>Discord :</b></span> <a href='{{ discord }}'>{{ discord }}</a><br>
+            <span class="discord"><b>Discord:</b></span> <a href='{{ discord }}'>{{ discord }}</a><br>
         {% elif 'discord.gg' in discord %}
             <span class="discord"><b>Discord: </b></span> <a href='https://{{ discord }}'>{{ discord }}</a><br>
         {% endif %}
@@ -244,13 +243,13 @@ function scrollFunction() {
         </div>
     </div>
 </div>
-
+{% if playedOnHypixel != False %}
 <!------ PLAYER STATS ------>
 <div class="stats">
 
     <!--- SKYWARS STATS --->
     <div class='header h2d'>SkyWars</div>
-    <div class='h3d'><p><span class="{{ swPrestigeColor }}"><b></span>{{ swExp }}</b> SkyWars experience · <b><span class="{{ swPrestigeColor }}">[{{ swLevel }}☆]</b></span>, {{ swPrestige }} Prestige - <span class="{{ swPrestigeColor }}"><b>{{ swToNL }}%</b></span> to <b>{{ swNextLevel }}</b><br></p></div>
+    <div class='h3d'><p><span class="{{ swPrestigeColor }}"><b></span>{{ swExp }}</b> SkyWars experience · <b><span class="{{ swPrestigeColor }}">[{{ swLevel }}{{swPresCard}}]</b></span>, {{ swPrestige }} Prestige - <span class="{{ swPrestigeColor }}"><b>{{ swToNL }}%</b></span> to <b>{{ swNextLevel }}</b><br></p></div>
     <table class='swgeneral'>
         {{ username }} plays <b>{{ swBestGame[1] }}</b> most often, with <b>{{ swBestGame[0]}}</b> games played.
         <colgroup>
@@ -948,5 +947,51 @@ function scrollFunction() {
             });
             </script>
         </div>
+
+        <div class="h3d">Resources collected</div>
+        <p>
+            <b>Iron collected</b>: {{bwResCol[0]}} ({{bwResColPerc[0]}}%) <br>
+            <b>Gold collected</b>: {{bwResCol[1]}} ({{bwResColPerc[1]}}%) <br>
+            <b>Diamonds collected</b>: {{bwResCol[2]}} ({{bwResColPerc[2]}}%) <br>
+            <b>Emeralds collected</b>: {{bwResCol[3]}} ({{bwResColPerc[3]}}%) <br>
+            <b>Wrapped presents collected</b>: {{bwResCol[4]}} ({{bwResColPerc[4]}}%) <br>
+        </p>
+        <p>
+            <b>Total resources collected</b>: {{bwTotalResources}} <br>
+            <b>Total items bought from shop</b>: {{bwItemsPurchased}} <br>
+        </p>
+
+        <div class='cavResCol' style='position:relative;height:25%; width:25%'>
+            <canvas id="RESCOL"></canvas>
+            <script>
+            var ctx = document.getElementById('RESCOL');
+            // @ts-ignore
+            var RESCOL = {{bwResCol}};
+            var rescolss = new Chart(ctx, {
+                type: 'doughnut',
+                responsive: true,
+                maintainAspectRatio:false,
+                data: {
+                    labels: ['Iron','Gold','Diamonds','Emeralds','Wrapped Presents'],
+                    datasets: [{
+                        data: RESCOL,
+                        borderWidth: 1,
+                        backgroundColor: [
+                            '#ccc',
+                            '#fa0',
+                            '#5ff',
+                            '#5f5',
+                            '#f55',
+                        ],
+                    }]
+                },
+            });
+            </script>
+        </div>
+
+
+{% else %}
+This person has never played on Hypixel.
+{% endif %}
 </body>
 {% endblock %}

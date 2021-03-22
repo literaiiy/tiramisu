@@ -21,8 +21,8 @@
 <!--- USERNAME --->
 <div id='username' class="header username">
     {% if rank == 'YOUTUBE' %}
-    <b><span class='{{rankColorParsed}}'>[<span class='{{plusColorParsed}}'>{{rank}}</span>]</b></span> 
-    {% else %}
+    <b><span class='{{rankColorParsed}}'>[<span class='{{plusColorParsed}}'>{{rank}}</span>]</b></span>
+    {% elif rank != '' %}
     <b><span class='{{rankColorParsed}}'>[{{rank}}<span class='{{plusColorParsed}}'>{{rankPlusses}}</span>]</b></span>
     {% endif %}
     {{displayname}}
@@ -992,6 +992,10 @@ function scrollFunction() {
             </script>
         </div>
 
+    <div class="h3d">Cosmetics</div><p>
+        {% for x, y in bwCosmetics.items() %}
+            <b>{{x}}</b>: {{y}}<br>
+        {% endfor %} </p>
 
 {% else %}
 This person has never played on Hypixel.

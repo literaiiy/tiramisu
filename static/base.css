@@ -17,7 +17,7 @@
 }
 
 body {
-	font-family: 'Inconsolata', monospace;
+	font-family: 'Inter';
 	text-align: center;
 	margin: 0
 }
@@ -77,7 +77,7 @@ body {
 }
 
 .stats {
-	font-family: 'Inconsolata', monospace;
+	font-family: 'Inter';
 	text-align: center;
 }
 
@@ -313,6 +313,71 @@ th {
 	color: red
 }
 
+.mirror {
+	background-image: radial-gradient(#ccc,#666);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.light {
+	background-image: linear-gradient(to right,#fff,#ff0, #fa0);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.dawn {
+	background-image: linear-gradient(to right,#fa0,#ccc, #228D7B);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.dusk {
+	background-image: linear-gradient(to right,#93f,#f69, #fa0, #ff6);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.air {
+	background-image: linear-gradient(to right,aqua, #ccc, #666);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.wind {
+	background-image: linear-gradient(to right,#ccc,#0f0, #070);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.nebula {
+	background-image: linear-gradient(to right,#900,#f30, #f3f);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.thunder {
+	background-image: linear-gradient(to right,#ff6,#fff, #666);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.earth {
+	background-image: linear-gradient(to right,#0f0,#070, #fa0, #ff6);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.water {
+	background-image: linear-gradient(to right,#9ff, #099 #36f);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.fire {
+	background-image: linear-gradient(to right,#ff3,#fa0, #800);
+	-webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
 
 ::-webkit-scrollbar {
 	width: 10px;
@@ -414,7 +479,7 @@ input {
 	margin-bottom: 25px;
 	border: darkgray solid 2px;
 	border-radius: 4px;
-	font-family: 'Inconsolata', monospace;
+	font-family: 'Inter';
 	text-align: center
 }
 

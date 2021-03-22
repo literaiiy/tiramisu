@@ -250,7 +250,7 @@ def compute(q):
         rankPlusses = ''
         rankColorParsed = 'white'
         plusColorParsed = 'white'
-        originalRank = rankjson['rank']
+        originalRank = rankjson['rank'] if 'rank' in rankjson else ''
         # If they have a rank, extract the non-plus section, the plusses, and the colors of each
         if 'rank_formatted' in rankjson:
             rankformattable = rankjson['rank_formatted']
@@ -1050,7 +1050,30 @@ def compute(q):
                 elif level < 800: return ('Crystal', 'hotpink', round(100*(level-math.floor(level)),2))
                 elif level < 900: return ('Opal', 'darkblue', round(100*(level-math.floor(level)),2))
                 elif level < 1000: return ('Amethyst', 'indigo', round(100*(level-math.floor(level)),2))
-                elif level >= 1000: return ('Rainbow', 'chocolate', round(100*(level-math.floor(level)),2))
+                elif level < 1100: return ('Rainbow', 'chocolate', round(100*(level-math.floor(level)),2))
+
+                elif level < 1200: return ('Iron Prime', 'lightgray', round(100*(level-math.floor(level)),2))
+                elif level < 1300: return ('Gold Prime', 'gold', round(100*(level-math.floor(level)),2))
+                elif level < 1400: return ('Diamond Prime', 'turquoise', round(100*(level-math.floor(level)),2))
+                elif level < 1500: return ('Emerald Prime', 'dark_green', round(100*(level-math.floor(level)),2))
+                elif level < 1600: return ('Sapphire Prime', 'cyan', round(100*(level-math.floor(level)),2))
+                elif level < 1700: return ('Ruby Prime', 'firebrick', round(100*(level-math.floor(level)),2))
+                elif level < 1800: return ('Crystal Prime', 'hotpink', round(100*(level-math.floor(level)),2))
+                elif level < 1900: return ('Opal Prime', 'darkblue', round(100*(level-math.floor(level)),2))
+                elif level < 2000: return ('Amethyst Prime', 'indigo', round(100*(level-math.floor(level)),2))
+
+                elif level < 2100: return ('Mirror', 'mirror', round(100*(level-math.floor(level)),2))
+                elif level < 2200: return ('Light', 'light', round(100*(level-math.floor(level)),2))
+                elif level < 2300: return ('Dawn', 'dawn', round(100*(level-math.floor(level)),2))
+                elif level < 2400: return ('Dusk', 'dusk', round(100*(level-math.floor(level)),2))
+                elif level < 2500: return ('Air', 'air', round(100*(level-math.floor(level)),2))
+                elif level < 2600: return ('Wind', 'wind', round(100*(level-math.floor(level)),2))
+                elif level < 2700: return ('Nebula', 'nebula', round(100*(level-math.floor(level)),2))
+                elif level < 2800: return ('Thunder', 'thunder', round(100*(level-math.floor(level)),2))
+                elif level < 2900: return ('Earth', 'earth', round(100*(level-math.floor(level)),2))
+                elif level < 3000: return ('Water', 'water', round(100*(level-math.floor(level)),2))
+                elif level >= 3000: return ('Fire', 'fire', round(100*(level-math.floor(level)),2))
+                #elif level >= 1000: return ('Rainbow', 'chocolate', round(100*(level-math.floor(level)),2))
             except:
                 return ('No', 'gray')
 
@@ -1269,6 +1292,25 @@ def compute(q):
             else:
                 bwResCol.append(0)
         print(bwResCol)
+    
+    # Cosmetics
+        bwCosTranslate = {
+
+        }
+        bwCosmetics = {}
+        if 'activeBedDestroy' in bwSTATVAR: bwCosmetics['Bed Destroy'] = bwSTATVAR['activeBedDestroy'].replace('beddestroy_','').replace('_',' ').title()
+        if 'activeDeathCry' in bwSTATVAR: bwCosmetics['Death Cry'] = bwSTATVAR['activeDeathCry'].replace('deathcry_','').replace('_',' ').title()
+        if 'activeGlyph' in bwSTATVAR: bwCosmetics['Glyph'] = bwSTATVAR['activeGlyph'].replace('glyph_','').replace('_',' ').title()
+        if 'activeIslandTopper' in bwSTATVAR: bwCosmetics['Island Topper'] = bwSTATVAR['activeIslandTopper'].replace('islandtopper_','').replace('_',' ').title()
+        if 'activeKillEffect' in bwSTATVAR: bwCosmetics['Kill Effect'] = bwSTATVAR['activeKillEffect'].replace('killeffect_','').replace('_',' ').title()
+        if 'activeKillMessages' in bwSTATVAR: bwCosmetics['Kill Messages'] = bwSTATVAR['activeKillMessages'].replace('killmessages_','').replace('_',' ').title()
+        if 'activeNPCSkin' in bwSTATVAR: bwCosmetics['NPC Shop Skin'] = bwSTATVAR['activeNPCSkin'].replace('npcskin_','').replace('_',' ').title()
+        if 'activeProjectileTrail' in bwSTATVAR: bwCosmetics['Projectile Trail'] = bwSTATVAR['activeProjectileTrail'].replace('projectiletrail_','').replace('_',' ').title()
+        if 'activeSprays' in bwSTATVAR: bwCosmetics['Spray'] = bwSTATVAR['activeSprays'].replace('sprays_','').replace('_',' ').title()
+        if 'activeVictoryDance' in bwSTATVAR: bwCosmetics['Victory Dance'] = bwSTATVAR['activeVictoryDance'].replace('victorydance_','').replace('_',' ').title()
+        if 'activeWoodType' in bwSTATVAR: bwCosmetics['Wood Skin'] = bwSTATVAR['activeWoodType'].replace('woodSkin_','').replace('_',' ').title()
+        print(bwCosmetics)
+        # return 'fu'
 
 ############################################################################ GUILD ############################################################################
 
@@ -1309,7 +1351,7 @@ def compute(q):
 
         # Designated Crapification
 
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankNoPlus, rankPlusses=rankPlusses, originalRank=originalRank, rankColorParsed=rankColorParsed, plusColorParsed=plusColorParsed, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swKW=swStatsList[26], swKL=swStatsList[27], swKG=swStatsList[28], swBPG=swStatsList[29], swEPG=swStatsList[30], swAPG=swStatsList[31], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], swPresCard=swExpList[5],joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=plusColorParsed, guildList=guildList, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources)
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankNoPlus, rankPlusses=rankPlusses, originalRank=originalRank, rankColorParsed=rankColorParsed, plusColorParsed=plusColorParsed, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swKW=swStatsList[26], swKL=swStatsList[27], swKG=swStatsList[28], swBPG=swStatsList[29], swEPG=swStatsList[30], swAPG=swStatsList[31], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], swPresCard=swExpList[5],joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=plusColorParsed, guildList=guildList, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources, bwCosmetics=bwCosmetics)
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:

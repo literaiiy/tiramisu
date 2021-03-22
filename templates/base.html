@@ -20,19 +20,13 @@
 <body>
 <!--- USERNAME --->
 <div id='username' class="header username">
-    {% if '+++' in rank %}
-        <span class="light_purple"><b>[{{ rank.replace('+++','') }}<span class="mvpaqua">+++</span>]</b></span> {{ displayname }}
-    {% elif '++' in rank %}
-        <span class="{{ rankcolor }}"><b>[{{ rank.replace('++','') }}<span class="{{ pluscolor }}">++</span>]</b></span> {{ displayname }}
-    {% elif '+' in rank %}
-        <span class="{{ rankcolor }}"><b>[{{ rank.replace('+','') }}<span class="{{ pluscolor }}">+</span>]</b></span> {{ displayname }}
-    {% elif rank != '' and 'YOUTUBE' not in rank %}
-        <span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> {{ displayname }}
-    {% elif rank == '' %}
-        {{ displayname }}
-    {% elif 'YOUTUBE' in rank %}
-        <span class="{{ rankbracketcolor }}"><b>[</b></span><span class="gray"></span><b>{{ rank }}</b></span><span class="{{ rankbracketcolor }}"><b>]</b></span> {{ displayname }}</h2>
+    {% if rank == 'YOUTUBE' %}
+    <b><span class='{{rankColorParsed}}'>[<span class='{{plusColorParsed}}'>{{rank}}</span>]</b></span> 
+    {% else %}
+    <b><span class='{{rankColorParsed}}'>[{{rank}}<span class='{{plusColorParsed}}'>{{rankPlusses}}</span>]</b></span>
     {% endif %}
+    {{displayname}}
+    
     <div id='uuid' class="uuid">
         {{ uuid }}
     </div>    
@@ -172,13 +166,22 @@ function scrollFunction() {
         {% endif %}
 
         <!--- RANK SENIORITY --->
-        {% if 'VIP' in rank or 'MVP' in rank %}
+        {% if originalRank == 'MVP_PLUS' %}
+            [MVP+] bought {{boughtPastTime}} - {{boughtPastRank}} ago
+        {% elif originalRank == 'MVP' %}
+            [MVP] bought {{boughtPastTime}} - {{boughtPastRank}} ago
+        {% elif originalRank == 'VIP_PLUS' %}
+            [VIP+] bought {{boughtPastTime}} - {{boughtPastRank}} ago
+        {% elif originalRank == 'VIP' %}
+            [VIP] bought {{boughtPastTime}} - {{boughtPastRank}} ago
+        {% endif %}
+        <!-- {% if 'VIP' in rank or 'MVP' in rank %}
             {% if '+' in rank %}
                 <span class="{{ rankcolor }}"><b>[{{ rank.replace('+','') }}<span class="{{ pluscolor }}">+</span>]</b></span> bought <b>{{ boughtPastTime }}</b> - {{ boughtPastRank }} ago
             {% elif boughtPastRank != 0 %}
                 <span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> bought <b>{{ boughtPastTime }}</b> - {{ boughtPastRank }} ago<br>
             {% endif %}
-        {% endif %}
+        {% endif %} -->
 
 
         <!--- FIRST/LAST LOGIN --->

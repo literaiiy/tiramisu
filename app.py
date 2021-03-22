@@ -238,153 +238,58 @@ def compute(q):
             i['time_between'] = i.pop('time_between')
         namehis[0]['changed_to_at'] = ''
         namehisrev = namehis.reverse()
-        #key_list = list(namehis.keys())
-        #val_list = list(namehis.values())
 
 ############################################################################ RANK ############################################################################
-        rankParsed = ''
-        rankcolor = 'darkgray'
-        changerbc = False
-        rankUnparsed = ''
-        pluscolor = 'red'
+       
+        # Get from slothpixel.me API
+        rankson = requests.Session().get('https://api.slothpixel.me/api/players/' + uuid)
+        rankjson = rankson.json()
 
-        # Checks for MVP++
-        try:
-            rank = reqAPI['player']['newPackageRank']
-        except:
-            rank = ''
-        
-        # Very inefficiently checks for VIP / VIP+ / MVP / MVP+ / MVP++
-        try:
-            MVPplusplus = reqAPI['player']['monthlyPackageRank']
-        except:
-            MVPplusplus = 'NONE'            
-        if MVPplusplus == 'SUPERSTAR':
-            rankParsed = '[MVP++]'
-            rankcolor = 'gold'
-            try:
-                pluscolor = reqAPI['player']['rankPlusColor'].lower()
-            except: pass
-        elif rank == 'MVP_PLUS': 
-            rankParsed = '[MVP+]'
-            rankcolor = 'mvpaqua'
-            try:
-                pluscolor = reqAPI['player']['rankPlusColor'].lower()
-            except: pass
-        elif rank == 'MVP': 
-            rankParsed = '[MVP]'
-            rankcolor = 'mvpaqua'
-        elif rank == 'VIP_PLUS': 
-            rankParsed = '[VIP+]'
-            rankcolor = 'lime'
-            pluscolor = 'gold'
-        elif rank == 'VIP':
-            rankParsed = '[VIP]'
-            rankcolor = 'lime'
-        else:
-            rankParsed = ''
-        rankUnparsed = rank
-        
-        if rankParsed !='[MVP++]':
-            # Checks for normal ranks for PACKAGERANKers
-            try:
-                ranke = reqAPI['player']['packageRank']
-                if ranke == 'MVP_PLUS': 
-                    rankParsed = '[MVP+]'
-                    rankcolor = 'mvpaqua'
-                    try:
-                        pluscolor = reqAPI['player']['rankPlusColor'].lower()
-                    except: pass
-                elif ranke == 'MVP': 
-                    rankParsed = '[MVP]'
-                    rankcolor = 'aqua'
-                elif ranke == 'VIP_PLUS': 
-                    rankParsed = '[VIP+]'
-                    rankcolor = 'lime'
-                    pluscolor = 'gold'
-                elif ranke == 'VIP':
-                    rankParsed = '[VIP]'
-                    rankcolor = 'lime'
-                else:
-                    rankParsed = ''
-                rankUnparsed = ranke
-                
-            except:
-                pass
+        # Set defaults
+        rankNoPlus = ''
+        rankPlusses = ''
+        rankColorParsed = 'white'
+        plusColorParsed = 'white'
+        originalRank = rankjson['rank']
+        # If they have a rank, extract the non-plus section, the plusses, and the colors of each
+        if 'rank_formatted' in rankjson:
+            rankformattable = rankjson['rank_formatted']
             
-            # Checks for normal ranks for NEWPACKAGERANKers
-            try:
-                rankw = reqAPI['player']['newPackageRank']
-                if rankw == 'MVP_PLUS': 
-                    rankParsed = '[MVP+]'
-                    rankcolor = 'mvpaqua'
-                    try:
-                        pluscolor = reqAPI['player']['rankPlusColor'].lower()
-                    except: pass
-                elif rankw == 'MVP': 
-                    rankParsed = '[MVP]'
-                    rankcolor = 'mvpaqua'
-                elif rankw == 'VIP_PLUS': 
-                    rankParsed = '[VIP+]'
-                    rankcolor = 'lime'
-                    pluscolor = 'gold'
-                elif rankw == 'VIP':
-                    rankParsed = '[VIP]'
-                    rankcolor = 'lime'
-                else:
-                    rankParsed = ''
-                rankUnparsed = rankw
-            except:
-                True
+            # Translate list for rank colors
+            rankColorList = {
+                '0':'black',
+                '1':'dark_blue',
+                '2':'dark_green',
+                '3':'dark_aqua',
+                '4':'dark_red',
+                '5':'dark_purple',
+                '6':'gold',
+                '7':'gray',
+                '8':'dark_gray',
+                '9':'blue',
+                'a':'green',
+                'b':'aqua',
+                'c':'red',
+                'd':'light_purple',
+                'e':'yellow',
+                'f':'white'}
+            
+            # Strips all the crap off of rank_formatted (API) ex. &d[MVP&6+&d] into MVP
+            rankParsed = re.sub('[a-z&0-9\[\]]','',rankformattable) if 'rank_formatted' in rankjson else ''
 
-        # Looks for YOUTUBE rank and other ranks categorized under 'player' > 'rank'
-        try:
-            jona = reqAPI['player']['rank']
-            if '[' not in jona:
-                rankParsed = '[' + jona + ']'
-            else:
-                rankParsed = jona
+            # Gets no-plus and plus-only versions of rankParsed
+            rankNoPlus = rankParsed.replace('+','')
+            rankPlusses = re.sub('[A-Z]','',rankParsed)
 
-            if 'MODERATOR' in rankParsed:
-                rankcolor = 'dark_green'
-            elif 'YOUTUBE' in rankParsed:
-                changerbc = True
-            elif 'HELPER' in rankParsed:
-                rankcolor = 'blue'
-            elif 'ADMIN' in rankParsed:
-                rankcolor = 'red'
-            elif 'BUILD' in rankParsed:
-                rankcolor = 'cyan'
-            else:
-                rankParsed = ''
-        except:
-            True
-        
-        # Format rank if not 'normal' includes Admin
-        try:
-            rankParsed = re.sub("[§a-z1-9]+", '', reqAPI['player']['prefix'])
-            if 'OWNER' in rankParsed:
-                rankcolor = 'red'
-            if 'MOJANG' in rankParsed or 'EVENTS' in rankParsed:
-                rankcolor = 'gold'
-            if 'SLOTH' in rankParsed:
-                rankcolor = 'red'
-            if 'PIG' in rankParsed or 'BETA TESTER' in rankParsed:
-                rankcolor = 'pink'
-        except:
-            True
-        
-        # Only works for YouTube rank right now
-        if changerbc:
-            rankbracketcolor = 'red'
-            rankcolor = 'darkgray'
-        else:
-            rankbracketcolor = rankcolor
-        
-        try:
-            if reqAPI['player']['monthlyRankColor'] == 'AQUA':
-                rankcolor = 'mvpaqua'
-        except: pass
+            # Gets color code for player's rank
+            rankColor = re.sub('[A-Z&+\[\]]','',rankformattable)
+
+            # Sets rankColorParsed and plusColorParsed to the translated rank color
+            rankColorParsed = rankColorList[rankColor[0]]
+            if len(rankColor) > 1: plusColorParsed = rankColorList[rankColor[1]]
+            print(rankNoPlus)
+            print(rankColorParsed)
+            print(plusColorParsed)
 
 ############################################################################ NETWORK LEVEL & XP ############################################################################
         try:
@@ -702,7 +607,7 @@ def compute(q):
             if swkills > 4999 and swkills < 10000: swStatsList[13]=('Succulent!')
             if swkills > 9999 and swkills < 25000: swStatsList[13]=('Divine!')
             if swkills > 25000: swStatsList[13]=('Heavenly..!')
-            if swkills <= 10000 and rankParsed in sweetHeadsRanks: swStatsList[13]=('Sweet!')
+            if swkills <= 10000 and rankNoPlus in sweetHeadsRanks: swStatsList[13]=('Sweet!')
         except: swStatsList[13]='Eww!'
 
         def minsec(seconds):
@@ -1404,7 +1309,7 @@ def compute(q):
 
         # Designated Crapification
 
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankParsed.replace('[','').replace(']',''), rankcolor=rankcolor, rankbracketcolor=rankbracketcolor, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swKW=swStatsList[26], swKL=swStatsList[27], swKG=swStatsList[28], swBPG=swStatsList[29], swEPG=swStatsList[30], swAPG=swStatsList[31], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], swPresCard=swExpList[5],joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=pluscolor, guildList=guildList, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources)
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankNoPlus, rankPlusses=rankPlusses, originalRank=originalRank, rankColorParsed=rankColorParsed, plusColorParsed=plusColorParsed, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swKW=swStatsList[26], swKL=swStatsList[27], swKG=swStatsList[28], swBPG=swStatsList[29], swEPG=swStatsList[30], swAPG=swStatsList[31], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], swPresCard=swExpList[5],joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=plusColorParsed, guildList=guildList, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources)
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:

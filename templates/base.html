@@ -3,6 +3,7 @@
 <!--- HEADER --->
 <head>
     <title>Profile for {{ displayname }} | Tiramisu</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
     <link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet" type="text/css">
     <link href="{{ url_for('static', filename='splide.css') }}" rel="stylesheet" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
@@ -252,7 +253,7 @@ function scrollFunction() {
 
     <!--- SKYWARS STATS --->
     <div class='header h2d'>SkyWars</div>
-    <div class='h3d'><p><span class="{{ swPrestigeColor }}"><b></span>{{ swExp }}</b> SkyWars experience · <b><span class="{{ swPrestigeColor }}">[{{ swLevel }}{{swPresCard}}]</b></span>, {{ swPrestige }} Prestige - <span class="{{ swPrestigeColor }}"><b>{{ swToNL }}%</b></span> to <b>{{ swNextLevel }}</b><br></p></div>
+    <div class='h3d'><p><span class="{{ swUnscannedDict['prestige'][1] }}"><b></span>{{ swStatsDict['skywars_experience'] }}</b> SkyWars experience · <b><span class="{{ swUnscannedDict['prestige'][1] }}">[{{ swUnscannedDict['level'] }}{{swUnscannedDict['presIcon']}}]</b></span>, {{ swUnscannedDict['prestige'][0] }} Prestige - <span class="{{ swUnscannedDict['prestige'][1] }}"><b>{{swUnscannedDict['xpRemainder']}} XP left ({{ swUnscannedDict['xpRemainderPerc'] }}%)</b></span> to <b>{{ swUnscannedDict['level']+1 }}</b><br>Approximately <b>{{swUnscannedDict['xpRemainder']}}</b> kills or <b>{{swUnscannedDict['winsRemainder']}}</b> wins until next level</p></div>
     <table class='swgeneral'>
         {{ username }} plays <b>{{ swBestGame[1] }}</b> most often, with <b>{{ swBestGame[0]}}</b> games played.
         <colgroup>
@@ -260,62 +261,67 @@ function scrollFunction() {
             <col class="rightsw">
         </colgroup>
         <tr>
-                <td><b>{{ swGamesPlayed }}</b> games played</td>
-                <td><b>{{ swWinstreak }}</b> winstreak </td>
+                <td><b>{{ swStatsDict['games_played'] }}</b> games played</td>
+                <td><b>{{ swStatsDict['win_streak'] }}</b> winstreak </td>
         </tr>
         <tr>
-                <td><b>{{ swGamesQuit }}</b> games quit</td>
-                <td><b>{{ swSouls }}</b> souls </td>
+                <td><b>{{ swStatsDict['quits'] }}</b> games quit</td>
+                <td><b>{{ swStatsDict['souls'] }}</b> souls </td>
         </tr>
         <tr>
-                <td style='color:red'><b>{{ swKD }}</b> K/D</td>
-                <td><b>{{ swHeads }}</b> heads </td>
+                <td style='color:red'><b>{{ swStatsDict['K/D'] }}</b> K/D</td>
+                <td><b>{{ swStatsDict['heads'] }}</b> heads </td>
         </tr>
         <tr>
-                <td style='color:red'><b>{{ swKDA }}</b> K/D/A</td>
-                <td><b>{{ swCoins }}</b> coins </td>
+                <td style='color:red'><b>{{ swStatsDict['KDA'] }}</b> K/D/A</td>
+                <td><b>{{ swStatsDict['coins'] }}</b> coins </td>
         </tr>
         <tr>
-                <td><b>{{ swKills }}</b> kills - <span class='{{ swHeadColor }}'><b>{{ swHeadDesc }}</b></span></td>
-                <td><b>{{ swBlocks }}</b> blocks broken </td>
+                <td><b>{{ swStatsDict['kills'] }}</b> kills - <span class='{{ swUnscannedDict["head_tastiness"][1] }}'><b>{{ swUnscannedDict['head_tastiness'][0] }}</b></span></td>
+                <td><b>{{ swStatsDict['blocks_broken'] }}</b> blocks broken </td>
         </tr>
         <tr>
-                <td><b>{{ swAssists }}</b> assists </td>
-                <td><b>{{ swEggs }}</b> eggs thrown </td>
+                <td><b>{{ swStatsDict['assists'] }}</b> assists </td>
+                <td><b>{{ swStatsDict['egg_thrown'] }}</b> eggs thrown </td>
         </tr>
         <tr>
-                <td><b>{{ swDeaths }}</b> deaths</td>
-                <td><b>{{ swArrowsShot }}</b> arrows shot, <b>{{ swArrowsHit }}</b> arrows hit</td>
+                <td><b>{{ swStatsDict['deaths'] }}</b> deaths</td>
+                <td><b>{{ swStatsDict['arrows_shot'] }}</b> arrows shot, <b>{{ swStatsDict['arrows_hit'] }}</b> arrows hit</td>
         </tr>
         <tr>
-                <td><b>{{ swWL }}</b> W/L - <b>{{ swWinRate }}%</b> win rate </td>
-                <td><b>{{ swArrowRate }}%</b> arrow hit rate</td>
+                <td><b>{{ swStatsDict['W/L'] }}</b> W/L - <b>{{ swStatsDict['winrate'] }}%</b> win rate </td>
+                <td><b>{{ swStatsDict['arrow_hitrate'] }}%</b> arrow hit rate</td>
         </tr>
         <tr>
-                <td><b>{{ swWins }}</b> wins</td>
-                <td>Fastest win: <b>{{ swFastestWin }}</b> </td>
+                <td><b>{{ swStatsDict['wins'] }}</b> wins</td>
+                <td>Fastest win: <b>{{ swStatsDict['fastest_win'] }}</b> </td>
         </tr>
         <tr>
-                <td><b>{{ swLosses }}</b> losses </td>
-                <td><b>{{ swChestsOpened }}</b> chests opened</td>
+                <td><b>{{ swStatsDict['losses'] }}</b> losses </td>
+                <td><b>{{ swStatsDict['chests_opened'] }}</b> chests opened</td>
         </tr>
         <tr>
-                <td><b>{{ swSurvived }}</b> players survived </td>
-                <td>Highest-kill game: <b>{{ swHighestKills }} kills</b></td>
+                <td><b>{{ swStatsDict['survived_players'] }}</b> players survived </td>
+                <td>Highest-kill game: <b>{{ swStatsDict['most_kills_game'] }} kills</b></td>
         </tr>
         <tr>
-                <td><b>{{ swKW }}</b> kills per win </td>
-                <td><b>{{ swBPG }}</b> blocks broken per game </td>
+                <td><b>{{ swStatsDict['K/W'] }}</b> kills per win </td>
+                <td><b>{{ swStatsDict['blocks_placed_per_game'] }}</b> blocks placed per game </td>
         </tr>
         <tr>
-                <td><b>{{ swKL }}</b> kills per loss </td>
-                <td><b>{{ swEPG }}</b> eggs thrown per game </td>
+                <td><b>{{ swStatsDict['K/L'] }}</b> kills per loss </td>
+                <td><b>{{ swStatsDict['eggs_per_game'] }}</b> eggs thrown per game </td>
         </tr>
         <tr>
-                <td><b>{{ swKG }}</b> kills per game </td>
-                <td><b>{{ swAPG }}</b> arrows shot per game </td>
+                <td><b>{{ swStatsDict['K/G'] }}</b> kills per game </td>
+                <td><b>{{ swStatsDict['arrows_per_game'] }}</b> arrows shot per game </td>
         </tr>
     </table>
+        <b>{{swStatsDict['blocks_placed']}}</b> blocks placed <br>
+        <b>{{ swStatsDict['enderpearls_thrown']}}</b> ender pearls thrown <br>
+        <b>{{swStatsDict['refill_chest_destroy']}}</b> refill chests destroyed <br>
+        <b>{{swStatsDict['cosmetic_tokens']}}</b> tokens <br>
+        <b>{{swStatsDict['pearls_per_game']}}</b> ender pearls thrown per game <br>
 
         <!-- SW MODE -->
             {% for y, x in gamemodes.items() %}

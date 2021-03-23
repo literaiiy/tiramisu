@@ -115,6 +115,9 @@ def reddorect(k):
 def compute(q):
     #try:
     start_time = time.time()
+    # applesauce = MojangAPI.get_uuid(q)
+    # print(applesauce)
+    # return applesauce + ' <- UUID'
     if len(q) == 32 or len(q) == 36:
         q = q.replace('-','')
         try:
@@ -133,9 +136,7 @@ def compute(q):
         #    return "false uuid or username or smthing"
     print(uuid)
     if isinstance(uuid, str):
-        #username = MojangAPI.get_username(uuid)
-
-############################################################################ JSON PARSING ############################################################################
+        username = MojangAPI.get_username(uuid)
 
 ############################################################################ RETRIEVE FROM API & INITIALIZE ############################################################################
         r = requests.Session().get('https://api.hypixel.net/player?key=' + HAPIKEY + '&uuid=' + uuid)
@@ -524,191 +525,235 @@ def compute(q):
         try:
             swSTATSVAR = reqAPI['player']['stats']['SkyWars']
         except: swSTATSVAR = {}
-        for i in range(33):
-            swStatsList.append(0)
-        # 0 - games played
-        # 1 - games quit
-        # 2 - kills
-        # 3 - deaths
-        # 4 - K/D
-        # 5 - assists
-        # 6 - wins
-        # 7 - losses
-        # 8 - W/L
-        # 9 - survivedPlayers
-        # 10 - winstreak
-        # 11 - souls
-        # 12 - heads count
-        # 13 - kills to head tastiness
-        # 14 - coins
-        # 15 - blocks broken
-        # 16 - eggs thrown
-        # 17 - arrows shot
-        # 18 - arrows hit
-        # 19 - fastest win
-        # 20 - highest kills in a game
-        # 21 - chests opened
-        # 22 - win rate
-        # 23 - arrow hit rate
-        # 24 - KDA
-        # 25 - tastiness color
-        # 26 - K/W
-        # 27 - K/L
-        # 28 - K/G
-        # 29 - blocks per game
-        # 30 - eggs per game
-        # 31 - arrow shots per game
 
-        swExpList = []
-        # 0 - experience
-        # 1 - level
-        # 2 - prestige
-        # 3 - next level
-        # 4 - XP until next level
+        swStatsDict = {
+            'success':True,
+            'quits':0,
+            'kills':0,
+            'deaths':0,
+            'assists':0,
+            'wins':0,
+            'losses':0,
+            'survived_players':0,
+            'win_streak':0,
+            'souls':0,
+            'heads':0,
+            'coins':0,
+            'blocks_broken':0,
+            'blocks_placed':0,
+            'egg_thrown':0,
+            'arrows_shot':0,
+            'arrows_hit':0,
+            'enderpearls_thrown':0,
+            'fastest_win':'N/A',
+            'most_kills_game':0,
+            'chests_opened':0,
+            'refill_chest_destroy':0,
+            'cosmetic_tokens':0,
+            'skywars_experience':0,
+        }
 
-        # Adds 0 - 9 on swStatsList
-        try:
-            swgames = swSTATSVAR['losses'] + swSTATSVAR['wins']
-            swStatsList[0]=swgames
-            swStatsList[1]=swSTATSVAR['quits']
+        swUnscannedDict = {
+            'head_tastiness':('Eww!', 'darkgray'),
+            'level':1,
+            'prestige':('No','gray'),
+            'xpRemainder':20,
+            'winsRemainder':2,
+            'presIcon':'☆',
+        }
 
-            swkills = swSTATSVAR['kills']
-            swStatsList[2]=swkills
-            swdeaths = swSTATSVAR['deaths']
-            swStatsList[3]=swdeaths
-            swStatsList[4]=(round(swkills/swdeaths, 4))
-            swassists = swSTATSVAR['assists']
-            swStatsList[5]=swassists
+        if 'games' in swSTATSVAR:
+            swExpList = []
+            # 0 - experience
+            # 1 - level
+            # 2 - prestige
+            # 3 - next level
+            # 4 - XP until next level
 
-            swwins = swSTATSVAR['wins']
-            swStatsList[6]=swwins
-            swlosses = swSTATSVAR['losses']
-            swStatsList[7]=swlosses
-            swStatsList[8]=round(swSTATSVAR['wins']/swSTATSVAR['losses'],4)
-            swStatsList[9]=swSTATSVAR['survived_players']
-        except: pass
+            # Get the automatable ones
+            for x in swStatsDict.keys():
+                if x in swSTATSVAR: swStatsDict[x] = swSTATSVAR[x] 
+            
+            # Fastest win formatting
+            if isinstance(swStatsDict['fastest_win'], int): swStatsDict['fastest_win'] = sec2format2ydhms(sec2format(swStatsDict['fastest_win']))
 
-        # Adds 10 - 12 on swStatsList
-        try:
-            swStatsList[10]=(format(swSTATSVAR['win_streak'], ','))
-            swStatsList[11]=(format(swSTATSVAR['souls_gathered'], ','))
-            swStatsList[12]=(format(swSTATSVAR['heads'], ','))
-        except: pass
+            # Games played, K/D, W/L
+            swStatsDict['games_played'] = swStatsDict['wins'] + swStatsDict['losses']
+            swStatsDict['K/D'] = round(swStatsDict['kills']/swStatsDict['deaths'],4) if swStatsDict['deaths'] != 0 else float('inf')
+            swStatsDict['W/L'] = round(swStatsDict['wins']/swStatsDict['losses'],4) if swStatsDict['deaths'] != 0 else float('inf')
 
-        # Adds 13 on swStatsList
-        jesushchrist = False
-        try:
-            if swkills <= 49: swStatsList[13]=('Eww!')
-            if swkills > 49 and swkills < 200: swStatsList[13]=('Yucky!')
-            if swkills > 199 and swkills < 500: swStatsList[13]=('Meh.')
-            if swkills > 499 and swkills < 1000: swStatsList[13]=('Decent...')
-            if swkills > 999 and swkills < 2000: swStatsList[13]=('Salty.')
-            if swkills > 1999 and swkills < 5000: swStatsList[13]=('Tasty!')
-            if swkills > 4999 and swkills < 10000: swStatsList[13]=('Succulent!')
-            if swkills > 9999 and swkills < 25000: swStatsList[13]=('Divine!')
-            if swkills > 25000: swStatsList[13]=('Heavenly..!')
-            if swkills <= 10000 and rankNoPlus in sweetHeadsRanks: swStatsList[13]=('Sweet!')
-        except: swStatsList[13]='Eww!'
+            # Head tastiness
+            if rankNoPlus in sweetHeadsRanks and swStatsDict['kills'] < 10000: swStatsDict['head_tastiness'] = ('Sweet!', 'aqua')
+            elif swStatsDict['kills'] < 49: swStatsDict['head_tastiness'] = ('Eww!', 'darkgray')
+            elif swStatsDict['kills'] < 200: swStatsDict['head_tastiness'] = ('Yucky!', 'gray')
+            elif swStatsDict['kills'] < 500: swStatsDict['head_tastiness'] = ('Meh.','lightgray')
+            elif swStatsDict['kills'] < 1000: swStatsDict['head_tastiness'] = ('Decent...','yellow')
+            elif swStatsDict['kills'] < 2000: swStatsDict['head_tastiness'] = ('Salty.','lime')
+            elif swStatsDict['kills'] < 5000: swStatsDict['head_tastiness'] = ('Tasty!','cyan')
+            elif swStatsDict['kills'] < 10000: swStatsDict['head_tastiness'] = ('Succulent!','light_purple')
+            elif swStatsDict['kills'] < 25000: swStatsDict['head_tastiness'] = ('Divine!','gold')
+            else: swStatsDict['head_tastiness'] = ('Heavenly..!', 'dark_purple')
 
-        def minsec(seconds):
-            return str(math.floor(seconds / 60)) + 'm ' + str(seconds % 60) + 's'
+            # Winrate, arrow hitrate, KDA, K/W, K/L, K/G, blocks/game, eggs/game, arrows/game, pearls/game
+            swStatsDict['winrate'] = round(100*swStatsDict['wins']/swStatsDict['games_played'], 2)
+            swStatsDict['arrow_hitrate'] = round(100*swStatsDict['arrows_hit']/swStatsDict['arrows_shot'],2)
+            swStatsDict['KDA'] = round((swStatsDict['kills']+swStatsDict['assists'])/swStatsDict['deaths'],4)
+            swStatsDict['K/W'] = round(swStatsDict['kills']/swStatsDict['wins'],4) if swStatsDict['wins'] != 0 else float('inf')
+            swStatsDict['K/L'] = round(swStatsDict['kills']/swStatsDict['losses'],4) if swStatsDict['losses'] != 0 else float('inf')
+            swStatsDict['K/G'] = round(swStatsDict['kills']/swStatsDict['games_played'],4) if swStatsDict['games_played'] != 0 else float('inf')
+            swStatsDict['blocks_placed_per_game'] = round(swStatsDict['blocks_placed']/swStatsDict['games_played'],4) if swStatsDict['games_played'] != 0 else float('inf')
+            swStatsDict['eggs_per_game'] = round(swStatsDict['egg_thrown']/swStatsDict['games_played'],4) if swStatsDict['games_played'] != 0 else float('inf')
+            swStatsDict['arrows_per_game'] = round(swStatsDict['arrows_shot']/swStatsDict['games_played'],4) if swStatsDict['games_played'] != 0 else float('inf')
+            swStatsDict['pearls_per_game'] = round(swStatsDict['enderpearls_thrown']/swStatsDict['games_played'],4) if swStatsDict['games_played'] != 0 else float('inf')
 
-        # Adds 14 - 23 on swStatsList
-        try:
-            swStatsList[14]=int(swSTATSVAR['coins'])
-            swStatsList[15]=swSTATSVAR['blocks_broken']
-            swStatsList[16]=swSTATSVAR['egg_thrown']
-            swStatsList[17]=swSTATSVAR['arrows_shot']
-            swStatsList[18]=swSTATSVAR['arrows_hit']
-            swStatsList[19]=(minsec(swSTATSVAR['fastest_win']))
-            swStatsList[20]=swSTATSVAR['most_kills_game']
-            swStatsList[21]=swSTATSVAR['chests_opened']
-            swStatsList[22]=round((swSTATSVAR['wins']/(swSTATSVAR['wins']+swSTATSVAR['losses'])) * 100, 4)
-            swStatsList[23]=round(swSTATSVAR['arrows_hit']/swSTATSVAR['arrows_shot']*100, 4)
-        except: pass
-
-        # Adds 24 - 25 on swStatsList
-        twenty4plus = False
-        try:
-            swStatsList[24]=(round((swkills+swSTATSVAR['assists'])/swSTATSVAR['deaths'], 4))
-            if 'Eww' in swStatsList[13]: swStatsList[25]=('darkgray')
-            if 'Yucky' in swStatsList[13]: swStatsList[25]=('gray')
-            if 'Meh' in swStatsList[13]: swStatsList[25]=('lightgray')
-            if 'Decent' in swStatsList[13]: swStatsList[25]=('decentyellow')
-            if 'Salty' in swStatsList[13]: swStatsList[25]=('green')
-            if 'Tasty' in swStatsList[13]: swStatsList[25]=('cyan')
-            if 'Succulent' in swStatsList[13]: swStatsList[25]=('pink')
-            if 'Sweet' in swStatsList[13]: swStatsList[25]=('dark_purple')
-            if 'Divine' in swStatsList[13]: swStatsList[25]=('gold')
-            if 'Heavenly' in swStatsList[13]: swStatsList[25]=('chocolate')
-        except: swStatsList[25]='darkgray'
-
-        # Add 26 - 31 on swStatsList
-        try:
-            swStatsList[26]=(round(swkills/swwins, 4))
-            swStatsList[27]=(round(swkills/swlosses, 4))
-            swStatsList[28]=(round(swkills/swgames, 4))
-            swStatsList[29]=(round(swSTATSVAR['blocks_broken']/swgames, 4))
-            swStatsList[30]=(round(swSTATSVAR['egg_thrown']/swgames, 4))
-            swStatsList[31]=(round(swSTATSVAR['arrows_shot']/swgames, 4))
-        except: pass
-    
-
-        # Function that takes in experience and spits out level as a floating point number
-        def swexp2level(experience):
-            try:
+            # Leveling stuff
+            # Function that takes in experience and spits out level as a floating point number
+            def swexp2level(experience):
                 expertest = 0
                 level = 0
                 if experience <= 15000:
-                    if experience < 20: level = 1 + (experience - 0) / 20 
-                    elif experience < 70: level = 2 + (experience - 20) / 50
-                    elif experience < 150: level = 3 + (experience - 70) / 80
-                    elif experience < 250: level = 4 + (experience - 150) / 100
-                    elif experience < 500: level = 5 + (experience - 250) / 250
-                    elif experience < 1000: level = 6 + (experience - 500) / 500
-                    elif experience < 2000: level = 7 + (experience - 1000) / 1000
-                    elif experience < 3500: level = 8 + (experience - 2000) / 2500
-                    elif experience < 6000: level = 9 + (experience - 3500) / 4000
-                    elif experience < 10000: level = 10 + (experience - 6000) / 5000
-                    elif experience < 15000: level = 11 + (experience - 10000) / 10000
-                    return level
+                    if experience < 20: return (1 + (experience - 0) / 20, 20-experience)
+                    elif experience < 70: return (2 + (experience - 20) / 50, 70-experience)
+                    elif experience < 150: return (3 + (experience - 70) / 80, 150-experience)
+                    elif experience < 250: return (4 + (experience - 150) / 100, 250-experience)
+                    elif experience < 500: return (5 + (experience - 250) / 250, 500-experience)
+                    elif experience < 1000: return (6 + (experience - 500) / 500, 1000-experience)
+                    elif experience < 2000: return (7 + (experience - 1000) / 1000, 2000-experience)
+                    elif experience < 3500: return (8 + (experience - 2000) / 2500, 3500-experience)
+                    elif experience < 6000: return (9 + (experience - 3500) / 4000, 6000-experience)
+                    elif experience < 10000: return (10 + (experience - 6000) / 5000, 10000-experience)
+                    elif experience < 15000: return (11 + (experience - 10000) / 10000, 15000-experience)
                 elif experience > 14999:
                     expertest = experience - 15000
-                    return expertest / 10000 + 12
-            except:
-                return 0
+                    toNextLevel = 10000 - expertest % 10000
+                    return (expertest / 10000 + 12, toNextLevel)
 
-        # Function that takes in level and spits out prestige and color as a tuple
-        def getPrestige(level):
-            try:
-                if level < 5: return ('No', 'gray')
-                elif level < 10: return ('Iron', 'lightgray')
-                elif level < 15: return ('Gold', 'gold')
-                elif level < 20: return ('Diamond', 'turquoise')
-                elif level < 25: return ('Emerald', 'dark_green')
-                elif level < 30: return ('Sapphire', 'blue')
-                elif level < 35: return ('Ruby', 'firebrick')
-                elif level < 40: return ('Crystal', 'hotpink')
-                elif level < 45: return ('Opal', 'darkblue')
-                elif level < 50: return ('Amethyst', 'indigo')
-                elif level >= 50: return ('Rainbow', 'chocolate')
-            except:
-                return ('No', 'gray')
+            # Function that takes in level and spits out prestige and color as a tuple
+            def getPrestige(level):
+                try:
+                    if level < 5: return ('No', 'gray')
+                    elif level < 10: return ('Iron', 'lightgray')
+                    elif level < 15: return ('Gold', 'gold')
+                    elif level < 20: return ('Diamond', 'aqua')
+                    elif level < 25: return ('Emerald', 'dark_green')
+                    elif level < 30: return ('Sapphire', 'blue')
+                    elif level < 35: return ('Ruby', 'dark_red')
+                    elif level < 40: return ('Crystal', 'light_purple')
+                    elif level < 45: return ('Opal', 'dark_blue')
+                    elif level < 50: return ('Amethyst', 'dark_purple')
+                    elif level >= 50: return ('Rainbow', 'chocolate')
+                except:
+                    return ('No', 'gray')
+            
+            swLevelStuffYes = swexp2level(swStatsDict['skywars_experience'])
+            swUnscannedDict['level'] = swLevelStuffYes[0]
+            swUnscannedDict['prestige'] = getPrestige(swUnscannedDict['level'])
+            swUnscannedDict['xpRemainderPerc'] = round(100*(swUnscannedDict['level']-math.floor(swUnscannedDict['level'])),2)
+            swUnscannedDict['xpRemainder'] = swLevelStuffYes[1]
+            swUnscannedDict['winsRemainder'] = math.ceil(swLevelStuffYes[1]/10)
+            if 'levelFormatted' in swSTATSVAR: swUnscannedDict['presIcon'] = re.sub('[0-9a-zA-Z§]', '', swSTATSVAR['levelFormatted'])
 
-        # Adds 0 - 4 on swExpList
-        swExpList = [0,0,0,0,0,'☆']
-        try:
-            swexpee = swSTATSVAR['skywars_experience']
-        except:
-            swexpee = 0
-        try:
-            swExpList[0]=(format(swexpee, ','))
-            swExpList[1]=(swexp2level(swexpee))
-            swExpList[2]=(getPrestige(swExpList[1]))
-            swExpList[3]=(math.floor(swExpList[1]) + 1)
-            swExpList[4]=(round((swExpList[1] - math.floor(swExpList[1])) * 100, 2))
-            swExpList[5]=re.sub('[0-9a-zA-Z§]', '', swSTATSVAR['levelFormatted'])
-        except: pass
+            swUnscannedDict['level'] = math.floor(swUnscannedDict['level'])
+
+            # # Adds 0 - 4 on swExpList
+            # swExpList = [0,0,0,0,0,'☆']
+            # try:
+            #     swexpee = swSTATSVAR['skywars_experience']
+            # except:
+            #     swexpee = 0
+            # try:
+            #     swExpList[0]=(format(swexpee, ','))
+            #     swExpList[1]=(swexp2level(swexpee))
+            #     swExpList[2]=(getPrestige(swExpList[1]))
+            #     swExpList[3]=(math.floor(swExpList[1]) + 1)
+            #     swExpList[4]=(round((swExpList[1] - math.floor(swExpList[1])) * 100, 2))
+            #     swExpList[5]=re.sub('[0-9a-zA-Z§]', '', swSTATSVAR['levelFormatted'])
+            # except: pass
+
+        else: swStatsDict['success']:False
+        #return swStatsDict
+
+        # # Adds 0 - 9 on swStatsList
+        # try:
+        #     swgames = swSTATSVAR['losses'] + swSTATSVAR['wins']
+        #     swStatsList[0]=swgames
+        #     swStatsList[1]=swSTATSVAR['quits']
+
+        #     swkills = swSTATSVAR['kills']
+        #     swStatsList[2]=swkills
+        #     swdeaths = swSTATSVAR['deaths']
+        #     swStatsList[3]=swdeaths
+        #     swStatsList[4]=(round(swkills/swdeaths, 4))
+        #     swassists = swSTATSVAR['assists']
+        #     swStatsList[5]=swassists
+
+        #     swwins = swSTATSVAR['wins']
+        #     swStatsList[6]=swwins
+        #     swlosses = swSTATSVAR['losses']
+        #     swStatsList[7]=swlosses
+        #     swStatsList[8]=round(swSTATSVAR['wins']/swSTATSVAR['losses'],4)
+        #     swStatsList[9]=swSTATSVAR['survived_players']
+        # except: pass
+
+        # # Adds 10 - 12 on swStatsList
+        # try:
+        #     swStatsList[10]=(format(swSTATSVAR['win_streak'], ','))
+        #     swStatsList[11]=(format(swSTATSVAR['souls_gathered'], ','))
+        #     swStatsList[12]=(format(swSTATSVAR['heads'], ','))
+        # except: pass
+
+        # # Adds 13 on swStatsList
+        # jesushchrist = False
+        # try:
+        #     if swkills <= 49: swStatsList[13]=('Eww!')
+        #     if swkills > 49 and swkills < 200: swStatsList[13]=('Yucky!')
+        #     if swkills > 199 and swkills < 500: swStatsList[13]=('Meh.')
+        #     if swkills > 499 and swkills < 1000: swStatsList[13]=('Decent...')
+        #     if swkills > 999 and swkills < 2000: swStatsList[13]=('Salty.')
+        #     if swkills > 1999 and swkills < 5000: swStatsList[13]=('Tasty!')
+        #     if swkills > 4999 and swkills < 10000: swStatsList[13]=('Succulent!')
+        #     if swkills > 9999 and swkills < 25000: swStatsList[13]=('Divine!')
+        #     if swkills > 25000: swStatsList[13]=('Heavenly..!')
+        #     if swkills <= 10000 and rankNoPlus in sweetHeadsRanks: swStatsList[13]=('Sweet!')
+        # except: swStatsList[13]='Eww!'
+
+        # # Adds 14 - 23 on swStatsList
+        # swStatsList[14]=int(swSTATSVAR['coins'])
+        # swStatsList[15]=swSTATSVAR['blocks_broken']
+        # swStatsList[16]=swSTATSVAR['egg_thrown']
+        # swStatsList[17]=swSTATSVAR['arrows_shot']
+        # swStatsList[18]=swSTATSVAR['arrows_hit']
+        # swStatsList[19]=sec2format2ydhms(sec2format(swSTATSVAR['fastest_win']))
+        # swStatsList[20]=swSTATSVAR['most_kills_game']
+        # swStatsList[21]=swSTATSVAR['chests_opened']
+        # swStatsList[22]=round((swSTATSVAR['wins']/(swSTATSVAR['wins']+swSTATSVAR['losses'])) * 100, 4)
+        # swStatsList[23]=round(swSTATSVAR['arrows_hit']/swSTATSVAR['arrows_shot']*100, 4)
+
+        # # Adds 24 - 25 on swStatsList
+        # twenty4plus = False
+        # try:
+        #     swStatsList[24]=(round((swkills+swSTATSVAR['assists'])/swSTATSVAR['deaths'], 4))
+        #     if 'Eww' in swStatsList[13]: swStatsList[25]=('darkgray')
+        #     if 'Yucky' in swStatsList[13]: swStatsList[25]=('gray')
+        #     if 'Meh' in swStatsList[13]: swStatsList[25]=('lightgray')
+        #     if 'Decent' in swStatsList[13]: swStatsList[25]=('decentyellow')
+        #     if 'Salty' in swStatsList[13]: swStatsList[25]=('green')
+        #     if 'Tasty' in swStatsList[13]: swStatsList[25]=('cyan')
+        #     if 'Succulent' in swStatsList[13]: swStatsList[25]=('pink')
+        #     if 'Sweet' in swStatsList[13]: swStatsList[25]=('dark_purple')
+        #     if 'Divine' in swStatsList[13]: swStatsList[25]=('gold')
+        #     if 'Heavenly' in swStatsList[13]: swStatsList[25]=('chocolate')
+        # except: swStatsList[25]='darkgray'
+
+        # # Add 26 - 31 on swStatsList
+        # try:
+        #     swStatsList[26]=(round(swkills/swwins, 4))
+        #     swStatsList[27]=(round(swkills/swlosses, 4))
+        #     swStatsList[28]=(round(swkills/swgames, 4))
+        #     swStatsList[29]=(round(swSTATSVAR['blocks_broken']/swgames, 4))
+        #     swStatsList[30]=(round(swSTATSVAR['egg_thrown']/swgames, 4))
+        #     swStatsList[31]=(round(swSTATSVAR['arrows_shot']/swgames, 4))
+        # except: pass
 
         ########## SkyWars Mode Stats I
         swBestGame = [0, False]
@@ -748,7 +793,7 @@ def compute(q):
             except: statsList["survived"] = (0,0)
             try:
                 statsList["games"]= [swSTATSVAR.get('wins_'+gamemoder,0) + swSTATSVAR.get('losses_'+gamemoder,0), round(100*(swSTATSVAR.get('wins_'+gamemoder,0) + swSTATSVAR.get('losses_'+gamemoder,0))/swgames,2)]
-                if statsList['games'][0] > swBestGame[0] and '_' in gamemoder:
+                if swStatsDict['games_played'][0] > swBestGame[0] and '_' in gamemoder:
                     swBestGame[0] = statsList['games'][0]
                     swBestGame[1] = gamemoder
             except: statsList["games"] = (0,0)
@@ -760,7 +805,7 @@ def compute(q):
             except: statsList["losses"] = (0,0)
             statsList["wl"]= solowl
             statsList["kit"]= swSTATSVAR.get('activeKit_'+gamemoder.upper(),'Default').split('_')[-1].capitalize()
-            statsList["fastestwin"]= minsec(swSTATSVAR.get('fastest_win_'+gamemoder,0))
+            statsList["fastestwin"]= sec2format2ydhms(sec2format(swSTATSVAR.get('fastest_win_'+gamemoder,0)))
             statsList['highkill']= swSTATSVAR.get('most_kills_game_'+gamemoder,0)
             statsList['kdrelative']= solokdrelative
             statsList['wlrelative']= solowlrelative
@@ -1351,7 +1396,7 @@ def compute(q):
 
         # Designated Crapification
 
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankNoPlus, rankPlusses=rankPlusses, originalRank=originalRank, rankColorParsed=rankColorParsed, plusColorParsed=plusColorParsed, multiplier=multiplier , swGamesPlayed=swStatsList[0], swGamesQuit=swStatsList[1], swKills=swStatsList[2], swDeaths=swStatsList[3], swKD=swStatsList[4], swAssists=swStatsList[5], swWins=swStatsList[6], swLosses=swStatsList[7], swWL=swStatsList[8], swSurvived=swStatsList[9], swWinstreak=swStatsList[10], swSouls=swStatsList[11], swHeads=swStatsList[12], swHeadDesc=swStatsList[13], swCoins=swStatsList[14], swBlocks=swStatsList[15], swEggs=swStatsList[16], swArrowsShot=swStatsList[17], swArrowsHit=swStatsList[18], swFastestWin=swStatsList[19], swHighestKills=swStatsList[20], swChestsOpened=swStatsList[21], swWinRate=swStatsList[22], swArrowRate=swStatsList[23], swKDA=swStatsList[24], swHeadColor=swStatsList[25], swKW=swStatsList[26], swKL=swStatsList[27], swKG=swStatsList[28], swBPG=swStatsList[29], swEPG=swStatsList[30], swAPG=swStatsList[31], swExp=swExpList[0], swLevel=math.floor(swExpList[1]), swPrestige=swExpList[2][0], swPrestigeColor=swExpList[2][1], swNextLevel=swExpList[3], swToNL=swExpList[4], swPresCard=swExpList[5],joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=plusColorParsed, guildList=guildList, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources, bwCosmetics=bwCosmetics)
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankNoPlus, rankPlusses=rankPlusses, originalRank=originalRank, rankColorParsed=rankColorParsed, plusColorParsed=plusColorParsed, multiplier=multiplier, swStatsDict=swStatsDict, swUnscannedDict=swUnscannedDict, joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=plusColorParsed, guildList=guildList, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources, bwCosmetics=bwCosmetics)
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:
@@ -1445,6 +1490,6 @@ def five02(e):
 
 ############################################################################ FLASK INITIALIZATION ############################################################################
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
     # server = Server(app.wsgi_app)
     # server.serve()

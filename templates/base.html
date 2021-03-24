@@ -4,7 +4,7 @@
 <head>
     <title>Profile for {{ displayname }} | Tiramisu</title>
     <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
-    <link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='base.scss') }}" rel="stylesheet" type="text/css">
     <link href="{{ url_for('static', filename='splide.css') }}" rel="stylesheet" type="text/css">
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='datatables.css') }}">
@@ -141,23 +141,33 @@ function scrollFunction() {
         {% if currentSession != False %}
             <p style='color:green;'>Playing <b>{{ currentSession }}</b> - in <b>{{ sessionType }}</b></p>
         {% else %}
-            <p style='color:red;'><b>Offline</b></p>
-        {% endif %}
+            <p><b style='color:red;'>Offline</b> 
+                {% if lastSeenUnix < 756864000 %}
+                    - last seen <b>{{lastSeen}}</b> ago playing <b>{{lastPlayed}}</b>
+                {% endif %}
+        {% endif %}</p>
 
         <!--- LEVEL --->
-        Level <b>{{ level }} {{ multiplier }}</b> / <b>{{ levelProgress }}%</b> to <b>{{ levelplusone }}</b><br>
+        <p>Level <b>{{ level }} {{ multiplier }}</b> / <b>{{ levelProgress }}%</b> to <b>{{ levelplusone }}</b><br></p>
 
         <!--- KARMA --->
-        karma is <b class='pink'>{{ reqList }}</b><br>
+        karma is <b class='light_purple'>{{ reqList }}</b><br>
 
         <!--- ACHIEVEMENTS --->
         <b>{{ achievements }}</b> achievements for <b>{{ achpot }}</b> achievement points<br>
 
         <!--- QUESTS --->
-        <b class="questfellow">{{ quests }}</b> quests finished<br>
+        <b class="yellow">{{ quests }}</b> quests finished<br></p>
+
+        <!-- TOTAL KILLS WINS COINS -->
+        <p>
+        <b>Total coins</b>: {{totalCoins}} <br>
+        <b>Total kills</b>: {{totalKills}} <br>
+        <b>Total wins</b>: {{totalWins}} <br>
+        </p>
 
         <!--- GUILD --->
-        {% if guildList[0] != 0 %}
+        <p>{% if guildList[0] != 0 %}
             <b>{{ guildList[2] }}</b> in guild <b>{{ guildList[1] }}<span class='{{ guildList[3] }}'> [{{ guildList[0] }}]<span></b></p>
         {% endif %}
 
@@ -167,23 +177,17 @@ function scrollFunction() {
         {% endif %}
 
         <!--- RANK SENIORITY --->
-        {% if originalRank == 'MVP_PLUS' %}
-            [MVP+] bought {{boughtPastTime}} - {{boughtPastRank}} ago
-        {% elif originalRank == 'MVP' %}
-            [MVP] bought {{boughtPastTime}} - {{boughtPastRank}} ago
-        {% elif originalRank == 'VIP_PLUS' %}
-            [VIP+] bought {{boughtPastTime}} - {{boughtPastRank}} ago
-        {% elif originalRank == 'VIP' %}
-            [VIP] bought {{boughtPastTime}} - {{boughtPastRank}} ago
-        {% endif %}
-        <!-- {% if 'VIP' in rank or 'MVP' in rank %}
-            {% if '+' in rank %}
-                <span class="{{ rankcolor }}"><b>[{{ rank.replace('+','') }}<span class="{{ pluscolor }}">+</span>]</b></span> bought <b>{{ boughtPastTime }}</b> - {{ boughtPastRank }} ago
-            {% elif boughtPastRank != 0 %}
-                <span class="{{ rankcolor }}"><b>[{{ rank }}]</b></span> bought <b>{{ boughtPastTime }}</b> - {{ boughtPastRank }} ago<br>
+        {% if boughtPastTime != 0 %}
+            {% if newPackageRank == 'MVP_PLUS' %}
+                <b class='aqua'>[MVP<span class='red'>+</span>]</b> bought <b>{{boughtPastTime}}</b> - <b>{{boughtPastRank}}</b> ago
+            {% elif newPackageRank == 'MVP' %}
+                <b class='aqua'>[MVP]</b> bought <b>{{boughtPastTime}}</b> - <b>{{boughtPastRank}}</b> ago
+            {% elif newPackageRank == 'VIP_PLUS' %}
+                <b class='lime'>[VIP<span class='gold'>+</span>]</b> bought <b>{{boughtPastTime}}</b> - <b>{{boughtPastRank}}</b> ago
+            {% elif newPackageRank == 'VIP' %}
+                <b class='lime'>[VIP]</b> bought <b>{{boughtPastTime}}</b> - <b>{{boughtPastRank}}</b> ago
             {% endif %}
-        {% endif %} -->
-
+        {% endif %}
 
         <!--- FIRST/LAST LOGIN --->
         <p>
@@ -224,6 +228,18 @@ function scrollFunction() {
         {% if youtube != [] %}
             <span class="youtube"><b>YouTube: </b></span><a href='{{ youtube[1] }}'>{{ youtube[0] }}</a><br>
         {% endif %}
+
+        <!-- OTHERS -->
+        <p>
+        <b>Language</b>: {{userLanguage}}<br>
+        <b>Sent</b> {{giftsSent}} gifts, <b>received</b> {{giftsReceived}}<br>
+        Plays on <b>{{userVersion}}</b><br>
+        </p>
+        <p>
+        <b>Reward streak</b>: {{rewards['streak_current']}} (Best: {{rewards['streak_best']}}) <br>
+        <b>Rewards claimed</b>: {{rewards['claimed']}} ({{rewards['claimed_daily']}} daily)
+        </p>
+
         <!--- FRIENDS --->
         <button id='myBtn' href="/f/{{ username }}">Friends List</button><br>
         <div id="myModal" class="modal">
@@ -335,17 +351,17 @@ function scrollFunction() {
                                 {% if x['wl'] > 100000 %}
                                     and an <span class='gold'>infinite</span> W/L. Awesome!
                                 {% elif x['wlrelative'][0] > 0 %}
-                                    and a <b>{{ x['wlrelative'][0]|abs }}</b> higher W/L (<span class='green'>+{{ x['wlrelative'][1]|abs }}%</span>). Nice work!
+                                    and a <b>{{ x['wlrelative'][0]|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelative'][1]|abs }}%</span>). Nice work!
                                 {% elif x['wlrelative'][0] < 0 %}
                                     but a  <b>{{ x['wlrelative'][0]|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelative'][1] }}%</span>). Nice work!
                                 {% endif %}
 
                             {% elif x['kdrelative'][0] > 0 %}
-                                {{username}} performs better in {{y}} than overall, with a <b>{{ x['kdrelative'][0]|abs }}</b> higher K/D (<span class='green'>+{{ x['kdrelative'][1] }}%</span>)
+                                {{username}} performs better in {{y}} than overall, with a <b>{{ x['kdrelative'][0]|abs }}</b> higher K/D (<span class='dark_green'>+{{ x['kdrelative'][1] }}%</span>)
                                 {% if x['wl'] > 100000 %}
                                     and an <span class='gold'>infinite</span> W/L. Nice work!
                                 {% elif x['wlrelative'][0] > 0 %}
-                                    and a <b>{{ x['wlrelative'][0]|abs }}</b> higher W/L (<span class='green'>+{{ x['wlrelative'][1]|abs }}%</span>).
+                                    and a <b>{{ x['wlrelative'][0]|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelative'][1]|abs }}%</span>).
                                 {% elif x['wlrelative'][0] < 0 %}
                                     but a  <b>{{ x['wlrelative'][0]|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelative'][1] }}%</span>).
                                 {% endif %}
@@ -355,7 +371,7 @@ function scrollFunction() {
                                 {% if x['wl'] > 100000 %}
                                     and an <span class='gold'>infinite</span> W/L. Nice work!
                                 {% elif x['wlrelative'][0] > 0 %}
-                                    but a <b>{{ x['wlrelative'][0]|abs }}</b> higher W/L (<span class='green'>+{{ x['wlrelative'][1]|abs }}%</span>).
+                                    but a <b>{{ x['wlrelative'][0]|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelative'][1]|abs }}%</span>).
                                 {% elif x['wlrelative'][0] < 0 %}
                                     and a  <b>{{ x['wlrelative'][0]|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelative'][1] }}%</span>).
                                 {% endif %}
@@ -402,17 +418,17 @@ function scrollFunction() {
                             {% if x['wl'] > 100000 %}
                                 and an <span class='gold'>infinite</span> W/L. Awesome!
                             {% elif x['wlrelative'][0] > 0 %}
-                                and a <b>{{ x['wlrelative'][0]|abs }}</b> higher W/L (<span class='green'>+{{ x['wlrelative'][1]|abs }}%</span>). Nice work!
+                                and a <b>{{ x['wlrelative'][0]|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelative'][1]|abs }}%</span>). Nice work!
                             {% elif x['wlrelative'][0] < 0 %}
                                 but a  <b>{{ x['wlrelative'][0]|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelative'][1] }}%</span>). Nice work!
                             {% endif %}
 
                         {% elif x['kdrelative'][0] > 0 %}
-                            {{username}} performs better in {{y}} than overall, with a <b>{{ x['kdrelative'][0]|abs }}</b> higher K/D (<span class='green'>+{{ x['kdrelative'][1] }}%</span>)
+                            {{username}} performs better in {{y}} than overall, with a <b>{{ x['kdrelative'][0]|abs }}</b> higher K/D (<span class='dark_green'>+{{ x['kdrelative'][1] }}%</span>)
                             {% if x['wl'] > 100000 %}
                                 and an <span class='gold'>infinite</span> W/L. Nice work!
                             {% elif x['wlrelative'][0] > 0 %}
-                                and a <b>{{ x['wlrelative'][0]|abs }}</b> higher W/L (<span class='green'>+{{ x['wlrelative'][1]|abs }}%</span>).
+                                and a <b>{{ x['wlrelative'][0]|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelative'][1]|abs }}%</span>).
                             {% elif x['wlrelative'][0] < 0 %}
                                 but a  <b>{{ x['wlrelative'][0]|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelative'][1] }}%</span>).
                             {% endif %}
@@ -422,7 +438,7 @@ function scrollFunction() {
                             {% if x['wl'] > 100000 %}
                                 and an <span class='gold'>infinite</span> W/L. Nice work!
                             {% elif x['wlrelative'][0] > 0 %}
-                                but a <b>{{ x['wlrelative'][0]|abs }}</b> higher W/L (<span class='green'>+{{ x['wlrelative'][1]|abs }}%</span>).
+                                but a <b>{{ x['wlrelative'][0]|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelative'][1]|abs }}%</span>).
                             {% elif x['wlrelative'][0] < 0 %}
                                 and a  <b>{{ x['wlrelative'][0]|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelative'][1] }}%</span>).
                             {% endif %}
@@ -591,7 +607,7 @@ function scrollFunction() {
                         data: swSRL,
                         borderWidth: 1,
                         backgroundColor: [
-                            '#0a0',
+                            '#5f5',
                             '#55f',
                             '#fa0',
                         ],
@@ -625,7 +641,7 @@ function scrollFunction() {
                             '#A9A9A9',
                             '#D3D3D3',
                             '#DACB00',
-                            '#0a0',
+                            '#5f5',
                             '#00AAAA',
                             '#FF55FF',
                             '#AA00AA',
@@ -662,7 +678,7 @@ function scrollFunction() {
                             '#A9A9A9',
                             '#D3D3D3',
                             '#DACB00',
-                            '#0a0',
+                            '#5f5',
                             '#00AAAA',
                             '#FF55FF',
                             '#AA00AA',
@@ -699,7 +715,7 @@ function scrollFunction() {
                             '#A9A9A9',
                             '#D3D3D3',
                             '#DACB00',
-                            '#0a0',
+                            '#5f5',
                             '#00AAAA',
                             '#FF55FF',
                             '#AA00AA',
@@ -719,7 +735,7 @@ function scrollFunction() {
             {% elif a == 'opals' %}
                 <span class="dark_blue"><b>{{b}}</b> {{a}}</span><br>
             {% elif a == 'shards' %}
-                <span class="mvpaqua"><b>{{b}}</b> {{a}}</span><br>
+                <span class="aqua"><b>{{b}}</b> {{a}}</span><br>
             {% elif a == 'until next opal' %}
                 <b>{{b}}</b> ({{swOpals['shardsTilNextPerc']}}%) shards until next opal <br>
                     {% for x in range(swOpals['shardsTilNextPrBa']) %}<b><span class="dark_blue">/</span></b>{% endfor %}{% for x in range(32-swOpals['shardsTilNextPrBa']) %}<span class='blue'>/</span>{% endfor %}<br>
@@ -774,19 +790,19 @@ function scrollFunction() {
                 <div class="h3d">{{ bwTranslateList[mode] }}</div>
                 <p>
                     {% if bwCompList[mode]['compkd'][0] > 0 %}
-                        <span class="green"><b>{{bwCompList[mode]['compkd'][0]}}</b></span> higher K/D (<span class="green">+{{bwCompList[mode]['compkd'][1]}}%</span>)
+                        <span class="dark_green"><b>{{bwCompList[mode]['compkd'][0]}}</b></span> higher K/D (<span class="dark_green">+{{bwCompList[mode]['compkd'][1]}}%</span>)
                     {% else %}
                         <span class="red"><b>{{bwCompList[mode]['compkd'][0]}}</b></span> lower K/D (<span class="red">{{bwCompList[mode]['compkd'][1]}}%</span>)
                     {% endif %}
                      | 
                     {% if bwCompList[mode]['compfkd'][0] > 0 %}
-                        <span class="green"><b>{{bwCompList[mode]['compfkd'][0]}}</b></span> higher final K/D (<span class="green">+{{bwCompList[mode]['compfkd'][1]}}%</span>)
+                        <span class="dark_green"><b>{{bwCompList[mode]['compfkd'][0]}}</b></span> higher final K/D (<span class="dark_green">+{{bwCompList[mode]['compfkd'][1]}}%</span>)
                     {% else %}
                         <span class="red"><b>{{bwCompList[mode]['compfkd'][0]}}</b></span> lower final K/D (<span class="red">{{bwCompList[mode]['compfkd'][1]}}%</span>)
                     {% endif %} 
                      | 
                     {% if bwCompList[mode]['compwl'][0] > 0 %}
-                        <span class="green"><b>{{bwCompList[mode]['compwl'][0]}}</b></span> higher W/L (<span class="green">+{{bwCompList[mode]['compwl'][1]}}%</span>)
+                        <span class="dark_green"><b>{{bwCompList[mode]['compwl'][0]}}</b></span> higher W/L (<span class="dark_green">+{{bwCompList[mode]['compwl'][1]}}%</span>)
                     {% else %}
                         <span class="red"><b>{{bwCompList[mode]['compwl'][0]}}</b></span> lower W/L (<span class="red">{{bwCompList[mode]['compwl'][1]}}%</span>)
                     {% endif %}
@@ -925,9 +941,9 @@ function scrollFunction() {
         </p>
         <p>
             <b>🧧 <span class="red">Lunar</span> Crates</b>: {{bwLootBoxes['bedwars_lunar_boxes'][0]}} ({{bwLootBoxes['bedwars_lunar_boxes'][1]}}%) <br>
-            <b>🐇 <span class="mvpaqua">Easter</span> Crates</b>: {{bwLootBoxes['bedwars_easter_boxes'][0]}} ({{bwLootBoxes['bedwars_easter_boxes'][1]}}%) <br>
+            <b>🐇 <span class="aqua">Easter</span> Crates</b>: {{bwLootBoxes['bedwars_easter_boxes'][0]}} ({{bwLootBoxes['bedwars_easter_boxes'][1]}}%) <br>
             <b>🎃 <span class="orange">Halloween</span> Crates</b>: {{bwLootBoxes['bedwars_halloween_boxes'][0]}} ({{bwLootBoxes['bedwars_halloween_boxes'][1]}}%) <br>
-            <b>🎄 <span class="green">Christmas</span> Crates</b>: {{bwLootBoxes['bedwars_christmas_boxes'][0]}} ({{bwLootBoxes['bedwars_christmas_boxes'][1]}}%) <br>
+            <b>🎄 <span class="dark_green">Christmas</span> Crates</b>: {{bwLootBoxes['bedwars_christmas_boxes'][0]}} ({{bwLootBoxes['bedwars_christmas_boxes'][1]}}%) <br>
         </p>
 
         <div class='cvLootBox' style='position:relative;height:25%; width:25%'>
@@ -949,7 +965,7 @@ function scrollFunction() {
                             '#fa0',
                             '#a0a',
                             '#55f',
-                            '#0a0',
+                            '#5f5',
                         ],
                     }]
                 },

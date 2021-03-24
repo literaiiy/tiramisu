@@ -1,6 +1,6 @@
 <meta charset="UTF-8">
 
-<link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ url_for('static', filename='base.scss') }}" rel="stylesheet" type="text/css">
 <div class="header logo">
 	<a href='/'><img src='https://raw.githubusercontent.com/gist/literaiiy/33ee272214fd81eb35a54f083bf1a4ed/raw/90ea53a78161bbda95c00fa17c4ddd88c015a27c/tiramisudelta2.svg' alt="Tiramisu Logo" height='6%' width='auto'></a>
 	<form action="/" method="POST">
@@ -41,26 +41,25 @@
 		<tbody>
 			{% for dictitem in gameDict %}
 			<tr>
-				{% if dictitem['game'] == 'Total Player Count' %}
-					<td><span class='red'></span></td>
+				{% if dictitem['game'] == 'Total Players' %}
+					<td><span class='red'><b></b></span></td>
 					<td><span class='red'>{{ dictitem['game'] }}</span></td>
 					<td><span class='red'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
-
 				{% elif dictitem['game'] == 'Main Lobby' %}
-					<td><span class='firebrick'><b>{{ dictitem['pos'] }}</b></span></td>
-					<td><span class='firebrick'>{{ dictitem['game'] }}</span></td>
-					<td><span class='firebrick'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
-					<td><span class='firebrick'>{{ (100*dictitem['playerCount'] / gameDict[0]['playerCount'])|round(3) }}%</span></td>
+					<td><span class='dark_red'><b>{{ dictitem['pos'] }}</b></span></td>
+					<td><span class='dark_red'>{{ dictitem['game'] }}</span></td>
+					<td><span class='dark_red'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
+					<td><span class='dark_red'>{{ (100*dictitem['playerCount'] / gameDict[0]['playerCount'])|round(3) }}%</span></td>
 				{% elif dictitem['game'] == 'Watching a replay' %}
 					<td><span class='cyan'><b>{{ dictitem['pos'] }}</b></span></td>
 					<td><span class='cyan'>{{ dictitem['game'] }}</span></td>
 					<td><span class='cyan'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
 					<td><span class='cyan'>{{ (100*dictitem['playerCount'] / gameDict[0]['playerCount'])|round(3) }}%</span></td>
 				{% elif dictitem['game'] == 'In limbo' %}
-					<td><span class='green'><b>{{ dictitem['pos'] }}</b></span></td>
-					<td><span class='green'>{{ dictitem['game'] }}</span></td>
-					<td><span class='green'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
-					<td><span class='green'>{{ (100*dictitem['playerCount'] / gameDict[0]['playerCount'])|round(3) }}%</span></td>
+					<td><span class='dark_green'><b>{{ dictitem['pos'] }}</b></span></td>
+					<td><span class='dark_green'>{{ dictitem['game'] }}</span></td>
+					<td><span class='dark_green'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
+					<td><span class='dark_green'>{{ (100*dictitem['playerCount'] / gameDict[0]['playerCount'])|round(3) }}%</span></td>
 				{% elif dictitem['game'] == 'Idle' %}
 					<td><span class='gold'><b>{{ dictitem['pos'] }}</b></span></td>
 					<td><span class='gold'>{{ dictitem['game'] }}</span></td>

@@ -56,42 +56,55 @@ def queryt(path):
     
     gameDict = []
     hs = requests.Session().get('https://api.hypixel.net/gameCounts?key=' + HAPIKEY)
-    gameCount = hs.json()['games']
+    hsjaysonn = hs.json()
+    gameCount = hsjaysonn['games']
     gameList = [
-        ('Total Players', hs.json()['playerCount']),
-        ('🏹 SkyWars', gameCount['SKYWARS']['players']),
-        ('🌎 SkyBlock', gameCount['SKYBLOCK']['players']),
-        ('️🛌 BedWars', gameCount['BEDWARS']['players']),
-        ('⚔️ Duels', gameCount['DUELS']['players']),
-        ('🦸 Super Smash Mobs', gameCount['SUPER_SMASH']['players']),
-        ('💨 Speed UHC', gameCount['SPEED_UHC']['players']),
-        ('🔫 Cops and Crims', gameCount['MCGO']['players']),
-        ('🕳️ The Pit', gameCount['PIT']['players']),
-        ('🍎 UHC Champions', gameCount['UHC']['players']),
-        ('🛠️ Build Battle', gameCount['BUILD_BATTLE']['players']),
-        ('🕵️‍♂️ Murder Mystery', gameCount['MURDER_MYSTERY']['players']),
-        ('🏇 Warlords', gameCount['BATTLEGROUND']['players']),
-        ('🏠 Housing', gameCount['HOUSING']['players']),
-        ('🕹️ Arcade', gameCount['ARCADE']['players']),
-        ('🗡️ Blitz Survival Games', gameCount['SURVIVAL_GAMES']['players']),
-        ('🧱 Mega Walls', gameCount['WALLS3']['players']),
-        ('🏗️ Prototype', gameCount['PROTOTYPE']['players']),
-        ('💣 TNT Games', gameCount['TNTGAMES']['players']),
-        ('Main Lobby', gameCount['MAIN_LOBBY']['players']),
-        ('Watching a replay', gameCount['REPLAY']['players']),
-        ('In limbo', gameCount['LIMBO']['players']),
-        ('Idle', gameCount['IDLE']['players']),
-        ('🎉 Party Games', gameCount['ARCADE']['modes']['PARTY']),
-        ('🧟 Zombies', gameCount['ARCADE']['modes']['ZOMBIES_DEAD_END'] + gameCount['ARCADE']['modes']['ZOMBIES_ALIEN_ARCADIUM'] + gameCount['ARCADE']['modes']['ZOMBIES_BAD_BLOOD']),
-        ('🙈 Hide and Seek', gameCount['ARCADE']['modes']['HIDE_AND_SEEK_PROP_HUNT'] + gameCount['ARCADE']['modes']['HIDE_AND_SEEK_PARTY_POOPER']),
-        ('🛩️ Mini Walls', gameCount['ARCADE']['modes']['MINI_WALLS']),
-        ('📢 Hypixel Says', gameCount['ARCADE']['modes']['SIMON_SAYS']),
-        
-    ]
+        ('Total Players', hsjaysonn['playerCount']),
+        ('🏹 SkyWars', 'SKYWARS'),
+        ('🌎 SkyBlock', 'SKYBLOCK'),
+        ('️🛌 BedWars', 'BEDWARS'),
+        ('⚔️ Duels', 'DUELS'),
+        ('🦸 Super Smash Mobs', 'SUPER_SMASH'),
+        ('💨 Speed UHC', 'SPEED_UHC'),
+        ('🔫 Cops and Crims', 'MCGO'),
+        ('🕳️ The Pit', 'PIT'),
+        ('🍎 UHC Champions', 'UHC'),
+        ('🛠️ Build Battle', 'BUILD_BATTLE'),
+        ('🕵️‍♂️ Murder Mystery', 'MURDER_MYSTERY'),
+        ('🏇 Warlords', 'BATTLEGROUND'),
+        ('🏠 Housing', 'HOUSING'),
+        ('🕹️ Arcade', 'ARCADE'),
+        ('🗡️ Blitz Survival Games', 'SURVIVAL_GAMES'),
+        ('🧱 Mega Walls', 'WALLS3'),
+        ('🏗️ Prototype', 'PROTOTYPE'),
+        ('💣 TNT Games', 'TNTGAMES'),
+        ('Main Lobby', 'MAIN_LOBBY'),
+        ('Watching a replay', 'REPLAY'),
+        ('In limbo', 'LIMBO'),
+        ('Idle', 'IDLE'),]
+
+    arcadeGameList = [
+        ('🎉 Party Games', 'PARTY'),
+        # ('🧟 Zombies - Dead End', gameCount['ARCADE']['modes']['ZOMBIES_DEAD_END'] + gameCount['ARCADE']['modes']['ZOMBIES_ALIEN_ARCADIUM'] + gameCount['ARCADE']['modes']['ZOMBIES_BAD_BLOOD']),
+        # ('🙈 Hide and Seek', gameCount['ARCADE']['modes']['HIDE_AND_SEEK_PROP_HUNT'] + gameCount.get('ARCADE',{}).get('modes',{}).get('HIDE_AND_SEEK_PARTY_POOPER',{})),
+        ('🛩️ Mini Walls', 'MINI_WALLS'),
+        ('📢 Hypixel Says', 'SIMON_SAYS'),
+        ('🏁 Capture the Wool', 'PVP_CTW'),
+        ('🧟‍♂️ Zombies - Dead End' , 'ZOMBIES_DEAD_END'),
+        ('🐖 Farm Hunt', 'FARM_HUNT')]
+
     gameDict = []
     for item in gameList:
         try:
-            gameDict.append({'game':item[0],'playerCount':item[1],})
+            if item[0] == 'Total Players': gameDict.append({'game':'Total Players','playerCount':hsjaysonn['playerCount']})
+            else:
+                gameDict.append({'game':item[0],'playerCount':gameCount[item[1]]['players']})
+        except:
+            gameDict.append({'game':item[0],'playerCount':0,})
+    
+    for item in arcadeGameList:
+        try:
+            gameDict.append({'game':item[0],'playerCount':gameCount['ARCADE']['modes'][item[1]]})
         except:
             gameDict.append({'game':item[0],'playerCount':0,})
 
@@ -251,7 +264,7 @@ def compute(q):
         rankPlusses = ''
         rankColorParsed = 'white'
         plusColorParsed = 'white'
-        originalRank = rankjson['rank'] if 'rank' in rankjson else ''
+
         # If they have a rank, extract the non-plus section, the plusses, and the colors of each
         if 'rank_formatted' in rankjson:
             rankformattable = rankjson['rank_formatted']
@@ -383,6 +396,7 @@ def compute(q):
             namehis[0]['time_between'] = sec2format2ydhms(sec2format(int(time.time())-nhut2unix/1000))
         
 ############################################################################ QUESTS, AP, & ACHIEVEMENTS ############################################################################
+        
         try:
             achievements = len(reqAPI['player']['achievements'])+len(reqAPI['player']['achievementsOneTime'])
             achievements = format(achievements, ',')
@@ -427,29 +441,18 @@ def compute(q):
             elif joinedAgo < 346896000: seniority = '♆ Hypixel Ancient'
         except: pass
 
-        boughtPastRank = 0
+        boughtPastRank = ''
         boughtPastTime = 0
-        rankUnparsed2 = 0
-        rankunparsedcolor = ''
+        newPackageRank = ''
         try:
-            if rankUnparsed != 0:
-                boughtPastRank = sec2format2ydhms(sec2format(time.time() - reqAPI['player']['levelUp_' + rankUnparsed]/1000))
-                boughtPastTimeUnix = reqAPI['player']['levelUp_' + rankUnparsed]/1000
-                boughtPastTime = datetime.fromtimestamp(boughtPastTimeUnix).strftime('%b %d, %Y at %I:%M %p %z')
-                if 'MVP_PLUS' in rankUnparsed: 
-                    rankunparsedcolor = 'mvpaqua'
-                    rankUnparsed2 = 'MVP+'
-                elif rankUnparsed == 'MVP':
-                    rankunparsedcolor = 'mvpaqua'
-                    rankUnparsed2 = 'MVP'
-                elif rankUnparsed == 'VIP_PLUS':
-                    rankunparsedcolor ='lime'
-                    rankUnparsed2 = 'VIP+'
-                elif rankUnparsed == 'VIP':
-                    rankunparsedcolor = 'lime'
-                    rankUnparsed2 = 'VIP'
-                else: pass
-            else: boughtPastRank = 0
+            newPackageRank = reqAPI['player']['newPackageRank']
+            print(newPackageRank)
+            boughtPastRank = sec2format2ydhms(sec2format(time.time() - reqAPI['player']['levelUp_' + newPackageRank]/1000))
+            boughtPastTimeUnix = reqAPI['player']['levelUp_' + newPackageRank]/1000
+            boughtPastTime = datetime.fromtimestamp(boughtPastTimeUnix).strftime('%b %d, %Y at %I:%M %p %z')
+            print('boughtPastTime')
+            print(boughtPastTime)
+            print(boughtPastRank)
         except: pass
 
 ############################################################################ PLAYER SESSION DATA ##########################################################################################
@@ -518,6 +521,27 @@ def compute(q):
                 if youtube[-1] == '/': youtube = youtube[:-1]
                 youtube = [youtube.rsplit('/',1)[1], youtube]
         except: pass
+
+############################################################################ OTHERS ##########################################################################################s
+
+        def significantTimeDenom(list):
+            if list[0] != 0: return str(list[0]) + 'y'
+            elif list[1] != 0: return str(list[1]) + 'd'
+            elif list[2] != 0: return str(list[2]) + 'h'
+            elif list[3] != 0: return str(list[3]) + 'm'
+            else: return str(list[4]) + 's'
+
+        userLanguage = rankjson.get('language', 'English').title()
+        userVersion = rankjson.get('mc_version') if rankjson.get('mc_version') != None else 'unspecified version'
+        totalKills = rankjson.get('total_kills', 0)
+        totalWins = rankjson.get('total_wins', 0)
+        totalCoins = rankjson.get('total_coins', 0)
+        giftsSent = rankjson.get('gifts_sent', 0)
+        giftsReceived = rankjson.get('gifts_received', 0)
+        rewards = rankjson.get('rewards', {"streak_current":0,"streak_best":0,"claimed":0,"claimed_daily":0,"tokens":0})
+        lastPlayed = rankjson.get('last_game', 'nothing')
+        lastSeenUnix = int(time.time()) - lastLogoutUnix
+        lastSeen = significantTimeDenom(sec2format(lastSeenUnix))
 
 ############################################################################ SKYWARS ##########################################################################################s
         
@@ -589,15 +613,15 @@ def compute(q):
             elif swStatsDict['kills'] < 500: swStatsDict['head_tastiness'] = ('Meh.','lightgray')
             elif swStatsDict['kills'] < 1000: swStatsDict['head_tastiness'] = ('Decent...','yellow')
             elif swStatsDict['kills'] < 2000: swStatsDict['head_tastiness'] = ('Salty.','lime')
-            elif swStatsDict['kills'] < 5000: swStatsDict['head_tastiness'] = ('Tasty!','cyan')
+            elif swStatsDict['kills'] < 5000: swStatsDict['head_tastiness'] = ('Tasty!','dark_aqua')
             elif swStatsDict['kills'] < 10000: swStatsDict['head_tastiness'] = ('Succulent!','light_purple')
             elif swStatsDict['kills'] < 25000: swStatsDict['head_tastiness'] = ('Divine!','gold')
             else: swStatsDict['head_tastiness'] = ('Heavenly..!', 'dark_purple')
 
             # Winrate, arrow hitrate, KDA, K/W, K/L, K/G, blocks/game, eggs/game, arrows/game, pearls/game
             swStatsDict['winrate'] = round(100*swStatsDict['wins']/swStatsDict['games_played'], 2)
-            swStatsDict['arrow_hitrate'] = round(100*swStatsDict['arrows_hit']/swStatsDict['arrows_shot'],2)
-            swStatsDict['KDA'] = round((swStatsDict['kills']+swStatsDict['assists'])/swStatsDict['deaths'],4)
+            swStatsDict['arrow_hitrate'] = round(100*swStatsDict['arrows_hit']/swStatsDict['arrows_shot'],2) if swStatsDict['arrows_shot'] != 0 else float('inf')
+            swStatsDict['KDA'] = round((swStatsDict['kills']+swStatsDict['assists'])/swStatsDict['deaths'],4) if swStatsDict['deaths'] != 0 else float('inf')
             swStatsDict['K/W'] = round(swStatsDict['kills']/swStatsDict['wins'],4) if swStatsDict['wins'] != 0 else float('inf')
             swStatsDict['K/L'] = round(swStatsDict['kills']/swStatsDict['losses'],4) if swStatsDict['losses'] != 0 else float('inf')
             swStatsDict['K/G'] = round(swStatsDict['kills']/swStatsDict['games_played'],4) if swStatsDict['games_played'] != 0 else float('inf')
@@ -671,89 +695,6 @@ def compute(q):
             # except: pass
 
         else: swStatsDict['success']:False
-        #return swStatsDict
-
-        # # Adds 0 - 9 on swStatsList
-        # try:
-        #     swgames = swSTATSVAR['losses'] + swSTATSVAR['wins']
-        #     swStatsList[0]=swgames
-        #     swStatsList[1]=swSTATSVAR['quits']
-
-        #     swkills = swSTATSVAR['kills']
-        #     swStatsList[2]=swkills
-        #     swdeaths = swSTATSVAR['deaths']
-        #     swStatsList[3]=swdeaths
-        #     swStatsList[4]=(round(swkills/swdeaths, 4))
-        #     swassists = swSTATSVAR['assists']
-        #     swStatsList[5]=swassists
-
-        #     swwins = swSTATSVAR['wins']
-        #     swStatsList[6]=swwins
-        #     swlosses = swSTATSVAR['losses']
-        #     swStatsList[7]=swlosses
-        #     swStatsList[8]=round(swSTATSVAR['wins']/swSTATSVAR['losses'],4)
-        #     swStatsList[9]=swSTATSVAR['survived_players']
-        # except: pass
-
-        # # Adds 10 - 12 on swStatsList
-        # try:
-        #     swStatsList[10]=(format(swSTATSVAR['win_streak'], ','))
-        #     swStatsList[11]=(format(swSTATSVAR['souls_gathered'], ','))
-        #     swStatsList[12]=(format(swSTATSVAR['heads'], ','))
-        # except: pass
-
-        # # Adds 13 on swStatsList
-        # jesushchrist = False
-        # try:
-        #     if swkills <= 49: swStatsList[13]=('Eww!')
-        #     if swkills > 49 and swkills < 200: swStatsList[13]=('Yucky!')
-        #     if swkills > 199 and swkills < 500: swStatsList[13]=('Meh.')
-        #     if swkills > 499 and swkills < 1000: swStatsList[13]=('Decent...')
-        #     if swkills > 999 and swkills < 2000: swStatsList[13]=('Salty.')
-        #     if swkills > 1999 and swkills < 5000: swStatsList[13]=('Tasty!')
-        #     if swkills > 4999 and swkills < 10000: swStatsList[13]=('Succulent!')
-        #     if swkills > 9999 and swkills < 25000: swStatsList[13]=('Divine!')
-        #     if swkills > 25000: swStatsList[13]=('Heavenly..!')
-        #     if swkills <= 10000 and rankNoPlus in sweetHeadsRanks: swStatsList[13]=('Sweet!')
-        # except: swStatsList[13]='Eww!'
-
-        # # Adds 14 - 23 on swStatsList
-        # swStatsList[14]=int(swSTATSVAR['coins'])
-        # swStatsList[15]=swSTATSVAR['blocks_broken']
-        # swStatsList[16]=swSTATSVAR['egg_thrown']
-        # swStatsList[17]=swSTATSVAR['arrows_shot']
-        # swStatsList[18]=swSTATSVAR['arrows_hit']
-        # swStatsList[19]=sec2format2ydhms(sec2format(swSTATSVAR['fastest_win']))
-        # swStatsList[20]=swSTATSVAR['most_kills_game']
-        # swStatsList[21]=swSTATSVAR['chests_opened']
-        # swStatsList[22]=round((swSTATSVAR['wins']/(swSTATSVAR['wins']+swSTATSVAR['losses'])) * 100, 4)
-        # swStatsList[23]=round(swSTATSVAR['arrows_hit']/swSTATSVAR['arrows_shot']*100, 4)
-
-        # # Adds 24 - 25 on swStatsList
-        # twenty4plus = False
-        # try:
-        #     swStatsList[24]=(round((swkills+swSTATSVAR['assists'])/swSTATSVAR['deaths'], 4))
-        #     if 'Eww' in swStatsList[13]: swStatsList[25]=('darkgray')
-        #     if 'Yucky' in swStatsList[13]: swStatsList[25]=('gray')
-        #     if 'Meh' in swStatsList[13]: swStatsList[25]=('lightgray')
-        #     if 'Decent' in swStatsList[13]: swStatsList[25]=('decentyellow')
-        #     if 'Salty' in swStatsList[13]: swStatsList[25]=('green')
-        #     if 'Tasty' in swStatsList[13]: swStatsList[25]=('cyan')
-        #     if 'Succulent' in swStatsList[13]: swStatsList[25]=('pink')
-        #     if 'Sweet' in swStatsList[13]: swStatsList[25]=('dark_purple')
-        #     if 'Divine' in swStatsList[13]: swStatsList[25]=('gold')
-        #     if 'Heavenly' in swStatsList[13]: swStatsList[25]=('chocolate')
-        # except: swStatsList[25]='darkgray'
-
-        # # Add 26 - 31 on swStatsList
-        # try:
-        #     swStatsList[26]=(round(swkills/swwins, 4))
-        #     swStatsList[27]=(round(swkills/swlosses, 4))
-        #     swStatsList[28]=(round(swkills/swgames, 4))
-        #     swStatsList[29]=(round(swSTATSVAR['blocks_broken']/swgames, 4))
-        #     swStatsList[30]=(round(swSTATSVAR['egg_thrown']/swgames, 4))
-        #     swStatsList[31]=(round(swSTATSVAR['arrows_shot']/swgames, 4))
-        # except: pass
 
         ########## SkyWars Mode Stats I
         swBestGame = [0, False]
@@ -953,7 +894,7 @@ def compute(q):
         swHeadsSolo = []
         swHeadsTeam = []
 
-        for x in [('eww','darkgray'),('yucky','gray'),('meh','lightgray'),('decent','decentyellow'),('salty','green'),('tasty','cyan'),('succulent','pink'), ('sweet','dark_purple'), ('divine','gold'),('heavenly','chocolate')]:
+        for x in [('eww','darkgray'),('yucky','gray'),('meh','lightgray'),('decent','yellow'),('salty','green'),('tasty','dark_aqua'),('succulent','pink'), ('sweet','dark_purple'), ('divine','gold'),('heavenly','chocolate')]:
             try:
                 swHeads.append([x[0].capitalize(), swSTATSVAR['heads_'+x[0]], x[1], round(100*swSTATSVAR['heads_'+x[0]]/int(swStatsList[12]),2)])
             except: swHeads.append([x[0].capitalize(), 0, x[1], 0])
@@ -1088,24 +1029,24 @@ def compute(q):
                 if level < 100: return ('No', 'gray', round(100*(level-math.floor(level)),2))
                 elif level < 200: return ('Iron', 'lightgray', round(100*(level-math.floor(level)),2))
                 elif level < 300: return ('Gold', 'gold', round(100*(level-math.floor(level)),2))
-                elif level < 400: return ('Diamond', 'turquoise', round(100*(level-math.floor(level)),2))
+                elif level < 400: return ('Diamond', 'aqua', round(100*(level-math.floor(level)),2))
                 elif level < 500: return ('Emerald', 'dark_green', round(100*(level-math.floor(level)),2))
-                elif level < 600: return ('Sapphire', 'cyan', round(100*(level-math.floor(level)),2))
-                elif level < 700: return ('Ruby', 'firebrick', round(100*(level-math.floor(level)),2))
-                elif level < 800: return ('Crystal', 'hotpink', round(100*(level-math.floor(level)),2))
-                elif level < 900: return ('Opal', 'darkblue', round(100*(level-math.floor(level)),2))
-                elif level < 1000: return ('Amethyst', 'indigo', round(100*(level-math.floor(level)),2))
+                elif level < 600: return ('Sapphire', 'dark_aqua', round(100*(level-math.floor(level)),2))
+                elif level < 700: return ('Ruby', 'dark_red', round(100*(level-math.floor(level)),2))
+                elif level < 800: return ('Crystal', 'light_purple', round(100*(level-math.floor(level)),2))
+                elif level < 900: return ('Opal', 'dark_blue', round(100*(level-math.floor(level)),2))
+                elif level < 1000: return ('Amethyst', 'dark_purple', round(100*(level-math.floor(level)),2))
                 elif level < 1100: return ('Rainbow', 'chocolate', round(100*(level-math.floor(level)),2))
 
                 elif level < 1200: return ('Iron Prime', 'lightgray', round(100*(level-math.floor(level)),2))
                 elif level < 1300: return ('Gold Prime', 'gold', round(100*(level-math.floor(level)),2))
-                elif level < 1400: return ('Diamond Prime', 'turquoise', round(100*(level-math.floor(level)),2))
+                elif level < 1400: return ('Diamond Prime', 'aqua', round(100*(level-math.floor(level)),2))
                 elif level < 1500: return ('Emerald Prime', 'dark_green', round(100*(level-math.floor(level)),2))
-                elif level < 1600: return ('Sapphire Prime', 'cyan', round(100*(level-math.floor(level)),2))
-                elif level < 1700: return ('Ruby Prime', 'firebrick', round(100*(level-math.floor(level)),2))
-                elif level < 1800: return ('Crystal Prime', 'hotpink', round(100*(level-math.floor(level)),2))
-                elif level < 1900: return ('Opal Prime', 'darkblue', round(100*(level-math.floor(level)),2))
-                elif level < 2000: return ('Amethyst Prime', 'indigo', round(100*(level-math.floor(level)),2))
+                elif level < 1600: return ('Sapphire Prime', 'dark_aqua', round(100*(level-math.floor(level)),2))
+                elif level < 1700: return ('Ruby Prime', 'dark_red', round(100*(level-math.floor(level)),2))
+                elif level < 1800: return ('Crystal Prime', 'light_purple', round(100*(level-math.floor(level)),2))
+                elif level < 1900: return ('Opal Prime', 'dark_blue', round(100*(level-math.floor(level)),2))
+                elif level < 2000: return ('Amethyst Prime', 'dark_purple', round(100*(level-math.floor(level)),2))
 
                 elif level < 2100: return ('Mirror', 'mirror', round(100*(level-math.floor(level)),2))
                 elif level < 2200: return ('Light', 'light', round(100*(level-math.floor(level)),2))
@@ -1382,6 +1323,7 @@ def compute(q):
             except: pass
 
 ############################################################################ RENDERS BASE.HTML ############################################################################
+        
         displayname = username
         if uuid in ADMINS:
             displayname += ' 🍰'
@@ -1396,7 +1338,7 @@ def compute(q):
 
         # Designated Crapification
 
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankNoPlus, rankPlusses=rankPlusses, originalRank=originalRank, rankColorParsed=rankColorParsed, plusColorParsed=plusColorParsed, multiplier=multiplier, swStatsDict=swStatsDict, swUnscannedDict=swUnscannedDict, joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, rankUnparsed=rankUnparsed2, rankunparsedcolor=rankunparsedcolor, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=plusColorParsed, guildList=guildList, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources, bwCosmetics=bwCosmetics)
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankNoPlus, rankPlusses=rankPlusses, newPackageRank=newPackageRank, rankColorParsed=rankColorParsed, plusColorParsed=plusColorParsed, multiplier=multiplier, swStatsDict=swStatsDict, swUnscannedDict=swUnscannedDict, joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=plusColorParsed, guildList=guildList, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources, bwCosmetics=bwCosmetics, userLanguage=userLanguage, userVersion=userVersion, totalKills=totalKills, totalWins=totalWins, totalCoins=totalCoins, giftsSent=giftsSent, giftsReceived=giftsReceived, rewards=rewards, lastPlayed=lastPlayed, lastSeen=lastSeen, lastSeenUnix=lastSeenUnix)
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################
     else:
@@ -1490,6 +1432,6 @@ def five02(e):
 
 ############################################################################ FLASK INITIALIZATION ############################################################################
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)
     # server = Server(app.wsgi_app)
     # server.serve()

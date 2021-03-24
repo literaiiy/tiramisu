@@ -159,49 +159,7 @@ th {
 	font-family: "Inconsolata", monospace
 }
 
-.black {
-	color: black
-}
 
-.darkgray {
-	color: gray
-}
-
-.gray {
-	color: darkgray
-}
-
-.lightgray {
-	color: lightgray
-}
-
-.gold {
-	color: #fa0
-}
-
-.turquoise {
-	color: turquoise
-}
-
-.chartreuse {
-	color: chartreuse
-}
-
-.firebrick {
-	color: firebrick
-}
-
-.hotpink {
-	color: hotpink
-}
-
-.darkblue {
-	color: darkblue
-}
-
-.indigo {
-	color: indigo
-}
 
 .chocolate {
 	background-image: linear-gradient(to right, tomato, coral, gold, lawngreen, steelblue, blueviolet, orchid);
@@ -209,108 +167,58 @@ th {
 	-webkit-text-fill-color: transparent
 }
 
-.mvpaqua {
-	color: #5ff
-}
+                                               
+//                    ,,                          
+//                  `7MM                          
+//                    MM                          
+//  ,p6"bo   ,pW"Wq.  MM  ,pW"Wq.`7Mb,od8 ,pP"Ybd 
+// 6M'  OO  6W'   `Wb MM 6W'   `Wb MM' "' 8I   `" 
+// 8M       8M     M8 MM 8M     M8 MM     `YMMMa. 
+// YM.    , YA.   ,A9 MM YA.   ,A9 MM     L.   I8 
+//  YMbmd'   `Ybmd9'.JMML.`Ybmd9'.JMML.   M9mmmP' 
 
-.aqua {
-	color: #55ffff
-}
+.black { color: #000 }
+.dark_blue { color: #00a }
+.dark_green { color: #0a0 }
+.dark_aqua, .cyan { color: #0aa }
+.dark_red { color: #a00 }
+.dark_purple, .purple { color: #a0a }
+.gold { color: #fa0 }
+.gray { color: #aaa }
+.dark_gray, .darkgray { color: #555 }
+.blue { color: #55f }
+.green, .lime { color: #5f5 }
+.aqua { color: #5ff }
+.red { color: #f55 }
+.light_purple, .pink { color: #f5f }
+.yellow { color: #ff5 }
+.white { color: #fff }
 
-.lime {
-	color: #5f5
-}
-
-.blue {
-	color: #55f
-}
-
-.green {
-	color: #0a0
-}
-
-.red {
-	color: #f55
-}
-
-.orange {
-	color:orange;
-}
-
-.cyan {
-	color: #0aa
-}
-
-.pink {
-	color: #f5f
-}
-
-.dark_red {
-	color: #a00
-}
-
-.yellow {
-	color: #ff0
-}
-
-.decentyellow {
-	color: #dacb00
-}
-
-.questfellow {
-	color: #e4e489
-}
-
-.white {
-	color: white
-}
-
-.light_purple {
-	color: #f5f
-}
-
-.dark_green {
-	color: #0a0
-}
-
-.dark_aqua {
-	color: #0aa
-}
-
-.dark_purple {
-	color: #a0a
-}
-
-.dark_blue {
-	color: #00a
-}
-
-.black {
-	color: #000
-}
+.lightgray { color: #ccc }
+.orange { color: #f60 }
 
 .twitter {
-	color: cornflowerblue
+	color: #1DA1F2
 }
 
 .instagram {
-	color: plum
+	color: #C1558B
 }
 
 .twitch {
-	color: blueviolet
+	color: #8C45F7
 }
 
 .discord {
-	color: darkslateblue
+	color: #7286D9
 }
 
 .hypixelForums {
-	color: sienna
+	color: #EABC48
 }
 
 .youtube {
-	color: red
+	color: #FF0000
 }
 
 .mirror {

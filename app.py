@@ -211,9 +211,9 @@ def compute(q):
         for namehisUnixTime in namehis:
             try:
                 nhutChangedToAt = namehisUnixTime['changed_to_at']
-                namehisUnixTime['changed_to_at'] = datetime.fromtimestamp(nhutChangedToAt/1000).strftime('%b %d, %Y @ %I:%M:%S %p')
+                namehisUnixTime['changed_to_at'] = nhutChangedToAt/1000#datetime.fromtimestamp(nhutChangedToAt/1000).strftime('%b %d, %Y @ %I:%M:%S %p')
                 namehisDiff = (nhutChangedToAt - nhutminus1)/1000
-                namehisUnixTime['time_between'] = sec2format2ydhms(sec2format(namehisDiff))
+                namehisUnixTime['time_between'] = namehisDiff
                 nhutminus1 = nhutChangedToAt
                 nhutindex += 1
 

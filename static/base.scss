@@ -1,172 +1,44 @@
-.logo {
-	top: 0;
-	background-color: #3e3d53;
-	margin-top: -8px;
-	margin-bottom: -8px;
-	z-index: 15;
-}
+                                                                                                                                                                                              
+//                                                                                     mm           
+//                                                                                     MM           
+//  ,p6"bo   ,pW"Wq.`7MMpMMMb.pMMMb. `7MMpdMAo.  ,pW"Wq.`7MMpMMMb.  .gP"Ya `7MMpMMMb.mmMMmm ,pP"Ybd 
+// 6M'  OO  6W'   `Wb MM    MM    MM   MM   `Wb 6W'   `Wb MM    MM ,M'   Yb  MM    MM  MM   8I   `" 
+// 8M       8M     M8 MM    MM    MM   MM    M8 8M     M8 MM    MM 8M""""""  MM    MM  MM   `YMMMa. 
+// YM.    , YA.   ,A9 MM    MM    MM   MM   ,AP YA.   ,A9 MM    MM YM.    ,  MM    MM  MM   L.   I8 
+//  YMbmd'   `Ybmd9'.JMML  JMML  JMML. MMbmmd'   `Ybmd9'.JMML  JMML.`Mbmmd'.JMML  JMML.`MbmoM9mmmP' 
+//                                     MM                                                           
+//                                   .JMML.                                                         
 
-.header {
-  position: sticky;
-  top: 0;
-  z-index: 6;
-} 
-
-.subtitle {
-	font-family: 'Inconsolata', monospace
-}
-
-body {
-	font-family: 'Inter';
-	text-align: center;
-	margin: 0
-}
-
-.username {
-  font-size: 42px;
-	font-family: 'Inconsolata', monospace;
-	padding-top: 25px;
-	padding-bottom: 35px;
-	color: #fff;
-	background-color: #514f65;
-  transition: 0.4s;
-  text-shadow: 2px 2px gray, 3px 3px 2px rgb(68, 68, 68);
-}
-
-.h2d {
-  font-size: 42px;
-	font-family: 'Inconsolata', monospace;
-	padding-top: 35px;
-	padding-bottom: 35px;
-	margin-top: -8px;
-	color: #fff;
-	background-color: #514f65;
-  font-weight: normal;
-	text-shadow: 2px 2px 1px gray;
-}
-
-.h3d {
-  font-size: 22px;
-	font-family: 'Inconsolata', monospace;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	margin-top: -8px;
-	color: #fff;
-	background-color: #727185;
-  font-weight: normal;
-}
-
-.paragraphd {
-	margin-left: 25%;
-	margin-right: 25%
-}
-
-.footerd {
-	font-family: 'Inconsolata', monospace;
-	padding-top: 15px;
-	padding-bottom: 15px;
-	color: #fff;
-	background-color: #514f65
-}
-
-.uuid {
-	margin-bottom: 0px;
-  font-size: 16px;
-	margin-top: 15px;
-  transition: 0.4s;
-}
-
-.stats {
-	font-family: 'Inter';
-	text-align: center;
-}
-
-.desc {
-	text-align: left
-}
-
-footer {
-	font-family: 'Inconsolata', monospace;
-	text-align: center
-}
-
-.table {
-	width: auto;
-	height: auto;
-	max-height: 65%;
-	line-height: 3em;
-	overflow: auto;
-	margin-top: 35px;
-	margin-bottom: 35px
-}
-
-table {
-	width: auto;
-	margin-left: auto;
-	margin-right: auto;
-	border-spacing: 1px 1px
-}
-
-.tabbol {
-	width: auto;
-	margin-left: auto;
-	margin-right: auto;
-	border-spacing: 30px 3px;
-	padding-top: 15px
-}
-
-h1 {
-	font-size: 48px;
-	font-weight: normal
-}
-
-h2 {
-	font-size: 42px;
-	margin: 5px
-}
-
-h3 {
-	font-size: 22px
-}
-
-a {
-	color: royalblue
-}
-
-.nhfirst {
-	color: #87afeb
-}
-
-.nhmiddle {
-	color: cornflowerblue
-}
-
-th {
-	text-align: left
-}
-
-.scrollbar {
-	margin-left: auto;
-	margin-right: auto
-}
-
-.subtitle {
-	font-family: "Meddon", cursive
-}
-
-.uuid {
-	font-weight: normal;
-	font-family: "Inconsolata", monospace
-}
-
-
-
-.chocolate {
-	background-image: linear-gradient(to right, tomato, coral, gold, lawngreen, steelblue, blueviolet, orchid);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent
-}
-
+h1{background-color:#c2c2c2;text-align:center;font-family:'Courier New',Courier,monospace}
+body{background-color:#f1f1f1;text-align:center}
+table{margin-left:auto;margin-right:auto}
+.logo{position:-webkit-sticky;position:sticky;top:0;background-color:honeydew}
+.logo{top:0;background-color:#3e3d53;margin-top:-8px;margin-bottom:-8px;z-index:15}
+.header{position:sticky;top:0;z-index:6}
+.subtitle{font-family:'Inconsolata',monospace}
+body{font-family:'Inter';text-align:center;margin:0}
+.username{font-size:42px;font-family:'Inconsolata',monospace;padding-top:25px;padding-bottom:35px;color:#fff;background-color:#514f65;transition:.4s;text-shadow:2px 2px gray,3px 3px 2px #444}
+.h2d{font-size:42px;font-family:'Inconsolata',monospace;padding-top:35px;padding-bottom:35px;margin-top:-8px;color:#fff;background-color:#514f65;font-weight:normal;text-shadow:2px 2px 1px gray}
+.h3d{font-size:22px;font-family:'Inconsolata',monospace;padding-top:10px;padding-bottom:10px;margin-top:-8px;color:#fff;background-color:#727185;font-weight:normal}
+.paragraphd{margin-left:25%;margin-right:25%}
+.footerd{font-family:'Inconsolata',monospace;padding-top:15px;padding-bottom:15px;color:#fff;background-color:#514f65}
+.uuid{margin-bottom:0;font-size:16px;margin-top:15px;transition:.4s}
+.stats{font-family:'Inter';text-align:center}
+.desc{text-align:left}
+footer{font-family:'Inconsolata',monospace;text-align:center}
+.table{width:auto;height:auto;max-height:65%;line-height:3em;overflow:auto;margin-top:35px;margin-bottom:35px}
+table{width:auto;margin-left:auto;margin-right:auto;border-spacing:1px 1px}
+.tabbol{width:auto;margin-left:auto;margin-right:auto;border-spacing:30px 3px;padding-top:15px}
+h1{font-size:48px;font-weight:normal}
+h2{font-size:42px;margin:5px}
+h3{font-size:22px}
+a{color:royalblue}
+.nhfirst{color:#87afeb}
+.nhmiddle{color:cornflowerblue}
+th{text-align:left}
+.scrollbar{margin-left:auto;margin-right:auto}
+.subtitle{font-family:"Meddon",cursive}
+.uuid{font-weight:normal;font-family:"Inconsolata",monospace}
                                                
 //                    ,,                          
 //                  `7MM                          
@@ -177,6 +49,7 @@ th {
 // YM.    , YA.   ,A9 MM YA.   ,A9 MM     L.   I8 
 //  YMbmd'   `Ybmd9'.JMML.`Ybmd9'.JMML.   M9mmmP' 
 
+// Minecraft color code colors
 .black { color: #000 }
 .dark_blue { color: #00a }
 .dark_green { color: #0a0 }
@@ -194,296 +67,77 @@ th {
 .yellow { color: #ff5 }
 .white { color: #fff }
 
+// Additional colors
+.chocolate {background-image:linear-gradient(to right,tomato,coral,gold,lawngreen,steelblue,blueviolet,orchid);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .lightgray { color: #ccc }
 .orange { color: #f60 }
 
-.twitter {
-	color: #1DA1F2
-}
+// Social media colors
+.twitter{color:#1da1f2}
+.instagram{color:#c1558b}
+.twitch{color:#8c45f7}
+.discord{color:#7286d9}
+.hypixelForums{color:#eabc48}
+.youtube{color:#f00}
 
-.instagram {
-	color: #C1558B
-}
+// Prestige colors
+.mirror{background-image:radial-gradient(#ccc,#666);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.light{background-image:linear-gradient(to right,#fff,#ff0,#fa0);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.dawn{background-image:linear-gradient(to right,#fa0,#ccc,#228d7b);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.dusk{background-image:linear-gradient(to right,#93f,#f69,#fa0,#ff6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.air{background-image:linear-gradient(to right,aqua,#ccc,#666);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.wind{background-image:linear-gradient(to right,#ccc,#0f0,#070);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nebula{background-image:linear-gradient(to right,#900,#f30,#f3f);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.thunder{background-image:linear-gradient(to right,#ff6,#fff,#666);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.earth{background-image:linear-gradient(to right,#0f0,#070,#fa0,#ff6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.water{background-image:linear-gradient(to right,#9ff,#099 #36f);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.fire{background-image:linear-gradient(to right,#ff3,#fa0,#800);-webkit-background-clip:text;-webkit-text-fill-color:transparent}                       
+                                           
+//           ,,                        
+//           mm   `7MM                        
+//           MM     MM                        
+// ,pW"Wq.mmMMmm   MMpMMMb.  .gP"Ya `7Mb,od8 
+// 6W'   `Wb MM     MM    MM ,M'   Yb  MM' "' 
+// 8M     M8 MM     MM    MM 8M""""""  MM     
+// YA.   ,A9 MM     MM    MM YM.    ,  MM     
+// `Ybmd9'  `Mbmo.JMML  JMML.`Mbmmd'.JMML.   	 
+								 
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#888;border-radius:15px}
+::-webkit-scrollbar-thumb:hover{background:#555;border-radius:15px}
+::-webkit-scrollbar-track-piece{width:10px}
 
-.twitch {
-	color: #8C45F7
-}
-
-.discord {
-	color: #7286D9
-}
-
-.hypixelForums {
-	color: #EABC48
-}
-
-.youtube {
-	color: #FF0000
-}
-
-.mirror {
-	background-image: radial-gradient(#ccc,#666);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-}
-
-.light {
-	background-image: linear-gradient(to right,#fff,#ff0, #fa0);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-}
-
-.dawn {
-	background-image: linear-gradient(to right,#fa0,#ccc, #228D7B);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-}
-
-.dusk {
-	background-image: linear-gradient(to right,#93f,#f69, #fa0, #ff6);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-}
-
-.air {
-	background-image: linear-gradient(to right,aqua, #ccc, #666);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-}
-
-.wind {
-	background-image: linear-gradient(to right,#ccc,#0f0, #070);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-}
-
-.nebula {
-	background-image: linear-gradient(to right,#900,#f30, #f3f);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-}
-
-.thunder {
-	background-image: linear-gradient(to right,#ff6,#fff, #666);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-}
-
-.earth {
-	background-image: linear-gradient(to right,#0f0,#070, #fa0, #ff6);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-}
-
-.water {
-	background-image: linear-gradient(to right,#9ff, #099 #36f);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-}
-
-.fire {
-	background-image: linear-gradient(to right,#ff3,#fa0, #800);
-	-webkit-background-clip: text;
-	-webkit-text-fill-color: transparent;
-}
-
-::-webkit-scrollbar {
-	width: 10px;
-	height: 10px
-}
-
-::-webkit-scrollbar-track {
-	background: transparent
-}
-
-::-webkit-scrollbar-thumb {
-	background: #888;
-	border-radius: 15px
-}
-
-::-webkit-scrollbar-thumb:hover {
-	background: #555;
-	border-radius: 15px
-}
-
-::-webkit-scrollbar-track-piece {
-	width: 10px
-}
-
-.columnZ {
-	float: left;
-	width: 42%;
-	margin-top: 15px
-}
-
-.columnA {
-	float: left;
-	width: 35%;
-	padding-right: 1%
-}
-
-.columnB {
-	float: left;
-	width: 22%
-}
-
-.row:after {
-	content: "";
-	display: table;
-	clear: both
-}
-
-.tab {
-	overflow: hidden;
-	border: 1px solid #ccc;
-	background-color: #f1f1f1
-}
-
-.tab button {
-	background-color: inherit;
-	float: left;
-	border: 0;
-	outline: 0;
-	cursor: pointer;
-	padding: 14px 16px;
-	transition: .3s
-}
-
-.tab button:hover {
-	background-color: #ddd
-}
-
-.tab button.active {
-	background-color: #ccc
-}
-
-.tabcontent {
-	display: none;
-	padding: 6px 12px;
-	border: 1px solid #ccc;
-	border-top: 0
-}
-
-.swgeneral {
-	width: auto
-}
-
-.leftsw {
-	width: auto
-}
-
-.rightsw {
-	width: auto
-}
-
-.graylink {
-	color: black
-}
-
-input {
-	height: 35px;
-	width: 20%;
-	font-size: auto;
-	margin-bottom: 25px;
-	border: darkgray solid 2px;
-	border-radius: 4px;
-	font-family: 'Inter';
-	text-align: center
-}
-
-.searchbutton {
-	background-color: transparent;
-	border-color: transparent;
-	height: 35px;
-	width: 35px;
-	cursor: pointer
-}
-
-.searchbutton:focus {
-	outline-width: 0
-}
-
-.modal {
-	display: none;
-	position: fixed;
-	z-index: 1;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	overflow: auto;
-	background-color: #000;
-	background-color: rgba(0, 0, 0, 0.4)
-}
-
-.modal-content {
-	background-color: #fefefe;
-	margin: 15% auto;
-	padding: 20px;
-	border: 1px solid #888;
-	width: 25%;
-	align-content: center;
-	border-radius: 15px
-}
-
-.loader {
-	border: 16px solid #f3f3f3;
-	border-top: 16px solid #3498db;
-	border-radius: 50%;
-	width: 120px;
-	height: 120px;
-	animation: spin 2s linear infinite;
-	margin-left: auto;
-	margin-right: auto
-}
-
-@keyframes spin {
-	0% {
-		transform: rotate(0deg)
-	}
-	100% {
-		transform: rotate(360deg)
-	}
-}
-
-#loadOverlay {
-	display: none
-}
-
-/* Style the buttons that are used to open and close the accordion panel */
-.accordion {
-	background-color: #eee;
-	color: #444;
-	cursor: pointer;
-	padding: 18px;
-	width: 100%;
-	border: none;
-	text-align: left;
-	outline: none;
-	font-size: 15px;
-	transition: 0.4s;
-  }
-  
-  .active, .accordion:hover {
-	background-color: #ccc;
-  }
-  
-  .accordion:after {
-	content: '\002B';
-	color: #777;
-	font-weight: bold;
-	float: right;
-	margin-left: 5px;
-  }
-  
-  .active:after {
-	content: "\2212";
-  }
-  
-  .panel {
-	padding: 0 18px;
-	background-color: white;
-	max-height: 0;
-	overflow: hidden;
-	transition: max-height 0.2s ease-out;
-  }
+// Columns
+::-webkit-scrollbar{width:10px;height:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#888;border-radius:15px}
+::-webkit-scrollbar-thumb:hover{background:#555;border-radius:15px}
+::-webkit-scrollbar-track-piece{width:10px}
+.columnZ{float:left;width:42%;margin-top:15px}
+.columnA{float:left;width:35%;padding-right:1%}
+.columnB{float:left;width:22%}
+.row:after{content:"";display:table;clear:both}
+.tab{overflow:hidden;border:1px solid #ccc;background-color:#f1f1f1}
+.tab button{background-color:inherit;float:left;border:0;outline:0;cursor:pointer;padding:14px 16px;transition:.3s}
+.tab button:hover{background-color:#ddd}
+.tab button.active{background-color:#ccc}
+.tabcontent{display:none;padding:6px 12px;border:1px solid #ccc;border-top:0}
+.swgeneral{width:auto}
+.leftsw{width:auto}
+.rightsw{width:auto}
+.graylink{color:black}
+input{height:35px;width:20%;font-size:auto;margin-bottom:25px;border:darkgray solid 2px;border-radius:4px;font-family:'Inter';text-align:center}
+.searchbutton{background-color:transparent;border-color:transparent;height:35px;width:35px;cursor:pointer}
+.searchbutton:focus{outline-width:0}
+.modal{display:none;position:fixed;z-index:1;left:0;top:0;width:100%;height:100%;overflow:auto;background-color:#000;background-color:rgba(0,0,0,0.4)}
+.modal-content{background-color:#fefefe;margin:15% auto;padding:20px;border:1px solid #888;width:25%;align-content:center;border-radius:15px}
+.loader{border:16px solid #f3f3f3;border-top:16px solid #3498db;border-radius:50%;width:120px;height:120px;animation:spin 2s linear infinite;margin-left:auto;margin-right:auto}
+@keyframes spin{0%{transform:rotate(0deg)}
+100%{transform:rotate(360deg)}
+}#loadOverlay{display:none}
+.accordion{background-color:#eee;color:#444;cursor:pointer;padding:18px;width:100%;border:0;text-align:left;outline:0;font-size:15px;transition:.4s}
+.active,.accordion:hover{background-color:#ccc}
+.accordion:after{content:'\002B';color:#777;font-weight:bold;float:right;margin-left:5px}
+.active:after{content:"\2212"}
+.panel{padding:0 18px;background-color:white;max-height:0;overflow:hidden;transition:max-height .2s ease-out}

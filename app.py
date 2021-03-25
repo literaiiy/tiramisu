@@ -59,7 +59,7 @@ def queryt(path):
     hsjaysonn = hs.json()
     gameCount = hsjaysonn['games']
     gameList = [
-        ('Total Players', hsjaysonn['playerCount']),
+        #('Total Players', hsjaysonn['playerCount']),
         ('🏹 SkyWars', 'SKYWARS'),
         ('🌎 SkyBlock', 'SKYBLOCK'),
         ('️🛌 BedWars', 'BEDWARS'),
@@ -94,11 +94,12 @@ def queryt(path):
         ('🐖 Farm Hunt', 'FARM_HUNT')]
 
     gameDict = []
+    totalPlayers = hsjaysonn['playerCount']
     for item in gameList:
         try:
-            if item[0] == 'Total Players': gameDict.append({'game':'Total Players','playerCount':hsjaysonn['playerCount']})
-            else:
-                gameDict.append({'game':item[0],'playerCount':gameCount[item[1]]['players']})
+            #if item[0] == 'Total Players': gameDict.append({'game':'Total Players','playerCount':hsjaysonn['playerCount']})
+            #else:
+            gameDict.append({'game':item[0],'playerCount':gameCount[item[1]]['players']})
         except:
             gameDict.append({'game':item[0],'playerCount':0,})
     
@@ -116,8 +117,9 @@ def queryt(path):
         session['req'] = request.form
         if not session['req']['content'] == '':
             return redirect(url_for('compute', q=str(session['req']['content'])))
-    return render_template('index.html', gameDict=gameDict)
+    return render_template('index.html', gameDict=gameDict, totalPlayers=totalPlayers)
 
+### Redirect /<k> to /p/<k>
 @app.route('/<k>', methods=['POST', 'GET'])
 def reddorect(k):
     return redirect(url_for('compute', q=k))
@@ -211,7 +213,7 @@ def compute(q):
         for namehisUnixTime in namehis:
             try:
                 nhutChangedToAt = namehisUnixTime['changed_to_at']
-                namehisUnixTime['changed_to_at'] = datetime.fromtimestamp(nhutChangedToAt/1000).strftime('%b %d, %Y @ %I:%M:%S %p')#int(nhutChangedToAt/1000) #
+                namehisUnixTime['changed_to_at'] = datetime.fromtimestamp(nhutChangedToAt/1000).strftime('%b %d, %Y @ %I:%M:%S %p') #int(nhutChangedToAt/1000) #
                 namehisDiff = (nhutChangedToAt - nhutminus1)/1000
                 namehisUnixTime['time_between'] = sec2format2ydhms(sec2format(namehisDiff))
                 nhutminus1 = nhutChangedToAt
@@ -271,7 +273,7 @@ def compute(q):
             
             # Translate list for rank colors
             rankColorList = {
-                '0':'black',
+                '0':'blank',
                 '1':'dark_blue',
                 '2':'dark_green',
                 '3':'dark_aqua',
@@ -368,14 +370,11 @@ def compute(q):
             try:
                 nhut3unix = namehispure[1]['changed_to_at']/1000 - firstLoginUnix
             except: nhut3unix = 0
-            jon = sec2format(nhut3unix)
-            if jon[0] > 0:	
-                namehis[-1]['time_between'] = '>' + str(jon[0]) + 'y ' + str(jon[1]) + 'd ' + str(jon[2]) + 'h ' + str(jon[3]) + 'm'	
-            elif nhutdate[0] == 0:	
-                namehis[-1]['time_between'] = '>' + str(jon[1]) + 'd ' + str(jon[2]) + 'h ' + str(jon[3]) + 'm'	
-            if jon[0] > 10:	
-                namehis[-1]['time_between'] = ''	
-        else:	
+            try:
+                namehis[-1]['time_between'] = '>' + sec2format2ydhms(sec2format(nhut3unix))
+            except: namehis[-1]['time_between'] = ''
+            print(namehis)
+        else:
             namehis[-1]['time_between'] = ''
         namehisDiffe = namehis[len(namehis)-2]['time_between']	
 
@@ -1324,7 +1323,8 @@ def compute(q):
         print("--- %s seconds ---" % (time.time() - start_time))
 
         # Designated Crapification
-
+        print('firstLogin')
+        print(firstLogin)
         return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankNoPlus, rankPlusses=rankPlusses, newPackageRank=newPackageRank, rankColorParsed=rankColorParsed, plusColorParsed=plusColorParsed, multiplier=multiplier, swStatsDict=swStatsDict, swUnscannedDict=swUnscannedDict, joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=plusColorParsed, guildList=guildList, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources, bwCosmetics=bwCosmetics, userLanguage=userLanguage, userVersion=userVersion, totalKills=totalKills, totalWins=totalWins, totalCoins=totalCoins, giftsSent=giftsSent, giftsReceived=giftsReceived, rewards=rewards, lastPlayed=lastPlayed, lastSeen=lastSeen, lastSeenUnix=lastSeenUnix)
     
 ############################################################################ INVALID USERNAME CHECK ############################################################################

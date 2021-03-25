@@ -736,6 +736,19 @@ function scrollFunction() {
             {% endif %}
         {% endfor %}
 
+        <div class="h3d">Favorite Maps & Cages</div>
+        {% if not swMapsList %}
+        No favorite maps.
+        {% else %}
+        <b>Favorite Maps 🗺️:</b> {{swMapsList}}
+        {% endif %}<br>
+
+        {% if not swCagesList %}
+        No cages unlocked.
+        {% else %}
+        <b>Cages unlocked 📦:</b> {{swCagesList}}
+        {% endif %}<br>
+
         <div class="h2d">BedWars</div>
         <p>
             <b><span class="{{bwOverallStats['prestige'][1]}}">

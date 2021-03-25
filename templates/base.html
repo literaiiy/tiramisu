@@ -118,17 +118,7 @@ function scrollFunction() {
                     {% endfor %}
                 </tbody>
             </table>
-            <script>
-                $(document).ready( function () {
-                    $('#table_id').DataTable( {
-                        "order": [[ 0, "desc" ]],
-                        "bLengthChange": false,
-                        "pageLength": 200,
-                        "bPaginate": false,
-                        "sDom": '<"top"if>rt<"clear">'
-                    });
-                });
-            </script>
+            <script src='/static/table.js'></script>
         </div>
     </div>
     <div class="columnB">

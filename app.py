@@ -211,9 +211,9 @@ def compute(q):
         for namehisUnixTime in namehis:
             try:
                 nhutChangedToAt = namehisUnixTime['changed_to_at']
-                namehisUnixTime['changed_to_at'] = nhutChangedToAt/1000#datetime.fromtimestamp(nhutChangedToAt/1000).strftime('%b %d, %Y @ %I:%M:%S %p')
+                namehisUnixTime['changed_to_at'] = datetime.fromtimestamp(nhutChangedToAt/1000).strftime('%b %d, %Y @ %I:%M:%S %p')#int(nhutChangedToAt/1000) #
                 namehisDiff = (nhutChangedToAt - nhutminus1)/1000
-                namehisUnixTime['time_between'] = namehisDiff
+                namehisUnixTime['time_between'] = sec2format2ydhms(sec2format(namehisDiff))
                 nhutminus1 = nhutChangedToAt
                 nhutindex += 1
 
@@ -379,21 +379,8 @@ def compute(q):
             namehis[-1]['time_between'] = ''
         namehisDiffe = namehis[len(namehis)-2]['time_between']	
 
-        # Does this serve a purpose?
-        # try:	
-        #     nhutdate3 = [0,0,0,0]	
-        #     nhutdate3[0] = math.floor(nhut2ndindex / 31536000)	
-        #     nhutdate3[1] = math.floor(nhut2ndindex / 86400) - nhutdate3[0] * 365	
-        #     nhutdate3[2] = math.floor(nhut2ndindex / 3600) - nhutdate3[1] * 24 - nhutdate3[0] * 365 * 24	
-        #     nhutdate3[3] = math.floor(nhut2ndindex / 60) -nhutdate3[2] * 60 - nhutdate3[1] * 24 * 60 - nhutdate3[0] * 365 * 24 * 60	
-        # except:	
-        #     nhutdate3=[0,0,0,0]
-        ###
-
-        #else:
-         #   namehis[-1]['time_between'] = ''
         if firstLoginUnix > 1357027200:
-            namehis[0]['time_between'] = sec2format2ydhms(sec2format(int(time.time())-nhut2unix/1000))
+            namehis[0]['time_between'] =sec2format2ydhms(sec2format(int(time.time()-nhut2unix/1000)))
         
 ############################################################################ QUESTS, AP, & ACHIEVEMENTS ############################################################################
         

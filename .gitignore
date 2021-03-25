@@ -1,5 +1,6 @@
 *.DS_Store
 *.pyc
+*.sqlite
 .git
 env
 venv

@@ -695,11 +695,11 @@ def compute(q):
                 statsList['assists%'] = round(100*statsList['assists']/swStatsDict['assists'], 4)
                 statsList['fastest_win'] =sec2format2ydhms(sec2format(swSTATSVAR.get('fastest_win_'+gamemoder,0)))
                 statsList['most_kills_game'] = swSTATSVAR.get('most_kills_game_'+gamemoder,0)
-                statsList['kit'] = swSTATSVAR.get('activeKit_'+gamemoder.upper(), 'Default').split('_')[-1].capitalize()
+                statsList['kit'] = swSTATSVAR.get('activeKit_'+gamemoder.upper(), 'Default').split('_')[-1].replace('-',' ').title()
 
             # If team, add kit correctly, and correct ranked most_kills_game
             if gamemoder == 'team':
-                statsList['kit'] = swSTATSVAR.get('activeKit_TEAMS','Default').split('_')[-1].capitalize().replace('-',' ').title()
+                statsList['kit'] = swSTATSVAR.get('activeKit_TEAMS','Default').split('_')[-1].title().replace('-',' ').title()
             if gamemoder == 'ranked' and statsList['most_kills_game'] > 3:
                 statsList['most_kills_game'] = 3
             return statsList

@@ -331,65 +331,65 @@ function scrollFunction() {
 
         <!-- SW MODE -->
             {% for y, x in gamemodes.items() %}
-                {% if x['games'] != 0 %}
+                {% if x['games_played'] != 0 %}
                 <button class='accordion'>{{y}}</button>
                 <div class="panel">
                     <div>
                         <p>
-                            {% if x['kd'] > 100000 %}
-                                {{username}} has an <span class='gold'>infinite</span> K/D
-                                {% if x['wl'] > 100000 %}
-                                    and an <span class='gold'>infinite</span> W/L. Awesome!
-                                {% elif x['wlrelative'][0] > 0 %}
-                                    and a <b>{{ x['wlrelative'][0]|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelative'][1]|abs }}%</span>). Nice work!
-                                {% elif x['wlrelative'][0] < 0 %}
-                                    but a  <b>{{ x['wlrelative'][0]|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelative'][1] }}%</span>). Nice work!
+                            {% if x["K/D"] > 100000 %}
+                                {{username}} has an <span class='chocolate'>infinite</span> K/D
+                                {% if x['W/L'] > 100000 %}
+                                    and an <span class='chocolate'>infinite</span> W/L. Awesome!
+                                {% elif x['wlrel'] > 0 %}
+                                    and a <b>{{ x['wlrel']|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelperc']|abs }}%</span>). Nice work!
+                                {% elif x['wlrel'] < 0 %}
+                                    but a  <b>{{ x['wlrel']|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelperc'] }}%</span>). Nice work!
                                 {% endif %}
 
-                            {% elif x['kdrelative'][0] > 0 %}
-                                {{username}} performs better in {{y}} than overall, with a <b>{{ x['kdrelative'][0]|abs }}</b> higher K/D (<span class='dark_green'>+{{ x['kdrelative'][1] }}%</span>)
-                                {% if x['wl'] > 100000 %}
-                                    and an <span class='gold'>infinite</span> W/L. Nice work!
-                                {% elif x['wlrelative'][0] > 0 %}
-                                    and a <b>{{ x['wlrelative'][0]|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelative'][1]|abs }}%</span>).
-                                {% elif x['wlrelative'][0] < 0 %}
-                                    but a  <b>{{ x['wlrelative'][0]|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelative'][1] }}%</span>).
+                            {% elif x['kdrel'] > 0 %}
+                                {{username}} performs better in {{y}} than overall, with a <b>{{ x['kdrel']|abs }}</b> higher K/D (<span class='dark_green'>+{{ x['kdrelperc'] }}%</span>)
+                                {% if x['W/L'] > 100000 %}
+                                    and an <span class='chocolate'>infinite</span> W/L. Nice work!
+                                {% elif x['wlrel'] > 0 %}
+                                    and a <b>{{ x['wlrel']|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelperc']|abs }}%</span>).
+                                {% elif x['wlrel'] < 0 %}
+                                    but a  <b>{{ x['wlrel']|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelperc'] }}%</span>).
                                 {% endif %}
                                 
-                            {% elif x['kdrelative'][0] < 0  %}
-                                {{username}} performs worse in {{y}} than overall, with a <b>{{ x['kdrelative'][0]|abs }}</b> lower K/D (<span class='red'>{{x['kdrelative'][1] }}%</span>)
-                                {% if x['wl'] > 100000 %}
-                                    and an <span class='gold'>infinite</span> W/L. Nice work!
-                                {% elif x['wlrelative'][0] > 0 %}
-                                    but a <b>{{ x['wlrelative'][0]|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelative'][1]|abs }}%</span>).
-                                {% elif x['wlrelative'][0] < 0 %}
-                                    and a  <b>{{ x['wlrelative'][0]|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelative'][1] }}%</span>).
+                            {% elif x['kdrel'] < 0  %}
+                                {{username}} performs worse in {{y}} than overall, with a <b>{{ x['kdrel']|abs }}</b> lower K/D (<span class='red'>{{x['kdrelperc'] }}%</span>)
+                                {% if x['W/L'] > 100000 %}
+                                    and an <span class='chocolate'>infinite</span> W/L. Nice work!
+                                {% elif x['wlrel'] > 0 %}
+                                    but a <b>{{ x['wlrel']|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelperc']|abs }}%</span>).
+                                {% elif x['wlrel'] < 0 %}
+                                    and a  <b>{{ x['wlrel']|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelperc'] }}%</span>).
                                 {% endif %}
                             {% else %}
                                 {{username}} performs as average in Solo.
                             {% endif %}
                         </p>
                         <p>
-                            <br><b>{{ x['kills'][0] }}</b> kills <b>({{ x['kills'][1]|round(2) }}%)</b>
-                            <br><b>{{ x['deaths'][0] }}</b> deaths <b>({{ x['deaths'][1]|round(2) }}%)</b>
-                            <br><b>{{x['assists'][0]}}</b> assists  <b>({{ x['assists'][1]|round(2) }}%)</b>
-                            {% if x['kd'] > 100000 %}
+                            <br><b>{{ x['kills'] }}</b> kills <b>({{ x['kills%']|round(2) }}%)</b>
+                            <br><b>{{ x['deaths'] }}</b> deaths <b>({{ x['deaths%']|round(2) }}%)</b>
+                            <br><b>{{x['assists']}}</b> assists  <b>({{ x['assists%']|round(2) }}%)</b>
+                            {% if x["K/D"] > 100000 %}
                                 <br><b>∞</b> K/D
                             {% else %}
-                                <br><b>{{ x['kd'] }}</b> K/D
+                                <br><b>{{ x["K/D"] }}</b> K/D
                             {% endif %}
-                            <br><b>{{ x['survived'][0] }}</b> players survived <b>({{ x['survived'][1]|round(2) }}%)</b>
-                            <br><b>{{x['games'][0]}}</b> games played <b>({{ x['games'][1]|round(2) }}%)</b>
-                            <br><b>{{x['wins'][0]}}</b> wins <b>({{ x['wins'][1]|round(2) }}%)</b>
-                            <br><b>{{x['losses'][0]}}</b> losses <b>({{ x['losses'][1]|round(2) }}%)</b>
-                            {% if x['wl'] > 100000 %}
+                            <br><b>{{ x['survived_players'] }}</b> players survived <b>({{ x['survived_players%']|round(2) }}%)</b>
+                            <br><b>{{x['games_played']}}</b> games played <b>({{ x['games_played%']|round(2) }}%)</b>
+                            <br><b>{{x['wins']}}</b> wins <b>({{ x['wins%']|round(2) }}%)</b>
+                            <br><b>{{x['losses']}}</b> losses <b>({{ x['losses%']|round(2) }}%)</b>
+                            {% if x['W/L'] > 100000 %}
                                 <br><b>∞</b> W/L - <b>∞%</b> win rate
                             {% else %}
-                                <br><b>{{ x['wl'] }}</b> W/L - <b>{{x['winperc']}}%</b> win rate
+                                <br><b>{{ x['W/L'] }}</b> W/L - <b>{{x['winperc']}}%</b> win rate
                             {% endif %}
                             <br><b>{{x['kit']}}</b> currently equipped
-                            <br>Fastest win: <b>{{x['fastestwin']}}</b>
-                            <br>Highest-kill game: <b>{{x['highkill']}}</b> kills
+                            <br>Fastest win: <b>{{x['fastest_win']}}</b>
+                            <br>Highest-kill game: <b>{{x['most_kills_game']}}</b> kills
                         </p>
                 {% endif %}
                     </div>
@@ -398,59 +398,59 @@ function scrollFunction() {
 
         <!-- SW MODE 2-->
             {% for y, x in gamemodes2.items() %}
-                {% if x['games'][0] != 0 %}
+                {% if x['games_played'] != 0 %}
                 <button class='accordion'>{{y}}</button>
                 <div class="panel">
                     <div>
                         <p>
-                        {% if x['kd'] > 100000 %}
-                            {{username}} has an <span class='gold'>infinite</span> K/D
-                            {% if x['wl'] > 100000 %}
-                                and an <span class='gold'>infinite</span> W/L. Awesome!
-                            {% elif x['wlrelative'][0] > 0 %}
-                                and a <b>{{ x['wlrelative'][0]|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelative'][1]|abs }}%</span>). Nice work!
-                            {% elif x['wlrelative'][0] < 0 %}
-                                but a  <b>{{ x['wlrelative'][0]|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelative'][1] }}%</span>). Nice work!
+                        {% if x["K/D"] > 100000 %}
+                            {{username}} has an <span class='chocolate'>infinite</span> K/D
+                            {% if x['W/L'] > 100000 %}
+                                and an <span class='chocolate'>infinite</span> W/L. Awesome!
+                            {% elif x['wlrel'] > 0 %}
+                                and a <b>{{ x['wlrel']|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelperc']|abs }}%</span>). Nice work!
+                            {% elif x['wlrel'] < 0 %}
+                                but a  <b>{{ x['wlrel']|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelperc'] }}%</span>). Nice work!
                             {% endif %}
 
-                        {% elif x['kdrelative'][0] > 0 %}
-                            {{username}} performs better in {{y}} than overall, with a <b>{{ x['kdrelative'][0]|abs }}</b> higher K/D (<span class='dark_green'>+{{ x['kdrelative'][1] }}%</span>)
-                            {% if x['wl'] > 100000 %}
-                                and an <span class='gold'>infinite</span> W/L. Nice work!
-                            {% elif x['wlrelative'][0] > 0 %}
-                                and a <b>{{ x['wlrelative'][0]|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelative'][1]|abs }}%</span>).
-                            {% elif x['wlrelative'][0] < 0 %}
-                                but a  <b>{{ x['wlrelative'][0]|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelative'][1] }}%</span>).
+                        {% elif x['kdrel'] > 0 %}
+                            {{username}} performs better in {{y}} than overall, with a <b>{{ x['kdrel']|abs }}</b> higher K/D (<span class='dark_green'>+{{ x['kdrelperc'] }}%</span>)
+                            {% if x['W/L'] > 100000 %}
+                                and an <span class='chocolate'>infinite</span> W/L. Nice work!
+                            {% elif x['wlrel'] > 0 %}
+                                and a <b>{{ x['wlrel']|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelperc']|abs }}%</span>).
+                            {% elif x['wlrel'] < 0 %}
+                                but a  <b>{{ x['wlrel']|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelperc'] }}%</span>).
                             {% endif %}
                             
-                        {% elif x['kdrelative'][0] < 0  %}
-                            {{username}} performs worse in {{y}} than overall, with a <b>{{ x['kdrelative'][0]|abs }}</b> lower K/D (<span class='red'>{{x['kdrelative'][1] }}%</span>)
-                            {% if x['wl'] > 100000 %}
-                                and an <span class='gold'>infinite</span> W/L. Nice work!
-                            {% elif x['wlrelative'][0] > 0 %}
-                                but a <b>{{ x['wlrelative'][0]|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelative'][1]|abs }}%</span>).
-                            {% elif x['wlrelative'][0] < 0 %}
-                                and a  <b>{{ x['wlrelative'][0]|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelative'][1] }}%</span>).
+                        {% elif x['kdrel'] < 0  %}
+                            {{username}} performs worse in {{y}} than overall, with a <b>{{ x['kdrel']|abs }}</b> lower K/D (<span class='red'>{{x['kdrelperc'] }}%</span>)
+                            {% if x['W/L'] > 100000 %}
+                                and an <span class='chocolate'>infinite</span> W/L. Nice work!
+                            {% elif x['wlrel'] > 0 %}
+                                but a <b>{{ x['wlrel']|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelperc']|abs }}%</span>).
+                            {% elif x['wlrel'] < 0 %}
+                                and a  <b>{{ x['wlrel']|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelperc'] }}%</span>).
                             {% endif %}
                         {% else %}
                             {{username}} performs as average in Solo.
                         {% endif %}
                         </p>
                         <p>
-                            <br><b>{{ x['kills'][0] }}</b> kills <b>({{ x['kills'][1]|round(2) }}%)</b>
-                            <br><b>{{ x['deaths'][0] }}</b> deaths <b>({{ x['deaths'][1]|round(2) }}%)</b>
-                            {% if x['kd'] > 100000 %}
+                            <br><b>{{ x['kills'] }}</b> kills <b>({{ x['kills%']|round(2) }}%)</b>
+                            <br><b>{{ x['deaths'] }}</b> deaths <b>({{ x['deaths%']|round(2) }}%)</b>
+                            {% if x["K/D"] > 100000 %}
                                 <br><b>∞</b> K/D
                             {% else %}
-                                <br><b>{{ x['kd'] }}</b> K/D
+                                <br><b>{{ x["K/D"] }}</b> K/D
                             {% endif %}
-                            <br><b>{{x['games'][0]}}</b> games played <b>({{ x['games'][1]|round(2) }}%)</b>
-                            <br><b>{{x['wins'][0]}}</b> wins <b>({{ x['wins'][1]|round(2) }}%)</b>
-                            <br><b>{{x['losses'][0]}}</b> losses <b>({{ x['losses'][1]|round(2) }}%)</b>
-                            {% if x['wl'] > 100000 %}
+                            <br><b>{{x['games_played']}}</b> games played <b>({{ x['games_played%']|round(2) }}%)</b>
+                            <br><b>{{x['wins']}}</b> wins <b>({{ x['wins%']|round(2) }}%)</b>
+                            <br><b>{{x['losses']}}</b> losses <b>({{ x['losses%']|round(2) }}%)</b>
+                            {% if x['W/L'] > 100000 %}
                                 <br><b>∞</b> W/L - <b>∞%</b> win rate
                             {% else %}
-                                <br><b>{{ x['wl'] }}</b> W/L - <b>{{x['winperc']}}%</b> win rate
+                                <br><b>{{ x['W/L'] }}</b> W/L - <b>{{x['winperc']}}%</b> win rate
                             {% endif %}
                         </p>
                 {% endif %}

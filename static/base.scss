@@ -1,13 +1,13 @@
                                                                                                                                                                                               
-//                                                                                     mm           
-//                                                                                     MM           
-//  ,p6"bo   ,pW"Wq.`7MMpMMMb.pMMMb. `7MMpdMAo.  ,pW"Wq.`7MMpMMMb.  .gP"Ya `7MMpMMMb.mmMMmm ,pP"Ybd 
-// 6M'  OO  6W'   `Wb MM    MM    MM   MM   `Wb 6W'   `Wb MM    MM ,M'   Yb  MM    MM  MM   8I   `" 
-// 8M       8M     M8 MM    MM    MM   MM    M8 8M     M8 MM    MM 8M""""""  MM    MM  MM   `YMMMa. 
-// YM.    , YA.   ,A9 MM    MM    MM   MM   ,AP YA.   ,A9 MM    MM YM.    ,  MM    MM  MM   L.   I8 
-//  YMbmd'   `Ybmd9'.JMML  JMML  JMML. MMbmmd'   `Ybmd9'.JMML  JMML.`Mbmmd'.JMML  JMML.`MbmoM9mmmP' 
-//                                     MM                                                           
-//                                   .JMML.                                                         
+/*                                                                                   mm           
+                                                                                    MM           
+ ,p6"bo   ,pW"Wq.`7MMpMMMb.pMMMb. `7MMpdMAo.  ,pW"Wq.`7MMpMMMb.  .gP"Ya `7MMpMMMb.mmMMmm ,pP"Ybd 
+6M'  OO  6W'   `Wb MM    MM    MM   MM   `Wb 6W'   `Wb MM    MM ,M'   Yb  MM    MM  MM   8I   `" 
+8M       8M     M8 MM    MM    MM   MM    M8 8M     M8 MM    MM 8M""""""  MM    MM  MM   `YMMMa. 
+YM.    , YA.   ,A9 MM    MM    MM   MM   ,AP YA.   ,A9 MM    MM YM.    ,  MM    MM  MM   L.   I8 
+ YMbmd'   `Ybmd9'.JMML  JMML  JMML. MMbmmd'   `Ybmd9'.JMML  JMML.`Mbmmd'.JMML  JMML.`MbmoM9mmmP' 
+                                    MM                                                           
+                                  .JMML.                                                      */
 
 h1{background-color:#c2c2c2;text-align:center;font-family:'Courier New',Courier,monospace}
 body{background-color:#f1f1f1;text-align:center}
@@ -40,16 +40,15 @@ th{text-align:left}
 .subtitle{font-family:"Meddon",cursive}
 .uuid{font-weight:normal;font-family:"Inconsolata",monospace}
                                                
-//                    ,,                          
-//                  `7MM                          
-//                    MM                          
-//  ,p6"bo   ,pW"Wq.  MM  ,pW"Wq.`7Mb,od8 ,pP"Ybd 
-// 6M'  OO  6W'   `Wb MM 6W'   `Wb MM' "' 8I   `" 
-// 8M       8M     M8 MM 8M     M8 MM     `YMMMa. 
-// YM.    , YA.   ,A9 MM YA.   ,A9 MM     L.   I8 
-//  YMbmd'   `Ybmd9'.JMML.`Ybmd9'.JMML.   M9mmmP' 
+/*                  ,,                          
+                 `7MM                          
+                   MM                          
+ ,p6"bo   ,pW"Wq.  MM  ,pW"Wq.`7Mb,od8 ,pP"Ybd 
+6M'  OO  6W'   `Wb MM 6W'   `Wb MM' "' 8I   `" 
+8M       8M     M8 MM 8M     M8 MM     `YMMMa. 
+YM.    , YA.   ,A9 MM YA.   ,A9 MM     L.   I8 
+ YMbmd'   `Ybmd9'.JMML.`Ybmd9'.JMML.   M9mmmP'  */
 
-// Minecraft color code colors
 .black { color: black }
 .blank {color: #010101}
 .dark_blue { color: #00a }
@@ -68,12 +67,10 @@ th{text-align:left}
 .yellow { color: #ff5 }
 .white { color: #fff }
 
-// Additional colors
 .chocolate {background-image:linear-gradient(to right,tomato,coral,gold,lawngreen,steelblue,blueviolet,orchid);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .lightgray { color: #ccc }
 .orange { color: #f60 }
 
-// Social media colors
 .twitter{color:#1da1f2}
 .instagram{color:#c1558b}
 .twitch{color:#8c45f7}
@@ -81,7 +78,6 @@ th{text-align:left}
 .hypixelForums{color:#eabc48}
 .youtube{color:#f00}
 
-// Prestige colors
 .mirror{background-image:radial-gradient(#ccc,#666);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .light{background-image:linear-gradient(to right,#fff,#ff0,#fa0);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .dawn{background-image:linear-gradient(to right,#fa0,#ccc,#228d7b);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
@@ -94,14 +90,14 @@ th{text-align:left}
 .water{background-image:linear-gradient(to right,#9ff,#099 #36f);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .fire{background-image:linear-gradient(to right,#ff3,#fa0,#800);-webkit-background-clip:text;-webkit-text-fill-color:transparent}                       
                                            
-//           ,,                        
-//           mm   `7MM                        
-//           MM     MM                        
-// ,pW"Wq.mmMMmm   MMpMMMb.  .gP"Ya `7Mb,od8 
-// 6W'   `Wb MM     MM    MM ,M'   Yb  MM' "' 
-// 8M     M8 MM     MM    MM 8M""""""  MM     
-// YA.   ,A9 MM     MM    MM YM.    ,  MM     
-// `Ybmd9'  `Mbmo.JMML  JMML.`Mbmmd'.JMML.   	 
+/*           ,,                        
+          mm   `7MM                        
+          MM     MM                        
+,pW"Wq.mmMMmm   MMpMMMb.  .gP"Ya `7Mb,od8 
+6W'   `Wb MM     MM    MM ,M'   Yb  MM' "' 
+8M     M8 MM     MM    MM 8M""""""  MM     
+YA.   ,A9 MM     MM    MM YM.    ,  MM     
+`Ybmd9'  `Mbmo.JMML  JMML.`Mbmmd'.JMML.    */	 
 								 
 ::-webkit-scrollbar{width:10px;height:10px}
 ::-webkit-scrollbar-track{background:transparent}

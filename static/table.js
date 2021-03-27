@@ -4,6 +4,11 @@ $(document).ready( function () {
         "bLengthChange": false,
         "pageLength": 200,
         "bPaginate": false,
-        "sDom": '<"top"f>rt<"clear">'
+        "sDom": '<"top"if>rt<"clear">',
+        "language": {
+            "info": "_TOTAL_ name(s) total",
+            "infoFiltered": " - _MAX_ name(s) total",
+            "infoEmpty":"No names match this query"
+        }
     });
 });

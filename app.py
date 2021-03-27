@@ -355,6 +355,7 @@ def compute(q):
         except:
             firstLoginUnix = 1
             playedOnHypixel = False
+            return render_template('base.html', playedOnHypixel=False)
         
         # Last session
         try:
@@ -521,7 +522,7 @@ def compute(q):
         lastSeenUnix = int(time.time()) - lastLogoutUnix
         lastSeen = significantTimeDenom(sec2format(lastSeenUnix))
 
-# ! SkyWars        
+# ! SkyWars
         try:
             swSTATSVAR = reqAPI['player']['stats']['SkyWars']
         except: swSTATSVAR = {}
@@ -551,6 +552,7 @@ def compute(q):
             'refill_chest_destroy':0,
             'cosmetic_tokens':0,
             'skywars_experience':0,
+            'angel_of_death_level:':1,
         }
 
         swUnscannedDict = {
@@ -562,19 +564,19 @@ def compute(q):
             'presIcon':'☆',
         }
 
-        if 'wins' in swSTATSVAR and 'losses' in swSTATSVAR:
+        if 'wins' in swSTATSVAR or 'losses' in swSTATSVAR:
 
-            # Get the automatable ones
+            # Get the automatable ones - these are already above, I think
             for x in swStatsDict.keys():
-                if x in swSTATSVAR: swStatsDict[x] = swSTATSVAR[x] 
+                if x in swSTATSVAR: swStatsDict[x] = swSTATSVAR[x]
             
             # Fastest win formatting
             if isinstance(swStatsDict['fastest_win'], int): swStatsDict['fastest_win'] = sec2format2ydhms(sec2format(swStatsDict['fastest_win']))
 
             # Games played, K/D, W/L
             swStatsDict['games_played'] = swStatsDict['wins'] + swStatsDict['losses']
-            swStatsDict['K/D'] = round(swStatsDict['kills']/swStatsDict['deaths'],4) if swStatsDict['deaths'] != 0 else float('inf')
-            swStatsDict['W/L'] = round(swStatsDict['wins']/swStatsDict['losses'],4) if swStatsDict['deaths'] != 0 else float('inf')
+            swStatsDict['K/D'] = round(swStatsDict['kills']/swStatsDict['deaths'],4) if swStatsDict['deaths'] != 0 else math.inf
+            swStatsDict['W/L'] = round(swStatsDict['wins']/swStatsDict['losses'],4) if swStatsDict['deaths'] != 0 else math.inf
 
             # Head tastiness
             if rankNoPlus in sweetHeadsRanks and swStatsDict['kills'] < 10000: swUnscannedDict['head_tastiness'] = ('Sweet!', 'aqua')
@@ -590,15 +592,15 @@ def compute(q):
 
             # Winrate, arrow hitrate, KDA, K/W, K/L, K/G, blocks/game, eggs/game, arrows/game, pearls/game
             swStatsDict['winrate'] = round(100*swStatsDict['wins']/swStatsDict['games_played'], 2)
-            swStatsDict['arrow_hitrate'] = round(100*swStatsDict['arrows_hit']/swStatsDict['arrows_shot'],2) if swStatsDict['arrows_shot'] != 0 else float('inf')
-            swStatsDict['KDA'] = round((swStatsDict['kills']+swStatsDict['assists'])/swStatsDict['deaths'],4) if swStatsDict['deaths'] != 0 else float('inf')
-            swStatsDict['K/W'] = round(swStatsDict['kills']/swStatsDict['wins'],4) if swStatsDict['wins'] != 0 else float('inf')
-            swStatsDict['K/L'] = round(swStatsDict['kills']/swStatsDict['losses'],4) if swStatsDict['losses'] != 0 else float('inf')
-            swStatsDict['K/G'] = round(swStatsDict['kills']/swStatsDict['games_played'],4) if swStatsDict['games_played'] != 0 else float('inf')
-            swStatsDict['blocks_placed_per_game'] = round(swStatsDict['blocks_placed']/swStatsDict['games_played'],4) if swStatsDict['games_played'] != 0 else float('inf')
-            swStatsDict['eggs_per_game'] = round(swStatsDict['egg_thrown']/swStatsDict['games_played'],4) if swStatsDict['games_played'] != 0 else float('inf')
-            swStatsDict['arrows_per_game'] = round(swStatsDict['arrows_shot']/swStatsDict['games_played'],4) if swStatsDict['games_played'] != 0 else float('inf')
-            swStatsDict['pearls_per_game'] = round(swStatsDict['enderpearls_thrown']/swStatsDict['games_played'],4) if swStatsDict['games_played'] != 0 else float('inf')
+            swStatsDict['arrow_hitrate'] = round(100*swStatsDict['arrows_hit']/swStatsDict['arrows_shot'],2) if swStatsDict['arrows_shot'] != 0 else math.inf
+            swStatsDict['KDA'] = round((swStatsDict['kills']+swStatsDict['assists'])/swStatsDict['deaths'],4) if swStatsDict['deaths'] != 0 else math.inf
+            swStatsDict['K/W'] = round(swStatsDict['kills']/swStatsDict['wins'],4) if swStatsDict['wins'] != 0 else math.inf
+            swStatsDict['K/L'] = round(swStatsDict['kills']/swStatsDict['losses'],4) if swStatsDict['losses'] != 0 else math.inf
+            swStatsDict['K/G'] = round(swStatsDict['kills']/swStatsDict['games_played'],4) if swStatsDict['games_played'] != 0 else math.inf
+            swStatsDict['blocks_placed_per_game'] = round(swStatsDict['blocks_placed']/swStatsDict['games_played'],4) if swStatsDict['games_played'] != 0 else math.inf
+            swStatsDict['eggs_per_game'] = round(swStatsDict['egg_thrown']/swStatsDict['games_played'],4) if swStatsDict['games_played'] != 0 else math.inf
+            swStatsDict['arrows_per_game'] = round(swStatsDict['arrows_shot']/swStatsDict['games_played'],4) if swStatsDict['games_played'] != 0 else math.inf
+            swStatsDict['pearls_per_game'] = round(swStatsDict['enderpearls_thrown']/swStatsDict['games_played'],4) if swStatsDict['games_played'] != 0 else math.inf
 
         # Leveling stuff
             # Function that takes in experience and spits out level as a floating point number
@@ -770,7 +772,7 @@ def compute(q):
         swMegaStatsList = {'games_played':0}
         swLabStatsList = {'games_played':0}
         for x, y in zip([swSoloStatsList,swTeamStatsList,swRankedStatsList,swMegaStatsList,swLabStatsList], ['solo', 'team', 'ranked', 'mega', 'lab']):
-            if 'losses_'+y in swSTATSVAR and 'wins_'+y in swSTATSVAR: x = swModeStats(x, y) 
+            if 'losses_'+y in swSTATSVAR or 'wins_'+y in swSTATSVAR: x = swModeStats(x, y) 
         # swSoloStatsList = swModeStats(swSoloStatsList, 'solo')
         # swTeamStatsList = swModeStats(swTeamStatsList, 'team')
         # swRankedStatsList = swModeStats(swRankedStatsList, 'ranked')
@@ -793,9 +795,10 @@ def compute(q):
         # swLabTeams = swModeStats(swLabTeams, 'lab_team')
 
         for x, y in zip([swSoloNormal,swSoloInsane,swTeamsNormal,swTeamsInsane,swMegaDoubles, swLabSolo, swLabTeams], ['solo_normal', 'solo_insane', 'team_normal', 'team_insane', 'mega_doubles', 'lab_solo', 'lab_team']):
-            if 'losses_'+y in swSTATSVAR and 'wins_'+y in swSTATSVAR: x = swModeStats(x, y) 
+            if 'losses_'+y in swSTATSVAR or 'wins_'+y in swSTATSVAR: x = swModeStats(x, y) 
 
         #print(swLabStatsList)
+        print(swStatsDict)
 
         ########## SkyWars Kill Types
         swKillTypeList = {}
@@ -905,7 +908,7 @@ def compute(q):
         swHeadsSolo = []
         swHeadsTeam = []
 
-        for x in [('eww','darkgray'),('yucky','gray'),('meh','lightgray'),('decent','yellow'),('salty','green'),('tasty','dark_aqua'),('succulent','pink'), ('sweet','dark_purple'), ('divine','gold'),('heavenly','chocolate')]:
+        for x in [('eww','darkgray'),('yucky','gray'),('meh','lightgray'),('decent','yellow'),('salty','green'),('tasty','dark_aqua'),('succulent','pink'), ('sweet','aqua'), ('divine','gold'),('heavenly','dark_purple')]:
             try:
                 swHeads.append([x[0].capitalize(), swSTATSVAR['heads_'+x[0]], x[1], round(100*swSTATSVAR['heads_'+x[0]]/int(swStatsDict['heads']),2)])
             except: swHeads.append([x[0].capitalize(), 0, x[1], 0])
@@ -1008,6 +1011,7 @@ def compute(q):
             except:
                 bwOverallStats[item] = 0
 
+        
         # Add 4 criss cross final kill death crap, W/L, and B/L
         for x in [['K/D','kills_bedwars','deaths_bedwars'], ['finK/D','final_kills_bedwars','final_deaths_bedwars'], ['K/FD', 'kills_bedwars', 'final_deaths_bedwars'], ['FK/D', 'final_kills_bedwars', 'deaths_bedwars'], ['W/L', 'wins_bedwars', 'losses_bedwars'], ['B/L', 'beds_broken_bedwars', 'beds_lost_bedwars']]:
             try:
@@ -1015,7 +1019,7 @@ def compute(q):
             except ZeroDivisionError:
                 if bwOverallStats[x[1]] == bwOverallStats[x[2]]:
                     bwOverallStats[x[0]] = 0
-                else: bwOverallStats[x[0]] = float('inf')
+                else: bwOverallStats[x[0]] = math.inf
             except:
                 bwOverallStats[x[0]] = 0
         
@@ -1169,20 +1173,25 @@ def compute(q):
         # Kills per deaths with some final mixing in calculations
             try:
                 bwModeStats[mode]['K/D'] = round(bwModeStats[mode]['kills_bedwars'][0]/bwModeStats[mode]['deaths_bedwars'][0],4)
+            except ZeroDivisionError: bwModeStats[mode]['K/D'] = math.inf
             except: bwModeStats[mode]['K/D'] = 0
             try:
                 bwModeStats[mode]['finK/D'] = round(bwModeStats[mode]['final_kills_bedwars'][0]/bwModeStats[mode]['final_deaths_bedwars'][0],4)
+            except ZeroDivisionError: bwModeStats[mode]['finK/D'] = math.inf
             except: bwModeStats[mode]['finK/D'] = 0
             try:
                 bwModeStats[mode]['K/FD'] = round(bwModeStats[mode]['kills_bedwars'][0]/bwModeStats[mode]['final_deaths_bedwars'][0],4)
+            except ZeroDivisionError: bwModeStats[mode]['K/FD'] = math.inf
             except: bwModeStats[mode]['K/FD'] = 0
             try:
                 bwModeStats[mode]['FK/D'] = round(bwModeStats[mode]['final_kills_bedwars'][0]/bwModeStats[mode]['deaths_bedwars'][0],4)
+            except ZeroDivisionError: bwModeStats[mode]['FK/D'] = math.inf
             except: bwModeStats[mode]['FK/D'] = 0
 
         # Win/loss ratio & winrate
             try:
                 bwModeStats[mode]['W/L'] = round(bwModeStats[mode]['wins_bedwars'][0]/bwModeStats[mode]['losses_bedwars'][0],4)
+            except ZeroDivisionError: bwModeStats[mode]['W/L'] = math.inf
             except: bwModeStats[mode]['W/L'] = 0
             try:
                 bwModeStats[mode]['winrate'] = round(100*bwModeStats[mode]['wins_bedwars'][0]/bwModeStats[mode]['games_played_bedwars'][0],2)

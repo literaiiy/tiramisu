@@ -71,6 +71,7 @@ YM.    , YA.   ,A9 MM YA.   ,A9 MM     L.   I8
 .almost{background-image:linear-gradient(to right,#ddd6f3,#faaca8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .lightgray { color: #ccc }
 .orange { color: #f60 }
+.lawn {color: #708f5b}
 
 .twitter{color:#1da1f2}
 .instagram{color:#c1558b}
@@ -99,7 +100,7 @@ YM.    , YA.   ,A9 MM YA.   ,A9 MM     L.   I8
 8M     M8 MM     MM    MM 8M""""""  MM     
 YA.   ,A9 MM     MM    MM YM.    ,  MM     
 `Ybmd9'  `Mbmo.JMML  JMML.`Mbmmd'.JMML.    */	 
-								 
+
 ::-webkit-scrollbar{width:10px;height:10px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:#888;border-radius:15px}
@@ -112,9 +113,9 @@ YA.   ,A9 MM     MM    MM YM.    ,  MM
 ::-webkit-scrollbar-thumb{background:#888;border-radius:15px}
 ::-webkit-scrollbar-thumb:hover{background:#555;border-radius:15px}
 ::-webkit-scrollbar-track-piece{width:10px}
-.columnZ{float:left;width:42%;margin-top:15px}
+.columnZ{float:left;width:32%;margin-top:15px}
 .columnA{float:left;width:35%;padding-right:1%}
-.columnB{float:left;width:22%}
+.columnB{float:left;width:32%}
 .row:after{content:"";display:table;clear:both}
 .tab{overflow:hidden;border:1px solid #ccc;background-color:#f1f1f1}
 .tab button{background-color:inherit;float:left;border:0;outline:0;cursor:pointer;padding:14px 16px;transition:.3s}

@@ -4,7 +4,7 @@
 <div class="header logo">
 	<a href='/'><img src='https://raw.githubusercontent.com/gist/literaiiy/33ee272214fd81eb35a54f083bf1a4ed/raw/90ea53a78161bbda95c00fa17c4ddd88c015a27c/tiramisudelta2.svg' alt="Tiramisu Logo" height='6%' width='auto'></a>
 	<form action="/" method="POST">
-		<input type="text" name="content" id="content" autofocus="autofocus" onfocus="this.select()" autocomplete="off" spellcheck="false" placeholder="Search username or UUID">
+		<input type="text" name="content" id="content" autofocus="autofocus" required='true' onfocus="this.select()" autocomplete="on" spellcheck="false" placeholder="Search username or UUID">
 		<script>
 			if ( window.history.replaceState ) {
 				window.history.replaceState( null, null, window.location.href );
@@ -22,7 +22,7 @@
 </head>
 
 <div id="loadOverlay" style="background-color:#fff; position:absolute; top:0px; left:0px; width:100%; height:100%; z-index:2000;"></div>
-<link href="{{ url_for('static', filename='base.css') }}" rel="stylesheet" type="text/css">
+<link href="{{ url_for('static', filename='base.scss') }}" rel="stylesheet" type="text/css">
 
 {% block content %}
 <div class='h2d'>

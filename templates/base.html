@@ -157,13 +157,10 @@ function scrollFunction() {
         </p>
 
         <!--- GUILD --->
-        <p>{% if guildList[0] != 0 %}
-            <b>{{ guildList[2] }}</b> in guild <b>{{ guildList[1] }}<span class='{{ guildList[3] }}'> [{{ guildList[0] }}]<span></b></p>
-        {% endif %}
 
         <!--- SENIORITY  --->
         {% if firstLoginUnix > 1357027200 %}
-        <b>{{ seniority }}</b> - Joined {{ joinedAgoText }} ago<br>
+        <b><span class="{{ seniority[2] }}">{{ seniority[0] }}</span> {{seniority[1]}}</b> - Joined {{ joinedAgoText }} ago<br>
         {% endif %}
 
         <!--- RANK SENIORITY --->
@@ -1000,9 +997,8 @@ function scrollFunction() {
         {% for x, y in bwCosmetics.items() %}
             <b>{{x}}</b>: {{y}}<br>
         {% endfor %} </p>
+    
+    <div class="h2d">Guild</div>
 
-{% else %}
-This person has never played on Hypixel.
-{% endif %}
 </body>
 {% endblock %}

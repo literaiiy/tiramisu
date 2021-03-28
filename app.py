@@ -51,6 +51,10 @@ requests_cache.install_cache('demo_cache', expire_after=3)
 class searchBar():
     query = TextField("Search...")
 
+@app.route('/favicon.ico')
+def Walmart():
+    return "walmart"
+
 # ! Routing for homepage
 @app.route('/', methods=['POST', 'GET'], defaults={'path':''})
 def queryt(path):
@@ -355,7 +359,7 @@ def compute(q):
         except:
             firstLoginUnix = 1
             playedOnHypixel = False
-            return render_template('base.html', playedOnHypixel=False)
+            #return render_template('base.html', playedOnHypixel=False)
         
         # Last session
         try:
@@ -406,24 +410,26 @@ def compute(q):
 # ! Title and Seniority
         joinedAgo = 0
         joinedAgoText = ''
-        seniorityTimeTuple = (0, 8895953, 20301357, 34924098, 53671752, 77707908, 108524398, 148033875, 198688534, 263632309, 346896000)
-        seniority = 'Freshie'
+        seniority = ('☘', 'Hypixel Newcomer', 'dark_green')
+
+        # Time seniority
         try:
             joinedAgo = time.time() - firstLoginUnix
             joinedAgoText = sec2format2ydhms(sec2format(joinedAgo))
                 
-            if joinedAgo < 8895953: seniority = '☘ Hypixel Newcomer'
-            elif joinedAgo < 20301357: seniority = '☘ Hypixel Rookie'
-            elif joinedAgo < 34924098: seniority = '➴ Hypixel Novice'
-            elif joinedAgo < 53671752: seniority = '⚝ Hypixel Trainee'
-            elif joinedAgo < 77707908: seniority = '⚜ Hypixel Expert'
-            elif joinedAgo < 108524398: seniority = '➴ Hypixel Professional'
-            elif joinedAgo < 148033875: seniority = '❖ Hypixel Elder'
-            elif joinedAgo < 198688534: seniority = '♗ Hypixel Veteran'
-            elif joinedAgo < 263632309: seniority = '♛ Hypixel Master'
-            elif joinedAgo < 346896000: seniority = '♆ Hypixel Ancient'
+            if joinedAgo < 8895953: seniority = ('☘', 'Hypixel Newcomer', 'dark_green')
+            elif joinedAgo < 20301357: seniority = ('⛏', 'Hypixel Rookie', 'lawn')
+            elif joinedAgo < 34924098: seniority = ('➴', 'Hypixel Novice', 'lime')
+            elif joinedAgo < 53671752: seniority = ('⚝', 'Hypixel Trainee', 'yellow')
+            elif joinedAgo < 77707908: seniority = ('⚜', 'Hypixel Expert', 'gold')
+            elif joinedAgo < 108524398: seniority = ('➴', 'Hypixel Professional', 'dark_red')
+            elif joinedAgo < 148033875: seniority = ('❖', 'Hypixel Elder', 'blue')
+            elif joinedAgo < 198688534: seniority = ('♗', 'Hypixel Veteran', 'twitch')
+            elif joinedAgo < 263632309: seniority = ('♛', 'Hypixel Master', 'red')
+            elif joinedAgo < 346896000: seniority = ('♆', 'Hypixel Ancient', 'cyan')
         except: pass
 
+        # Rank seniority
         boughtPastRank = ''
         boughtPastTime = 0
         newPackageRank = ''
@@ -438,26 +444,26 @@ def compute(q):
 # ! Session Data
         currentSession = False
         sessionType = ''
-        if playedOnHypixel and not rankjson['online']:
-            reqAPIsess = requests.Session().get('https://api.hypixel.net/status?key=' + HAPIKEY + '&uuid=' + uuid)
+        if playedOnHypixel and rankjson['online']:
+            reqAPIsess = requests.Session().get('https://karma-25.uc.r.appspot.com/player/' + uuid)
             reqAPIsession = reqAPIsess.json()
             if reqAPIsession['success']:
-                if reqAPIsession['session']['online']:
-                    if reqAPIsession['session']['gameType'] == 'SKYWARS': currentSession = 'SkyWars'
-                    elif reqAPIsession['session']['gameType'] == 'SKYBLOCK': currentSession = 'SkyBlock'
-                    elif reqAPIsession['session']['gameType'] == 'BEDWARS': currentSession = 'BedWars'
-                    elif reqAPIsession['session']['gameType'] == 'SUPER_SMASH': currentSession = 'Smash Heroes'
-                    elif reqAPIsession['session']['gameType'] == 'SPEED_UHC': currentSession = 'Speed UHC'
-                    elif reqAPIsession['session']['gameType'] == 'MCGO': currentSession = 'Cops and Crims'
-                    elif reqAPIsession['session']['gameType'] == 'PIT': currentSession = 'The Pit'
-                    elif reqAPIsession['session']['gameType'] == 'UHC': currentSession = 'UHC Champions'
-                    elif reqAPIsession['session']['gameType'] == 'BATTLEGROUND': currentSession = 'Warlords'
-                    elif reqAPIsession['session']['gameType'] == 'SURVIVAL_GAMES': currentSession = 'Blitz Survival Games'
-                    elif reqAPIsession['session']['gameType'] == 'WALLS3': currentSession = 'Mega Walls'
-                    elif reqAPIsession['session']['gameType'] == 'TNTGAMES': currentSession = 'TNT Games'
-                    else: currentSession = reqAPIsession['session']['gameType'].replace('_',' ').title()
+                if reqAPIsession['status']['online']:
+                    if reqAPIsession['status']['gameType'] == 'SKYWARS': currentSession = 'SkyWars'
+                    elif reqAPIsession['status']['gameType'] == 'SKYBLOCK': currentSession = 'SkyBlock'
+                    elif reqAPIsession['status']['gameType'] == 'BEDWARS': currentSession = 'BedWars'
+                    elif reqAPIsession['status']['gameType'] == 'SUPER_SMASH': currentSession = 'Smash Heroes'
+                    elif reqAPIsession['status']['gameType'] == 'SPEED_UHC': currentSession = 'Speed UHC'
+                    elif reqAPIsession['status']['gameType'] == 'MCGO': currentSession = 'Cops and Crims'
+                    elif reqAPIsession['status']['gameType'] == 'PIT': currentSession = 'The Pit'
+                    elif reqAPIsession['status']['gameType'] == 'UHC': currentSession = 'UHC Champions'
+                    elif reqAPIsession['status']['gameType'] == 'BATTLEGROUND': currentSession = 'Warlords'
+                    elif reqAPIsession['status']['gameType'] == 'SURVIVAL_GAMES': currentSession = 'Blitz Survival Games'
+                    elif reqAPIsession['status']['gameType'] == 'WALLS3': currentSession = 'Mega Walls'
+                    elif reqAPIsession['status']['gameType'] == 'TNTGAMES': currentSession = 'TNT Games'
+                    else: currentSession = reqAPIsession['status']['gameType'].replace('_',' ').title()
                     try:
-                        sessionType = reqAPIsession['session']['mode'].replace('_',' ').title()
+                        sessionType = reqAPIsession['status']['mode'].replace('_',' ').title()
                     except:
                         sessionType = 'somewhere...'
 
@@ -552,7 +558,7 @@ def compute(q):
             'refill_chest_destroy':0,
             'cosmetic_tokens':0,
             'skywars_experience':0,
-            'angel_of_death_level:':1,
+            'angel_of_death_level':1,
         }
 
         swUnscannedDict = {
@@ -847,7 +853,7 @@ def compute(q):
         swUnitConvList2.append(('Written out ', round(TIMEOVERALL/750, 2), ' essays'))
         swUnitConvList2.append(('Eaten ', round(TIMEOVERALL/1800, 2), ' meals'))
         swUnitConvList2.append(('Watched ', round(TIMEOVERALL/6600, 2), ' feature-length films'))
-        swUnitConvList2.append(("Charged your phone's battery ", math.floor(TIMEOVERALL/79.2), '%'))
+        swUnitConvList2.append(("Charged your phonse's battery ", math.floor(TIMEOVERALL/79.2), '%'))
         swUnitConvList2.append(('Flown the longest international flight ', round(TIMEOVERALL/66600, 2), ' times'))
         swUnitConvList2.append(('Watched Law and Order ', round(TIMEOVERALL/1.148e+6, 2), ' times'))
         swUnitConvList2.append(('Driven across the United States ', round(TIMEOVERALL/1.2038e+06, 2), ' times'))
@@ -1196,6 +1202,8 @@ def compute(q):
             try:
                 bwModeStats[mode]['winrate'] = round(100*bwModeStats[mode]['wins_bedwars'][0]/bwModeStats[mode]['games_played_bedwars'][0],2)
             except: bwModeStats[mode]['winrate'] = 0
+            # print(bwModeStats[mode]['wins_bedwars'][0])
+            # print(bwModeStats[mode]['games_played_bedwars'][0])
 
             # Bed break/lose
             try:
@@ -1336,23 +1344,30 @@ def compute(q):
         # 1 - guild name
         # 2 - guild role
         # 3 - guild color
-        guildList = [0,0,0,0]
-        if playedOnHypixel:
-            VVV = requests.Session().get('https://api.hypixel.net/guild?key=' + HAPIKEY + '&player=' + uuid)
-            reqGUILD = VVV.json()
-            try:
-                if reqGUILD['guild'] != 'null':
-                    guildList[0] = reqGUILD['guild']['tag']
-                    guildList[1] = reqGUILD['guild']['name']
-                    for member in reqGUILD['guild']['members']:
-                        if member['uuid'] == uuid:
-                            guildList[2] = member['rank']
-                            break
-                    try:
-                        guildList[3] = reqGUILD['guild']['tagColor'].lower()
-                    except:
-                        guildList[3] = 'darkgray'
-            except: pass
+        # guildList = [0,0,0,0]
+        # if playedOnHypixel:
+        #     VVV = requests.Session().get('https://api.hypixel.net/guild?key=' + HAPIKEY + '&player=' + uuid)
+        #     reqGUILD = VVV.json()
+        #     try:
+        #         if reqGUILD['guild'] != 'null':
+        #             guildList[0] = reqGUILD['guild']['tag']
+        #             guildList[1] = reqGUILD['guild']['name']
+        #             for member in reqGUILD['guild']['members']:
+        #                 if member['uuid'] == uuid:
+        #                     guildList[2] = member['rank']
+        #                     break
+        #             try:
+        #                 guildList[3] = reqGUILD['guild']['tagColor'].lower()
+        #             except:
+        #                 guildList[3] = 'darkgray'
+        #     except: pass
+        guildDict = {
+            'guildName':'',
+            'guildTag':'',
+            'guildTagColor':'',
+            'userRole':'',
+
+        }
 
 # ! Render base.html        
         displayname = username
@@ -1369,8 +1384,9 @@ def compute(q):
 
         # Designated Crapification
         #print('firstLogin')
-        #print(firstLogin)
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankNoPlus, rankPlusses=rankPlusses, newPackageRank=newPackageRank, rankColorParsed=rankColorParsed, plusColorParsed=plusColorParsed, multiplier=multiplier, swStatsDict=swStatsDict, swUnscannedDict=swUnscannedDict, joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=plusColorParsed, guildList=guildList, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources, bwCosmetics=bwCosmetics, userLanguage=userLanguage, userVersion=userVersion, totalKills=totalKills, totalWins=totalWins, totalCoins=totalCoins, giftsSent=giftsSent, giftsReceived=giftsReceived, rewards=rewards, lastPlayed=lastPlayed, lastSeen=lastSeen, lastSeenUnix=lastSeenUnix, swMapsList=swMapsList, swCagesList=swCagesList)
+        #print(firstLoginUnix)
+        
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankNoPlus, rankPlusses=rankPlusses, newPackageRank=newPackageRank, rankColorParsed=rankColorParsed, plusColorParsed=plusColorParsed, multiplier=multiplier, swStatsDict=swStatsDict, swUnscannedDict=swUnscannedDict, joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=plusColorParsed, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources, bwCosmetics=bwCosmetics, userLanguage=userLanguage, userVersion=userVersion, totalKills=totalKills, totalWins=totalWins, totalCoins=totalCoins, giftsSent=giftsSent, giftsReceived=giftsReceived, rewards=rewards, lastPlayed=lastPlayed, lastSeen=lastSeen, lastSeenUnix=lastSeenUnix, swMapsList=swMapsList, swCagesList=swCagesList)
     
 # ! Invalid username exception
     else:
@@ -1388,64 +1404,64 @@ def compute(q):
 
 # ! Friends list
 
-@app.route('/f/<q>', methods=['POST', 'GET'])
-@cache.cached(timeout=50)
-def friends(q):
-    start_time = time.time()
-    def uuid2un(uuid):
-        session = FuturesSession()
-        robbb = session.get('http://sessionserver.mojang.com/session/minecraft/profile/' + uuid)
-        response_one = robbb.result()
-        return response_one
+# @app.route('/f/<q>', methods=['POST', 'GET'])
+# @cache.cached(timeout=50)
+# def friends(q):
+#     start_time = time.time()
+#     def uuid2un(uuid):
+#         session = FuturesSession()
+#         robbb = session.get('http://sessionserver.mojang.com/session/minecraft/profile/' + uuid)
+#         response_one = robbb.result()
+#         return response_one
 
-        #return robbb.json()['name']
+#         #return robbb.json()['name']
 
-    friendUUID = ''
-    friendListList = []
-    if len(q) == 32 or len(q) == 36:
-        q = q.replace('-','')
-        try:
-            if q == MojangAPI.get_uuid(MojangAPI.get_username(q)):
-                username = MojangAPI.get_username(q)
-                uuid = q
-            else:
-                return "That UUID doesn't exist. Try again with a different UUID."
-        except:
-            return "This UUID doesn't exist. Try again with a different UUID."
+#     friendUUID = ''
+#     friendListList = []
+#     if len(q) == 32 or len(q) == 36:
+#         q = q.replace('-','')
+#         try:
+#             if q == MojangAPI.get_uuid(MojangAPI.get_username(q)):
+#                 username = MojangAPI.get_username(q)
+#                 uuid = q
+#             else:
+#                 return "That UUID doesn't exist. Try again with a different UUID."
+#         except:
+#             return "This UUID doesn't exist. Try again with a different UUID."
 
-    else:
-        uuid = MojangAPI.get_uuid(q)
-        username = MojangAPI.get_username(MojangAPI.get_uuid(q))
+#     else:
+#         uuid = MojangAPI.get_uuid(q)
+#         username = MojangAPI.get_username(MojangAPI.get_uuid(q))
 
-    try:
-        r = requests.Session().get('https://api.hypixel.net/friends?key=' + HAPIKEY + '&uuid=' + uuid)
-        freqAPI = r.json()
+#     try:
+#         r = requests.Session().get('https://api.hypixel.net/friends?key=' + HAPIKEY + '&uuid=' + uuid)
+#         freqAPI = r.json()
         
-        if freqAPI['records'] == ['']:
-            return "This person hasn't friended anyone on the Hypixel Network yet!"
-        else:
-            friendList = freqAPI['records']
+#         if freqAPI['records'] == ['']:
+#             return "This person hasn't friended anyone on the Hypixel Network yet!"
+#         else:
+#             friendList = freqAPI['records']
             
-            for friend in friendList:
-                try:
-                    if friend['uuidSender'] == uuid:
-                        friendListList.append({'name':(friend['uuidReceiver']), 'date':friend['started'], 'initiated':friend['uuidSender'], 'duration':time.time()-friend['started']/1000})
-                    elif friend['uuidReceiver'] == uuid:
-                        friendListList.append({'name':(friend['uuidSender']), 'date':friend['started'], 'initiated':friend['uuidSender'], 'duration':time.time()-friend['started']/1000})
-                except: pass
+#             for friend in friendList:
+#                 try:
+#                     if friend['uuidSender'] == uuid:
+#                         friendListList.append({'name':(friend['uuidReceiver']), 'date':friend['started'], 'initiated':friend['uuidSender'], 'duration':time.time()-friend['started']/1000})
+#                     elif friend['uuidReceiver'] == uuid:
+#                         friendListList.append({'name':(friend['uuidSender']), 'date':friend['started'], 'initiated':friend['uuidSender'], 'duration':time.time()-friend['started']/1000})
+#                 except: pass
 
-    except:
-        if len(q) < 3 or len(q) > 16:
-            return "A Minecraft username has to be between 3 and 16 characters (with a few special exceptions), and can only contain alphanumeric characters and underscores."
-        for letter in q:
-            if letter not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_':
-                return 'Username contains invalid characters. A Minecraft username can only contain alphanumeric characters and underscores.'
-        for swear in swearList:
-            if swear in q:
-                return "Username might be blocked by Mojang- username contains one of the following: \nhttps://paste.ee/p/RYo2C. \nIf this is a derivative of the Scunthorpe problem, sorry about that."
-        return render_template('user404.html')
-    print("--- %s seconds ---" % (time.time() - start_time))    
-    return render_template('friends.html', username=username, uuid=uuid, friendListList=friendListList)
+#     except:
+#         if len(q) < 3 or len(q) > 16:
+#             return "A Minecraft username has to be between 3 and 16 characters (with a few special exceptions), and can only contain alphanumeric characters and underscores."
+#         for letter in q:
+#             if letter not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_':
+#                 return 'Username contains invalid characters. A Minecraft username can only contain alphanumeric characters and underscores.'
+#         for swear in swearList:
+#             if swear in q:
+#                 return "Username might be blocked by Mojang- username contains one of the following: \nhttps://paste.ee/p/RYo2C. \nIf this is a derivative of the Scunthorpe problem, sorry about that."
+#         return render_template('user404.html')
+#     print("--- %s seconds ---" % (time.time() - start_time))    
+#     return render_template('friends.html', username=username, uuid=uuid, friendListList=friendListList)
 
 # ! Actual Guild (Deprecated)
 

@@ -1,13 +1,18 @@
-<!DOCTYPE html>
+{% extends 'index.html' %}
+
+{% block head %}
 <head>
 	<title>404 - All the tiramisu is gone!</title>
-	<meta content="width=device-width, initial-scale=1" name="viewport"/>
-	<link href="{{ url_for('static', filename='404.css') }}" rel="stylesheet" type="text/css">
+	<!-- <link href="{{ url_for('static', filename='404.css') }}" rel="stylesheet" type="text/css"> -->
 </head>
+{% endblock %}
+
+{% block content %}
 <body>
 	<div class="w-layout-grid grid">
-		<h1 class="heading-2">404</h1>
+		<div class="h2d">404</div>
 		<img src="https://i.ibb.co/5L5qKfd/pigcake.jpg"/>
-        <p class="paragraph">Someone ate all the tiramisu... is this a broken link? <a href='/'>Back</a>
-		</div></p>
-		
+        <p>Someone ate all the tiramisu... is this a broken link?</p>
+	</div>
+</body>
+{% endblock %}

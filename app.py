@@ -133,6 +133,7 @@ def reddorect(k):
 @app.route('/p/<q>', methods=['POST','GET'])
 @cache.cached(timeout=15)
 def compute(q):
+    q = q.strip()
     #try:
     start_time = time.time()
     # applesauce = MojangAPI.get_uuid(q)
@@ -419,14 +420,14 @@ def compute(q):
                 
             if joinedAgo < 8895953: seniority = ('☘', 'Hypixel Newcomer', 'dark_green')
             elif joinedAgo < 20301357: seniority = ('⛏', 'Hypixel Rookie', 'lawn')
-            elif joinedAgo < 34924098: seniority = ('➴', 'Hypixel Novice', 'lime')
+            elif joinedAgo < 34924098: seniority = ('➴', 'Hypixel Novice', 'yellowgreen')
             elif joinedAgo < 53671752: seniority = ('⚝', 'Hypixel Trainee', 'yellow')
             elif joinedAgo < 77707908: seniority = ('⚜', 'Hypixel Expert', 'gold')
-            elif joinedAgo < 108524398: seniority = ('➴', 'Hypixel Professional', 'dark_red')
-            elif joinedAgo < 148033875: seniority = ('❖', 'Hypixel Elder', 'blue')
-            elif joinedAgo < 198688534: seniority = ('♗', 'Hypixel Veteran', 'twitch')
-            elif joinedAgo < 263632309: seniority = ('♛', 'Hypixel Master', 'red')
-            elif joinedAgo < 346896000: seniority = ('♆', 'Hypixel Ancient', 'cyan')
+            elif joinedAgo < 108524398: seniority = ('✯', 'Hypixel Professional', 'dark_red')
+            elif joinedAgo < 148033875: seniority = ('❖', 'Hypixel Elder', 'water')
+            elif joinedAgo < 198688534: seniority = ('♗', 'Hypixel Veteran', 'nebula')
+            elif joinedAgo < 263632309: seniority = ('♛', 'Hypixel Master', 'fire')
+            elif joinedAgo < 346896000: seniority = ('♆', 'Hypixel Ancient', 'mirror')
         except: pass
 
         # Rank seniority
@@ -529,6 +530,18 @@ def compute(q):
         lastSeen = significantTimeDenom(sec2format(lastSeenUnix))
 
 # ! SkyWars
+        def weirdDiv(first, second, spaces=4):
+            if second == 0:
+                if first > 0: return math.inf
+                else: return 0
+            else: return round(first/second, spaces)
+        
+        # def weirdDivWithPerc(first, second, spaces=4):
+        #     if second == 0:
+        #         if first > 0: return math.inf
+        #         else: return (0,0)
+        #     else: return (round(first/second, spaces), round(100*first/second
+
         try:
             swSTATSVAR = reqAPI['player']['stats']['SkyWars']
         except: swSTATSVAR = {}
@@ -581,8 +594,8 @@ def compute(q):
 
             # Games played, K/D, W/L
             swStatsDict['games_played'] = swStatsDict['wins'] + swStatsDict['losses']
-            swStatsDict['K/D'] = round(swStatsDict['kills']/swStatsDict['deaths'],4) if swStatsDict['deaths'] != 0 else math.inf
-            swStatsDict['W/L'] = round(swStatsDict['wins']/swStatsDict['losses'],4) if swStatsDict['deaths'] != 0 else math.inf
+            swStatsDict['K/D'] = weirdDiv(swStatsDict['kills'], swStatsDict['deaths'])
+            swStatsDict['W/L'] = weirdDiv(swStatsDict['wins'],swStatsDict['losses'])
 
             # Head tastiness
             if rankNoPlus in sweetHeadsRanks and swStatsDict['kills'] < 10000: swUnscannedDict['head_tastiness'] = ('Sweet!', 'aqua')
@@ -597,16 +610,16 @@ def compute(q):
             else: swUnscannedDict['head_tastiness'] = ('Heavenly..!', 'dark_purple')
 
             # Winrate, arrow hitrate, KDA, K/W, K/L, K/G, blocks/game, eggs/game, arrows/game, pearls/game
-            swStatsDict['winrate'] = round(100*swStatsDict['wins']/swStatsDict['games_played'], 2)
-            swStatsDict['arrow_hitrate'] = round(100*swStatsDict['arrows_hit']/swStatsDict['arrows_shot'],2) if swStatsDict['arrows_shot'] != 0 else math.inf
-            swStatsDict['KDA'] = round((swStatsDict['kills']+swStatsDict['assists'])/swStatsDict['deaths'],4) if swStatsDict['deaths'] != 0 else math.inf
-            swStatsDict['K/W'] = round(swStatsDict['kills']/swStatsDict['wins'],4) if swStatsDict['wins'] != 0 else math.inf
-            swStatsDict['K/L'] = round(swStatsDict['kills']/swStatsDict['losses'],4) if swStatsDict['losses'] != 0 else math.inf
-            swStatsDict['K/G'] = round(swStatsDict['kills']/swStatsDict['games_played'],4) if swStatsDict['games_played'] != 0 else math.inf
-            swStatsDict['blocks_placed_per_game'] = round(swStatsDict['blocks_placed']/swStatsDict['games_played'],4) if swStatsDict['games_played'] != 0 else math.inf
-            swStatsDict['eggs_per_game'] = round(swStatsDict['egg_thrown']/swStatsDict['games_played'],4) if swStatsDict['games_played'] != 0 else math.inf
-            swStatsDict['arrows_per_game'] = round(swStatsDict['arrows_shot']/swStatsDict['games_played'],4) if swStatsDict['games_played'] != 0 else math.inf
-            swStatsDict['pearls_per_game'] = round(swStatsDict['enderpearls_thrown']/swStatsDict['games_played'],4) if swStatsDict['games_played'] != 0 else math.inf
+            swStatsDict['winrate'] = weirdDiv(100*swStatsDict['wins'], swStatsDict['games_played'], 2)
+            swStatsDict['arrow_hitrate'] = weirdDiv(100*swStatsDict['arrows_hit'],swStatsDict['arrows_shot'],2)
+            swStatsDict['KDA'] = weirdDiv((swStatsDict['kills']+swStatsDict['assists']),swStatsDict['deaths'])
+            swStatsDict['K/W'] = weirdDiv(swStatsDict['kills'],swStatsDict['wins'])
+            swStatsDict['K/L'] = weirdDiv(swStatsDict['kills'],swStatsDict['losses'])
+            swStatsDict['K/G'] = weirdDiv(swStatsDict['kills'],swStatsDict['games_played'])
+            swStatsDict['blocks_placed_per_game'] = weirdDiv(swStatsDict['blocks_placed'],swStatsDict['games_played'])
+            swStatsDict['eggs_per_game'] = weirdDiv(swStatsDict['egg_thrown'],swStatsDict['games_played'])
+            swStatsDict['arrows_per_game'] = weirdDiv(swStatsDict['arrows_shot'],swStatsDict['games_played'])
+            swStatsDict['pearls_per_game'] = weirdDiv(swStatsDict['enderpearls_thrown'],swStatsDict['games_played'])
 
         # Leveling stuff
             # Function that takes in experience and spits out level as a floating point number
@@ -668,39 +681,35 @@ def compute(q):
 
             # Add main stats to all gamemodes
             statsList['kills'] = swSTATSVAR.get('kills_'+gamemoder,0)
-            statsList['kills%'] = round(100*statsList['kills']/swStatsDict['kills'], 4)
+            statsList['kills%'] = weirdDiv(100*statsList['kills'], swStatsDict['kills'], 4)
             statsList['deaths'] = swSTATSVAR.get('deaths_'+gamemoder,0)
-            statsList['deaths%'] = round(100*statsList['deaths']/swStatsDict['deaths'], 4)
-            try:
-                statsList['K/D'] = round(statsList['kills']/statsList['deaths'],4)
-            except: statsList['K/D'] = 999999 if statsList['kills'] > 0 else 0
+            statsList['deaths%'] = weirdDiv(100*statsList['deaths'], swStatsDict['deaths'], 4)
+            statsList['K/D'] = weirdDiv(statsList['kills'], statsList['deaths'])
             statsList['wins'] = swSTATSVAR.get('wins_'+gamemoder,0)
-            statsList['wins%'] = round(100*statsList['wins']/swStatsDict['wins'], 4)
+            statsList['wins%'] = weirdDiv(100*statsList['wins'], swStatsDict['wins'], 4)
             statsList['losses'] = swSTATSVAR.get('losses_'+gamemoder,0)
-            statsList['losses%'] = round(100*statsList['losses']/swStatsDict['losses'], 4)
+            statsList['losses%'] = weirdDiv(100*statsList['losses'], swStatsDict['losses'], 4)
             statsList['games_played'] = statsList['wins'] + statsList['losses']
-            statsList['games_played%'] = round(100*statsList['games_played']/swStatsDict['games_played'], 4)
+            statsList['games_played%'] = weirdDiv(100*statsList['games_played'], swStatsDict['games_played'], 4)
 
             # Most played game
             if statsList['games_played'] > swBestGame[0] and gamemoder not in STRML: 
                 swBestGame[0] = statsList['games_played']
                 swBestGame[1] = gamemoder.replace('_',' ').title()
 
-            try:
-                statsList['W/L'] = round(statsList['wins']/statsList['losses'],4)
-            except: statsList['W/L'] = 999999 if statsList['wins'] > 0 else 0
-            statsList['winperc'] = round(100*(statsList['W/L']/(1+statsList['W/L'])), 2) 
+            statsList['W/L'] = weirdDiv(statsList['wins'], statsList['losses'],4)
+            statsList['winperc'] = weirdDiv(100*statsList['W/L'], 1+statsList['W/L'], 2) 
             statsList['kdrel'] = round(statsList['K/D']-swStatsDict['K/D'],4)
-            statsList['kdrelperc'] = round(100*(statsList['K/D']/swStatsDict['K/D']-1),2)
+            statsList['kdrelperc'] = round(100*(weirdDiv(statsList['K/D'], swStatsDict['K/D'])-1),2)
             statsList['wlrel'] = round(statsList['W/L']-swStatsDict['W/L'],4)
-            statsList['wlrelperc'] = round(100*(statsList['W/L']/swStatsDict['W/L']-1),2)
+            statsList['wlrelperc'] = round(100*(weirdDiv(statsList['W/L'], swStatsDict['W/L'])-1),2)
 
             # Add special stats to main gamemodes
             if gamemoder in STRML:
                 statsList['survived_players'] = swSTATSVAR.get('survived_players_'+gamemoder,0)
-                statsList['survived_players%'] = round(100*statsList['survived_players']/swStatsDict['survived_players'], 4)
+                statsList['survived_players%'] = weirdDiv(100*statsList['survived_players'], swStatsDict['survived_players'], 4)
                 statsList['assists'] = swSTATSVAR.get('assists_'+gamemoder,0)
-                statsList['assists%'] = round(100*statsList['assists']/swStatsDict['assists'], 4)
+                statsList['assists%'] = weirdDiv(100*statsList['assists'], swStatsDict['assists'], 4)
                 statsList['fastest_win'] =sec2format2ydhms(sec2format(swSTATSVAR.get('fastest_win_'+gamemoder,0)))
                 statsList['most_kills_game'] = swSTATSVAR.get('most_kills_game_'+gamemoder,0)
                 statsList['kit'] = swSTATSVAR.get('activeKit_'+gamemoder.upper(), 'Default').split('_')[-1].replace('-',' ').title()
@@ -711,66 +720,6 @@ def compute(q):
             if gamemoder == 'ranked' and statsList['most_kills_game'] > 3:
                 statsList['most_kills_game'] = 3
             return statsList
-        # Legacy
-            # #try:
-            #     solokd = round(swSTATSVAR.get('kills_' + gamemoder,0)/swSTATSVAR.get('deaths_'+gamemoder, 0.000001),4)
-            # #except:
-            #     #solokd = [0,0]
-            # #try:
-            #     solowl = round(swSTATSVAR.get('wins_'+gamemoder,0)/swSTATSVAR.get('losses_'+gamemoder, 0.000001),4)
-            # #except:
-            #     # solowl = [0,0]
-            #     # solowlrelative = [0,0]
-            # #try:
-            #     solowlrelative[0] = round(solowl[0]-swStatsDict['W/L'],4)
-            #     solowlrelative[1] = round(100*(solowl[0]/swStatsDict['W/L']-1),2)
-            # #except: pass
-            #     # solokdrelative = [0,0]
-            # #try:
-            #     solokdrelative[0] = round(solokd[0]-swStatsDict['K/D'],4)
-            #     solokdrelative[1] = round(100*(solokd[0]/swStatsDict['K/D']-1),2)
-            # #except: pass
-            # #try:
-            #     statsList["kills"]= [swSTATSVAR.get('kills_'+gamemoder,0), round(100*(swSTATSVAR.get('kills_'+gamemoder,0)/swStatsDict['kills']),2)]
-            # #except: statsList["kills"]=[0,0]
-            # #try:
-            #     statsList["deaths"]= [swSTATSVAR.get('deaths_'+gamemoder, 0), round(100*(swSTATSVAR.get('deaths_'+gamemoder, 0)/swStatsDict['deaths']),2)]
-            # #except: statsList["deaths"] = [0,0]
-            # #try:
-            #     statsList["kd"]= solokd
-            # #except: statsList["kd"] = [0,0]
-            # #try:
-            #     statsList["assists"]= [swSTATSVAR.get('assists_'+gamemoder, 0), round(100*(swSTATSVAR.get('assists_'+gamemoder, 0)/swStatsDict['assists']),2)]
-            # #except: statsList["assists"] = (0,0)
-            # #try:
-            #     statsList["survived"]= [swSTATSVAR.get('survived_players_'+gamemoder,0), round(100*(swSTATSVAR.get('survived_players_'+gamemoder,0)/swStatsDict['survived_players']),2)]
-            # #except: statsList["survived"] = (0,0)
-            # #try:
-            #     statsList["games"]= [swSTATSVAR.get('wins_'+gamemoder,0) + swSTATSVAR.get('losses_'+gamemoder,0), round(100*(swSTATSVAR.get('wins_'+gamemoder,0) + swSTATSVAR.get('losses_'+gamemoder,0))/swStatsDict['games_played'],2)]
-            #     if swStatsDict['games_played'] > swBestGame[0] and '_' in gamemoder:
-            #         swBestGame[0] = statsList['games'][0]
-            #         swBestGame[1] = gamemoder
-            # #except: statsList["games"] = (0,0)
-            # #try:
-            #     statsList["wins"]= [swSTATSVAR.get('wins_'+gamemoder,0), round(100*(swSTATSVAR.get('wins_'+gamemoder,0)/swStatsDict['wins']),2)]
-            # #except: statsList["wins"] = (0,0)
-            # # try:
-            #     statsList["losses"]= [swSTATSVAR.get('losses_'+gamemoder,0), round(100*(swSTATSVAR.get('losses_'+gamemoder,0)/swStatsDict['losses']),2)]
-            #     #except: statsList["losses"] = (0,0)
-            #     statsList["wl"]= solowl
-            #     statsList["kit"]= swSTATSVAR.get('activeKit_'+gamemoder.upper(),'Default').split('_')[-1].capitalize()
-            #     statsList["fastestwin"]= sec2format2ydhms(sec2format(swSTATSVAR.get('fastest_win_'+gamemoder,0)))
-            #     statsList['highkill']= swSTATSVAR.get('most_kills_game_'+gamemoder,0)
-            #     statsList['kdrelative']= solokdrelative
-            #     statsList['wlrelative']= solowlrelative
-            #     statsList['winperc']= round(100*(solowl[0]/(1+solowl[0])), 4)
-
-            #     if gamemoder == 'team':
-            #         statsList['kit'] = swSTATSVAR.get('activeKit_TEAMS','Default').split('_')[-1].capitalize().replace('-',' ').title()
-                
-            #     if gamemoder == 'ranked':
-            #         if statsList['highkill'] > 3:
-            #             statsList['highkill'] = 3
 
         swSoloStatsList = {'games_played':0}
         swTeamStatsList = {'games_played':0}
@@ -811,7 +760,7 @@ def compute(q):
         swKTLList = []
         for killType in ['melee', 'void', 'bow', 'mob', 'fall']:
             try:
-                swKillTypeList[killType] = (swSTATSVAR[killType + '_kills'], round(100*(swSTATSVAR[killType + '_kills']/swStatsDict['kills']), 2))
+                swKillTypeList[killType] = (swSTATSVAR[killType + '_kills'], round(100*weirdDiv(swSTATSVAR[killType + '_kills'], swStatsDict['kills']),2))
                 swKillTypeList['success'] = True
                 swKTLList.append(swKillTypeList[killType][0])
             except:
@@ -987,6 +936,7 @@ def compute(q):
         ########## Printing!
 
 # ! BedWars
+
     # Overall Stats
         bwOverallStats = {}
         try:
@@ -1020,14 +970,14 @@ def compute(q):
         
         # Add 4 criss cross final kill death crap, W/L, and B/L
         for x in [['K/D','kills_bedwars','deaths_bedwars'], ['finK/D','final_kills_bedwars','final_deaths_bedwars'], ['K/FD', 'kills_bedwars', 'final_deaths_bedwars'], ['FK/D', 'final_kills_bedwars', 'deaths_bedwars'], ['W/L', 'wins_bedwars', 'losses_bedwars'], ['B/L', 'beds_broken_bedwars', 'beds_lost_bedwars']]:
-            try:
-                bwOverallStats[x[0]] = round(bwOverallStats[x[1]]/bwOverallStats[x[2]],4)
-            except ZeroDivisionError:
-                if bwOverallStats[x[1]] == bwOverallStats[x[2]]:
-                    bwOverallStats[x[0]] = 0
-                else: bwOverallStats[x[0]] = math.inf
-            except:
-                bwOverallStats[x[0]] = 0
+            # try:
+            bwOverallStats[x[0]] = weirdDiv(bwOverallStats[x[1]], bwOverallStats[x[2]],4)
+            # except ZeroDivisionError:
+            #     if bwOverallStats[x[1]] == bwOverallStats[x[2]]:
+            #         bwOverallStats[x[0]] = 0
+            #     else: bwOverallStats[x[0]] = math.inf
+            # except:
+            #     bwOverallStats[x[0]] = 0
         
         # Add winrate
         try:
@@ -1177,46 +1127,33 @@ def compute(q):
                 except: pass
             
         # Kills per deaths with some final mixing in calculations
-            try:
-                bwModeStats[mode]['K/D'] = round(bwModeStats[mode]['kills_bedwars'][0]/bwModeStats[mode]['deaths_bedwars'][0],4)
-            except ZeroDivisionError: bwModeStats[mode]['K/D'] = math.inf
-            except: bwModeStats[mode]['K/D'] = 0
-            try:
-                bwModeStats[mode]['finK/D'] = round(bwModeStats[mode]['final_kills_bedwars'][0]/bwModeStats[mode]['final_deaths_bedwars'][0],4)
-            except ZeroDivisionError: bwModeStats[mode]['finK/D'] = math.inf
-            except: bwModeStats[mode]['finK/D'] = 0
-            try:
-                bwModeStats[mode]['K/FD'] = round(bwModeStats[mode]['kills_bedwars'][0]/bwModeStats[mode]['final_deaths_bedwars'][0],4)
-            except ZeroDivisionError: bwModeStats[mode]['K/FD'] = math.inf
-            except: bwModeStats[mode]['K/FD'] = 0
-            try:
-                bwModeStats[mode]['FK/D'] = round(bwModeStats[mode]['final_kills_bedwars'][0]/bwModeStats[mode]['deaths_bedwars'][0],4)
-            except ZeroDivisionError: bwModeStats[mode]['FK/D'] = math.inf
-            except: bwModeStats[mode]['FK/D'] = 0
+
+            bwModeStats[mode]['K/D'] = weirdDiv(bwModeStats[mode]['kills_bedwars'][0], bwModeStats[mode]['deaths_bedwars'][0],4)
+
+            bwModeStats[mode]['finK/D'] = weirdDiv(bwModeStats[mode]['final_kills_bedwars'][0], bwModeStats[mode]['final_deaths_bedwars'][0],4)
+
+            bwModeStats[mode]['K/FD'] = weirdDiv(bwModeStats[mode]['kills_bedwars'][0], bwModeStats[mode]['final_deaths_bedwars'][0],4)
+
+            bwModeStats[mode]['FK/D'] = weirdDiv(bwModeStats[mode]['final_kills_bedwars'][0], bwModeStats[mode]['deaths_bedwars'][0],4)
+
 
         # Win/loss ratio & winrate
-            try:
-                bwModeStats[mode]['W/L'] = round(bwModeStats[mode]['wins_bedwars'][0]/bwModeStats[mode]['losses_bedwars'][0],4)
-            except ZeroDivisionError: bwModeStats[mode]['W/L'] = math.inf
-            except: bwModeStats[mode]['W/L'] = 0
-            try:
-                bwModeStats[mode]['winrate'] = round(100*bwModeStats[mode]['wins_bedwars'][0]/bwModeStats[mode]['games_played_bedwars'][0],2)
-            except: bwModeStats[mode]['winrate'] = 0
-            # print(bwModeStats[mode]['wins_bedwars'][0])
-            # print(bwModeStats[mode]['games_played_bedwars'][0])
+
+            bwModeStats[mode]['W/L'] = weirdDiv(bwModeStats[mode]['wins_bedwars'][0], bwModeStats[mode]['losses_bedwars'][0],4)
+
+            bwModeStats[mode]['winrate'] = weirdDiv(100*bwModeStats[mode]['wins_bedwars'][0], bwModeStats[mode]['games_played_bedwars'][0],2)
 
             # Bed break/lose
-            try:
-                bwModeStats[mode]['B/L'] = round(bwModeStats[mode]['beds_broken_bedwars'][0]/bwModeStats[mode]['beds_lost_bedwars'][0],4)
-            except: bwModeStats[mode]['B/L'] = 0
+
+            bwModeStats[mode]['B/L'] = weirdDiv(bwModeStats[mode]['beds_broken_bedwars'][0], bwModeStats[mode]['beds_lost_bedwars'][0],4)
+
 
             # Items and resources per game
-            try:
-                bwModeStats[mode]['purc/game'] = round(bwModeStats[mode]['_items_purchased_bedwars'][0]/bwModeStats[mode]['games_played_bedwars'][0],4)
-            except: bwModeStats[mode]['purc/game'] = 0
-            try:
-                bwModeStats[mode]['resc/game'] = round(bwModeStats[mode]['resources_collected_bedwars'][0]/bwModeStats[mode]['games_played_bedwars'][0],4)
-            except: bwModeStats[mode]['resc/game'] = 0
+
+            bwModeStats[mode]['purc/game'] = weirdDiv(bwModeStats[mode]['_items_purchased_bedwars'][0], bwModeStats[mode]['games_played_bedwars'][0],4)
+
+            bwModeStats[mode]['resc/game'] = weirdDiv(bwModeStats[mode]['resources_collected_bedwars'][0],bwModeStats[mode]['games_played_bedwars'][0],4)
+
 
         # Comparative skills
             bwCompList[mode] = {}
@@ -1317,7 +1254,7 @@ def compute(q):
         for x in ['iron','gold','diamond','emerald','wrapped_present']:
             if x+'_resources_collected_bedwars' in bwSTATVAR:
                 bwResCol.append(bwSTATVAR[x+'_resources_collected_bedwars'])
-                bwResColPerc.append(round(100*bwSTATVAR[x+'_resources_collected_bedwars']/bwTotalResources,2))
+                bwResColPerc.append(weirdDiv(100*bwSTATVAR[x+'_resources_collected_bedwars'], bwTotalResources,2))
             else:
                 bwResCol.append(0)
     
@@ -1398,7 +1335,7 @@ def compute(q):
         for swear in swearList:
             if swear in q:
                 return "Username might be blocked by Mojang- username contains one of the following: \nhttps://paste.ee/p/RYo2C. \nIf this is a derivative of the Scunthorpe problem, sorry about that."
-        return render_template('user404.html')
+        return render_template('user404.html', q=q)
         #except:
         #    return "Errored out. Lol"
 

@@ -1,9 +1,28 @@
+{% extends 'index.html' %}
+
+{% block head %}
 <html>
     <head>
-        <title>Not found</title>
+        <title>{{q}} doesn't exist</title>
+        <div class="h2d">This player doesn't exist</div>
     </head>
-    <body>
-        <h1>Not found</h1>
-        <p>This person doesn't exist. Try again?</p>
-    </body>
+{% endblock %}
+
+{% block content %}
+    <p>Oops! <b>{{q}}</b> doesn't exist. Try again?</p>
+<!-- <span class="water">WATER  df fdfd fd</span> <br>
+<span class="mirror">Mirrorf d dfdf df df </span><br>
+<span class="light">lightfd  dfdf df df </span><br>
+<span class="dawn">dawnfd dfdf </span><br>
+<span class="dusk">duskfd df df</span><br>
+<span class="air">airdf  fddf</span><br>
+<span class="wind">winddf  dfdf</span><br>
+<span class="nebula">nebula dffddf</span><br>
+<span class="thunder">thunder df</span><br>
+<span class="earth">earth df</span><br>
+<span class="fire">fire df</span><br>
+mfer -->
+{% endblock %}
+
+
 </html>

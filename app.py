@@ -129,6 +129,19 @@ def queryt(path):
 def reddorect(k):
     return redirect(url_for('compute', q=k))
 
+# ! Thousands separator filter
+# No decimals
+@app.template_filter()
+def those(n):
+    try:
+        return f'{int(n):,}'
+    except: return n
+
+# Raw
+@app.template_filter()
+def thraw(n):
+    return f'{n:,}'
+
 # ! Routing for search page
 @app.route('/p/<q>', methods=['POST','GET'])
 @cache.cached(timeout=15)
@@ -167,7 +180,7 @@ def compute(q):
             reqListKarma = reqAPI['player']['karma']
         except:
             reqListKarma = 0
-        reqList['karma']=(f'{int(reqListKarma):,}')
+        reqList['karma']=int(reqListKarma)
         try:
             hypixelUN = reqAPI['player']['displayname']
         except:
@@ -393,7 +406,6 @@ def compute(q):
             achievements = 0
         try:
             achpot = reqAPI['player']['achievementPoints']
-            achpot = format(achpot, ',')
         except:
             achpot = 0
         
@@ -404,7 +416,6 @@ def compute(q):
                     quests += len(reqAPI['player']['quests'][j]['completions'])
                 except:
                     pass
-            quests = format(quests, ',')
         except:
             pass
 
@@ -418,16 +429,15 @@ def compute(q):
             joinedAgo = time.time() - firstLoginUnix
             joinedAgoText = sec2format2ydhms(sec2format(joinedAgo))
                 
-            if joinedAgo < 8895953: seniority = ('☘', 'Hypixel Newcomer', 'dark_green')
-            elif joinedAgo < 20301357: seniority = ('⛏', 'Hypixel Rookie', 'lawn')
-            elif joinedAgo < 34924098: seniority = ('➴', 'Hypixel Novice', 'yellowgreen')
-            elif joinedAgo < 53671752: seniority = ('⚝', 'Hypixel Trainee', 'yellow')
-            elif joinedAgo < 77707908: seniority = ('⚜', 'Hypixel Expert', 'gold')
-            elif joinedAgo < 108524398: seniority = ('✯', 'Hypixel Professional', 'dark_red')
-            elif joinedAgo < 148033875: seniority = ('❖', 'Hypixel Elder', 'water')
-            elif joinedAgo < 198688534: seniority = ('♗', 'Hypixel Veteran', 'nebula')
-            elif joinedAgo < 263632309: seniority = ('♛', 'Hypixel Master', 'fire')
-            elif joinedAgo < 346896000: seniority = ('♆', 'Hypixel Ancient', 'mirror')
+            if joinedAgo < 0.111*31536000: seniority = ('☘', 'Hypixel Newcomer', 'dark_green')
+            elif joinedAgo < 0.444*31536000: seniority = ('⛏', 'Hypixel Rookie', 'lawn')
+            elif joinedAgo < 1*31536000: seniority = ('➴', 'Hypixel Novice', 'yellowgreen')
+            elif joinedAgo < 1.778*31536000: seniority = ('⚝', 'Hypixel Trainee', 'yellow')
+            elif joinedAgo < 2.778*31536000: seniority = ('⚜', 'Hypixel Expert', 'gold')
+            elif joinedAgo < 4.000*31536000: seniority = ('♛', 'Hypixel Master', 'fire')
+            elif joinedAgo < 5.444*31536000: seniority = ('❖', 'Hypixel Elder', 'water')
+            elif joinedAgo < 7.111*31536000: seniority = ('♗', 'Hypixel Veteran', 'nebula')
+            else: seniority = ('♆', 'Hypixel Ancient', 'mirror')
         except: pass
 
         # Rank seniority
@@ -712,7 +722,8 @@ def compute(q):
                 statsList['assists%'] = weirdDiv(100*statsList['assists'], swStatsDict['assists'], 4)
                 statsList['fastest_win'] =sec2format2ydhms(sec2format(swSTATSVAR.get('fastest_win_'+gamemoder,0)))
                 statsList['most_kills_game'] = swSTATSVAR.get('most_kills_game_'+gamemoder,0)
-                statsList['kit'] = swSTATSVAR.get('activeKit_'+gamemoder.upper(), 'Default').split('_')[-1].replace('-',' ').title()
+                if gamemoder != 'lab':
+                    statsList['kit'] = swSTATSVAR.get('activeKit_'+gamemoder.upper(), 'Default').split('_')[-1].replace('-',' ').title()
 
             # If team, add kit correctly, and correct ranked most_kills_game
             if gamemoder == 'team':
@@ -728,11 +739,6 @@ def compute(q):
         swLabStatsList = {'games_played':0}
         for x, y in zip([swSoloStatsList,swTeamStatsList,swRankedStatsList,swMegaStatsList,swLabStatsList], ['solo', 'team', 'ranked', 'mega', 'lab']):
             if 'losses_'+y in swSTATSVAR or 'wins_'+y in swSTATSVAR: x = swModeStats(x, y) 
-        # swSoloStatsList = swModeStats(swSoloStatsList, 'solo')
-        # swTeamStatsList = swModeStats(swTeamStatsList, 'team')
-        # swRankedStatsList = swModeStats(swRankedStatsList, 'ranked')
-        # swMegaStatsList = swModeStats(swMegaStatsList, 'mega')
-        # swLabStatsList = swModeStats(swMegaStatsList, 'lab')
 
         swSoloNormal = {'games_played':0}
         swSoloInsane = {'games_played':0}
@@ -741,14 +747,6 @@ def compute(q):
         swMegaDoubles = {'games_played':0}
         swLabSolo = {'games_played':0}
         swLabTeams = {'games_played':0}
-        # swSoloNormal = swModeStats(swSoloNormal, 'solo_normal')
-        # swSoloInsane = swModeStats(swSoloInsane, 'solo_insane')
-        # swTeamsNormal = swModeStats(swTeamsNormal, 'team_normal')
-        # swTeamsInsane = swModeStats(swTeamsInsane, 'team_insane')
-        # swMegaDoubles = swModeStats(swMegaDoubles, 'mega_doubles')
-        # swLabSolo = swModeStats(swLabSolo, 'lab_solo')
-        # swLabTeams = swModeStats(swLabTeams, 'lab_team')
-
         for x, y in zip([swSoloNormal,swSoloInsane,swTeamsNormal,swTeamsInsane,swMegaDoubles, swLabSolo, swLabTeams], ['solo_normal', 'solo_insane', 'team_normal', 'team_insane', 'mega_doubles', 'lab_solo', 'lab_team']):
             if 'losses_'+y in swSTATSVAR or 'wins_'+y in swSTATSVAR: x = swModeStats(x, y) 
 

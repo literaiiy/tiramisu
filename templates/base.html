@@ -65,20 +65,20 @@ function scrollFunction() {
 </style>
 <div class="row">
     <div class="columnZ">
-        <img style='position: relative;margin-top:10px; margin-left:-500px;z-index:3;' src='https://crafatar.com/renders/body/{{uuid}}?overlay'><br>
+        <img style='position: relative;margin-top:10px; margin-left:-500px;z-index:3;' src='https://mc-heads.net/body/{{uuid}}'><br>
         <div style='margin-right:1%;margin-top:-300px;z-index:2;' class="splide">
             <div class="splide__track">
                 <ul class="splide__list">
                     <li style='background-color:#ff55ff;padding:100px;border-radius: 25px;color: #aa00aa;' class="splide__slide">
-                        <p><span style='font-size: 55;'>{{ reqList }}</span></p>
+                        <p><span style='font-size: 55;'>{{ reqList | those }}</span></p>
                         karma
                     </li>
                     <li style='background-color:#ffff55;padding:100px;border-radius: 25px;color:#55ffff' class="splide__slide">
-                        <p><span style='font-size: 55;'>{{ achpot }}</span></p> 
+                        <p><span style='font-size: 55;'>{{ achpot | those}}</span></p> 
                         achievement points from <b>{{achievements}}</b> achievents
                     </li>
                     <li style='background-color:mintcream;padding:100px;border-radius: 25px;color:#aaaaaa' class="splide__slide">
-                        <p><span style='font-size: 55;'>{{quests}}</span></p>
+                        <p><span style='font-size: 55;'>{{ quests | those}}</span></p>
                         quests
                     </li>
                 </ul>
@@ -141,19 +141,19 @@ function scrollFunction() {
         <p>Level <b>{{ level }} {{ multiplier }}</b> / <b>{{ levelProgress }}%</b> to <b>{{ levelplusone }}</b><br></p>
 
         <!--- KARMA --->
-        karma is <b class='light_purple'>{{ reqList }}</b><br>
+        karma is <b class='light_purple'>{{ reqList| those }}</b><br>
 
         <!--- ACHIEVEMENTS --->
-        <b>{{ achievements }}</b> achievements for <b>{{ achpot }}</b> achievement points<br>
+        <b>{{ achievements| those }}</b> achievements for <b>{{ achpot| those }}</b> achievement points<br>
 
         <!--- QUESTS --->
-        <b class="yellow">{{ quests }}</b> quests finished<br></p>
+        <b class="yellow">{{ quests| those }}</b> quests finished<br></p>
 
         <!-- TOTAL KILLS WINS COINS -->
         <p>
-        <b>Total coins</b>: {{totalCoins}} <br>
-        <b>Total kills</b>: {{totalKills}} <br>
-        <b>Total wins</b>: {{totalWins}} <br>
+        <b>Total coins</b>: {{totalCoins| those}} <br>
+        <b>Total kills</b>: {{totalKills| those}} <br>
+        <b>Total wins</b>: {{totalWins| those}} <br>
         </p>
 
         <!--- GUILD --->
@@ -219,12 +219,12 @@ function scrollFunction() {
         <!-- OTHERS -->
         <p>
         <b>Language</b>: {{userLanguage}}<br>
-        <b>Sent</b> {{giftsSent}} gifts, <b>received</b> {{giftsReceived}}<br>
+        <b>Sent</b> {{giftsSent| those}} gifts, <b>received</b> {{giftsReceived| those}}<br>
         Plays on <b>{{userVersion}}</b><br>
         </p>
         <p>
-        <b>Reward streak</b>: {{rewards['streak_current']}} (Best: {{rewards['streak_best']}}) <br>
-        <b>Rewards claimed</b>: {{rewards['claimed']}} ({{rewards['claimed_daily']}} daily)
+        <b>Reward streak</b>: {{rewards['streak_current']| those}} (Best: {{rewards['streak_best']| those}}) <br>
+        <b>Rewards claimed</b>: {{rewards['claimed']| those}} ({{rewards['claimed_daily']| those}} daily)
         </p>
 
         <!--- FRIENDS --->
@@ -255,55 +255,55 @@ function scrollFunction() {
 
     <!--- SKYWARS STATS --->
     <div class='header h2d'>SkyWars</div>
-    <div class='h3d'><p><span class="{{ swUnscannedDict['prestige'][1] }}"><b></span>{{ swStatsDict['skywars_experience'] }}</b> SkyWars experience · <b><span class="{{ swUnscannedDict['prestige'][1] }}">[{{ swUnscannedDict['level'] }}{{swUnscannedDict['presIcon']}}]</b></span>, {{ swUnscannedDict['prestige'][0] }} Prestige - <span class="{{ swUnscannedDict['prestige'][1] }}"><b>{{swUnscannedDict['xpRemainder']}} XP left ({{ swUnscannedDict['xpRemainderPerc'] }}%)</b></span> to <b>{{ swUnscannedDict['level']+1 }}</b><br>Approximately <b>{{swUnscannedDict['xpRemainder']}}</b> kills or <b>{{swUnscannedDict['winsRemainder']}}</b> wins until next level</p></div>
+    <div class='h3d'><p><span class="{{ swUnscannedDict['prestige'][1] }}"><b></span>{{ swStatsDict['skywars_experience']| those }}</b> SkyWars experience · <b><span class="{{ swUnscannedDict['prestige'][1] }}">[{{ swUnscannedDict['level'] }}{{swUnscannedDict['presIcon']}}]</b></span>, {{ swUnscannedDict['prestige'][0] }} Prestige - <span class="{{ swUnscannedDict['prestige'][1] }}"><b>{{swUnscannedDict['xpRemainder']| those}} XP left ({{ swUnscannedDict['xpRemainderPerc'] }}%)</b></span> to <b>{{ swUnscannedDict['level']+1 }}</b><br>Approximately <b>{{swUnscannedDict['xpRemainder']| those}}</b> kills or <b>{{swUnscannedDict['winsRemainder']| those}}</b> wins until next level</p></div>
     <table class='swgeneral'>
-        {{ username }} plays <b>{{ swBestGame[1] }}</b> most often, with <b>{{ swBestGame[0]}}</b> games played.
+        {{ username }} plays <b>{{ swBestGame[1] }}</b> most often, with <b>{{ swBestGame[0]| those}}</b> games played.
         <colgroup>
             <col class="leftsw">
             <col class="rightsw">
         </colgroup>
         <tr>
-                <td><b>{{ swStatsDict['games_played'] }}</b> games played</td>
-                <td><b>{{ swStatsDict['win_streak'] }}</b> winstreak </td>
+                <td><b>{{ swStatsDict['games_played']| those }}</b> games played</td>
+                <td><b>{{ swStatsDict['win_streak']| those }}</b> winstreak </td>
         </tr>
         <tr>
-                <td><b>{{ swStatsDict['quits'] }}</b> games quit</td>
-                <td><b>{{ swStatsDict['souls'] }}</b> souls </td>
+                <td><b>{{ swStatsDict['quits']| those }}</b> games quit</td>
+                <td><b>{{ swStatsDict['souls']| those }}</b> souls </td>
         </tr>
         <tr>
                 <td style='color:red'><b>{{ swStatsDict['K/D'] }}</b> K/D</td>
-                <td><b>{{ swStatsDict['heads'] }}</b> heads </td>
+                <td><b>{{ swStatsDict['heads']| those }}</b> heads </td>
         </tr>
         <tr>
                 <td style='color:red'><b>{{ swStatsDict['KDA'] }}</b> K/D/A</td>
-                <td><b>{{ swStatsDict['coins'] }}</b> coins </td>
+                <td><b>{{ swStatsDict['coins']| those }}</b> coins </td>
         </tr>
         <tr>
-                <td><b>{{ swStatsDict['kills'] }}</b> kills - <span class='{{ swUnscannedDict["head_tastiness"][1] }}'><b>{{ swUnscannedDict['head_tastiness'][0] }}</b></span></td>
-                <td><b>{{ swStatsDict['blocks_broken'] }}</b> blocks broken </td>
+                <td><b>{{ swStatsDict['kills']| those }}</b> kills - <span class='{{ swUnscannedDict["head_tastiness"][1] }}'><b>{{ swUnscannedDict['head_tastiness'][0] }}</b></span></td>
+                <td><b>{{ swStatsDict['blocks_broken']| those }}</b> blocks broken </td>
         </tr>
         <tr>
-                <td><b>{{ swStatsDict['assists'] }}</b> assists </td>
-                <td><b>{{ swStatsDict['egg_thrown'] }}</b> eggs thrown </td>
+                <td><b>{{ swStatsDict['assists']| those }}</b> assists </td>
+                <td><b>{{ swStatsDict['egg_thrown']| those }}</b> eggs thrown </td>
         </tr>
         <tr>
-                <td><b>{{ swStatsDict['deaths'] }}</b> deaths</td>
-                <td><b>{{ swStatsDict['arrows_shot'] }}</b> arrows shot, <b>{{ swStatsDict['arrows_hit'] }}</b> arrows hit</td>
+                <td><b>{{ swStatsDict['deaths']| those }}</b> deaths</td>
+                <td><b>{{ swStatsDict['arrows_shot']| those }}</b> arrows shot, <b>{{ swStatsDict['arrows_hit']| those }}</b> arrows hit</td>
         </tr>
         <tr>
                 <td><b>{{ swStatsDict['W/L'] }}</b> W/L - <b>{{ swStatsDict['winrate'] }}%</b> win rate </td>
                 <td><b>{{ swStatsDict['arrow_hitrate'] }}%</b> arrow hit rate</td>
         </tr>
         <tr>
-                <td><b>{{ swStatsDict['wins'] }}</b> wins</td>
+                <td><b>{{ swStatsDict['wins']| those }}</b> wins</td>
                 <td>Fastest win: <b>{{ swStatsDict['fastest_win'] }}</b> </td>
         </tr>
         <tr>
-                <td><b>{{ swStatsDict['losses'] }}</b> losses </td>
-                <td><b>{{ swStatsDict['chests_opened'] }}</b> chests opened</td>
+                <td><b>{{ swStatsDict['losses']| those }}</b> losses </td>
+                <td><b>{{ swStatsDict['chests_opened']| those }}</b> chests opened</td>
         </tr>
         <tr>
-                <td><b>{{ swStatsDict['survived_players'] }}</b> players survived </td>
+                <td><b>{{ swStatsDict['survived_players']| those }}</b> players survived </td>
                 <td>Highest-kill game: <b>{{ swStatsDict['most_kills_game'] }} kills</b></td>
         </tr>
         <tr>
@@ -319,10 +319,10 @@ function scrollFunction() {
                 <td><b>{{ swStatsDict['arrows_per_game'] }}</b> arrows shot per game </td>
         </tr>
     </table>
-        <b>{{swStatsDict['blocks_placed']}}</b> blocks placed <br>
-        <b>{{ swStatsDict['enderpearls_thrown']}}</b> ender pearls thrown <br>
-        <b>{{swStatsDict['refill_chest_destroy']}}</b> refill chests destroyed <br>
-        <b>{{swStatsDict['cosmetic_tokens']}}</b> tokens <br>
+        <b>{{swStatsDict['blocks_placed']| those}}</b> blocks placed <br>
+        <b>{{ swStatsDict['enderpearls_thrown']| those}}</b> ender pearls thrown <br>
+        <b>{{swStatsDict['refill_chest_destroy']| those}}</b> refill chests destroyed <br>
+        <b>{{swStatsDict['cosmetic_tokens']| those}}</b> tokens <br>
         <b>{{swStatsDict['pearls_per_game']}}</b> ender pearls thrown per game <br>
         Corruption chance: <b>{{swStatsDict['angel_of_death_level']}}%</b><br>
 
@@ -370,24 +370,26 @@ function scrollFunction() {
                             {% endif %}
                         </p>
                         <p>
-                            <br><b>{{ x['kills'] }}</b> kills <b>({{ x['kills%']|round(2) }}%)</b>
-                            <br><b>{{ x['deaths'] }}</b> deaths <b>({{ x['deaths%']|round(2) }}%)</b>
-                            <br><b>{{x['assists']}}</b> assists  <b>({{ x['assists%']|round(2) }}%)</b>
+                            <br><b>{{ x['kills']| those }}</b> kills <b>({{ x['kills%']|round(2) }}%)</b>
+                            <br><b>{{ x['deaths']| those }}</b> deaths <b>({{ x['deaths%']|round(2) }}%)</b>
+                            <br><b>{{x['assists']| those}}</b> assists  <b>({{ x['assists%']|round(2) }}%)</b>
                             {% if x["K/D"] > 100000 %}
                                 <br><b>∞</b> K/D
                             {% else %}
                                 <br><b>{{ x["K/D"] }}</b> K/D
                             {% endif %}
-                            <br><b>{{ x['survived_players'] }}</b> players survived <b>({{ x['survived_players%']|round(2) }}%)</b>
-                            <br><b>{{x['games_played']}}</b> games played <b>({{ x['games_played%']|round(2) }}%)</b>
-                            <br><b>{{x['wins']}}</b> wins <b>({{ x['wins%']|round(2) }}%)</b>
-                            <br><b>{{x['losses']}}</b> losses <b>({{ x['losses%']|round(2) }}%)</b>
+                            <br><b>{{ x['survived_players']| those }}</b> players survived <b>({{ x['survived_players%']|round(2) }}%)</b>
+                            <br><b>{{x['games_played']| those}}</b> games played <b>({{ x['games_played%']|round(2) }}%)</b>
+                            <br><b>{{x['wins']| those}}</b> wins <b>({{ x['wins%']|round(2) }}%)</b>
+                            <br><b>{{x['losses']| those}}</b> losses <b>({{ x['losses%']|round(2) }}%)</b>
                             {% if x['W/L'] > 100000 %}
                                 <br><b>∞</b> W/L - <b>∞%</b> win rate
                             {% else %}
                                 <br><b>{{ x['W/L'] }}</b> W/L - <b>{{x['winperc']}}%</b> win rate
                             {% endif %}
-                            <br><b>{{x['kit']}}</b> currently equipped
+                            {% if y != 'Laboratory' %}
+                                <br><b>{{x['kit']}}</b> currently equipped
+                            {% endif %}
                             <br>Fastest win: <b>{{x['fastest_win']}}</b>
                             <br>Highest-kill game: <b>{{x['most_kills_game']}}</b> kills
                         </p>
@@ -440,16 +442,16 @@ function scrollFunction() {
                         {% endif %}
                         </p>
                         <p>
-                            <br><b>{{ x['kills'] }}</b> kills <b>({{ x['kills%']|round(2) }}%)</b>
-                            <br><b>{{ x['deaths'] }}</b> deaths <b>({{ x['deaths%']|round(2) }}%)</b>
+                            <br><b>{{ x['kills']| those }}</b> kills <b>({{ x['kills%']|round(2) }}%)</b>
+                            <br><b>{{ x['deaths']| those }}</b> deaths <b>({{ x['deaths%']|round(2) }}%)</b>
                             {% if x["K/D"] > 100000 %}
                                 <br><b>∞</b> K/D
                             {% else %}
                                 <br><b>{{ x["K/D"] }}</b> K/D
                             {% endif %}
-                            <br><b>{{x['games_played']}}</b> games played <b>({{ x['games_played%']|round(2) }}%)</b>
-                            <br><b>{{x['wins']}}</b> wins <b>({{ x['wins%']|round(2) }}%)</b>
-                            <br><b>{{x['losses']}}</b> losses <b>({{ x['losses%']|round(2) }}%)</b>
+                            <br><b>{{x['games_played']| those}}</b> games played <b>({{ x['games_played%']|round(2) }}%)</b>
+                            <br><b>{{x['wins']| those}}</b> wins <b>({{ x['wins%']|round(2) }}%)</b>
+                            <br><b>{{x['losses']| those}}</b> losses <b>({{ x['losses%']|round(2) }}%)</b>
                             {% if x['W/L'] > 100000 %}
                                 <br><b>∞</b> W/L - <b>∞%</b> win rate
                             {% else %}
@@ -484,7 +486,7 @@ function scrollFunction() {
             <p>
                 {% for killType in swKillTypeList %}
                     {% if killType != 'success' %}
-                        {{killType|title}}: {{ swKillTypeList[killType][0] }} ({{swKillTypeList[killType][1] }}%)<br>
+                        {{killType|title}}: {{ swKillTypeList[killType][0] | those}} ({{swKillTypeList[killType][1] }}%)<br>
                     {% endif %}
                 {% endfor %}
             </p>
@@ -570,17 +572,17 @@ function scrollFunction() {
         <p>Since your first login, you have spent <b>{{ swKWperLists[2] }}%</b> of life playing SkyWars. </p>
         
         {% for item in swKWperLists[0] %}
-            <b>{{item[0]}}</b> kills per {{item[1]}}<br>
+            <b>{{item[0]| thraw}}</b> kills per {{item[1]}}<br>
         {% endfor %}
         {% for item in swKWperLists[1] %}
-            <b>{{item[0]}}</b> wins per {{item[1]}}<br>
+            <b>{{item[0]| thraw}}</b> wins per {{item[1]}}<br>
         {% endfor %}
 
         <div class="h3d">Souls</div>
 
         <p>
         {% for thing in swSoulList %}
-            <span class="{{ thing[2] }}"><b>{{ thing[0] }}</b> {{ thing[1] }} <br></span>
+            <span class="{{ thing[2] }}"><b>{{ thing[0]| those }}</b> {{ thing[1] }} <br></span>
         {% endfor %}
         </p>
 
@@ -612,7 +614,7 @@ function scrollFunction() {
         <div class="h3d">Heads</div>
         <p><b>OVERALL</b><br>
         {% for item in swHeadsListList[0] %}
-            <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]}} ({{item[3]}}%)<br>
+            <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]| those}} ({{item[3]}}%)<br>
         {% endfor %} </p>
         <div class='headscont' style='position:relative;height:25%; width:25%'>
             <canvas id="heads"></canvas>
@@ -638,7 +640,7 @@ function scrollFunction() {
 
         <p><b>SOLO</b><br>
         {% for item in swHeadsListList[1] %}
-            <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]}} ({{item[3]}}%)<br>
+            <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]| those}} ({{item[3]}}%)<br>
         {% endfor %}</p>
         <div class='headscontsolo' style='position:relative;height:25%; width:25%'>
             <canvas id="headssolo"></canvas>
@@ -664,7 +666,7 @@ function scrollFunction() {
 
         <p><b>TEAMS</b><br>
         {% for item in swHeadsListList[2] %}
-            <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]}} ({{item[3]}}%)<br>
+            <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]| those}} ({{item[3]}}%)<br>
         {% endfor %}</p>
         <div class='headscontteam' style='position:relative;height:25%; width:25%'>
             <canvas id="headsteam"></canvas>
@@ -693,16 +695,16 @@ function scrollFunction() {
             {% if a == 'shards per kill' or a == 'shards per game' or a == 'opals from prestige' %}
                 <b>{{b}}</b> {{a}} <br>
             {% elif a == 'opals' %}
-                <span class="dark_blue"><b>{{b}}</b> {{a}}</span><br>
+                <span class="dark_blue"><b>{{b| those}}</b> {{a}}</span><br>
             {% elif a == 'shards' %}
-                <span class="aqua"><b>{{b}}</b> {{a}}</span><br>
+                <span class="aqua"><b>{{b| those}}</b> {{a}}</span><br>
             {% elif a == 'until next opal' %}
-                <b>{{b}}</b> ({{swOpals['shardsTilNextPerc']}}%) shards until next opal <br>
+                <b>{{b| those}}</b> ({{swOpals['shardsTilNextPerc']}}%) shards until next opal <br>
                     {% for x in range(swOpals['shardsTilNextPrBa']) %}<b><span class="dark_blue">/</span></b>{% endfor %}{% for x in range(32-swOpals['shardsTilNextPrBa']) %}<span class='blue'>/</span>{% endfor %}<br>
             {% elif a == 'shard_solo' %}
-                <b>{{b}}</b> shards from solo ({{swOpals['shard_solo_perc']}}%) <br>
+                <b>{{b| those}}</b> shards from solo ({{swOpals['shard_solo_perc']}}%) <br>
             {% elif a == 'shard_team' %}
-                <b>{{b}}</b> shards from teams ({{swOpals['shard_team_perc']}}%) <br>
+                <b>{{b| those}}</b> shards from teams ({{swOpals['shard_team_perc']}}%) <br>
             {% endif %}
         {% endfor %}
 
@@ -722,37 +724,37 @@ function scrollFunction() {
         <div class="h2d">BedWars</div>
         <p>
             <b><span class="{{bwOverallStats['prestige'][1]}}">
-                [{{bwOverallStats['level']}}☆]
+                [{{bwOverallStats['level']| those}}☆]
             </span></b>
             {{username}} <br>
             <b><span class="{{bwOverallStats['prestige'][1]}}">
                 {{bwOverallStats['prestige'][0]}}
             </span></b>
             Prestige - <b>{{bwOverallStats['prestige'][2]}}%</b> to 
-            <b><span class="{{bwOverallStats['prestige'][1]}}">[{{bwOverallStats['level']+1}}☆]
+            <b><span class="{{bwOverallStats['prestige'][1]}}">[{{(bwOverallStats['level']+1)| those}}☆]
             </span></b>
             <br>
-        {{bwOverallStats['Experience']}} experience <br></p>
+        {{bwOverallStats['Experience']| those}} experience <br></p>
 
-        {{bwOverallStats['games_played_bedwars']}} games played <br>
+        {{bwOverallStats['games_played_bedwars']| those}} games played <br>
         {{bwOverallStats['K/D']}} K/D<br>
         {{bwOverallStats['finK/D']}} final K/D<br>
-        {{bwOverallStats['kills_bedwars']}} kills<br>
-        {{bwOverallStats['deaths_bedwars']}} deaths<br>
-        {{bwOverallStats['final_kills_bedwars']}} final kills<br>
-        {{bwOverallStats['final_deaths_bedwars']}} final deaths<br>
+        {{bwOverallStats['kills_bedwars']| those}} kills<br>
+        {{bwOverallStats['deaths_bedwars']| those}} deaths<br>
+        {{bwOverallStats['final_kills_bedwars']| those}} final kills<br>
+        {{bwOverallStats['final_deaths_bedwars']| those}} final deaths<br>
         {{bwOverallStats['K/FD']}} kills/final deaths<br>
         {{bwOverallStats['FK/D']}} final kills/deaths<br>
-        {{bwOverallStats['winstreak']}} winstreak<br>
+        {{bwOverallStats['winstreak']| those}} winstreak<br>
         {{bwOverallStats['W/L']}} W/L<br>
         {{bwOverallStats['winrate']}}% win rate<br>
-        {{bwOverallStats['wins_bedwars']}} wins<br>
-        {{bwOverallStats['losses_bedwars']}} losses<br>
-        {{bwOverallStats['beds_broken_bedwars']}} beds broken<br>
-        {{bwOverallStats['beds_lost_bedwars']}} beds lost<br>
+        {{bwOverallStats['wins_bedwars']| those}} wins<br>
+        {{bwOverallStats['losses_bedwars']| those}} losses<br>
+        {{bwOverallStats['beds_broken_bedwars']| those}} beds broken<br>
+        {{bwOverallStats['beds_lost_bedwars']| those}} beds lost<br>
         {{bwOverallStats['B/L']}} bed break/lose<br>
-        {{bwOverallStats['_items_purchased_bedwars']}} items bought<br>
-        {{bwOverallStats['resources_collected_bedwars']}} resources collected<br>
+        {{bwOverallStats['_items_purchased_bedwars']| those}} items bought<br>
+        {{bwOverallStats['resources_collected_bedwars']| those}} resources collected<br>
 
         <div class="h3d">BedWars - by Mode</div>
             {% if bwMKWList[3] != '' and bwMKWList[4] != '' and bwMKWList[5] != '' %}
@@ -778,7 +780,7 @@ function scrollFunction() {
                         <span class="red"><b>{{bwCompList[mode]['compfkd'][0]}}</b></span> lower final K/D (<span class="red">{{bwCompList[mode]['compfkd'][1]}}%</span>)
                     {% endif %} 
                      | 
-                    {% if bwCompList[mode]['compfkd'][0] > 100000 %}
+                    {% if bwCompList[mode]['compwl'][0] > 100000 %}
                         <span class="almost"><b>infinite</b></span> W/L
                     {% elif bwCompList[mode]['compwl'][0] > 0 %}
                         <span class="dark_green"><b>{{bwCompList[mode]['compwl'][0]}}</b></span> higher W/L (<span class="dark_green">+{{bwCompList[mode]['compwl'][1]}}%</span>)
@@ -788,46 +790,46 @@ function scrollFunction() {
                 </p>
                 
                 <p>
-                    {{ bwModeStats[mode]['kills_bedwars'][0] }} kills ({{ bwModeStats[mode]['kills_bedwars'][1]}}%) <br>
-                    {{ bwModeStats[mode]['deaths_bedwars'][0] }} deaths ({{ bwModeStats[mode]['deaths_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['kills_bedwars'][0]| those }} kills ({{ bwModeStats[mode]['kills_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['deaths_bedwars'][0]| those }} deaths ({{ bwModeStats[mode]['deaths_bedwars'][1]}}%) <br>
                     {{ bwModeStats[mode]['K/D'] }} K/D <br>
-                    {{ bwModeStats[mode]['final_kills_bedwars'][0] }} final kills ({{ bwModeStats[mode]['final_kills_bedwars'][1]}}%) <br>
-                    {{ bwModeStats[mode]['final_deaths_bedwars'][0] }} final deaths ({{ bwModeStats[mode]['final_deaths_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['final_kills_bedwars'][0]| those }} final kills ({{ bwModeStats[mode]['final_kills_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['final_deaths_bedwars'][0]| those }} final deaths ({{ bwModeStats[mode]['final_deaths_bedwars'][1]}}%) <br>
                     {{ bwModeStats[mode]['finK/D'] }} final K/D<br>
                     {{ bwModeStats[mode]['K/FD'] }} kills/final deaths<br>
                     {{ bwModeStats[mode]['FK/D'] }} final kills/deaths<br>
-                    {{ bwModeStats[mode]['games_played_bedwars'][0] }} games played ({{ bwModeStats[mode]['games_played_bedwars'][1]}}%) <br>
-                    {{ bwModeStats[mode]['winstreak'][0] }} winstreak<br>
-                    {{ bwModeStats[mode]['wins_bedwars'][0] }} wins ({{ bwModeStats[mode]['wins_bedwars'][1]}}%) <br>
-                    {{ bwModeStats[mode]['losses_bedwars'][0] }} losses ({{ bwModeStats[mode]['losses_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['games_played_bedwars'][0]| those }} games played ({{ bwModeStats[mode]['games_played_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['winstreak'][0]| those }} winstreak<br>
+                    {{ bwModeStats[mode]['wins_bedwars'][0]| those }} wins ({{ bwModeStats[mode]['wins_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['losses_bedwars'][0]| those }} losses ({{ bwModeStats[mode]['losses_bedwars'][1]}}%) <br>
                     {{ bwModeStats[mode]['W/L'] }} W/L<br>
                     {{ bwModeStats[mode]['winrate'] }}% win rate<br>
-                    {{ bwModeStats[mode]['beds_broken_bedwars'][0] }} beds broken ({{ bwModeStats[mode]['beds_broken_bedwars'][1]}}%) <br>
-                    {{ bwModeStats[mode]['beds_lost_bedwars'][0] }} beds lost ({{ bwModeStats[mode]['beds_lost_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['beds_broken_bedwars'][0]| those }} beds broken ({{ bwModeStats[mode]['beds_broken_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['beds_lost_bedwars'][0]| those }} beds lost ({{ bwModeStats[mode]['beds_lost_bedwars'][1]}}%) <br>
                     {{ bwModeStats[mode]['B/L'] }} bed break/lose ratio <br>
-                    {{ bwModeStats[mode]['_items_purchased_bedwars'][0]}} items purchased ({{ bwModeStats[mode]['_items_purchased_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['_items_purchased_bedwars'][0]| those}} items purchased ({{ bwModeStats[mode]['_items_purchased_bedwars'][1]}}%) <br>
                     {{ bwModeStats[mode]['purc/game']}} items purchased per game <br>
                     {{ bwModeStats[mode]['resc/game']}} resources collected per game <br>
-                    {{ bwModeStats[mode]['resources_collected_bedwars'][0]}} resources collected ({{ bwModeStats[mode]['resources_collected_bedwars'][1]}}%) <br>
-                    {{ bwModeStats[mode]['iron_resources_collected_bedwars'][0] }} iron collected ({{ bwModeStats[mode]['iron_resources_collected_bedwars'][1]}}%) <br>
-                    {{ bwModeStats[mode]['gold_resources_collected_bedwars'][0] }} gold collected ({{ bwModeStats[mode]['gold_resources_collected_bedwars'][1]}}%) <br>
-                    {{ bwModeStats[mode]['diamond_resources_collected_bedwars'][0] }} diamonds collected ({{ bwModeStats[mode]['diamond_resources_collected_bedwars'][1]}}%) <br>
-                    {{ bwModeStats[mode]['emerald_resources_collected_bedwars'][0] }} emeralds collected ({{ bwModeStats[mode]['emerald_resources_collected_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['resources_collected_bedwars'][0]| those}} resources collected ({{ bwModeStats[mode]['resources_collected_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['iron_resources_collected_bedwars'][0]| those }} iron collected ({{ bwModeStats[mode]['iron_resources_collected_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['gold_resources_collected_bedwars'][0]| those }} gold collected ({{ bwModeStats[mode]['gold_resources_collected_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['diamond_resources_collected_bedwars'][0]| those }} diamonds collected ({{ bwModeStats[mode]['diamond_resources_collected_bedwars'][1]}}%) <br>
+                    {{ bwModeStats[mode]['emerald_resources_collected_bedwars'][0]| those }} emeralds collected ({{ bwModeStats[mode]['emerald_resources_collected_bedwars'][1]}}%) <br>
                 </p>
                 {% endif %}
         {% endfor %}
         
         <div class="h3d">Kills via</div>
-            <p><b>🗡 Melee</b>: {{bwKillsList[0]['🗡 Melee'][0]}} ({{bwKillsList[0]['🗡 Melee'][1]}}%)<br>
+            <p><b>🗡 Melee</b>: {{bwKillsList[0]['🗡 Melee'][0]| those}} ({{bwKillsList[0]['🗡 Melee'][1]}}%)<br>
             {% for name, num in bwKillsList[0].items() %}
                 {% if 'Melee' not in name %}
-                    <b>{{name}}</b>: {{num[0]}} ({{num[1]}}%)<br>
+                    <b>{{name}}</b>: {{num[0]| those}} ({{num[1]}}%)<br>
                 {% endif %}
             {% endfor %}</p>
 
             {% for name, num in bwKillsList[1].items() %}
                 {% if num != 0 %}
-                    <b>{{name}}</b>: {{num}} <br>
+                    <b>{{name}}</b>: {{num| those}} <br>
                 {% endif %}
             {% endfor %}
 
@@ -863,16 +865,16 @@ function scrollFunction() {
         </div>
 
         <div class="h3d">Final kills via</div>
-            <p><b>🗡 Melee</b>: {{bwKillsList[2]['🗡 Melee'][0]}} ({{bwKillsList[2]['🗡 Melee'][1]}}%)<br>
+            <p><b>🗡 Melee</b>: {{bwKillsList[2]['🗡 Melee'][0]| those}} ({{bwKillsList[2]['🗡 Melee'][1]}}%)<br>
             {% for name, num in bwKillsList[2].items() %}
                 {% if 'Melee' not in name %}
-                    <b>{{name}}</b>: {{num[0]}} ({{num[1]}}%)<br>
+                    <b>{{name}}</b>: {{num[0]| those}} ({{num[1]}}%)<br>
                 {% endif %}
             {% endfor %}</p>
 
             {% for name, num in bwKillsList[3].items() %}
                 {% if num != 0 %}
-                    <b>{{name}}</b>: {{num}} <br>
+                    <b>{{name}}</b>: {{num| those}} <br>
                 {% endif %}
             {% endfor %}
 
@@ -909,20 +911,20 @@ function scrollFunction() {
 
         <div class="h3d">Loot Crates</div>
         <p>
-            <b>Total loot crates</b>: {{bwLootBoxes['bedwars_box']}} <br>
-            <b>Current loot crates</b>: {{bwLootBoxes['bedwars_boxes'][0]}} ({{bwLootBoxes['bedwars_boxes'][1]}}%) <br>
+            <b>Total loot crates</b>: {{bwLootBoxes['bedwars_box']| those}} <br>
+            <b>Current loot crates</b>: {{bwLootBoxes['bedwars_boxes'][0]| those}} ({{bwLootBoxes['bedwars_boxes'][1]}}%) <br>
         </p>
         <p>
-            <b><span class="gold">Legendaries</span></b>: {{bwLootBoxes['bedwars_box_legendaries'][0]}} ({{bwLootBoxes['bedwars_box_legendaries'][1]}}%) <br>
-            <b><span class="dark_purple">Epics</span></b>: {{bwLootBoxes['bedwars_box_epics'][0]}} ({{bwLootBoxes['bedwars_box_epics'][1]}}%) <br>
-            <b><span class="blue">Rares</span></b>: {{bwLootBoxes['bedwars_box_rares'][0]}} ({{bwLootBoxes['bedwars_box_rares'][1]}}%) <br>
-            <b><span class="green">Commons</span></b>: {{bwLootBoxes['bedwars_box_commons'][0]}} ({{bwLootBoxes['bedwars_box_commons'][1]}}%) <br>
+            <b><span class="gold">Legendaries</span></b>: {{bwLootBoxes['bedwars_box_legendaries'][0]| those}} ({{bwLootBoxes['bedwars_box_legendaries'][1]}}%) <br>
+            <b><span class="dark_purple">Epics</span></b>: {{bwLootBoxes['bedwars_box_epics'][0]| those}} ({{bwLootBoxes['bedwars_box_epics'][1]}}%) <br>
+            <b><span class="blue">Rares</span></b>: {{bwLootBoxes['bedwars_box_rares'][0]| those}} ({{bwLootBoxes['bedwars_box_rares'][1]}}%) <br>
+            <b><span class="green">Commons</span></b>: {{bwLootBoxes['bedwars_box_commons'][0]| those}} ({{bwLootBoxes['bedwars_box_commons'][1]}}%) <br>
         </p>
         <p>
-            <b>🧧 <span class="red">Lunar</span> Crates</b>: {{bwLootBoxes['bedwars_lunar_boxes'][0]}} ({{bwLootBoxes['bedwars_lunar_boxes'][1]}}%) <br>
-            <b>🐇 <span class="aqua">Easter</span> Crates</b>: {{bwLootBoxes['bedwars_easter_boxes'][0]}} ({{bwLootBoxes['bedwars_easter_boxes'][1]}}%) <br>
-            <b>🎃 <span class="orange">Halloween</span> Crates</b>: {{bwLootBoxes['bedwars_halloween_boxes'][0]}} ({{bwLootBoxes['bedwars_halloween_boxes'][1]}}%) <br>
-            <b>🎄 <span class="dark_green">Christmas</span> Crates</b>: {{bwLootBoxes['bedwars_christmas_boxes'][0]}} ({{bwLootBoxes['bedwars_christmas_boxes'][1]}}%) <br>
+            <b>🧧 <span class="red">Lunar</span> Crates</b>: {{bwLootBoxes['bedwars_lunar_boxes'][0]| those}} ({{bwLootBoxes['bedwars_lunar_boxes'][1]}}%) <br>
+            <b>🐇 <span class="aqua">Easter</span> Crates</b>: {{bwLootBoxes['bedwars_easter_boxes'][0]| those}} ({{bwLootBoxes['bedwars_easter_boxes'][1]}}%) <br>
+            <b>🎃 <span class="orange">Halloween</span> Crates</b>: {{bwLootBoxes['bedwars_halloween_boxes'][0]| those}} ({{bwLootBoxes['bedwars_halloween_boxes'][1]}}%) <br>
+            <b>🎄 <span class="dark_green">Christmas</span> Crates</b>: {{bwLootBoxes['bedwars_christmas_boxes'][0]| those}} ({{bwLootBoxes['bedwars_christmas_boxes'][1]}}%) <br>
         </p>
 
         <div class='cvLootBox' style='position:relative;height:25%; width:25%'>
@@ -954,15 +956,15 @@ function scrollFunction() {
 
         <div class="h3d">Resources collected</div>
         <p>
-            <b>Iron collected</b>: {{bwResCol[0]}} ({{bwResColPerc[0]}}%) <br>
-            <b>Gold collected</b>: {{bwResCol[1]}} ({{bwResColPerc[1]}}%) <br>
-            <b>Diamonds collected</b>: {{bwResCol[2]}} ({{bwResColPerc[2]}}%) <br>
-            <b>Emeralds collected</b>: {{bwResCol[3]}} ({{bwResColPerc[3]}}%) <br>
-            <b>Wrapped presents collected</b>: {{bwResCol[4]}} ({{bwResColPerc[4]}}%) <br>
+            <b>Iron collected</b>: {{bwResCol[0]| those}} ({{bwResColPerc[0]}}%) <br>
+            <b>Gold collected</b>: {{bwResCol[1]| those}} ({{bwResColPerc[1]}}%) <br>
+            <b>Diamonds collected</b>: {{bwResCol[2]| those}} ({{bwResColPerc[2]}}%) <br>
+            <b>Emeralds collected</b>: {{bwResCol[3]| those}} ({{bwResColPerc[3]}}%) <br>
+            <b>Wrapped presents collected</b>: {{bwResCol[4]| those}} ({{bwResColPerc[4]}}%) <br>
         </p>
         <p>
-            <b>Total resources collected</b>: {{bwTotalResources}} <br>
-            <b>Total items bought from shop</b>: {{bwItemsPurchased}} <br>
+            <b>Total resources collected</b>: {{bwTotalResources| those}} <br>
+            <b>Total items bought from shop</b>: {{bwItemsPurchased| those}} <br>
         </p>
 
         <div class='cavResCol' style='position:relative;height:25%; width:25%'>

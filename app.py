@@ -27,7 +27,7 @@ ADMINS = ['35a178c0c37043aea959983223c04de0']
 FLOWERS = ['27bcc1547423484683fd811155d8c472']
 SPARKLES = ['903100946468408aaf2462365389059c', '35bb69ce904a4380a03ffd55acbc2331', '35a178c0c37043aea959983223c04de0']
 PENGUINS = ['cfc42e543d834b4f9f7a23c059783ba5']
-swearList = ['anal','anus','ass','bastard','bitch','blowjob','blow job','buttplug','clitoris','cock','cunt','dick','dildo','fag','fuck','hell','jizz','nigger','nigga','penis','piss','pussy','scrotum','sex','shit','slut','turd','vagina']
+swearList = ['anal','anus','ass','bastard','bitch','blowjob','blow job','buttplug','clitoris','cock','cunt','dick','dildo','fag','fuck','jizz','nigger','nigga','penis','piss','pussy','scrotum','sex','shit','slut','vagina']
 sweetHeadsRanks = ['HELPER', 'MODERATOR', 'ADMIN', 'OWNER']
 
 requests_cache.install_cache('test_cache', backend='sqlite', expire_after=30)
@@ -1348,13 +1348,19 @@ def compute(q):
         screwup = 'Oops! This player doesn\'t exist. You can take the name, if you\'d like. 😉'
         if len(q) < 3 or len(q) > 16:
             screwup = "A Minecraft username has to be between 3 and 16 characters (with a few special exceptions), and can only contain alphanumeric characters and underscores."
-        for letter in q:
-            if letter not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_':
-                screwup = 'Username contains invalid characters. A Minecraft username can only contain alphanumeric characters and underscores.'
-        for swear in swearList:
-            if swear in q:
-                screwup = "Username might be blocked by Mojang- username contains one of the following: \nhttps://paste.ee/p/RYo2C. \nIf this is a derivative of the Scunthorpe problem, sorry about that."
-        return render_template('user404.html', q=q, screwup=screwup)
+        # for letter in q:
+        #     if letter not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_':
+        #         screwup = 'Username contains invalid characters. A Minecraft username can only contain alphanumeric characters and underscores.'
+                #noAutocorrect = re.sub(r'\W+', '', q)
+        elif q != re.sub(r'\W+', '', q): 
+            screwup = 'Username contains invalid characters. A Minecraft username can only contain alphanumeric characters and underscores.'
+            noAutocorrect = re.sub(r'\W+', '', q)
+            print(noAutocorrect)
+        # for swear in swearList:
+        #     if swear in q:
+        if any(swear in q for swear in swearList):
+            screwup = "Username might be blocked by Mojang- username contains a blacklisted word. If this is a derivtive of the Scunthorpe problem, sorry about that." #\nhttps://paste.ee/p/RYo2C. \nIf this is a derivative of the Scunthorpe problem, sorry about that."
+        return render_template('user404.html', q=q, screwup=screwup, noAutocorrect=noAutocorrect)
         #except:
         #    return "Errored out. Lol"
 

@@ -9,6 +9,9 @@
 {% endblock %}
 
 {% block content %}
+    {% if noAutocorrect != True %}
+        <p>Did you mean to search for <a href='/p/{{noAutocorrect}}'><b>{{noAutocorrect}}</b>?</a></p>
+    {% endif %}
     <p>{{screwup}}</p>
     {#% if remo %#}
 <!-- <span class="water">WATER  df fdfd fd</span> <br>

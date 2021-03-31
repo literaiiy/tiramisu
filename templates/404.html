@@ -2,17 +2,22 @@
 
 {% block head %}
 <head>
-	<title>404 - All the tiramisu is gone!</title>
+	<title>{{error}} - All the tiramisu is gone!</title>
 	<!-- <link href="{{ url_for('static', filename='404.css') }}" rel="stylesheet" type="text/css"> -->
 </head>
 {% endblock %}
 
 {% block content %}
 <body>
-	<div class="w-layout-grid grid">
-		<div class="h2d">404</div>
-		<img src="https://i.ibb.co/5L5qKfd/pigcake.jpg"/>
-        <p>Someone ate all the tiramisu... is this a broken link?</p>
+
+	<div class="h2d">
+		{{error}} - {{text}}
 	</div>
+
+	<img src="https://i.ibb.co/5L5qKfd/pigcake.jpg"/>
+
+	<p>
+		{{description}}
+	</p>
 </body>
 {% endblock %}

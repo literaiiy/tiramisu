@@ -429,15 +429,15 @@ def compute(q):
             joinedAgo = time.time() - firstLoginUnix
             joinedAgoText = sec2format2ydhms(sec2format(joinedAgo))
                 
-            if joinedAgo < 0.111*31536000: seniority = ('☘', 'Hypixel Newcomer', 'dark_green')
-            elif joinedAgo < 0.444*31536000: seniority = ('⛏', 'Hypixel Rookie', 'lawn')
-            elif joinedAgo < 1*31536000: seniority = ('➴', 'Hypixel Novice', 'yellowgreen')
-            elif joinedAgo < 1.778*31536000: seniority = ('⚝', 'Hypixel Trainee', 'yellow')
-            elif joinedAgo < 2.778*31536000: seniority = ('⚜', 'Hypixel Expert', 'gold')
-            elif joinedAgo < 4.000*31536000: seniority = ('♛', 'Hypixel Master', 'fire')
-            elif joinedAgo < 5.444*31536000: seniority = ('❖', 'Hypixel Elder', 'water')
-            elif joinedAgo < 7.111*31536000: seniority = ('♗', 'Hypixel Veteran', 'nebula')
-            else: seniority = ('♆', 'Hypixel Ancient', 'mirror')
+            if joinedAgo < 0.111*31536000: seniority = ('☘', 'Newcomer', 'dark_green')
+            elif joinedAgo < 0.444*31536000: seniority = ('⛏', 'Rookie', 'lawn')
+            elif joinedAgo < 1*31536000: seniority = ('➴', 'Novice', 'yellowgreen')
+            elif joinedAgo < 1.778*31536000: seniority = ('⚝', 'Trainee', 'yellow')
+            elif joinedAgo < 2.778*31536000: seniority = ('⚜', 'Expert', 'gold')
+            elif joinedAgo < 4.000*31536000: seniority = ('♛', 'Master', 'master')
+            elif joinedAgo < 5.444*31536000: seniority = ('❖', 'Elder', 'water')
+            elif joinedAgo < 7.111*31536000: seniority = ('♗', 'Veteran', 'nebula')
+            else: seniority = ('♆', 'Ancient', 'mirror')
         except: pass
 
         # Rank seniority
@@ -591,6 +591,19 @@ def compute(q):
             'xpRemainder':20,
             'winsRemainder':2,
             'presIcon':'☆',
+            'games_played':0,
+            'winrate':0,
+            'arrow_hitrate':0,
+            'KDA':0,
+            'K/D':0,
+            'W/L':0,
+            'K/W':0,
+            'K/L':0,
+            'K/G':0,
+            'blocks_placed_per_game':0,
+            'eggs_per_game':0,
+            'arrows_per_game':0,
+            'pearls_per_game':0,
         }
 
         if 'wins' in swSTATSVAR or 'losses' in swSTATSVAR:
@@ -603,9 +616,10 @@ def compute(q):
             if isinstance(swStatsDict['fastest_win'], int): swStatsDict['fastest_win'] = sec2format2ydhms(sec2format(swStatsDict['fastest_win']))
 
             # Games played, K/D, W/L
-            swStatsDict['games_played'] = swStatsDict['wins'] + swStatsDict['losses']
-            swStatsDict['K/D'] = weirdDiv(swStatsDict['kills'], swStatsDict['deaths'])
-            swStatsDict['W/L'] = weirdDiv(swStatsDict['wins'],swStatsDict['losses'])
+            swUnscannedDict['games_played'] = swStatsDict['wins'] + swStatsDict['losses']
+            print(swStatsDict['kills'], swStatsDict['deaths'])
+            swUnscannedDict['K/D'] = weirdDiv(swStatsDict['kills'], swStatsDict['deaths'])
+            swUnscannedDict['W/L'] = weirdDiv(swStatsDict['wins'],swStatsDict['losses'])
 
             # Head tastiness
             if rankNoPlus in sweetHeadsRanks and swStatsDict['kills'] < 10000: swUnscannedDict['head_tastiness'] = ('Sweet!', 'aqua')
@@ -620,16 +634,16 @@ def compute(q):
             else: swUnscannedDict['head_tastiness'] = ('Heavenly..!', 'dark_purple')
 
             # Winrate, arrow hitrate, KDA, K/W, K/L, K/G, blocks/game, eggs/game, arrows/game, pearls/game
-            swStatsDict['winrate'] = weirdDiv(100*swStatsDict['wins'], swStatsDict['games_played'], 2)
-            swStatsDict['arrow_hitrate'] = weirdDiv(100*swStatsDict['arrows_hit'],swStatsDict['arrows_shot'],2)
-            swStatsDict['KDA'] = weirdDiv((swStatsDict['kills']+swStatsDict['assists']),swStatsDict['deaths'])
-            swStatsDict['K/W'] = weirdDiv(swStatsDict['kills'],swStatsDict['wins'])
-            swStatsDict['K/L'] = weirdDiv(swStatsDict['kills'],swStatsDict['losses'])
-            swStatsDict['K/G'] = weirdDiv(swStatsDict['kills'],swStatsDict['games_played'])
-            swStatsDict['blocks_placed_per_game'] = weirdDiv(swStatsDict['blocks_placed'],swStatsDict['games_played'])
-            swStatsDict['eggs_per_game'] = weirdDiv(swStatsDict['egg_thrown'],swStatsDict['games_played'])
-            swStatsDict['arrows_per_game'] = weirdDiv(swStatsDict['arrows_shot'],swStatsDict['games_played'])
-            swStatsDict['pearls_per_game'] = weirdDiv(swStatsDict['enderpearls_thrown'],swStatsDict['games_played'])
+            swUnscannedDict['winrate'] = weirdDiv(100*swStatsDict['wins'], swUnscannedDict['games_played'], 2)
+            swUnscannedDict['arrow_hitrate'] = weirdDiv(100*swStatsDict['arrows_hit'],swStatsDict['arrows_shot'],2)
+            swUnscannedDict['KDA'] = weirdDiv((swStatsDict['kills']+swStatsDict['assists']),swStatsDict['deaths'])
+            swUnscannedDict['K/W'] = weirdDiv(swStatsDict['kills'],swStatsDict['wins'])
+            swUnscannedDict['K/L'] = weirdDiv(swStatsDict['kills'],swStatsDict['losses'])
+            swUnscannedDict['K/G'] = weirdDiv(swStatsDict['kills'],swUnscannedDict['games_played'])
+            swUnscannedDict['blocks_placed_per_game'] = weirdDiv(swStatsDict['blocks_placed'],swUnscannedDict['games_played'])
+            swUnscannedDict['eggs_per_game'] = weirdDiv(swStatsDict['egg_thrown'],swUnscannedDict['games_played'])
+            swUnscannedDict['arrows_per_game'] = weirdDiv(swStatsDict['arrows_shot'],swUnscannedDict['games_played'])
+            swUnscannedDict['pearls_per_game'] = weirdDiv(swStatsDict['enderpearls_thrown'],swUnscannedDict['games_played'])
 
         # Leveling stuff
             # Function that takes in experience and spits out level as a floating point number
@@ -700,7 +714,7 @@ def compute(q):
             statsList['losses'] = swSTATSVAR.get('losses_'+gamemoder,0)
             statsList['losses%'] = weirdDiv(100*statsList['losses'], swStatsDict['losses'], 4)
             statsList['games_played'] = statsList['wins'] + statsList['losses']
-            statsList['games_played%'] = weirdDiv(100*statsList['games_played'], swStatsDict['games_played'], 4)
+            statsList['games_played%'] = weirdDiv(100*statsList['games_played'], swUnscannedDict['games_played'], 4)
 
             # Most played game
             if statsList['games_played'] > swBestGame[0] and gamemoder not in STRML: 
@@ -709,10 +723,10 @@ def compute(q):
 
             statsList['W/L'] = weirdDiv(statsList['wins'], statsList['losses'],4)
             statsList['winperc'] = weirdDiv(100*statsList['W/L'], 1+statsList['W/L'], 2) 
-            statsList['kdrel'] = round(statsList['K/D']-swStatsDict['K/D'],4)
-            statsList['kdrelperc'] = round(100*(weirdDiv(statsList['K/D'], swStatsDict['K/D'])-1),2)
-            statsList['wlrel'] = round(statsList['W/L']-swStatsDict['W/L'],4)
-            statsList['wlrelperc'] = round(100*(weirdDiv(statsList['W/L'], swStatsDict['W/L'])-1),2)
+            statsList['kdrel'] = round(statsList['K/D']-swUnscannedDict['K/D'],4)
+            statsList['kdrelperc'] = round(100*(weirdDiv(statsList['K/D'], swUnscannedDict['K/D'])-1),2)
+            statsList['wlrel'] = round(statsList['W/L']-swUnscannedDict['W/L'],4)
+            statsList['wlrelperc'] = round(100*(weirdDiv(statsList['W/L'], swUnscannedDict['W/L'])-1),2)
 
             # Add special stats to main gamemodes
             if gamemoder in STRML:
@@ -756,13 +770,19 @@ def compute(q):
         ########## SkyWars Kill Types
         swKillTypeList = {}
         swKTLList = []
+        otherSwKills = 0
         for killType in ['melee', 'void', 'bow', 'mob', 'fall']:
             try:
-                swKillTypeList[killType] = (swSTATSVAR[killType + '_kills'], round(100*weirdDiv(swSTATSVAR[killType + '_kills'], swStatsDict['kills']),2))
+                localKTL = swSTATSVAR[killType + '_kills']
+                swKillTypeList[killType] = (localKTL, round(100*weirdDiv(localKTL, swStatsDict['kills']),2))
                 swKillTypeList['success'] = True
                 swKTLList.append(swKillTypeList[killType][0])
+                otherSwKills += localKTL
             except:
                 swKillTypeList[killType] = (0, 0)
+        actualOtherSwKills = swStatsDict['kills']-otherSwKills
+        swKillTypeList['other'] = (actualOtherSwKills, round(100*weirdDiv(actualOtherSwKills, swStatsDict['kills']),2))
+        swKTLList.append(actualOtherSwKills)
 
         ########## Time Wasted
         try:
@@ -910,7 +930,7 @@ def compute(q):
             swOpals['shards per kill'] = round(swOpals['shards']/int(swStatsDict['kills']),2)
         except: swOpals['shards per kill'] = 0
         try:
-            swOpals['shards per game'] = round(swOpals['shards']/int(swStatsDict['games_played']),2)
+            swOpals['shards per game'] = round(swOpals['shards']/int(swUnscannedDict['games_played']),2)
         except: swOpals['shards per game'] = 0
 
         # Favorite maps & cages
@@ -1325,15 +1345,16 @@ def compute(q):
     
 # ! Invalid username exception
     else:
+        screwup = 'Oops! This player doesn\'t exist. You can take the name, if you\'d like. 😉'
         if len(q) < 3 or len(q) > 16:
-            return "A Minecraft username has to be between 3 and 16 characters (with a few special exceptions), and can only contain alphanumeric characters and underscores."
+            screwup = "A Minecraft username has to be between 3 and 16 characters (with a few special exceptions), and can only contain alphanumeric characters and underscores."
         for letter in q:
             if letter not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_':
-                return 'Username contains invalid characters. A Minecraft username can only contain alphanumeric characters and underscores.'
+                screwup = 'Username contains invalid characters. A Minecraft username can only contain alphanumeric characters and underscores.'
         for swear in swearList:
             if swear in q:
-                return "Username might be blocked by Mojang- username contains one of the following: \nhttps://paste.ee/p/RYo2C. \nIf this is a derivative of the Scunthorpe problem, sorry about that."
-        return render_template('user404.html', q=q)
+                screwup = "Username might be blocked by Mojang- username contains one of the following: \nhttps://paste.ee/p/RYo2C. \nIf this is a derivative of the Scunthorpe problem, sorry about that."
+        return render_template('user404.html', q=q, screwup=screwup)
         #except:
         #    return "Errored out. Lol"
 
@@ -1403,15 +1424,23 @@ def compute(q):
 # ! Error handling
 @app.errorhandler(404)
 def four04(e):
-    return render_template('404.html'), 404
+    return render_template('404.html', error=404, text='Page not found', desc='Someone ate all of the tiramisu... is this a broken link?'), 404
 
 @app.errorhandler(403)
 def four03(e):
-    return "You got a 403 error. How, I don't know. Contact me on Twitter."
+    return render_template('404.html', error=403, text='Request forbidden', desc='This is an unauthorized request. You cannot access this resource. Apparently.'), 403
+
+@app.errorhandler(500)
+def five00(e):
+    return render_template('404.html', error=500, text='Internal server error', desc='Oops. Something went wrong trying to fetch this username.'), 500
 
 @app.errorhandler(502)
 def five02(e):
-    return "Something screwed up with the gateway. Contact me on Twitter."
+    return render_template('404.html', error=502, text='Bad gateway', desc='Hm, something went wrong with the server\'s gateway.'), 502
+
+@app.errorhandler(503)
+def five03(e):
+    return render_template('404.html', error=503, text='Service unavailable', desc='The server is unavailable at the moment. Check back later.'), 503
 
 # ! Flask initialization
 if __name__ == "__main__":

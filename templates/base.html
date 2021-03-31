@@ -160,7 +160,7 @@ function scrollFunction() {
 
         <!--- SENIORITY  --->
         {% if firstLoginUnix > 1357027200 %}
-        <b><span class="{{ seniority[2] }}">{{ seniority[0] }}</span> {{seniority[1]}}</b> - Joined {{ joinedAgoText }} ago<br>
+        <span class="{{ seniority[2] }}">{{ seniority[0] }} <b>Hypixel {{seniority[1]}}</b></span> - Joined {{ joinedAgoText }} ago<br>
         {% endif %}
 
         <!--- RANK SENIORITY --->
@@ -256,14 +256,17 @@ function scrollFunction() {
     <!--- SKYWARS STATS --->
     <div class='header h2d'>SkyWars</div>
     <div class='h3d'><p><span class="{{ swUnscannedDict['prestige'][1] }}"><b></span>{{ swStatsDict['skywars_experience']| those }}</b> SkyWars experience · <b><span class="{{ swUnscannedDict['prestige'][1] }}">[{{ swUnscannedDict['level'] }}{{swUnscannedDict['presIcon']}}]</b></span>, {{ swUnscannedDict['prestige'][0] }} Prestige - <span class="{{ swUnscannedDict['prestige'][1] }}"><b>{{swUnscannedDict['xpRemainder']| those}} XP left ({{ swUnscannedDict['xpRemainderPerc'] }}%)</b></span> to <b>{{ swUnscannedDict['level']+1 }}</b><br>Approximately <b>{{swUnscannedDict['xpRemainder']| those}}</b> kills or <b>{{swUnscannedDict['winsRemainder']| those}}</b> wins until next level</p></div>
+    
     <table class='swgeneral'>
-        {{ username }} plays <b>{{ swBestGame[1] }}</b> most often, with <b>{{ swBestGame[0]| those}}</b> games played.
+        {% if swBestGame[1] != False %}
+            {{ username }} plays <b>{{ swBestGame[1] }}</b> most often, with <b>{{ swBestGame[0]| those}}</b> games played.
+        {% endif %}
         <colgroup>
             <col class="leftsw">
             <col class="rightsw">
         </colgroup>
         <tr>
-                <td><b>{{ swStatsDict['games_played']| those }}</b> games played</td>
+                <td><b>{{ swUnscannedDict['games_played']| those }}</b> games played</td>
                 <td><b>{{ swStatsDict['win_streak']| those }}</b> winstreak </td>
         </tr>
         <tr>
@@ -271,11 +274,11 @@ function scrollFunction() {
                 <td><b>{{ swStatsDict['souls']| those }}</b> souls </td>
         </tr>
         <tr>
-                <td style='color:red'><b>{{ swStatsDict['K/D'] }}</b> K/D</td>
+                <td style='color:red'><b>{{ swUnscannedDict['K/D'] }}</b> K/D</td>
                 <td><b>{{ swStatsDict['heads']| those }}</b> heads </td>
         </tr>
         <tr>
-                <td style='color:red'><b>{{ swStatsDict['KDA'] }}</b> K/D/A</td>
+                <td style='color:red'><b>{{ swUnscannedDict['KDA'] }}</b> K/D/A</td>
                 <td><b>{{ swStatsDict['coins']| those }}</b> coins </td>
         </tr>
         <tr>
@@ -291,8 +294,8 @@ function scrollFunction() {
                 <td><b>{{ swStatsDict['arrows_shot']| those }}</b> arrows shot, <b>{{ swStatsDict['arrows_hit']| those }}</b> arrows hit</td>
         </tr>
         <tr>
-                <td><b>{{ swStatsDict['W/L'] }}</b> W/L - <b>{{ swStatsDict['winrate'] }}%</b> win rate </td>
-                <td><b>{{ swStatsDict['arrow_hitrate'] }}%</b> arrow hit rate</td>
+                <td><b>{{ swUnscannedDict['W/L'] }}</b> W/L - <b>{{ swUnscannedDict['winrate'] }}%</b> win rate </td>
+                <td><b>{{ swUnscannedDict['arrow_hitrate'] }}%</b> arrow hit rate</td>
         </tr>
         <tr>
                 <td><b>{{ swStatsDict['wins']| those }}</b> wins</td>
@@ -307,25 +310,25 @@ function scrollFunction() {
                 <td>Highest-kill game: <b>{{ swStatsDict['most_kills_game'] }} kills</b></td>
         </tr>
         <tr>
-                <td><b>{{ swStatsDict['K/W'] }}</b> kills per win </td>
-                <td><b>{{ swStatsDict['blocks_placed_per_game'] }}</b> blocks placed per game </td>
+                <td><b>{{ swUnscannedDict['K/W'] }}</b> kills per win </td>
+                <td><b>{{ swUnscannedDict['blocks_placed_per_game'] }}</b> blocks placed per game </td>
         </tr>
         <tr>
-                <td><b>{{ swStatsDict['K/L'] }}</b> kills per loss </td>
-                <td><b>{{ swStatsDict['eggs_per_game'] }}</b> eggs thrown per game </td>
+                <td><b>{{ swUnscannedDict['K/L'] }}</b> kills per loss </td>
+                <td><b>{{ swUnscannedDict['eggs_per_game'] }}</b> eggs thrown per game </td>
         </tr>
         <tr>
-                <td><b>{{ swStatsDict['K/G'] }}</b> kills per game </td>
-                <td><b>{{ swStatsDict['arrows_per_game'] }}</b> arrows shot per game </td>
+                <td><b>{{ swUnscannedDict['K/G'] }}</b> kills per game </td>
+                <td><b>{{ swUnscannedDict['arrows_per_game'] }}</b> arrows shot per game </td>
         </tr>
     </table>
         <b>{{swStatsDict['blocks_placed']| those}}</b> blocks placed <br>
         <b>{{ swStatsDict['enderpearls_thrown']| those}}</b> ender pearls thrown <br>
         <b>{{swStatsDict['refill_chest_destroy']| those}}</b> refill chests destroyed <br>
         <b>{{swStatsDict['cosmetic_tokens']| those}}</b> tokens <br>
-        <b>{{swStatsDict['pearls_per_game']}}</b> ender pearls thrown per game <br>
+        <b>{{swUnscannedDict['pearls_per_game']}}</b> ender pearls thrown per game <br>
         Corruption chance: <b>{{swStatsDict['angel_of_death_level']}}%</b><br>
-
+    
         <!-- SW MODE -->
             {% for y, x in gamemodes.items() %}
                 {% if x['games_played'] != 0 %}
@@ -504,7 +507,7 @@ function scrollFunction() {
                 responsive: true,
                 maintainAspectRatio:false,
                 data: {
-                    labels: ['Melee', 'Void', 'Bow', 'Mob', 'Fall'],
+                    labels: ['Melee', 'Void', 'Bow', 'Mob', 'Fall', 'Other'],
                     datasets: [{
                         data: swKTL,
                         borderWidth: 1,
@@ -514,6 +517,7 @@ function scrollFunction() {
                             '#e4dfda',
                             '#D4B483',
                             '#C1666B',
+                            '#F42521',
                         ],
                     }]
                 },

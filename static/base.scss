@@ -10,10 +10,9 @@ YM.    , YA.   ,A9 MM    MM    MM   MM   ,AP YA.   ,A9 MM    MM YM.    ,  MM    
                                   .JMML.                                                      */
 
 h1{background-color:#c2c2c2;text-align:center;font-family:'Courier New',Courier,monospace}
-body{background-color:#f1f1f1;text-align:center}
+body{background-color:white;text-align:center}
 table{margin-left:auto;margin-right:auto}
-.logo{position:-webkit-sticky;position:sticky;top:0;background-color:honeydew}
-.logo{top:0;background-color:#3e3d53;margin-top:-8px;margin-bottom:-8px;z-index:15}
+.logo{position:-webkit-sticky;position:sticky;top:0;background-color:honeydew;top:0;background-color:#3e3d53;margin-top:-8px;margin-bottom:-8px;z-index:15}
 .header{position:sticky;top:0;z-index:6}
 .subtitle{font-family:'Inconsolata',monospace}
 body{font-family:'Inter';text-align:center;margin:0}
@@ -73,6 +72,7 @@ YM.    , YA.   ,A9 MM YA.   ,A9 MM     L.   I8
 .orange { color: #f60 }
 .lawn {color: #708f5b}
 .yellowgreen {color: yellowgreen}
+.master{background-image:linear-gradient(to right,lightcoral, crimson);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 
 .twitter{color:#1da1f2}
 .instagram{color:#c1558b}

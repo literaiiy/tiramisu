@@ -322,12 +322,14 @@ function scrollFunction() {
                 <td><b>{{ swUnscannedDict['arrows_per_game'] }}</b> arrows shot per game </td>
         </tr>
     </table>
-        <b>{{swStatsDict['blocks_placed']| those}}</b> blocks placed <br>
-        <b>{{ swStatsDict['enderpearls_thrown']| those}}</b> ender pearls thrown <br>
-        <b>{{swStatsDict['refill_chest_destroy']| those}}</b> refill chests destroyed <br>
-        <b>{{swStatsDict['cosmetic_tokens']| those}}</b> tokens <br>
-        <b>{{swUnscannedDict['pearls_per_game']}}</b> ender pearls thrown per game <br>
-        Corruption chance: <b>{{swStatsDict['angel_of_death_level']}}%</b><br>
+        <p>
+            <b>{{swStatsDict['blocks_placed']| those}}</b> blocks placed <br>
+            <b>{{ swStatsDict['enderpearls_thrown']| those}}</b> ender pearls thrown <br>
+            <b>{{swStatsDict['refill_chest_destroy']| those}}</b> refill chests destroyed <br>
+            <b>{{swStatsDict['cosmetic_tokens']| those}}</b> tokens <br>
+            <b>{{swUnscannedDict['pearls_per_game']}}</b> ender pearls thrown per game <br>
+            Corruption chance: <b>{{swStatsDict['angel_of_death_level']}}%</b><br>
+        </p>
     
         <!-- SW MODE -->
             {% for y, x in gamemodes.items() %}
@@ -484,8 +486,8 @@ function scrollFunction() {
         </script>
 
         <!-- Kills by -->
+        <div class='h3d'>Kills by:</div>
         {% if swKillTypeList['success'] == True %}
-            <div class='h3d'>Kills by:</div>
             <p>
                 {% for killType in swKillTypeList %}
                     {% if killType != 'success' %}
@@ -493,8 +495,6 @@ function scrollFunction() {
                     {% endif %}
                 {% endfor %}
             </p>
-        {% endif %}
-
         <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
         <div class='canvasContainer' style='position:relative;height:25%; width:25%'>
             <canvas id="myChart"></canvas>
@@ -524,71 +524,78 @@ function scrollFunction() {
             });
             </script>
         </div>
+        {% else %}
+            <p>Nothing to show here.</p>
+        {% endif %}
 
         <!-- Time Wasted -->
         <div class='h3d'>Time Wasted</div> 
-        <p>
-            <b>{{ swTimeLists[0][5] }}</b> in total <br>
-            {% for mode in range(5) %}
-                {{ swTimeModeList[mode] }}: <b>{{ swTimeLists[0][mode] }} ({{swTimeLists[1][mode]}}%) </b><br>
+        {% if swTimeLists[0][5] != '0s' %}
+            <p>
+                <b>{{ swTimeLists[0][5] }}</b> in total <br>
+                {% for mode in range(5) %}
+                    {{ swTimeModeList[mode] }}: <b>{{ swTimeLists[0][mode] }} ({{swTimeLists[1][mode]}}%) </b><br>
+                {% endfor %}
+            </p>
+            <div class='canvasContainer2' style='position:relative;height:25%; width:25%'>
+                <canvas id="myChart2"></canvas>
+                <script>
+                var ctx = document.getElementById('myChart2');
+                // @ts-ignore
+                var swTWL = {{swTimeListPercMinusOverall}}
+                var myChart2 = new Chart(ctx, {
+                    type: 'doughnut',
+                    responsive: true,
+                    maintainAspectRatio:false,
+                    data: {
+                        labels: ['Solo', 'Teams', 'Mega', 'Ranked', 'Laboratory'],
+                        datasets: [{
+                            data: swTWL,
+                            borderWidth: 1,
+                            backgroundColor: [
+                                '#283044',
+                                '#78a1bb',
+                                '#ebf5ee',
+                                'bfa89e',
+                                '8b786d',
+                            ]
+                        }]
+                    },
+                });
+                </script>
+            </div>
+
+            <p>
+            {% for item in swUnitConvList %}
+                <b>{{ '{0:,}'.format(item[0]) }}</b> {{ item[1] }} <br>
             {% endfor %}
-        </p>
-        <div class='canvasContainer2' style='position:relative;height:25%; width:25%'>
-            <canvas id="myChart2"></canvas>
-            <script>
-            var ctx = document.getElementById('myChart2');
-            // @ts-ignore
-            var swTWL = {{swTimeListPercMinusOverall}}
-            var myChart2 = new Chart(ctx, {
-                type: 'doughnut',
-                responsive: true,
-                maintainAspectRatio:false,
-                data: {
-                    labels: ['Solo', 'Teams', 'Mega', 'Ranked', 'Laboratory'],
-                    datasets: [{
-                        data: swTWL,
-                        borderWidth: 1,
-                        backgroundColor: [
-                            '#283044',
-                            '#78a1bb',
-                            '#ebf5ee',
-                            'bfa89e',
-                            '8b786d',
-                        ]
-                    }]
-                },
-            });
-            </script>
-        </div>
+            </p>
 
-        <p>
-        {% for item in swUnitConvList %}
-            <b>{{ '{0:,}'.format(item[0]) }}</b> {{ item[1] }} <br>
-        {% endfor %}
-        </p>
+            <p>
+            {% for item in swUnitConvList2 %}
+                {{ item[0] }}<b>{{ '{0:,}'.format(item[1]) }}</b>{{ item[2] }} <br>
+            {% endfor %}
+            </p>
 
-        <p>
-        {% for item in swUnitConvList2 %}
-            {{ item[0] }}<b>{{ '{0:,}'.format(item[1]) }}</b>{{ item[2] }} <br>
-        {% endfor %}
-        </p>
-
-        <p>Since your first login, you have spent <b>{{ swKWperLists[2] }}%</b> of life playing SkyWars. </p>
-        
-        {% for item in swKWperLists[0] %}
-            <b>{{item[0]| thraw}}</b> kills per {{item[1]}}<br>
-        {% endfor %}
-        {% for item in swKWperLists[1] %}
-            <b>{{item[0]| thraw}}</b> wins per {{item[1]}}<br>
-        {% endfor %}
+            <p>Since your first login, you have spent <b>{{ swKWperLists[2] }}%</b> of life playing SkyWars. </p>
+            
+            {% for item in swKWperLists[0] %}
+                <b>{{item[0]| thraw}}</b> kills per {{item[1]}}<br>
+            {% endfor %}
+            {% for item in swKWperLists[1] %}
+                <b>{{item[0]| thraw}}</b> wins per {{item[1]}}<br>
+            {% endfor %}
+        {% else %}
+            <p>Nothing to show here.</p>
+        {% endif %}
 
         <div class="h3d">Souls</div>
-
-        <p>
-        {% for thing in swSoulList %}
-            <span class="{{ thing[2] }}"><b>{{ thing[0]| those }}</b> {{ thing[1] }} <br></span>
-        {% endfor %}
-        </p>
+        {% if swStatsDict['souls'] %}
+            <p>
+            {% for thing in swSoulList %}
+                <span class="{{ thing[2] }}"><b>{{ thing[0]| those }}</b> {{ thing[1] }} <br></span>
+            {% endfor %}
+            </p>
 
         <div class='canvasContainerSouls' style='position:relative;height:25%; width:25%'>
             <canvas id="myChartSouls"></canvas>
@@ -615,116 +622,189 @@ function scrollFunction() {
             });
             </script>
         </div>
+        {% else %}
+            <p>No souls harvested.</p>
+        {% endif %}
+
         <div class="h3d">Heads</div>
+        {% if swHeadsImpBool[0] %}
         <p><b>OVERALL</b><br>
-        {% for item in swHeadsListList[0] %}
-            <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]| those}} ({{item[3]}}%)<br>
-        {% endfor %} </p>
-        <div class='headscont' style='position:relative;height:25%; width:25%'>
-            <canvas id="heads"></canvas>
-            <script>
-            var ctx = document.getElementById('heads');
-            // @ts-ignore
-            var swHLO = {{swHeadsRaw}};
-            var heads = new Chart(ctx, {
-                type: 'doughnut',
-                responsive: true,
-                maintainAspectRatio:false,
-                data: {
-                    labels: ['Heavenly', 'Divine', 'Sweet', 'Succulent', 'Tasty', 'Salty', 'Decent', 'Meh', 'Yucky', 'Eww'],
-                    datasets: [{
-                        data: swHLO,
-                        borderWidth: 1,
-                        backgroundColor: ['#a0a', '#fa0', '#5ff', '#f5f', '#0aa', '#5f5', '#ff5', '#ccc', '#aaa', '#555'],
-                    }]
-                },
-            });
-            </script>
-        </div>
+            {% for item in swHeadsListList[0] %}
+                <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]| those}} ({{item[3]}}%)<br>
+            {% endfor %} </p>
+            <div class='headscont' style='position:relative;height:25%; width:25%'>
+                <canvas id="heads"></canvas>
+                <script>
+                var ctx = document.getElementById('heads');
+                // @ts-ignore
+                var swHLO = {{swHeadsRaw}};
+                var heads = new Chart(ctx, {
+                    type: 'doughnut',
+                    responsive: true,
+                    maintainAspectRatio:false,
+                    data: {
+                        labels: ['Heavenly', 'Divine', 'Sweet', 'Succulent', 'Tasty', 'Salty', 'Decent', 'Meh', 'Yucky', 'Eww'],
+                        datasets: [{
+                            data: swHLO,
+                            borderWidth: 1,
+                            backgroundColor: ['#a0a', '#fa0', '#5ff', '#f5f', '#0aa', '#5f5', '#ff5', '#ccc', '#aaa', '#555'],
+                        }]
+                    },
+                });
+                </script>
+            </div>
+        {% else %}
+        <p>No heads collected.</p>
+        {% endif %}
 
+        {% if swHeadsImpBool[1] %}
         <p><b>SOLO</b><br>
-        {% for item in swHeadsListList[1] %}
-            <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]| those}} ({{item[3]}}%)<br>
-        {% endfor %}</p>
-        <div class='headscontsolo' style='position:relative;height:25%; width:25%'>
-            <canvas id="headssolo"></canvas>
-            <script>
-            var ctx = document.getElementById('headssolo');
-            // @ts-ignore
-            var swHLS = {{swHeadsRawSolo}};
-            var headssolo = new Chart(ctx, {
-                type: 'doughnut',
-                responsive: true,
-                maintainAspectRatio:false,
-                data: {
-                    labels: ['Heavenly', 'Divine', 'Sweet', 'Succulent', 'Tasty', 'Salty', 'Decent', 'Meh', 'Yucky', 'Eww'],
-                    datasets: [{
-                        data: swHLS,
-                        borderWidth: 1,
-                        backgroundColor: ['#a0a', '#fa0', '#5ff', '#f5f', '#0aa', '#5f5', '#ff5', '#ccc', '#aaa', '#555'],
-                    }]
-                },
-            });
-            </script>
-        </div>
+            {% for item in swHeadsListList[1] %}
+                <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]| those}} ({{item[3]}}%)<br>
+            {% endfor %}</p>
+            <div class='headscontsolo' style='position:relative;height:25%; width:25%'>
+                <canvas id="headssolo"></canvas>
+                <script>
+                var ctx = document.getElementById('headssolo');
+                // @ts-ignore
+                var swHLS = {{swHeadsRawSolo}};
+                var headssolo = new Chart(ctx, {
+                    type: 'doughnut',
+                    responsive: true,
+                    maintainAspectRatio:false,
+                    data: {
+                        labels: ['Heavenly', 'Divine', 'Sweet', 'Succulent', 'Tasty', 'Salty', 'Decent', 'Meh', 'Yucky', 'Eww'],
+                        datasets: [{
+                            data: swHLS,
+                            borderWidth: 1,
+                            backgroundColor: ['#a0a', '#fa0', '#5ff', '#f5f', '#0aa', '#5f5', '#ff5', '#ccc', '#aaa', '#555'],
+                        }]
+                    },
+                });
+                </script>
+            </div>
+        {% else %}
+        <p>No heads collected in Solo.</p>
+        {% endif %}
 
+        {% if swHeadsImpBool[2] %}
         <p><b>TEAMS</b><br>
-        {% for item in swHeadsListList[2] %}
-            <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]| those}} ({{item[3]}}%)<br>
-        {% endfor %}</p>
-        <div class='headscontteam' style='position:relative;height:25%; width:25%'>
-            <canvas id="headsteam"></canvas>
-            <script>
-            var ctx = document.getElementById('headsteam');
-            // @ts-ignore
-            var swHLT = {{swHeadsRawTeam}};
-            var headsteam = new Chart(ctx, {
-                type: 'doughnut',
-                responsive: true,
-                maintainAspectRatio:false,
-                data: {
-                    labels: ['Heavenly', 'Divine', 'Sweet', 'Succulent', 'Tasty', 'Salty', 'Decent', 'Meh', 'Yucky', 'Eww'],
-                    datasets: [{
-                        data: swHLT,
-                        borderWidth: 1,
-                        backgroundColor: ['#a0a', '#fa0', '#5ff', '#f5f', '#0aa', '#5f5', '#ff5', '#ccc', '#aaa', '#555'],
-                    }]
-                },
-            });
-            </script>
-        </div>
+            {% for item in swHeadsListList[2] %}
+                <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]| those}} ({{item[3]}}%)<br>
+            {% endfor %}</p>
+            <div class='headscontteam' style='position:relative;height:25%; width:25%'>
+                <canvas id="headsteam"></canvas>
+                <script>
+                var ctx = document.getElementById('headsteam');
+                // @ts-ignore
+                var swHLT = {{swHeadsRawTeam}};
+                var headsteam = new Chart(ctx, {
+                    type: 'doughnut',
+                    responsive: true,
+                    maintainAspectRatio:false,
+                    data: {
+                        labels: ['Heavenly', 'Divine', 'Sweet', 'Succulent', 'Tasty', 'Salty', 'Decent', 'Meh', 'Yucky', 'Eww'],
+                        datasets: [{
+                            data: swHLT,
+                            borderWidth: 1,
+                            backgroundColor: ['#a0a', '#fa0', '#5ff', '#f5f', '#0aa', '#5f5', '#ff5', '#ccc', '#aaa', '#555'],
+                        }]
+                    },
+                });
+                </script>
+            </div>
+        {% else %}
+        <p>No heads collected in Teams.</p>
+        {% endif %}
 
         <div class="h3d">Angel's Descent</div>
-        {% for a, b in swOpals.items() %}
-            {% if a == 'shards per kill' or a == 'shards per game' or a == 'opals from prestige' %}
-                <b>{{b}}</b> {{a}} <br>
-            {% elif a == 'opals' %}
-                <span class="dark_blue"><b>{{b| those}}</b> {{a}}</span><br>
-            {% elif a == 'shards' %}
-                <span class="aqua"><b>{{b| those}}</b> {{a}}</span><br>
-            {% elif a == 'until next opal' %}
-                <b>{{b| those}}</b> ({{swOpals['shardsTilNextPerc']}}%) shards until next opal <br>
-                    {% for x in range(swOpals['shardsTilNextPrBa']) %}<b><span class="dark_blue">/</span></b>{% endfor %}{% for x in range(32-swOpals['shardsTilNextPrBa']) %}<span class='blue'>/</span>{% endfor %}<br>
-            {% elif a == 'shard_solo' %}
-                <b>{{b| those}}</b> shards from solo ({{swOpals['shard_solo_perc']}}%) <br>
-            {% elif a == 'shard_team' %}
-                <b>{{b| those}}</b> shards from teams ({{swOpals['shard_team_perc']}}%) <br>
-            {% endif %}
-        {% endfor %}
+        {% if swOpals['shards'] %}
+            {% for a, b in swOpals.items() %}
+                {% if a == 'shards per kill' or a == 'shards per game' or a == 'opals from prestige' %}
+                    <b>{{b}}</b> {{a}} <br>
+                {% elif a == 'opals' %}
+                    <span class="dark_blue"><b>{{b| those}}</b> {{a}}</span><br>
+                {% elif a == 'shards' %}
+                    <span class="aqua"><b>{{b| those}}</b> {{a}}</span><br>
+                {% elif a == 'until next opal' %}
+                    <b>{{b| those}}</b> ({{swOpals['shardsTilNextPerc']}}%) shards until next opal <br>
+                        {% for x in range(swOpals['shardsTilNextPrBa']) %}<b><span class="dark_blue">/</span></b>{% endfor %}{% for x in range(32-swOpals['shardsTilNextPrBa']) %}<span class='blue'>/</span>{% endfor %}<br>
+                {% elif a == 'shard_solo' %}
+                    <b>{{b| those}}</b> shards from solo ({{swOpals['shard_solo_perc']}}%) <br>
+                {% elif a == 'shard_team' %}
+                    <b>{{b| those}}</b> shards from teams ({{swOpals['shard_team_perc']}}%) <br>
+                {% endif %}
+            {% endfor %}
+        {% else %}
+            <p>No participation in Angel's Descent.</p>
+        {% endif %}
 
         <div class="h3d">Favorite Maps & Cages</div>
         {% if not swMapsList %}
-        No favorite maps.
+        <p>No favorite maps.</p>
         {% else %}
         <b>Favorite Maps 🗺️:</b> {{swMapsList}}
-        {% endif %}<br>
+        {% endif %}
 
         {% if not swCagesList %}
-        No cages unlocked.
+        <p>No cages unlocked.</p>
         {% else %}
         <b>Cages unlocked 📦:</b> {{swCagesList}}
-        {% endif %}<br>
+        {% endif %}
 
+        <div class="h3d">Cosmetics</div>
+        {% if swCosmetics %}
+        <p>
+            {% if 'balloon' in swCosmetics %}
+                <b>Balloon</b>: {{swCosmetics['balloon']}} <br>
+            {% endif %}
+            {% if 'cage' in swCosmetics %}
+            <b>Cage</b>: {{swCosmetics['cage']}} <br>
+            {% endif %}
+            {% if 'deathcry' in swCosmetics %}
+            <b>Death cry</b>: {{swCosmetics['deathcry']}} <br>
+            {% endif %}
+            {% if 'killeffect' in swCosmetics %}
+            <b>Kill effect</b>: {{swCosmetics['killeffect']}} <br>
+            {% endif %}
+            {% if 'killmessages' in swCosmetics %}
+            <b>Kill messages</b>: {{swCosmetics['killmessages']}} <br>
+            {% endif %}
+            {% if 'projectiletrail' in swCosmetics %}
+            <b>Projectile Trail</b>: {{swCosmetics['projectiletrail']}} <br>
+            {% endif %}
+            {% if 'sprays' in swCosmetics %}
+            <b>Spray</b>: {{swCosmetics['sprays']}} <br>
+            {% endif %}
+            {% if 'victorydance' in swCosmetics %}
+            <b>Victory Dance</b>: {{swCosmetics['victorydance']}} <br>
+            {% endif %}
+            </p>
+        {% else %}
+            <p>No cosmetics selected.</p>
+        {% endif %}
+
+        <div class="h3d">Challenge attempts</div>
+        {% if swChalAtt['overall'] %}
+            <p>
+                <b>Archer</b>: {{swChalAtt['archer']}} <br>
+                <b>Half Health</b>: {{swChalAtt['half_health']}} <br>
+                <b>No Block</b>: {{swChalAtt['no_block']}} <br>
+                <b>No Chest</b>: {{swChalAtt['no_chest']}} <br>
+                <b>Paper</b>: {{swChalAtt['paper']}} <br>
+                <b>Rookie</b>: {{swChalAtt['rookie']}} <br>
+                <b>UHC</b>: {{swChalAtt['uhc']}} <br>
+                <b>Ultimate Warrior</b>: {{swChalAtt['ultimate_warrior']}} <br>
+            </p>
+
+            {% for num, items in swChalAttNum.items() %}
+                <p><b>{{num}}-challenge Wins</b>: {{items}} <br></p>
+            {% endfor %}
+        {% else %}
+            <p>No challenge attempts.</p>
+        {% endif %}
+            
+        <!-- BedWars -->
         <div class="h2d">BedWars</div>
         <p>
             <b><span class="{{bwOverallStats['prestige'][1]}}">
@@ -824,185 +904,206 @@ function scrollFunction() {
         {% endfor %}
         
         <div class="h3d">Kills via</div>
-            <p><b>🗡 Melee</b>: {{bwKillsList[0]['🗡 Melee'][0]| those}} ({{bwKillsList[0]['🗡 Melee'][1]}}%)<br>
-            {% for name, num in bwKillsList[0].items() %}
-                {% if 'Melee' not in name %}
-                    <b>{{name}}</b>: {{num[0]| those}} ({{num[1]}}%)<br>
-                {% endif %}
-            {% endfor %}</p>
+            {% if bwOverallStats['kills_bedwars'] %}
+                <p><b>🗡 Melee</b>: {{bwKillsList[0]['🗡 Melee'][0]| those}} ({{bwKillsList[0]['🗡 Melee'][1]}}%)<br>
+                {% for name, num in bwKillsList[0].items() %}
+                    {% if 'Melee' not in name %}
+                        <b>{{name}}</b>: {{num[0]| those}} ({{num[1]}}%)<br>
+                    {% endif %}
+                {% endfor %}</p>
 
-            {% for name, num in bwKillsList[1].items() %}
-                {% if num != 0 %}
-                    <b>{{name}}</b>: {{num| those}} <br>
-                {% endif %}
-            {% endfor %}
+                {% for name, num in bwKillsList[1].items() %}
+                    {% if num != 0 %}
+                        <b>{{name}}</b>: {{num| those}} <br>
+                    {% endif %}
+                {% endfor %}
 
-        <div class='canvasKillsVia' style='position:relative;height:25%; width:25%'>
-            <canvas id="killsvia"></canvas>
-            <script>
-            var ctx = document.getElementById('killsvia');
-            // @ts-ignore
-            var killsvia = {{bwPureKillsLists[0]}};
-            var killsva = new Chart(ctx, {
-                type: 'doughnut',
-                responsive: true,
-                maintainAspectRatio:false,
-                data: {
-                    labels: ['Projectile', 'Void', 'Magic', 'Entity', 'Entity explosion', 'Fire', 'Fall Damage', 'Melee'],
-                    datasets: [{
-                        data: killsvia,
-                        borderWidth: 1,
-                        backgroundColor: [
-                            '#2364AA',
-                            '#3DA5D9',
-                            '#73BFB8',
-                            '#FEC601',
-                            '#EA7317',
-                            '#5F1A37',
-                            '#04030F',
-                            '#AF5D63',
-                        ],
-                    }]
-                },
-            });
-            </script>
-        </div>
+                <div class='canvasKillsVia' style='position:relative;height:25%; width:25%'>
+                    <canvas id="killsvia"></canvas>
+                    <script>
+                    var ctx = document.getElementById('killsvia');
+                    // @ts-ignore
+                    var killsvia = {{bwPureKillsLists[0]}};
+                    var killsva = new Chart(ctx, {
+                        type: 'doughnut',
+                        responsive: true,
+                        maintainAspectRatio:false,
+                        data: {
+                            labels: ['Projectile', 'Void', 'Magic', 'Entity', 'Entity explosion', 'Fire', 'Fall Damage', 'Melee'],
+                            datasets: [{
+                                data: killsvia,
+                                borderWidth: 1,
+                                backgroundColor: [
+                                    '#2364AA',
+                                    '#3DA5D9',
+                                    '#73BFB8',
+                                    '#FEC601',
+                                    '#EA7317',
+                                    '#5F1A37',
+                                    '#04030F',
+                                    '#AF5D63',
+                                ],
+                            }]
+                        },
+                    });
+                    </script>
+                </div>
+            {% else %}
+                <p>Nothing to show here.</p>
+            {% endif %}
 
         <div class="h3d">Final kills via</div>
-            <p><b>🗡 Melee</b>: {{bwKillsList[2]['🗡 Melee'][0]| those}} ({{bwKillsList[2]['🗡 Melee'][1]}}%)<br>
-            {% for name, num in bwKillsList[2].items() %}
-                {% if 'Melee' not in name %}
-                    <b>{{name}}</b>: {{num[0]| those}} ({{num[1]}}%)<br>
-                {% endif %}
-            {% endfor %}</p>
 
-            {% for name, num in bwKillsList[3].items() %}
-                {% if num != 0 %}
-                    <b>{{name}}</b>: {{num| those}} <br>
-                {% endif %}
-            {% endfor %}
+            {% if bwOverallStats['final_kills_bedwars'] %}
+                <p><b>🗡 Melee</b>: {{bwKillsList[2]['🗡 Melee'][0]| those}} ({{bwKillsList[2]['🗡 Melee'][1]}}%)<br>
+                {% for name, num in bwKillsList[2].items() %}
+                    {% if 'Melee' not in name %}
+                        <b>{{name}}</b>: {{num[0]| those}} ({{num[1]}}%)<br>
+                    {% endif %}
+                {% endfor %}</p>
 
-        <div class='cvFKV' style='position:relative;height:25%; width:25%'>
-            <canvas id="finkillsvia"></canvas>
-            <script>
-            var ctx = document.getElementById('finkillsvia');
-            // @ts-ignore
-            var finkillsvia = {{bwPureKillsLists[1]}};
-            var fkillsva = new Chart(ctx, {
-                type: 'doughnut',
-                responsive: true,
-                maintainAspectRatio:false,
-                data: {
-                    labels: ['Projectile', 'Void', 'Magic', 'Entity', 'Entity explosion', 'Fire', 'Fall Damage', 'Melee'],
-                    datasets: [{
-                        data: finkillsvia,
-                        borderWidth: 1,
-                        backgroundColor: [
-                            '#A8763E',
-                            '#F7F3E3',
-                            '#ECF0F1',
-                            '#6F1A07',
-                            '#2B2118',
-                            '#52154E',
-                            '#111344',
-                            '#595F72',
-                        ],
-                    }]
-                },
-            });
-            </script>
-        </div>
+                {% for name, num in bwKillsList[3].items() %}
+                    {% if num != 0 %}
+                        <b>{{name}}</b>: {{num| those}} <br>
+                    {% endif %}
+                {% endfor %}
+
+                <div class='cvFKV' style='position:relative;height:25%; width:25%'>
+                    <canvas id="finkillsvia"></canvas>
+                    <script>
+                    var ctx = document.getElementById('finkillsvia');
+                    // @ts-ignore
+                    var finkillsvia = {{bwPureKillsLists[1]}};
+                    var fkillsva = new Chart(ctx, {
+                        type: 'doughnut',
+                        responsive: true,
+                        maintainAspectRatio:false,
+                        data: {
+                            labels: ['Projectile', 'Void', 'Magic', 'Entity', 'Entity explosion', 'Fire', 'Fall Damage', 'Melee'],
+                            datasets: [{
+                                data: finkillsvia,
+                                borderWidth: 1,
+                                backgroundColor: [
+                                    '#A8763E',
+                                    '#F7F3E3',
+                                    '#ECF0F1',
+                                    '#6F1A07',
+                                    '#2B2118',
+                                    '#52154E',
+                                    '#111344',
+                                    '#595F72',
+                                ],
+                            }]
+                        },
+                    });
+                    </script>
+                </div>
+            {% else %}
+                <p>Nothing to show here.</p>
+            {% endif %}
 
         <div class="h3d">Loot Crates</div>
-        <p>
-            <b>Total loot crates</b>: {{bwLootBoxes['bedwars_box']| those}} <br>
-            <b>Current loot crates</b>: {{bwLootBoxes['bedwars_boxes'][0]| those}} ({{bwLootBoxes['bedwars_boxes'][1]}}%) <br>
-        </p>
-        <p>
-            <b><span class="gold">Legendaries</span></b>: {{bwLootBoxes['bedwars_box_legendaries'][0]| those}} ({{bwLootBoxes['bedwars_box_legendaries'][1]}}%) <br>
-            <b><span class="dark_purple">Epics</span></b>: {{bwLootBoxes['bedwars_box_epics'][0]| those}} ({{bwLootBoxes['bedwars_box_epics'][1]}}%) <br>
-            <b><span class="blue">Rares</span></b>: {{bwLootBoxes['bedwars_box_rares'][0]| those}} ({{bwLootBoxes['bedwars_box_rares'][1]}}%) <br>
-            <b><span class="green">Commons</span></b>: {{bwLootBoxes['bedwars_box_commons'][0]| those}} ({{bwLootBoxes['bedwars_box_commons'][1]}}%) <br>
-        </p>
-        <p>
-            <b>🧧 <span class="red">Lunar</span> Crates</b>: {{bwLootBoxes['bedwars_lunar_boxes'][0]| those}} ({{bwLootBoxes['bedwars_lunar_boxes'][1]}}%) <br>
-            <b>🐇 <span class="aqua">Easter</span> Crates</b>: {{bwLootBoxes['bedwars_easter_boxes'][0]| those}} ({{bwLootBoxes['bedwars_easter_boxes'][1]}}%) <br>
-            <b>🎃 <span class="orange">Halloween</span> Crates</b>: {{bwLootBoxes['bedwars_halloween_boxes'][0]| those}} ({{bwLootBoxes['bedwars_halloween_boxes'][1]}}%) <br>
-            <b>🎄 <span class="dark_green">Christmas</span> Crates</b>: {{bwLootBoxes['bedwars_christmas_boxes'][0]| those}} ({{bwLootBoxes['bedwars_christmas_boxes'][1]}}%) <br>
-        </p>
+        {% if bwLootBoxes['bedwars_box'] %}
+            <p>
+                <b>Total loot crates</b>: {{bwLootBoxes['bedwars_box']| those}} <br>
+                <b>Current loot crates</b>: {{bwLootBoxes['bedwars_boxes'][0]| those}} ({{bwLootBoxes['bedwars_boxes'][1]}}%) <br>
+            </p>
+            <p>
+                <b><span class="gold">Legendaries</span></b>: {{bwLootBoxes['bedwars_box_legendaries'][0]| those}} ({{bwLootBoxes['bedwars_box_legendaries'][1]}}%) <br>
+                <b><span class="dark_purple">Epics</span></b>: {{bwLootBoxes['bedwars_box_epics'][0]| those}} ({{bwLootBoxes['bedwars_box_epics'][1]}}%) <br>
+                <b><span class="blue">Rares</span></b>: {{bwLootBoxes['bedwars_box_rares'][0]| those}} ({{bwLootBoxes['bedwars_box_rares'][1]}}%) <br>
+                <b><span class="green">Commons</span></b>: {{bwLootBoxes['bedwars_box_commons'][0]| those}} ({{bwLootBoxes['bedwars_box_commons'][1]}}%) <br>
+            </p>
+            <p>
+                <b>🧧 <span class="red">Lunar</span> Crates</b>: {{bwLootBoxes['bedwars_lunar_boxes'][0]| those}} ({{bwLootBoxes['bedwars_lunar_boxes'][1]}}%) <br>
+                <b>🐇 <span class="aqua">Easter</span> Crates</b>: {{bwLootBoxes['bedwars_easter_boxes'][0]| those}} ({{bwLootBoxes['bedwars_easter_boxes'][1]}}%) <br>
+                <b>🎃 <span class="orange">Halloween</span> Crates</b>: {{bwLootBoxes['bedwars_halloween_boxes'][0]| those}} ({{bwLootBoxes['bedwars_halloween_boxes'][1]}}%) <br>
+                <b>🎄 <span class="dark_green">Christmas</span> Crates</b>: {{bwLootBoxes['bedwars_christmas_boxes'][0]| those}} ({{bwLootBoxes['bedwars_christmas_boxes'][1]}}%) <br>
+            </p>
 
-        <div class='cvLootBox' style='position:relative;height:25%; width:25%'>
-            <canvas id="lootbox"></canvas>
-            <script>
-            var ctx = document.getElementById('lootbox');
-            // @ts-ignore
-            var lootboxed = {{bwLootPure[1:5]}};
-            var lootboxer = new Chart(ctx, {
-                type: 'doughnut',
-                responsive: true,
-                maintainAspectRatio:false,
-                data: {
-                    labels: ['Legendaries','Epics','Rares','Commons'],
-                    datasets: [{
-                        data: lootboxed,
-                        borderWidth: 1,
-                        backgroundColor: [
-                            '#fa0',
-                            '#a0a',
-                            '#55f',
-                            '#5f5',
-                        ],
-                    }]
-                },
-            });
-            </script>
-        </div>
+            <div class='cvLootBox' style='position:relative;height:25%; width:25%'>
+                <canvas id="lootbox"></canvas>
+                <script>
+                var ctx = document.getElementById('lootbox');
+                // @ts-ignore
+                var lootboxed = {{bwLootPure[1:5]}};
+                var lootboxer = new Chart(ctx, {
+                    type: 'doughnut',
+                    responsive: true,
+                    maintainAspectRatio:false,
+                    data: {
+                        labels: ['Legendaries','Epics','Rares','Commons'],
+                        datasets: [{
+                            data: lootboxed,
+                            borderWidth: 1,
+                            backgroundColor: [
+                                '#fa0',
+                                '#a0a',
+                                '#55f',
+                                '#5f5',
+                            ],
+                        }]
+                    },
+                });
+                </script>
+            </div>
+        {% else %}
+            <p>No loot crates.</p>
+        {% endif %}
 
         <div class="h3d">Resources collected</div>
-        <p>
-            <b>Iron collected</b>: {{bwResCol[0]| those}} ({{bwResColPerc[0]}}%) <br>
-            <b>Gold collected</b>: {{bwResCol[1]| those}} ({{bwResColPerc[1]}}%) <br>
-            <b>Diamonds collected</b>: {{bwResCol[2]| those}} ({{bwResColPerc[2]}}%) <br>
-            <b>Emeralds collected</b>: {{bwResCol[3]| those}} ({{bwResColPerc[3]}}%) <br>
-            <b>Wrapped presents collected</b>: {{bwResCol[4]| those}} ({{bwResColPerc[4]}}%) <br>
-        </p>
-        <p>
-            <b>Total resources collected</b>: {{bwTotalResources| those}} <br>
-            <b>Total items bought from shop</b>: {{bwItemsPurchased| those}} <br>
-        </p>
+        {% if bwTotalResources %}
+            <p>
+                <b>Iron collected</b>: {{bwResCol[0]| those}} ({{bwResColPerc[0]}}%) <br>
+                <b>Gold collected</b>: {{bwResCol[1]| those}} ({{bwResColPerc[1]}}%) <br>
+                <b>Diamonds collected</b>: {{bwResCol[2]| those}} ({{bwResColPerc[2]}}%) <br>
+                <b>Emeralds collected</b>: {{bwResCol[3]| those}} ({{bwResColPerc[3]}}%) <br>
+                <b>Wrapped presents collected</b>: {{bwResCol[4]| those}} ({{bwResColPerc[4]}}%) <br>
+            </p>
+            <p>
+                <b>Total resources collected</b>: {{bwTotalResources| those}} <br>
+                <b>Total items bought from shop</b>: {{bwItemsPurchased| those}} <br>
+            </p>
 
-        <div class='cavResCol' style='position:relative;height:25%; width:25%'>
-            <canvas id="RESCOL"></canvas>
-            <script>
-            var ctx = document.getElementById('RESCOL');
-            // @ts-ignore
-            var RESCOL = {{bwResCol}};
-            var rescolss = new Chart(ctx, {
-                type: 'doughnut',
-                responsive: true,
-                maintainAspectRatio:false,
-                data: {
-                    labels: ['Iron','Gold','Diamonds','Emeralds','Wrapped Presents'],
-                    datasets: [{
-                        data: RESCOL,
-                        borderWidth: 1,
-                        backgroundColor: [
-                            '#ccc',
-                            '#fa0',
-                            '#5ff',
-                            '#5f5',
-                            '#f55',
-                        ],
-                    }]
-                },
-            });
-            </script>
-        </div>
+            <div class='cavResCol' style='position:relative;height:25%; width:25%'>
+                <canvas id="RESCOL"></canvas>
+                <script>
+                var ctx = document.getElementById('RESCOL');
+                // @ts-ignore
+                var RESCOL = {{bwResCol}};
+                var rescolss = new Chart(ctx, {
+                    type: 'doughnut',
+                    responsive: true,
+                    maintainAspectRatio:false,
+                    data: {
+                        labels: ['Iron','Gold','Diamonds','Emeralds','Wrapped Presents'],
+                        datasets: [{
+                            data: RESCOL,
+                            borderWidth: 1,
+                            backgroundColor: [
+                                '#ccc',
+                                '#fa0',
+                                '#5ff',
+                                '#5f5',
+                                '#f55',
+                            ],
+                        }]
+                    },
+                });
+                </script>
+            </div>
+        {% else %}
+            <p>No resources collected.</p>
+        {% endif %}
 
     <div class="h3d">Cosmetics</div><p>
+    {% if bwCosmetics %}
         {% for x, y in bwCosmetics.items() %}
             <b>{{x}}</b>: {{y}}<br>
         {% endfor %} </p>
+    {% else %}
+        <p>No cosmetics selected.</p>
+    {% endif %}
     
     <div class="h2d">Guild</div>
 

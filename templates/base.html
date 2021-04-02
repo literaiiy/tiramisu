@@ -2,12 +2,11 @@
 {% block head %}
 <!--- HEADER --->
 <head>
-    <title>Profile for {{ displayname }} | Tiramisu</title>
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <title>Profile for {{ displayname }} | tiramisu</title>
     <link href="{{ url_for('static', filename='base.scss') }}" rel="stylesheet" type="text/css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css">
     <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='datatables.scss') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -329,6 +328,7 @@ function scrollFunction() {
             <b>{{swStatsDict['cosmetic_tokens']| those}}</b> tokens <br>
             <b>{{swUnscannedDict['pearls_per_game']}}</b> ender pearls thrown per game <br>
             Corruption chance: <b>{{swStatsDict['angel_of_death_level']}}%</b><br>
+            Farthest bow kill: <b>{{swStatsDict['longest_bow_kill']}} blocks</b> ({{(swStatsDict['longest_bow_kill'] * 3.2808)| int}} ft.)<br>
         </p>
     
         <!-- SW MODE -->
@@ -577,7 +577,7 @@ function scrollFunction() {
             {% endfor %}
             </p>
 
-            <p>Since your first login, you have spent <b>{{ swKWperLists[2] }}%</b> of life playing SkyWars. </p>
+            <p>Since their first login, {{username}} has spent <b>{{ swKWperLists[2] }}%</b> of life playing SkyWars. </p>
             
             {% for item in swKWperLists[0] %}
                 <b>{{item[0]| thraw}}</b> kills per {{item[1]}}<br>
@@ -592,9 +592,15 @@ function scrollFunction() {
         <div class="h3d">Souls</div>
         {% if swStatsDict['souls'] %}
             <p>
-            {% for thing in swSoulList %}
-                <span class="{{ thing[2] }}"><b>{{ thing[0]| those }}</b> {{ thing[1] }} <br></span>
-            {% endfor %}
+                <span class="gray"><b>{{swSoulList['souls'] | those}}</b> souls</span> <br>
+                <b>{{swSoulList['souls_gathered'] | those}}</b> souls harvested <br>
+                <b>{{swSoulList['paid_souls'] | those}}</b> souls bought <br>
+                <b>{{swSoulList['souls_gathered_lab'] | those}}</b> ({{swSoulList['labperc'][0]}}%) souls gathered in laboratory modes <br>
+                <b>{{swSoulList['souls_nonlab'] | those}}</b> ({{swSoulList['labperc'][1]}}%) souls gathered in non-laboratory modes<br>
+                <span class="gold"><b>{{swSoulList['soul_well_legendaries'] | those}}</b> legendaries</span> <br>
+                <span class="blue"><b>{{swSoulList['soul_well_rares'] | those}}</b> rares</span> <br>
+                <span class="green"><b>{{swSoulList['soul_well_commons'] | those}}</b> commons</span> <br>
+                <b>{{swSoulList['soul_well'] | those}}</b> soul well uses <br>
             </p>
 
         <div class='canvasContainerSouls' style='position:relative;height:25%; width:25%'>
@@ -784,22 +790,39 @@ function scrollFunction() {
             <p>No cosmetics selected.</p>
         {% endif %}
 
-        <div class="h3d">Challenge attempts</div>
+        <div class="h3d">Challenges</div>
         {% if swChalAtt['overall'] %}
             <p>
-                <b>Archer</b>: {{swChalAtt['archer']}} <br>
-                <b>Half Health</b>: {{swChalAtt['half_health']}} <br>
-                <b>No Block</b>: {{swChalAtt['no_block']}} <br>
-                <b>No Chest</b>: {{swChalAtt['no_chest']}} <br>
-                <b>Paper</b>: {{swChalAtt['paper']}} <br>
-                <b>Rookie</b>: {{swChalAtt['rookie']}} <br>
-                <b>UHC</b>: {{swChalAtt['uhc']}} <br>
-                <b>Ultimate Warrior</b>: {{swChalAtt['ultimate_warrior']}} <br>
+                <b>Archer attempts</b>: {{swChalAtt['archer']}} <br>
+                <b>Half Health attempts</b>: {{swChalAtt['half_health']}} <br>
+                <b>No Block attempts</b>: {{swChalAtt['no_block']}} <br>
+                <b>No Chest attempts</b>: {{swChalAtt['no_chest']}} <br>
+                <b>Paper attempts</b>: {{swChalAtt['paper']}} <br>
+                <b>Rookie attempts</b>: {{swChalAtt['rookie']}} <br>
+                <b>UHC attempts</b>: {{swChalAtt['uhc']}} <br>
+                <b>Ultimate Warrior attempts</b>: {{swChalAtt['ultimate_warrior']}} <br>
             </p>
-
-            {% for num, items in swChalAttNum.items() %}
-                <p><b>{{num}}-challenge Wins</b>: {{items}} <br></p>
-            {% endfor %}
+            <p>
+                {% for num, items in swChalAttNum.items() %}
+                    <b>{{num}}-challenge attempts</b>: {{items}} <br>
+                {% endfor %}
+            </p>
+        
+            <p>
+                <b>Archer wins</b>: {{swChalAtt['archer']}} <br>
+                <b>Half Health wins</b>: {{swChalAtt['half_health']}} <br>
+                <b>No Block wins</b>: {{swChalAtt['no_block']}} <br>
+                <b>No Chest wins</b>: {{swChalAtt['no_chest']}} <br>
+                <b>Paper wins</b>: {{swChalAtt['paper']}} <br>
+                <b>Rookie wins</b>: {{swChalAtt['rookie']}} <br>
+                <b>UHC wins</b>: {{swChalAtt['uhc']}} <br>
+                <b>Ultimate Warrior wins</b>: {{swChalAtt['ultimate_warrior']}} <br>
+            </p>
+            <p>
+                {% for num, items in swChalAttNum.items() %}
+                    <b>{{num}}-challenge wins</b>: {{items}} <br>
+                {% endfor %}
+            </p>
         {% else %}
             <p>No challenge attempts.</p>
         {% endif %}

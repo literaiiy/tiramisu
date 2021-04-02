@@ -24,7 +24,7 @@ My main landing page is at literaiiy.me, where you can read more about me!
 - A **UUID**, or **U**niversally **U**nique **ID**entifier, is a unique hexadecimal value that is tied directly to a Minecraft account. Your UUID is always attached to your account from the date of your account's registration, making it much more reliable to tie stats to.
 
 **Will you ever put ads?**
-- No. tiramisu is ad-free and plans to never change that. I am fully supported by donations, which go directly to me and are recycled back into working on Tiramisu. Although donations are very nice and are a great way to show support, please don't be pressured to leave one if you don't want to. The site is free to use for all. :slightly_smiling_face:
+- No. tiramisu is ad-free and plans to never change that. I am fully supported by donations, which go directly to me and are recycled back into working on tiramisu. Although donations are very nice and are a great way to show support, please don't be pressured to leave one if you don't want to. The site is free to use for all. :slightly_smiling_face:
 
 **Are you stealing my data?**
 - Also- no. This is covered in the [Privacy Policy](404.html). I don't take any personally identifiable information, or share anything with third parties.
@@ -36,7 +36,7 @@ My main landing page is at literaiiy.me, where you can read more about me!
 - It's an Italian dessert that's quite lovely.
 
 **Do you work alone?**
-- Yes. I develop Tiramisu independently.
+- Yes. I develop tiramisu independently.
 
 **Is tiramisu open-source?**
 - Not at the moment, and most likely won't be.

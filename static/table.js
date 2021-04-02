@@ -6,9 +6,12 @@ $(document).ready( function () {
         "bPaginate": false,
         "sDom": '<"top"if>rt<"clear">',
         "language": {
-            "info": "_TOTAL_ name(s) total",
-            "infoFiltered": " - _MAX_ name(s) total",
-            "infoEmpty":"No names match this query"
+            "info": "_TOTAL_ results",
+            "infoFiltered": " - _MAX_ total",
+            "infoEmpty": "No matching results",
+            "search":"",
+            "zeroRecords": "No matching results",
+
         }
     });
 });

@@ -1,6 +1,6 @@
 
 # ! Importing
-from flask import Flask, render_template, request, url_for, redirect, session
+from flask import Flask, render_template, request, url_for, redirect, session, send_from_directory
 import json
 from mojang import MojangAPI
 from wtforms import TextField
@@ -9,6 +9,7 @@ import requests
 import math
 import time
 import re
+import os
 #from itertools import cycle, islice
 #from num2words import num2words
 import requests_cache
@@ -27,7 +28,8 @@ ADMINS = ['35a178c0c37043aea959983223c04de0']
 FLOWERS = ['27bcc1547423484683fd811155d8c472']
 SPARKLES = ['903100946468408aaf2462365389059c', '35bb69ce904a4380a03ffd55acbc2331', '35a178c0c37043aea959983223c04de0']
 PENGUINS = ['cfc42e543d834b4f9f7a23c059783ba5']
-swearList = ['anal','anus','ass','bastard','bitch','blowjob','blow job','buttplug','clitoris','cock','cunt','dick','dildo','fag','fuck','jizz','nigger','nigga','penis','piss','pussy','scrotum','sex','shit','slut','vagina']
+swearList = [
+    'anal','anus','bastard','bitch','blowjob','buttplug','clitoris','cock','cunt','dick','dildo','fag','fuck','jizz','kkk','nigger','nigga','penis','piss','pussy','scrotum','sex','shit','slut','vagina']
 sweetHeadsRanks = ['HELPER', 'MODERATOR', 'ADMIN', 'OWNER']
 
 requests_cache.install_cache('test_cache', backend='sqlite', expire_after=30)
@@ -52,8 +54,9 @@ class searchBar():
     query = TextField("Search...")
 
 @app.route('/favicon.ico')
-def Walmart():
-    return "walmart"
+def favicon():
+    return send_from_directory(os.path.join(app.root_path, 'static'),
+                               'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 # ! Routing for homepage
 @app.route('/', methods=['POST', 'GET'], defaults={'path':''})
@@ -189,7 +192,7 @@ def compute(q):
 # ! Name history
         namehis = MojangAPI.get_name_history(uuid)
         namehispure = MojangAPI.get_name_history(uuid)
-        namehisLength = len(namehis)
+        
         nhutminus1 = 0
         nhutChangedToAt = 0
         nhutindex = 0
@@ -383,7 +386,6 @@ def compute(q):
         # If played on Hypixel before, changes the user's 2nd time_between to between the first name change and their first log-on to Hypixel
         if playedOnHypixel:
             firstLogin = datetime.fromtimestamp(firstLoginUnix).strftime('%a, %b %d, %Y at %I:%M %p %z')
-        ###
             try:
                 nhut3unix = namehispure[1]['changed_to_at']/1000 - firstLoginUnix
             except: nhut3unix = 0
@@ -394,9 +396,10 @@ def compute(q):
             namehis[-1]['time_between'] = ''
         namehisDiffe = namehis[len(namehis)-2]['time_between']	
 
-        if firstLoginUnix > 1357027200:
-            namehis[0]['time_between'] =sec2format2ydhms(sec2format(int(time.time()-nhut2unix/1000)))
-        
+        #if firstLoginUnix > 1357027200:
+        namehis[0]['time_between'] =sec2format2ydhms(sec2format(int(time.time()-namehispure[-1]['changed_to_at']/1000)))
+        if len(namehis) == 1: namehis[0]['time_between'] = ''
+
 # ! Quests, AP, Achievements
 
         try:
@@ -422,17 +425,17 @@ def compute(q):
 # ! Title and Seniority
         joinedAgo = 0
         joinedAgoText = ''
-        seniority = ('☘', 'Hypixel Newcomer', 'dark_green')
+        seniority = ('☘', 'Newcomer', 'gray')
 
         # Time seniority
         try:
             joinedAgo = time.time() - firstLoginUnix
             joinedAgoText = sec2format2ydhms(sec2format(joinedAgo))
                 
-            if joinedAgo < 0.111*31536000: seniority = ('☘', 'Newcomer', 'dark_green')
-            elif joinedAgo < 0.444*31536000: seniority = ('⛏', 'Rookie', 'lawn')
-            elif joinedAgo < 1*31536000: seniority = ('➴', 'Novice', 'yellowgreen')
-            elif joinedAgo < 1.778*31536000: seniority = ('⚝', 'Trainee', 'yellow')
+            if joinedAgo < 0.111*31536000: seniority = ('☘', 'Newcomer', 'gray')
+            elif joinedAgo < 0.444*31536000: seniority = ('⛏', 'Rookie', 'green')
+            elif joinedAgo < 1*31536000: seniority = ('➴', 'Novice', 'blue')
+            elif joinedAgo < 1.778*31536000: seniority = ('⚝', 'Trainee', 'red')
             elif joinedAgo < 2.778*31536000: seniority = ('⚜', 'Expert', 'gold')
             elif joinedAgo < 4.000*31536000: seniority = ('♛', 'Master', 'master')
             elif joinedAgo < 5.444*31536000: seniority = ('❖', 'Elder', 'water')
@@ -577,6 +580,7 @@ def compute(q):
             'enderpearls_thrown':0,
             'fastest_win':'N/A',
             'most_kills_game':0,
+            'longest_bow_kill':0,
             'chests_opened':0,
             'refill_chest_destroy':0,
             'cosmetic_tokens':0,
@@ -617,7 +621,6 @@ def compute(q):
 
             # Games played, K/D, W/L
             swUnscannedDict['games_played'] = swStatsDict['wins'] + swStatsDict['losses']
-            print(swStatsDict['kills'], swStatsDict['deaths'])
             swUnscannedDict['K/D'] = weirdDiv(swStatsDict['kills'], swStatsDict['deaths'])
             swUnscannedDict['W/L'] = weirdDiv(swStatsDict['wins'],swStatsDict['losses'])
 
@@ -692,8 +695,6 @@ def compute(q):
             swUnscannedDict['winsRemainder'] = math.ceil(swLevelStuffYes[1]/10)
             if 'levelFormatted' in swSTATSVAR: swUnscannedDict['presIcon'] = re.sub('[0-9a-zA-Z§]', '', swSTATSVAR['levelFormatted'])
 
-            print(swUnscannedDict['prestige'])
-
             swUnscannedDict['level'] = math.floor(swUnscannedDict['level'])
 
         else: swStatsDict['success']:False
@@ -765,7 +766,6 @@ def compute(q):
             if 'losses_'+y in swSTATSVAR or 'wins_'+y in swSTATSVAR: x = swModeStats(x, y) 
 
         #print(swLabStatsList)
-        print(swStatsDict)
 
         ########## SkyWars Kill Types
         swKillTypeList = {}
@@ -789,7 +789,6 @@ def compute(q):
             TIMEOVERALL = swSTATSVAR['time_played']-swSTATSVAR['time_played_mega_doubles']+swSTATSVAR['time_played_lab'] if 'time_played_mega_doubles' in swSTATSVAR and 'time_played_lab' in swSTATSVAR else swSTATSVAR['time_played']
         except:
             TIMEOVERALL = 0
-        print('timeoverall',TIMEOVERALL)
         try:
             swPercPlayedLife = round(100*TIMEOVERALL/(time.time()-firstLoginUnix),4)
         except: swPercPlayedLife = 0
@@ -821,7 +820,7 @@ def compute(q):
         swUnitConvList2.append(('Written out ', round(TIMEOVERALL/750, 2), ' essays'))
         swUnitConvList2.append(('Eaten ', round(TIMEOVERALL/1800, 2), ' meals'))
         swUnitConvList2.append(('Watched ', round(TIMEOVERALL/6600, 2), ' feature-length films'))
-        swUnitConvList2.append(("Charged your phonse's battery ", math.floor(TIMEOVERALL/79.2), '%'))
+        swUnitConvList2.append(("Charged your phone's battery ", math.floor(TIMEOVERALL/79.2), '%'))
         swUnitConvList2.append(('Flown the longest international flight ', round(TIMEOVERALL/66600, 2), ' times'))
         swUnitConvList2.append(('Watched Law and Order ', round(TIMEOVERALL/1.148e+6, 2), ' times'))
         swUnitConvList2.append(('Driven across the United States ', round(TIMEOVERALL/1.2038e+06, 2), ' times'))
@@ -844,39 +843,24 @@ def compute(q):
                     swWperList.append((round(swStatsDict['wins']/TIMEOVERALL * kw[1],2), kw[0]))
             except: swWperList.append((0, kw[0]))
         # Souls
-        swSoulList = []
+        swSoulList = {}
+        for i in ['souls','souls_gathered','paid_souls','souls_gathered_lab','soul_well_legendaries','soul_well_rares','soul_well']:
+            try:
+                swSoulList[i] = swSTATSVAR[i]
+            except: swSoulList[i] = 0
+        
         try:
-            swSoulList.append((swSTATSVAR['souls'], ' total souls'))
-        except: swSoulList.append((0, ' total souls'))
+            swSoulList['souls_nonlab'] = swSoulList['souls_gathered']-swSoulList['souls_gathered_lab']
+        except: swSoulList['souls_nonlab'] = 0
         try:
-            swSoulList.append((swSTATSVAR['souls_gathered'], ' souls harvested'))
-        except: swSoulList.append((0, ' souls harvested'))
+            swSoulList['soul_well_commons'] = (swSTATSVAR['soul_well']-swSTATSVAR['soul_well_legendaries']-swSTATSVAR['soul_well_rares'])
+        except: swSoulList['soul_well_commons'] = 0
         try:
-            swSoulList.append((swSTATSVAR['paid_souls'], ' souls bought'))
-        except: swSoulList.append((0, ' souls bought'))
-        try:
-            swSoulList.append((swSTATSVAR['souls_gathered_lab'], ' souls from lab modes'))
-        except: swSoulList.append((0, ' souls from lab modes'))
-        try:
-            swSoulList.append((swSoulList[1][0]-swSoulList[3][0], ' souls from non-lab modes'))
-        except: swSoulList.append((0, ' souls from non-lab modes'))
-        try:
-            swSoulList.append((swSTATSVAR['soul_well_legendaries'], ' legendaries', 'gold'))
-        except: swSoulList.append((0, ' legendaries', 'gold'))
-        try:
-            swSoulList.append((swSTATSVAR['soul_well_rares'], ' rares', 'blue'))
-        except: swSoulList.append((0, ' rares', 'blue'))
-        try:
-            swSoulList.append((swSTATSVAR['soul_well']-swSTATSVAR['soul_well_legendaries']-swSTATSVAR['soul_well_rares'], ' commons', 'green'))
-        except: swSoulList.append((0, ' commons', 'green'))
-        try:
-            swSoulList.append((swSTATSVAR['soul_well'], ' soul well uses'))
-        except: swSoulList.append((0, ' soul well uses',))
-
-        swSoulsRaritiesList = [swSoulList[-2][0], swSoulList[-3][0], swSoulList[-4][0]]
+            swSoulList['labperc'] = (round(100*swSoulList['souls_gathered_lab']/swSoulList['souls_gathered'], 2), round(100*swSoulList['souls_nonlab']/swSoulList['souls_gathered'], 2))
+        except: swSoulList['labperc'] = (0,0)
+        swSoulsRaritiesList = (swSoulList['soul_well_commons'], swSoulList['soul_well_rares'], swSoulList['soul_well_legendaries'])
 
         # Heads
-        #headCollection = reqAPI['player']['stats']['SkyWars']['head_collection']['prestigious']
         swHeads = []
         swHeadsSolo = []
         swHeadsTeam = []
@@ -960,17 +944,12 @@ def compute(q):
         swCagesList = re.sub("[\[\]']",'',str(swCagesList))
         #print(swMapsList)
         #print(swCagesList)
-        print(swHeadsImpBool)
 
         # Cosmetics
         swCosmetics = {}
         swCosList = ['balloon','cage','killeffect','killmessages','projectiletrail','sprays','victorydance']
         for i in swCosList:
             if 'active_'+i in swSTATSVAR: swCosmetics[i] = swSTATSVAR['active_'+i].replace(i+'_',r'').replace('-', r' ').replace('_',r' ').title()
-            try:
-                print(swCosmetics[i])
-            except:
-                pass
         
         # Challenge attempts
         swChalAtt = {}
@@ -982,13 +961,27 @@ def compute(q):
             try:
                 swChalAtt[i] = swSTATSVAR['challenge_attempts_'+i]
             except KeyError: swChalAtt[i] = 0
-        print(swChalAtt)
         
         for i in range(2,9):
             try:
-                swChalAttNum[i] = swSTATSVAR['challenge_wins_'+str(i)]
-            except KeyError: swChalAtt[i] = 0
-        print(swChalAttNum)
+                swChalAttNum[i] = swSTATSVAR['challenge_attempts_'+str(i)]
+            except KeyError: swChalAttNum[i] = 0
+
+        # Challenge wins
+        swChalWins = {}
+        swChalWinsNum = {}
+        try:
+            swChalWins['overall'] = swSTATSVAR['challenge_wins']
+        except: swChalWins['overall'] = 0
+        for i in ['archer','half_health','no_block','no_chest','paper','rookie','uhc','ultimate_warrior']:
+            try:
+                swChalWins[i] = swSTATSVAR['challenge_wins_'+i]
+            except KeyError: swChalWins[i] = 0
+        
+        for i in range(2,9):
+            try:
+                swChalWinsNum[i] = swSTATSVAR['challenge_wins_'+str(i)]
+            except KeyError: swChalWinsNum[i] = 0
 
         ########## Printing!
 
@@ -1377,19 +1370,18 @@ def compute(q):
         #print('firstLogin')
         #print(firstLoginUnix)
         
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankNoPlus, rankPlusses=rankPlusses, newPackageRank=newPackageRank, rankColorParsed=rankColorParsed, plusColorParsed=plusColorParsed, multiplier=multiplier, swStatsDict=swStatsDict, swUnscannedDict=swUnscannedDict, joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=plusColorParsed, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources, bwCosmetics=bwCosmetics, userLanguage=userLanguage, userVersion=userVersion, totalKills=totalKills, totalWins=totalWins, totalCoins=totalCoins, giftsSent=giftsSent, giftsReceived=giftsReceived, rewards=rewards, lastPlayed=lastPlayed, lastSeen=lastSeen, lastSeenUnix=lastSeenUnix, swMapsList=swMapsList, swCagesList=swCagesList, swCosmetics=swCosmetics, swHeadsImpBool=swHeadsImpBool, swChalAtt=swChalAtt, swChalAttNum=swChalAttNum)
+        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankNoPlus, rankPlusses=rankPlusses, newPackageRank=newPackageRank, rankColorParsed=rankColorParsed, plusColorParsed=plusColorParsed, multiplier=multiplier, swStatsDict=swStatsDict, swUnscannedDict=swUnscannedDict, joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=plusColorParsed, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources, bwCosmetics=bwCosmetics, userLanguage=userLanguage, userVersion=userVersion, totalKills=totalKills, totalWins=totalWins, totalCoins=totalCoins, giftsSent=giftsSent, giftsReceived=giftsReceived, rewards=rewards, lastPlayed=lastPlayed, lastSeen=lastSeen, lastSeenUnix=lastSeenUnix, swMapsList=swMapsList, swCagesList=swCagesList, swCosmetics=swCosmetics, swHeadsImpBool=swHeadsImpBool, swChalAtt=swChalAtt, swChalAttNum=swChalAttNum, swChalWins=swChalWins, swChalWinsNum=swChalWinsNum)
     
 # ! Invalid username exception
     else:
         noAutocorrect = True
-        screwup = 'Oops! This player doesn\'t exist. You can take the name, if you\'d like. 😉'
+        screwup = 'Oops! This player doesn\'t exist.'
         if len(q) < 3 or len(q) > 16:
             screwup = "A Minecraft username has to be between 3 and 16 characters (with a few special exceptions), and can only contain alphanumeric characters and underscores."
         elif q != re.sub(r'\W+', '', q): 
             screwup = 'Username contains invalid characters. A Minecraft username can only contain alphanumeric characters and underscores.'
             noAutocorrect = re.sub(r'\W+', '', q)
-            print(noAutocorrect)
-        if any(swear in q for swear in swearList):
+        if any(swear in q.lower() for swear in swearList):
             screwup = "Username might be blocked by Mojang- username contains a blacklisted word. If this is a derivtive of the Scunthorpe problem, sorry about that." #\nhttps://paste.ee/p/RYo2C. \nIf this is a derivative of the Scunthorpe problem, sorry about that."
         return render_template('user404.html', q=q, screwup=screwup, noAutocorrect=noAutocorrect)
         #except:

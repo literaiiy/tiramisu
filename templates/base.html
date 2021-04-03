@@ -4,8 +4,8 @@
 <head>
     <title>Profile for {{ displayname }} | tiramisu</title>
     <link href="{{ url_for('static', filename='base.scss') }}" rel="stylesheet" type="text/css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script>
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/css/splide.min.css"> -->
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@splidejs/splide@latest/dist/js/splide.min.js"></script> -->
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='datatables.scss') }}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
@@ -32,7 +32,7 @@
     </div>    
 </div>
 
-<script>
+<!-- <script>
 window.onscroll = function() {scrollFunction()};
 
 function scrollFunction() {
@@ -44,7 +44,7 @@ function scrollFunction() {
     document.getElementById("uuid").style.fontSize = "16px";
   }
 }
-</script>
+</script> -->
 
 <!--- help --->
 <style> 
@@ -65,7 +65,7 @@ function scrollFunction() {
 <div class="row">
     <div class="columnZ">
         <img style='position: relative;margin-top:10px; margin-left:-500px;z-index:3;' src='https://mc-heads.net/body/{{uuid}}'><br>
-        <div style='margin-right:1%;margin-top:-300px;z-index:2;' class="splide">
+        <!-- <div style='margin-right:1%;margin-top:-300px;z-index:2;' class="splide">
             <div class="splide__track">
                 <ul class="splide__list">
                     <li style='background-color:#ff55ff;padding:100px;border-radius: 25px;color: #aa00aa;' class="splide__slide">
@@ -82,10 +82,10 @@ function scrollFunction() {
                     </li>
                 </ul>
             </div>
-        </div>
-        <script type="text/javascript" src="{{ url_for('static', filename='splide.js') }}"></script>
+        </div> -->
+        <!-- <script type="text/javascript" src="{{ url_for('static', filename='splide.js') }}"></script> -->
     </div>
-    <div class="columnA">
+    <!-- <div class="columnA"> -->
         <!--- NAME HISTORY --->
         <div class='table'>
             <table id="table_id" class="compact hover order-column stripe">
@@ -119,8 +119,7 @@ function scrollFunction() {
             </table>
             <script src='/static/table.js'></script>
         </div>
-    </div>
-    <div class="columnB">
+    <!-- </div> -->
         <div class="vl"></div>
 
         <!------ PLAYER DESC ------>
@@ -227,7 +226,7 @@ function scrollFunction() {
         </p>
 
         <!--- FRIENDS --->
-        <button id='myBtn' href="/f/{{ username }}">Friends List</button><br>
+        <!-- <button id='myBtn' href="/f/{{ username }}">Friends List</button><br>
         <div id="myModal" class="modal">
         <script>
         var modal = document.getElementById("myModal");
@@ -246,82 +245,52 @@ function scrollFunction() {
         <p>Friends list loading. It may take longer or shorter depending on the amount of friends you have. TEST</p>
         </div>
         </div>
-        </div>
-    </div>
+        </div> -->
 </div>
 <!------ PLAYER STATS ------>
 <div class="stats">
 
     <!--- SKYWARS STATS --->
-    <div class='header h2d'>SkyWars</div>
+    <div class='h2d'>SkyWars</div>
     <div class='h3d'><p><span class="{{ swUnscannedDict['prestige'][1] }}"><b></span>{{ swStatsDict['skywars_experience']| those }}</b> SkyWars experience · <b><span class="{{ swUnscannedDict['prestige'][1] }}">[{{ swUnscannedDict['level'] }}{{swUnscannedDict['presIcon']}}]</b></span>, {{ swUnscannedDict['prestige'][0] }} Prestige - <span class="{{ swUnscannedDict['prestige'][1] }}"><b>{{swUnscannedDict['xpRemainder']| those}} XP left ({{ swUnscannedDict['xpRemainderPerc'] }}%)</b></span> to <b>{{ swUnscannedDict['level']+1 }}</b><br>Approximately <b>{{swUnscannedDict['xpRemainder']| those}}</b> kills or <b>{{swUnscannedDict['winsRemainder']| those}}</b> wins until next level</p></div>
     
     <table class='swgeneral'>
         {% if swBestGame[1] != False %}
             {{ username }} plays <b>{{ swBestGame[1] }}</b> most often, with <b>{{ swBestGame[0]| those}}</b> games played.
         {% endif %}
-        <colgroup>
+        <!-- <colgroup>
             <col class="leftsw">
             <col class="rightsw">
-        </colgroup>
-        <tr>
-                <td><b>{{ swUnscannedDict['games_played']| those }}</b> games played</td>
-                <td><b>{{ swStatsDict['win_streak']| those }}</b> winstreak </td>
-        </tr>
-        <tr>
-                <td><b>{{ swStatsDict['quits']| those }}</b> games quit</td>
-                <td><b>{{ swStatsDict['souls']| those }}</b> souls </td>
-        </tr>
-        <tr>
-                <td style='color:red'><b>{{ swUnscannedDict['K/D'] }}</b> K/D</td>
-                <td><b>{{ swStatsDict['heads']| those }}</b> heads </td>
-        </tr>
-        <tr>
-                <td style='color:red'><b>{{ swUnscannedDict['KDA'] }}</b> K/D/A</td>
-                <td><b>{{ swStatsDict['coins']| those }}</b> coins </td>
-        </tr>
-        <tr>
-                <td><b>{{ swStatsDict['kills']| those }}</b> kills - <span class='{{ swUnscannedDict["head_tastiness"][1] }}'><b>{{ swUnscannedDict['head_tastiness'][0] }}</b></span></td>
-                <td><b>{{ swStatsDict['blocks_broken']| those }}</b> blocks broken </td>
-        </tr>
-        <tr>
-                <td><b>{{ swStatsDict['assists']| those }}</b> assists </td>
-                <td><b>{{ swStatsDict['egg_thrown']| those }}</b> eggs thrown </td>
-        </tr>
-        <tr>
-                <td><b>{{ swStatsDict['deaths']| those }}</b> deaths</td>
-                <td><b>{{ swStatsDict['arrows_shot']| those }}</b> arrows shot, <b>{{ swStatsDict['arrows_hit']| those }}</b> arrows hit</td>
-        </tr>
-        <tr>
-                <td><b>{{ swUnscannedDict['W/L'] }}</b> W/L - <b>{{ swUnscannedDict['winrate'] }}%</b> win rate </td>
-                <td><b>{{ swUnscannedDict['arrow_hitrate'] }}%</b> arrow hit rate</td>
-        </tr>
-        <tr>
-                <td><b>{{ swStatsDict['wins']| those }}</b> wins</td>
-                <td>Fastest win: <b>{{ swStatsDict['fastest_win'] }}</b> </td>
-        </tr>
-        <tr>
-                <td><b>{{ swStatsDict['losses']| those }}</b> losses </td>
-                <td><b>{{ swStatsDict['chests_opened']| those }}</b> chests opened</td>
-        </tr>
-        <tr>
-                <td><b>{{ swStatsDict['survived_players']| those }}</b> players survived </td>
-                <td>Highest-kill game: <b>{{ swStatsDict['most_kills_game'] }} kills</b></td>
-        </tr>
-        <tr>
-                <td><b>{{ swUnscannedDict['K/W'] }}</b> kills per win </td>
-                <td><b>{{ swUnscannedDict['blocks_placed_per_game'] }}</b> blocks placed per game </td>
-        </tr>
-        <tr>
-                <td><b>{{ swUnscannedDict['K/L'] }}</b> kills per loss </td>
-                <td><b>{{ swUnscannedDict['eggs_per_game'] }}</b> eggs thrown per game </td>
-        </tr>
-        <tr>
-                <td><b>{{ swUnscannedDict['K/G'] }}</b> kills per game </td>
-                <td><b>{{ swUnscannedDict['arrows_per_game'] }}</b> arrows shot per game </td>
-        </tr>
-    </table>
+        </colgroup> -->
         <p>
+            <b>{{ swUnscannedDict['games_played']| those }}</b> games played <br>
+            <b>{{ swStatsDict['win_streak']| those }}</b> winstreak <br>
+            <b>{{ swStatsDict['quits']| those }}</b> games quit<br>
+            <b>{{ swStatsDict['souls']| those }}</b> souls <br>
+            <b>{{ swUnscannedDict['K/D'] }}</b> K/D<br>
+            <b>{{ swStatsDict['heads']| those }}</b> heads <br>
+            <b>{{ swUnscannedDict['KDA'] }}</b> K/D/A<br>
+            <b>{{ swStatsDict['coins']| those }}</b> coins <br>
+            <b>{{ swStatsDict['kills']| those }}</b> kills - <span class='{{ swUnscannedDict["head_tastiness"][1] }}'><b>{{ swUnscannedDict['head_tastiness'][0] }}</b></span><br>
+            <b>{{ swStatsDict['blocks_broken']| those }}</b> blocks broken <br>
+            <b>{{ swStatsDict['assists']| those }}</b> assists <br>
+            <b>{{ swStatsDict['egg_thrown']| those }}</b> eggs thrown <br>
+            <b>{{ swStatsDict['deaths']| those }}</b> deaths<br>
+            <b>{{ swStatsDict['arrows_shot']| those }}</b> arrows shot, <b>{{ swStatsDict['arrows_hit']| those }}</b> arrows hit<br>
+            <b>{{ swUnscannedDict['W/L'] }}</b> W/L - <b>{{ swUnscannedDict['winrate'] }}%</b> win rate <br>
+            <b>{{ swUnscannedDict['arrow_hitrate'] }}%</b> arrow hit rate<br>
+            <b>{{ swStatsDict['wins']| those }}</b> wins<br>
+            Fastest win: <b>{{ swStatsDict['fastest_win'] }}</b> <br>
+            <b>{{ swStatsDict['losses']| those }}</b> losses <br>
+            <b>{{ swStatsDict['chests_opened']| those }}</b> chests opened<br>
+            <b>{{ swStatsDict['survived_players']| those }}</b> players survived <br>
+            Highest-kill game: <b>{{ swStatsDict['most_kills_game'] }} kills</b><br>
+            <b>{{ swUnscannedDict['K/W'] }}</b> kills per win <br>
+            <b>{{ swUnscannedDict['blocks_placed_per_game'] }}</b> blocks placed per game <br>
+            <b>{{ swUnscannedDict['K/L'] }}</b> kills per loss <br>
+            <b>{{ swUnscannedDict['eggs_per_game'] }}</b> eggs thrown per game <br>
+            <b>{{ swUnscannedDict['K/G'] }}</b> kills per game <br>
+            <b>{{ swUnscannedDict['arrows_per_game'] }}</b> arrows shot per game <br>
             <b>{{swStatsDict['blocks_placed']| those}}</b> blocks placed <br>
             <b>{{ swStatsDict['enderpearls_thrown']| those}}</b> ender pearls thrown <br>
             <b>{{swStatsDict['refill_chest_destroy']| those}}</b> refill chests destroyed <br>

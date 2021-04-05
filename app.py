@@ -147,7 +147,7 @@ def thraw(n):
 
 # ! Routing for search page
 @app.route('/p/<q>', methods=['POST','GET'])
-@cache.cached(timeout=15)
+# @cache.cached(timeout=15)
 def compute(q):
     q = q.strip()
     #try:

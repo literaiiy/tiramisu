@@ -11,7 +11,9 @@ $(document).ready( function () {
             "infoEmpty": "No matching results",
             "search":"",
             "zeroRecords": "No matching results",
-
+        'scrollY':'50vh',
+        'scrollCollapse': true,
+        'paging': false
         }
     });
 });

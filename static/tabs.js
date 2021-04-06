@@ -41,3 +41,25 @@ function tabs2(evt, cityName) {
     evt.currentTarget.className += " active";
   }
 document.getElementById("defaultOpen2").click();
+
+function bwTabs(evt, cityName) {
+    // Declare all variables
+    var i, bwTabsContent, bwTabsGaming;
+  
+    // Get all elements with class="bwTabsContent" and hide them
+    bwTabsContent = document.getElementsByClassName("bwTabsContent");
+    for (i = 0; i < bwTabsContent.length; i++) {
+      bwTabsContent[i].style.display = "none";
+    }
+  
+    // Get all elements with class="bwTabsGaming" and remove the class "active"
+    bwTabsGaming = document.getElementsByClassName("bwTabsGaming");
+    for (i = 0; i < bwTabsGaming.length; i++) {
+      bwTabsGaming[i].className = bwTabsGaming[i].className.replace(" active", "");
+    }
+  
+    // Show the current tab, and add an "active" class to the button that opened the tab
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+  }
+document.getElementById("defaultOpenBw").click();

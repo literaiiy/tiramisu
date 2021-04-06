@@ -858,7 +858,7 @@ def compute(q):
         try:
             swSoulList['labperc'] = (round(100*swSoulList['souls_gathered_lab']/swSoulList['souls_gathered'], 2), round(100*swSoulList['souls_nonlab']/swSoulList['souls_gathered'], 2))
         except: swSoulList['labperc'] = (0,0)
-        swSoulsRaritiesList = (swSoulList['soul_well_commons'], swSoulList['soul_well_rares'], swSoulList['soul_well_legendaries'])
+        swSoulsRaritiesList = [swSoulList['soul_well_commons'], swSoulList['soul_well_rares'], swSoulList['soul_well_legendaries']]
 
         # Heads
         swHeads = []

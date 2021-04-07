@@ -39,9 +39,9 @@ My main landing page is at literaiiy.me, where you can read more about me!
 - Yes. I develop tiramisu independently.
 
 **Is tiramisu open-source?**
-- Not at the moment, and most likely won't be.
+- Not at the moment.
 
-**Why is there a '>' symbol in front of my first name's duration?**
+**Why is there a '>' symbol in front of my first name's duration had?**
 - Mojang doesn't provide an account's creation date in the API, so if an account's Hypixel join date was before their first name change, that would be used as a substitute for a pseudo account creation date. This means that number is almost certainly not an accurate figure.
 
 **What is the "Hypixel ____" on my profile?**

@@ -9,9 +9,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@500&family=Interfamily=Meddon&family=Allerta&family=Palanquin:wght@400&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Orienta&display=swap" rel="stylesheet">
 
-<div class="sticky top-0 bg-gray-100 mb-8 flex z-40 shadow-md">
-	<a href='/'><img class='place-self-center h-24 ml-4' src='https://raw.githubusercontent.com/gist/literaiiy/62febf3d1f9a035b469e06bdef8456bc/raw/223650b7551fd90e7747e687a2643cdb1cdebf9d/teeramouse.svg' alt="tiramisu Logo" height='6%' width='auto'></a>
-	<form class='place-self-center' action="/" method="POST">
+<div class="sticky top-0 bg-gray-100 mb-8 flex justify-around z-40 shadow-md">
+	<a href='/'><img class='flex-none place-self-center h-24 ml-4' src='https://raw.githubusercontent.com/gist/literaiiy/62febf3d1f9a035b469e06bdef8456bc/raw/223650b7551fd90e7747e687a2643cdb1cdebf9d/teeramouse.svg' alt="tiramisu Logo" height='6%' width='auto'>
+	</a>
+	<form class='flex-none place-self-center' action="/" method="POST">
 		<input type="text" class='px-3 py-3 relative bg-white bg-white rounded text-sm border-0 shadow outline-none focus:outline-none w-100' name="content" id="content" autofocus="autofocus" required='true' onfocus="this.select()" autocomplete="on" spellcheck="false" placeholder="Search username or UUID">
 		<script>
 			if ( window.history.replaceState ) {
@@ -20,6 +21,12 @@
 		</script>
 		<input class="searchbutton" type="submit" value ="Q">
 	</form>
+	<div class="flex flex-grow">
+		<button class='flex-none'>Text button</button>
+		<button class='flex-none'>More text</button>
+		<button class='flex-none'>🏁</button>
+		<button class="flex-none">🌞</button>
+	</div>
 </div>
 
 {% block head %}
@@ -90,8 +97,8 @@
 
 
 {% block footer %}
-<div class="footerd">
+<footer>
 		<p>tiramisu <b>v0.4.0.4δ "delta" (Testing Phase)</b> - April 2, 2021 · Flask <b>v1.1.2</b> · Python <b>v3.7.9</b><p>
 	<p>Copyright © 2021 <a style='text-decoration:none;color:rgb(205, 248, 227);' href='/p/floraphile'>floraphile</a>. All rights reserved. Terms of Service. Privacy Policy. Credits. All times are in PDT.</p>
-</div>
+</footer>
 {% endblock %}

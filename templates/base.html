@@ -164,7 +164,6 @@
             </p>
         </div>
 
-
     <!------ PLAYER STATS ------>
 
         <!--- SkyWars --->
@@ -377,8 +376,6 @@
                 <p> No stats to show!</p>
                 {% endif %}
             </div>
-
-            <script src='/static/tabs.js'></script>
 
             <!--- HEADS -->
             <div class='col-start-2 col-end-6 row-span-2 bg-gray-100 rounded-2xl p-5 shadow'>
@@ -785,24 +782,23 @@
             </div>
 
             <!-- BedWars by mode -->
-            
             <div class="col-start-4 col-end-10 bg-gray-100 rounded-2xl p-5 shadow">
                 <div class="h3d">BedWars - by Mode</div>
                 {% if bwOverallStats['games_played_bedwars'] > 0 %}
-                        {% if bwMKWList[3] != '' and bwMKWList[4] != '' and bwMKWList[5] != '' %}
-                            <p>{{username}} plays <b>{{bwMKWList[3]}}</b> the most, has the highest K/D in <b>{{bwMKWList[4]}}</b>, and has the highest W/L in <b>{{bwMKWList[5]}}</b>.
-                        {% endif %}
+                    {% if bwMKWList[3] != '' and bwMKWList[4] != '' and bwMKWList[5] != '' %}
+                        <p>{{username}} plays <b>{{bwMKWList[3]}}</b> the most, has the highest K/D in <b>{{bwMKWList[4]}}</b>, and has the highest W/L in <b>{{bwMKWList[5]}}</b>.
+                    {% endif %}
 
                     <div class='tabsBedWarsModes'>
                         {% for mode in bwModeStats %}
                             {% if bwModeStats[mode]['games_played_bedwars'][0] > 0 %}
-                                <button class="bwTabsGaming text-2xl text-gray-600 font-bold" onclick="bwTabs(event, '{{bwTranslateList[mode]}}')" id="defaultOpenBw">{{bwTranslateList[mode]}}</button>
+                                <button class="bwTabLinks text-2xl text-gray-600 font-bold" onclick="bwTabs(event, '{{mode}}')" id="defaultOpenBw">{{bwTranslateList[mode]}}</button>
                             {% endif %}
                         {% endfor %}
                     </div>
                     {% for mode in bwModeStats %}
                         {% if bwModeStats[mode]['games_played_bedwars'][0] > 0 %}
-                            <div id='{{bwTranslateList[mode]}}' class='bwTabsContent'>
+                            <div id='{{mode}}' class='bwTabContent'>
                                 <p>
                                     {% if bwCompList[mode]['compkd'][0] > 100000 %}
                                         <span class="almost"><b>infinite</b></span> K/D
@@ -865,7 +861,7 @@
             </div>
 
             <!-- Kills via -->
-            <div>
+            <div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-5 shadow">
                 <div class="h3d">Kills via</div>
                     {% if bwOverallStats['kills_bedwars'] %}
                         <p><b>🗡 Melee</b>: {{bwKillsList[0]['🗡 Melee'][0]| those}} ({{bwKillsList[0]['🗡 Melee'][1]}}%)<br>
@@ -879,7 +875,7 @@
                                 <b>{{name}}</b>: {{num| those}} <br>
                             {% endif %}
                         {% endfor %}
-                        <div class='canvasKillsVia' style='position:relative;height:25%; width:25%'>
+                        <div class='canvasKillsVia'>
                             <canvas id="killsvia"></canvas>
                             <script>
                             var ctx = document.getElementById('killsvia');
@@ -914,8 +910,59 @@
                     {% endif %}
             </div>
             
+            <!-- Loot crates -->
+            <div class="col-start-6 col-end-10 bg-gray-100 rounded-2xl p-5 shadow">
+                <div class="h3d">Loot Crates</div>
+                {% if bwLootBoxes['bedwars_box'] %}
+                    <p>
+                        <b>Total loot crates</b>: {{bwLootBoxes['bedwars_box']| those}} <br>
+                        <b>Current loot crates</b>: {{bwLootBoxes['bedwars_boxes'][0]| those}} ({{bwLootBoxes['bedwars_boxes'][1]}}%) <br>
+                    </p>
+                    <p>
+                        <b><span class="gold">Legendaries</span></b>: {{bwLootBoxes['bedwars_box_legendaries'][0]| those}} ({{bwLootBoxes['bedwars_box_legendaries'][1]}}%) <br>
+                        <b><span class="dark_purple">Epics</span></b>: {{bwLootBoxes['bedwars_box_epics'][0]| those}} ({{bwLootBoxes['bedwars_box_epics'][1]}}%) <br>
+                        <b><span class="blue">Rares</span></b>: {{bwLootBoxes['bedwars_box_rares'][0]| those}} ({{bwLootBoxes['bedwars_box_rares'][1]}}%) <br>
+                        <b><span class="green">Commons</span></b>: {{bwLootBoxes['bedwars_box_commons'][0]| those}} ({{bwLootBoxes['bedwars_box_commons'][1]}}%) <br>
+                    </p>
+                    <p>
+                        <b>🧧 <span class="red">Lunar</span> Crates</b>: {{bwLootBoxes['bedwars_lunar_boxes'][0]| those}} ({{bwLootBoxes['bedwars_lunar_boxes'][1]}}%) <br>
+                        <b>🐇 <span class="aqua">Easter</span> Crates</b>: {{bwLootBoxes['bedwars_easter_boxes'][0]| those}} ({{bwLootBoxes['bedwars_easter_boxes'][1]}}%) <br>
+                        <b>🎃 <span class="orange">Halloween</span> Crates</b>: {{bwLootBoxes['bedwars_halloween_boxes'][0]| those}} ({{bwLootBoxes['bedwars_halloween_boxes'][1]}}%) <br>
+                        <b>🎄 <span class="dark_green">Christmas</span> Crates</b>: {{bwLootBoxes['bedwars_christmas_boxes'][0]| those}} ({{bwLootBoxes['bedwars_christmas_boxes'][1]}}%) <br>
+                    </p>
+                    <div class='cvLootBox'>
+                        <canvas id="lootbox"></canvas>
+                        <script>
+                        var ctx = document.getElementById('lootbox');
+                        // @ts-ignore
+                        var lootboxed = {{bwLootPure[1:5]}};
+                        var lootboxer = new Chart(ctx, {
+                            type: 'doughnut',
+                            responsive: true,
+                            maintainAspectRatio:false,
+                            data: {
+                                labels: ['Legendaries','Epics','Rares','Commons'],
+                                datasets: [{
+                                    data: lootboxed,
+                                    borderWidth: 1,
+                                    backgroundColor: [
+                                        '#fa0',
+                                        '#a0a',
+                                        '#55f',
+                                        '#5f5',
+                                    ],
+                                }]
+                            },
+                        });
+                        </script>
+                    </div>
+                {% else %}
+                    <p>No loot crates.</p>
+                {% endif %}
+            </div>
+
             <!-- Final kills -->
-            <div>
+            <div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-5 shadow">
                 <div class="h3d">Final kills via</div>
                     {% if bwOverallStats['final_kills_bedwars'] %}
                         <p><b>🗡 Melee</b>: {{bwKillsList[2]['🗡 Melee'][0]| those}} ({{bwKillsList[2]['🗡 Melee'][1]}}%)<br>
@@ -929,7 +976,7 @@
                                 <b>{{name}}</b>: {{num| those}} <br>
                             {% endif %}
                         {% endfor %}
-                        <div class='cvFKV' style='position:relative;height:25%; width:25%'>
+                        <div class='cvFKV'>
                             <canvas id="finkillsvia"></canvas>
                             <script>
                             var ctx = document.getElementById('finkillsvia');
@@ -964,59 +1011,8 @@
                     {% endif %}
             </div>
 
-            <!-- Loot crates -->
-            <div>
-                <div class="h3d">Loot Crates</div>
-                {% if bwLootBoxes['bedwars_box'] %}
-                    <p>
-                        <b>Total loot crates</b>: {{bwLootBoxes['bedwars_box']| those}} <br>
-                        <b>Current loot crates</b>: {{bwLootBoxes['bedwars_boxes'][0]| those}} ({{bwLootBoxes['bedwars_boxes'][1]}}%) <br>
-                    </p>
-                    <p>
-                        <b><span class="gold">Legendaries</span></b>: {{bwLootBoxes['bedwars_box_legendaries'][0]| those}} ({{bwLootBoxes['bedwars_box_legendaries'][1]}}%) <br>
-                        <b><span class="dark_purple">Epics</span></b>: {{bwLootBoxes['bedwars_box_epics'][0]| those}} ({{bwLootBoxes['bedwars_box_epics'][1]}}%) <br>
-                        <b><span class="blue">Rares</span></b>: {{bwLootBoxes['bedwars_box_rares'][0]| those}} ({{bwLootBoxes['bedwars_box_rares'][1]}}%) <br>
-                        <b><span class="green">Commons</span></b>: {{bwLootBoxes['bedwars_box_commons'][0]| those}} ({{bwLootBoxes['bedwars_box_commons'][1]}}%) <br>
-                    </p>
-                    <p>
-                        <b>🧧 <span class="red">Lunar</span> Crates</b>: {{bwLootBoxes['bedwars_lunar_boxes'][0]| those}} ({{bwLootBoxes['bedwars_lunar_boxes'][1]}}%) <br>
-                        <b>🐇 <span class="aqua">Easter</span> Crates</b>: {{bwLootBoxes['bedwars_easter_boxes'][0]| those}} ({{bwLootBoxes['bedwars_easter_boxes'][1]}}%) <br>
-                        <b>🎃 <span class="orange">Halloween</span> Crates</b>: {{bwLootBoxes['bedwars_halloween_boxes'][0]| those}} ({{bwLootBoxes['bedwars_halloween_boxes'][1]}}%) <br>
-                        <b>🎄 <span class="dark_green">Christmas</span> Crates</b>: {{bwLootBoxes['bedwars_christmas_boxes'][0]| those}} ({{bwLootBoxes['bedwars_christmas_boxes'][1]}}%) <br>
-                    </p>
-                    <div class='cvLootBox' style='position:relative;height:25%; width:25%'>
-                        <canvas id="lootbox"></canvas>
-                        <script>
-                        var ctx = document.getElementById('lootbox');
-                        // @ts-ignore
-                        var lootboxed = {{bwLootPure[1:5]}};
-                        var lootboxer = new Chart(ctx, {
-                            type: 'doughnut',
-                            responsive: true,
-                            maintainAspectRatio:false,
-                            data: {
-                                labels: ['Legendaries','Epics','Rares','Commons'],
-                                datasets: [{
-                                    data: lootboxed,
-                                    borderWidth: 1,
-                                    backgroundColor: [
-                                        '#fa0',
-                                        '#a0a',
-                                        '#55f',
-                                        '#5f5',
-                                    ],
-                                }]
-                            },
-                        });
-                        </script>
-                    </div>
-                {% else %}
-                    <p>No loot crates.</p>
-                {% endif %}
-            </div>
-
             <!-- Resources collected -->
-            <div>
+            <div class="col-start-6 col-end-10 bg-gray-100 rounded-2xl p-5 shadow">
                 <div class="h3d">Resources collected</div>
                 {% if bwTotalResources %}
                     <p>
@@ -1030,7 +1026,7 @@
                         <b>Total resources collected</b>: {{bwTotalResources| those}} <br>
                         <b>Total items bought from shop</b>: {{bwItemsPurchased| those}} <br>
                     </p>
-                    <div class='cavResCol' style='position:relative;height:25%; width:25%'>
+                    <div class='cavResCol'>
                         <canvas id="RESCOL"></canvas>
                         <script>
                         var ctx = document.getElementById('RESCOL');
@@ -1063,7 +1059,7 @@
             </div>
 
             <!-- Cosmetics -->
-            <div>
+            <div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-5 shadow">
                 <div class="h3d">Cosmetics</div><p>
                 {% if bwCosmetics %}
                     {% for x, y in bwCosmetics.items() %}
@@ -1073,7 +1069,8 @@
                     <p>No cosmetics selected.</p>
                 {% endif %}
             </div>
-        
+        </div>
+    <script src='/static/tabs.js'></script>
     <div class="h2d">Guild</div>
 </body>
 {% endblock %}

@@ -48,119 +48,133 @@
         <div class="image justify-self-center"><img src='https://mc-heads.net/body/{{uuid}}'><br></div>
 
         <!------ PLAYER DESC ------>
-        <div class="col-span-3">
+        <div class="col-span-3 align-start">
             <!--- USERNAME --->
-            <div id='username' class="header username">
+            <div id='username' class='text-left lg:text-4xl'>
                 {% if rank == 'YOUTUBE' %}
                 <b><span class='{{rankColorParsed}}'>[<span class='{{plusColorParsed}}'>{{rank}}</span>]</b></span>
                 {% elif rank != '' %}
                 <b><span class='{{rankColorParsed}}'>[{{rank}}<span class='{{plusColorParsed}}'>{{rankPlusses}}</span>]</b></span>
                 {% endif %}
                 {{displayname}}
-                
-                <div id='uuid' class="uuid">
-                    {{ uuid }}
-                </div>    
             </div>
-            <p>
+                
+            <div id='uuid' class="text-left text-xl font-extralight">
+                {{ uuid }}
+            </div>
+
             <!--- SESSION --->
-            {% if currentSession != False %}
-                <p style='color:green;'>Playing <b>{{ currentSession }}</b> - in <b>{{ sessionType }}</b></p>
-            {% else %}
-                <p><b style='color:red;'>Offline</b> 
-                    {% if lastSeenUnix < 756864000 %}
-                        - last seen <b>{{lastSeen}}</b> ago playing <b>{{lastPlayed}}</b>
-                    {% endif %}
-            {% endif %}</p>
+            <p class='text-left'>
+                {% if currentSession != False %}
+                    <span class='dark_green'>Playing <b>{{ currentSession }}</b> - in <b>{{ sessionType }}</b></span>
+                {% else %}
+                    <b class='red'>Offline</b>
+                        {% if lastSeenUnix < 756864000 %}
+                            - last seen <b>{{lastSeen}}</b> ago playing <b>{{lastPlayed}}</b>
+                        {% endif %}
+                {% endif %}
+            </p>
 
             <!--- LEVEL --->
-            <p>Level <b>{{ level }} {{ multiplier }}</b> / <b>{{ levelProgress }}%</b> to <b>{{ levelplusone }}</b><br></p>
+            <p class='text-left'>
+                Level <b>{{ level }} {{ multiplier }}</b> / <b>{{ levelProgress }}%</b> to <b>{{ levelplusone }}</b><br>
+            </p>
 
-            <!--- KARMA --->
-            karma is <b class='light_purple'>{{ reqList| those }}</b><br>
-
-            <!--- ACHIEVEMENTS --->
-            <b>{{ achievements| those }}</b> achievements for <b>{{ achpot| those }}</b> achievement points<br>
-
-            <!--- QUESTS --->
-            <b class="yellow">{{ quests| those }}</b> quests finished<br></p>
+            <!-- K A Q -->
+            <p class='text-left'>
+                karma is <b class='light_purple'>{{ reqList| those }}</b><br>
+                <b>{{ achievements| those }}</b> achievements for <b>{{ achpot| those }}</b> achievement points<br>
+                <b class="yellow">{{ quests| those }}</b> quests finished<br>
+            </p>
 
             <!-- TOTAL KILLS WINS COINS -->
-            <p>
-            <b>Total coins</b>: {{totalCoins| those}} <br>
-            <b>Total kills</b>: {{totalKills| those}} <br>
-            <b>Total wins</b>: {{totalWins| those}} <br>
+            <p class='text-left'>
+                <b>Total coins</b>: {{totalCoins| those}} <br>
+                <b>Total kills</b>: {{totalKills| those}} <br>
+                <b>Total wins</b>: {{totalWins| those}} <br>
             </p>
 
             <!--- GUILD --->
-
-            <!--- SENIORITY  --->
-            {% if firstLoginUnix > 1357027200 %}
-            <span class="{{ seniority[2] }}">{{ seniority[0] }} <b>Hypixel {{seniority[1]}}</b></span> - Joined {{ joinedAgoText }} ago<br>
-            {% endif %}
-
-            <!--- RANK SENIORITY --->
-            {% if boughtPastTime != 0 %}
-                {% if newPackageRank == 'MVP_PLUS' %}
-                    <b class='aqua'>[MVP<span class='red'>+</span>]</b> bought <b>{{boughtPastTime}}</b> - <b>{{boughtPastRank}}</b> ago
-                {% elif newPackageRank == 'MVP' %}
-                    <b class='aqua'>[MVP]</b> bought <b>{{boughtPastTime}}</b> - <b>{{boughtPastRank}}</b> ago
-                {% elif newPackageRank == 'VIP_PLUS' %}
-                    <b class='lime'>[VIP<span class='gold'>+</span>]</b> bought <b>{{boughtPastTime}}</b> - <b>{{boughtPastRank}}</b> ago
-                {% elif newPackageRank == 'VIP' %}
-                    <b class='lime'>[VIP]</b> bought <b>{{boughtPastTime}}</b> - <b>{{boughtPastRank}}</b> ago
+            <p class='text-left'>
+                {% if guildList[0] != 0 %}
+                    <b>{{ guildList[2] }}</b> in guild <b>{{ guildList[1] }}<span class='{{ guildList[3] }}'> [{{ guildList[0] }}]<span></b></p>
                 {% endif %}
-            {% endif %}
-
-            <!--- FIRST/LAST LOGIN --->
-            <p>
-            {% if lastSession != False %}
-                Last session: <b>{{ lastSession }}</b><br> 
-            {% endif %}
-            {% if lastLogoutUnix != 1 %}
-                Last logout: <b>{{ lastLogout }}</b><br>
-            {% endif %}
-            {% if lastLoginUnix != 1 %}
-                Last login: <b>{{ lastLogin }}</b><br>
-            {% endif %}
-            {% if firstLoginUnix != 1 %}
-                First login: <b>{{ firstLogin }}</b>
-            {% endif %}
             </p>
 
-            <!--- SOCIAL MEDIA --->
-            {% if twitter != [] %}
-                <span class="twitter"><b>Twitter: </b></span><a href='{{ twitter[1] }}'>@{{ twitter[0] }}</a><br>
-            {% endif %}
-            {% if instagram != [] %}
-                <span class="instagram"><b>Instagram: </b></span><a href='{{ instagram[1] }}'>@{{ instagram[0] }}</a><br>
-            {% endif %}
-            {% if twitch != [] %}
-                <span class="twitch"><b>Twitch: </b></span><a href='{{ twitch[1] }}'>@{{ twitch[0] }}</a><br>
-            {% endif %}
-            {% if discord != '' and 'discord.gg' not in discord %}
-                <span class="discord"><b>Discord: </b></span>@{{ discord }}<br>
-            {% elif 'https://discord.gg' in discord or 'http://discord.gg' in discord %}
-                <span class="discord"><b>Discord:</b></span> <a href='{{ discord }}'>{{ discord }}</a><br>
-            {% elif 'discord.gg' in discord %}
-                <span class="discord"><b>Discord: </b></span> <a href='https://{{ discord }}'>{{ discord }}</a><br>
-            {% endif %}
-            {% if hypixelForums != [] %}
-                <span class="hypixelForums"><b>Hypixel Forums:</b></span> <a href='{{ hypixelForums[1] }}'>@{{ hypixelForums[0] }}</a><br>
-            {% endif %}
-            {% if youtube != [] %}
-                <span class="youtube"><b>YouTube: </b></span><a href='{{ youtube[1] }}'>{{ youtube[0] }}</a><br>
-            {% endif %}
+            <p class='text-left'>
+                <!--- SENIORITY  --->
+                {% if firstLoginUnix > 1357027200 %}
+                <span class="{{ seniority[2] }}">{{ seniority[0] }} <b>Hypixel {{seniority[1]}}</b></span> - Joined {{ joinedAgoText }} ago<br>
+                {% endif %}
 
-            <!-- OTHERS -->
-            <p>
-            <b>Language</b>: {{userLanguage}}<br>
-            <b>Sent</b> {{giftsSent| those}} gifts, <b>received</b> {{giftsReceived| those}}<br>
-            Plays on <b>{{userVersion}}</b><br>
+            
+                <!--- RANK SENIORITY --->
+                {% if boughtPastTime != 0 %}
+                    {% if newPackageRank == 'MVP_PLUS' %}
+                        <b class='aqua'>[MVP<span class='red'>+</span>]</b> bought <b>{{boughtPastTime}}</b> - <b>{{boughtPastRank}}</b> ago
+                    {% elif newPackageRank == 'MVP' %}
+                        <b class='aqua'>[MVP]</b> bought <b>{{boughtPastTime}}</b> - <b>{{boughtPastRank}}</b> ago
+                    {% elif newPackageRank == 'VIP_PLUS' %}
+                        <b class='lime'>[VIP<span class='gold'>+</span>]</b> bought <b>{{boughtPastTime}}</b> - <b>{{boughtPastRank}}</b> ago
+                    {% elif newPackageRank == 'VIP' %}
+                        <b class='lime'>[VIP]</b> bought <b>{{boughtPastTime}}</b> - <b>{{boughtPastRank}}</b> ago
+                    {% endif %}
+                {% endif %}
             </p>
-            <p>
-            <b>Reward streak</b>: {{rewards['streak_current']| those}} (Best: {{rewards['streak_best']| those}}) <br>
-            <b>Rewards claimed</b>: {{rewards['claimed']| those}} ({{rewards['claimed_daily']| those}} daily)
+
+            <p class='text-left'>
+                <!--- LAST SESSION/LAST LOGOUT/FIRST/LAST LOGIN --->
+                {% if lastSession != False %}
+                    Last session: <b>{{ lastSession }}</b><br>
+                {% endif %}
+                {% if lastLogoutUnix != 1 %}
+                    Last logout: <b>{{ lastLogout }}</b><br>
+                {% endif %}
+                {% if lastLoginUnix != 1 %}
+                    Last login: <b>{{ lastLogin }}</b><br>
+                {% endif %}
+                {% if firstLoginUnix != 1 %}
+                    First login: <b>{{ firstLogin }}</b>
+                {% endif %}
+            </p>
+
+            <p class='text-left'>
+                <!--- SOCIAL MEDIA --->
+                {% if twitter != [] %}
+                    <span class="twitter"><b>Twitter: </b></span><a href='{{ twitter[1] }}'>@{{ twitter[0] }}</a><br>
+                {% endif %}
+                {% if instagram != [] %}
+                    <span class="instagram"><b>Instagram: </b></span><a href='{{ instagram[1] }}'>@{{ instagram[0] }}</a><br>
+                {% endif %}
+                {% if twitch != [] %}
+                    <span class="twitch"><b>Twitch: </b></span><a href='{{ twitch[1] }}'>@{{ twitch[0] }}</a><br>
+                {% endif %}
+                {% if discord != '' and 'discord.gg' not in discord %}
+                    <span class="discord"><b>Discord: </b></span>@{{ discord }}<br>
+                {% elif 'https://discord.gg' in discord or 'http://discord.gg' in discord %}
+                    <span class="discord"><b>Discord:</b></span> <a href='{{ discord }}'>{{ discord }}</a><br>
+                {% elif 'discord.gg' in discord %}
+                    <span class="discord"><b>Discord: </b></span> <a href='https://{{ discord }}'>{{ discord }}</a><br>
+                {% endif %}
+                {% if hypixelForums != [] %}
+                    <span class="hypixelForums"><b>Hypixel Forums:</b></span> <a href='{{ hypixelForums[1] }}'>@{{ hypixelForums[0] }}</a><br>
+                {% endif %}
+                {% if youtube != [] %}
+                    <span class="youtube"><b>YouTube: </b></span><a href='{{ youtube[1] }}'>{{ youtube[0] }}</a><br>
+                {% endif %}
+            </p>
+
+            <!-- LANG/GIFTS/VERSION -->
+            <p class='text-left'>
+                <b>Language</b>: {{userLanguage}}<br>
+                <b>Sent</b> {{giftsSent| those}} gifts, <b>received</b> {{giftsReceived| those}}<br>
+                Plays on <b>{{userVersion}}</b><br>
+            </p>
+
+            <!-- REWARDS -->
+            <p class='text-left'>
+                <b>Reward streak</b>: {{rewards['streak_current']| those}} (Best: {{rewards['streak_best']| those}}) <br>
+                <b>Rewards claimed</b>: {{rewards['claimed']| those}} ({{rewards['claimed_daily']| those}} daily)
             </p>
         </div>
 
@@ -380,55 +394,35 @@
             <!--- HEADS -->
             <div class='col-start-2 col-end-6 row-span-2 bg-gray-100 rounded-2xl p-5 shadow'>
                 <div class="h3d">Heads</div>
-                {% if swHeadsImpBool[0] %}
-                <p><b>OVERALL</b><br>
-                    {% for item in swHeadsListList[0] %}
-                        <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]| those}} ({{item[3]}}%)<br>
-                    {% endfor %} </p>
-                    <div class='headscont' style='position:relative;'>
-                        <canvas id="heads"></canvas>
-                        <script>
-                        var ctx = document.getElementById('heads');
-                        // @ts-ignore
-                        var swHLO = {{swHeadsRaw}};
-                        var heads = new Chart(ctx, {
-                            type: 'doughnut',
-                            responsive: true,
-                            maintainAspectRatio:false,
-                            data: {
-                                labels: ['Heavenly', 'Divine', 'Sweet', 'Succulent', 'Tasty', 'Salty', 'Decent', 'Meh', 'Yucky', 'Eww'],
-                                datasets: [{
-                                    data: swHLO,
-                                    borderWidth: 1,
-                                    backgroundColor: ['#a0a', '#fa0', '#5ff', '#f5f', '#0aa', '#5f5', '#ff5', '#ccc', '#aaa', '#555'],
-                                }]
-                            },
-                        });
-                        </script>
-                    </div>
-                {% else %}
-                <p>No heads collected.</p>
-                {% endif %}
 
-                {% if swHeadsImpBool[1] %}
-                    <p><b>SOLO</b><br>
-                        {% for item in swHeadsListList[1] %}
-                            <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]| those}} ({{item[3]}}%)<br>
-                        {% endfor %}</p>
-                        <div class='headscontsolo' style='position:relative;'>
-                            <canvas id="headssolo"></canvas>
+                {% if swHeadsImpBool[0] %}
+                <div class='text-2xl'>Overall</div>
+                    <div class="flex">
+                        <div>
+                            {% for item in swHeadsListList[0] %}
+                                <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]| those}} ({{item[3]}}%)<br>
+                            {% endfor %} </p>
+                        </div>
+                        <div class='headscont' style='position:relative;'>
+                            <canvas id="heads" height='176px'></canvas>
                             <script>
-                            var ctx = document.getElementById('headssolo');
+                            var ctx = document.getElementById('heads');
                             // @ts-ignore
-                            var swHLS = {{swHeadsRawSolo}};
-                            var headssolo = new Chart(ctx, {
+                            var swHLO = {{swHeadsRaw}};
+                            var heads = new Chart(ctx, {
                                 type: 'doughnut',
                                 responsive: true,
+                                aspectRatio: 1,
                                 maintainAspectRatio:false,
+                                options: {
+                                    legend: {
+                                        display:false,
+                                    }
+                                },
                                 data: {
                                     labels: ['Heavenly', 'Divine', 'Sweet', 'Succulent', 'Tasty', 'Salty', 'Decent', 'Meh', 'Yucky', 'Eww'],
                                     datasets: [{
-                                        data: swHLS,
+                                        data: swHLO,
                                         borderWidth: 1,
                                         backgroundColor: ['#a0a', '#fa0', '#5ff', '#f5f', '#0aa', '#5f5', '#ff5', '#ccc', '#aaa', '#555'],
                                     }]
@@ -436,35 +430,84 @@
                             });
                             </script>
                         </div>
+                    </div>
+                {% else %}
+                <p>No heads collected.</p>
+                {% endif %}
+
+                {% if swHeadsImpBool[1] %}
+                    <div class='text-2xl'>Solo</div>
+                        <div class="flex">
+                            <div class='headscontsolo' style='position:relative;'>
+                                <canvas id="headssolo" height='176px'></canvas>
+                                <script>
+                                var ctx = document.getElementById('headssolo');
+                                // @ts-ignore
+                                var swHLS = {{swHeadsRawSolo}};
+                                var headssolo = new Chart(ctx, {
+                                    type: 'doughnut',
+                                    responsive: true,
+                                    maintainAspectRatio:false,
+                                    options: {
+                                        legend: {
+                                            display:false,
+                                        }
+                                    },
+                                    data: {
+                                        labels: ['Heavenly', 'Divine', 'Sweet', 'Succulent', 'Tasty', 'Salty', 'Decent', 'Meh', 'Yucky', 'Eww'],
+                                        datasets: [{
+                                            data: swHLS,
+                                            borderWidth: 1,
+                                            backgroundColor: ['#a0a', '#fa0', '#5ff', '#f5f', '#0aa', '#5f5', '#ff5', '#ccc', '#aaa', '#555'],
+                                        }]
+                                    },
+                                });
+                                </script>
+                            </div>
+                            <div>
+                                {% for item in swHeadsListList[1] %}
+                                    <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]| those}} ({{item[3]}}%)<br>
+                                {% endfor %}</p>
+                            </div>
+                        </div>
                 {% else %}
                     <p>No heads collected in Solo.</p>
                 {% endif %}
-                            
+
                 {% if swHeadsImpBool[2] %}
-                    <p><b>TEAMS</b><br>
-                        {% for item in swHeadsListList[2] %}
-                            <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]| those}} ({{item[3]}}%)<br>
-                        {% endfor %}</p>
-                        <div class='headscontteam'>
-                            <canvas id="headsteam"></canvas>
-                            <script>
-                            var ctx = document.getElementById('headsteam');
-                            // @ts-ignore
-                            var swHLT = {{swHeadsRawTeam}};
-                            var headsteam = new Chart(ctx, {
-                                type: 'doughnut',
-                                responsive: true,
-                                maintainAspectRatio:false,
-                                data: {
-                                    labels: ['Heavenly', 'Divine', 'Sweet', 'Succulent', 'Tasty', 'Salty', 'Decent', 'Meh', 'Yucky', 'Eww'],
-                                    datasets: [{
-                                        data: swHLT,
-                                        borderWidth: 1,
-                                        backgroundColor: ['#a0a', '#fa0', '#5ff', '#f5f', '#0aa', '#5f5', '#ff5', '#ccc', '#aaa', '#555'],
-                                    }]
-                                },
-                            });
-                            </script>
+                <div class='text-2xl'>Teams</div>
+                        <div class="flex">
+                            <div>
+                                {% for item in swHeadsListList[2] %}
+                                    <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]| those}} ({{item[3]}}%)<br>
+                                {% endfor %}</p>
+                            </div>
+                            <div class='headscontteam'>
+                                <canvas id="headsteam" height='176px'></canvas>
+                                <script>
+                                var ctx = document.getElementById('headsteam');
+                                // @ts-ignore
+                                var swHLT = {{swHeadsRawTeam}};
+                                var headsteam = new Chart(ctx, {
+                                    type: 'doughnut',
+                                    responsive: true,
+                                    maintainAspectRatio:false,
+                                    options: {
+                                        legend: {
+                                            display:false,
+                                        }
+                                    },
+                                    data: {
+                                        labels: ['Heavenly', 'Divine', 'Sweet', 'Succulent', 'Tasty', 'Salty', 'Decent', 'Meh', 'Yucky', 'Eww'],
+                                        datasets: [{
+                                            data: swHLT,
+                                            borderWidth: 1,
+                                            backgroundColor: ['#a0a', '#fa0', '#5ff', '#f5f', '#0aa', '#5f5', '#ff5', '#ccc', '#aaa', '#555'],
+                                        }]
+                                    },
+                                });
+                                </script>
+                            </div>
                         </div>
                 {% else %}
                     <p>No heads collected in Teams.</p>
@@ -472,18 +515,20 @@
             </div>
 
             <!-- Kills by -->
-            <div class='col-start-6 col-end-10 bg-gray-100 rounded-2xl p-5 shadow'>
-                <div class='h3d'>Kills by:</div>
-                {% if swKillTypeList['success'] == True %}
-                    <p>
-                        {% for killType in swKillTypeList %}
-                            {% if killType != 'success' %}
-                                <b>{{killType|title}}</b>: {{ swKillTypeList[killType][0] | those}} ({{swKillTypeList[killType][1] }}%)<br>
-                            {% endif %}
-                        {% endfor %}
-                    </p>
+            <div class='col-start-6 col-end-10 bg-gray-100 rounded-2xl p-5 shadow flex justify-around'>
+                <div>
+                    <span class="text-2xl">Kills by:</span> 
+                    {% if swKillTypeList['success'] == True %}
+                        <p>
+                            {% for killType in swKillTypeList %}
+                                {% if killType != 'success' %}
+                                    <b>{{killType|title}}</b>: {{ swKillTypeList[killType][0] | those}} ({{swKillTypeList[killType][1] }}%)<br>
+                                {% endif %}
+                            {% endfor %}
+                        </p>
+                </div>
                 <div class='canvasContainer'>
-                    <canvas id="myChart"></canvas>
+                    <canvas id="myChart" height='176'></canvas>
                     <script>
                     var ctx = document.getElementById('myChart');
                     // @ts-ignore
@@ -492,6 +537,11 @@
                         type: 'doughnut',
                         responsive: true,
                         maintainAspectRatio:false,
+                        options: {
+                            legend: {
+                                display:false,
+                            }
+                        },
                         data: {
                             labels: ['Melee', 'Void', 'Bow', 'Mob', 'Fall', 'Other'],
                             datasets: [{
@@ -517,62 +567,72 @@
 
             <!-- Time Wasted -->
             <div class="col-start-6 col-end-10 row-span-2 bg-gray-100 rounded-2xl p-5 shadow">
-                <div class='h3d'>Time Wasted</div> 
                 {% if swTimeLists[0][5] != '0s' %}
-                    <p>
-                        <b>{{ swTimeLists[0][5] }}</b> in total <br>
-                        {% for mode in range(5) %}
-                            {{ swTimeModeList[mode] }}: <b>{{ swTimeLists[0][mode] }} ({{swTimeLists[1][mode]}}%) </b><br>
-                        {% endfor %}
-                    </p>
-                    <div class='canvasContainer2'>
-                        <canvas id="myChart2"></canvas>
-                        <script>
-                        var ctx = document.getElementById('myChart2');
-                        // @ts-ignore
-                        var swTWL = {{swTimeListPercMinusOverall}}
-                        var myChart2 = new Chart(ctx, {
-                            type: 'doughnut',
-                            responsive: true,
-                            maintainAspectRatio:false,
-                            data: {
-                                labels: ['Solo', 'Teams', 'Mega', 'Ranked', 'Laboratory'],
-                                datasets: [{
-                                    data: swTWL,
-                                    borderWidth: 1,
-                                    backgroundColor: [
-                                        '#283044',
-                                        '#78a1bb',
-                                        '#ebf5ee',
-                                        'bfa89e',
-                                        '8b786d',
-                                    ]
-                                }]
-                            },
-                        });
-                        </script>
+                    <div class='text-2xl'>Time Wasted</div>
+                    <div class="flex justify-around">
+                        <div>
+                            <p>
+                                <b>{{ swTimeLists[0][5] }}</b> in total <br>
+                                {% for mode in range(5) %}
+                                    {{ swTimeModeList[mode] }}: <b>{{ swTimeLists[0][mode] }} ({{swTimeLists[1][mode]}}%) </b><br>
+                                {% endfor %}
+                            </p>
+                            <p>
+                                {% for item in swUnitConvList2 %}
+                                    {{ item[0] }}<b>{{ '{0:,}'.format(item[1]) }}</b>{{ item[2] }} <br>
+                                {% endfor %}
+                                </p>
+                                <p>Since their first login, {{username}} has spent <b>{{ swKWperLists[2] }}%</b> of life playing SkyWars. </p>
+                        </div>
+                        <div>
+                            <div class='canvasContainer2'>
+                                <canvas id="myChart2" height='176'></canvas>
+                                <script>
+                                var ctx = document.getElementById('myChart2');
+                                // @ts-ignore
+                                var swTWL = {{swTimeListPercMinusOverall}}
+                                var myChart2 = new Chart(ctx, {
+                                    type: 'doughnut',
+                                    responsive: true,
+                                    maintainAspectRatio:false,
+                                    options: {
+                                        legend: {
+                                            display:false,
+                                        }
+                                    },
+                                    data: {
+                                        labels: ['Solo', 'Teams', 'Mega', 'Ranked', 'Laboratory'],
+                                        datasets: [{
+                                            data: swTWL,
+                                            borderWidth: 1,
+                                            backgroundColor: [
+                                                '#283044',
+                                                '#78a1bb',
+                                                '#ebf5ee',
+                                                'bfa89e',
+                                                '8b786d',
+                                            ]
+                                        }]
+                                    },
+                                });
+                                </script>
+                            </div>
+                            <div>
+                                <p>
+                                {% for item in swUnitConvList %}
+                                    <b>{{ '{0:,}'.format(item[0]) }}</b> {{ item[1] }} <br>
+                                {% endfor %}
+                                </p>
+
+                                {% for item in swKWperLists[0] %}
+                                    <b>{{item[0]| thraw}}</b> kills per {{item[1]}}<br>
+                                {% endfor %}
+                                {% for item in swKWperLists[1] %}
+                                    <b>{{item[0]| thraw}}</b> wins per {{item[1]}}<br>
+                                {% endfor %}
+                            </div>
+                        </div>
                     </div>
-
-                    <p>
-                    {% for item in swUnitConvList %}
-                        <b>{{ '{0:,}'.format(item[0]) }}</b> {{ item[1] }} <br>
-                    {% endfor %}
-                    </p>
-
-                    <p>
-                    {% for item in swUnitConvList2 %}
-                        {{ item[0] }}<b>{{ '{0:,}'.format(item[1]) }}</b>{{ item[2] }} <br>
-                    {% endfor %}
-                    </p>
-
-                    <p>Since their first login, {{username}} has spent <b>{{ swKWperLists[2] }}%</b> of life playing SkyWars. </p>
-                    
-                    {% for item in swKWperLists[0] %}
-                        <b>{{item[0]| thraw}}</b> kills per {{item[1]}}<br>
-                    {% endfor %}
-                    {% for item in swKWperLists[1] %}
-                        <b>{{item[0]| thraw}}</b> wins per {{item[1]}}<br>
-                    {% endfor %}
                 {% else %}
                     <p>Nothing to show here.</p>
                 {% endif %}

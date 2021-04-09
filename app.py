@@ -801,7 +801,7 @@ def compute(q):
                 swTimeList.append(sec2format2ydhms(sec2format(timePlayedForThisMode)))
                 swTimeListPerc.append(round(100*(timePlayedForThisMode/TIMEOVERALL), 2))
             except:
-                swTimeList.append(0)
+                swTimeList.append('0s')
                 swTimeListPerc.append(0)
         swTimeList.append(sec2format2ydhms(sec2format(TIMEOVERALL)))
         swTimeListPercMinusOverall = swTimeListPerc#[:-1]

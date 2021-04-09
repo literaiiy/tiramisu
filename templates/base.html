@@ -11,7 +11,7 @@
     <div class='grid sm:grid-cols-1 lg:grid-cols-10 gap-6'>
 
         <!--- NAME HISTORY --->
-        <div class='table col-start-2 col-span-4 bg-gray-100 p-5 rounded-2xl h-12 shadow'>
+        <div class='table col-start-2 col-span-4 bg-gray-100 p-6 rounded-2xl h-12 shadow'>
             <table id="table_id" style='max-height:200px;' class="compact hover order-column">
                 <thead>
                     <tr>
@@ -50,7 +50,7 @@
         <!------ PLAYER DESC ------>
         <div class="col-span-3 align-start">
             <!--- USERNAME --->
-            <div id='username' class='text-left lg:text-4xl'>
+            <div id='username' class=' lg:text-3xl'>
                 {% if rank == 'YOUTUBE' %}
                 <b><span class='{{rankColorParsed}}'>[<span class='{{plusColorParsed}}'>{{rank}}</span>]</b></span>
                 {% elif rank != '' %}
@@ -59,12 +59,12 @@
                 {{displayname}}
             </div>
                 
-            <div id='uuid' class="text-left text-xl font-extralight">
+            <div id='uuid' class=" text-xl font-extralight">
                 {{ uuid }}
             </div>
 
             <!--- SESSION --->
-            <p class='text-left'>
+            <p>
                 {% if currentSession != False %}
                     <span class='dark_green'>Playing <b>{{ currentSession }}</b> - in <b>{{ sessionType }}</b></span>
                 {% else %}
@@ -76,32 +76,32 @@
             </p>
 
             <!--- LEVEL --->
-            <p class='text-left'>
+            <p>
                 Level <b>{{ level }} {{ multiplier }}</b> / <b>{{ levelProgress }}%</b> to <b>{{ levelplusone }}</b><br>
             </p>
 
             <!-- K A Q -->
-            <p class='text-left'>
+            <p>
                 karma is <b class='light_purple'>{{ reqList| those }}</b><br>
                 <b>{{ achievements| those }}</b> achievements for <b>{{ achpot| those }}</b> achievement points<br>
                 <b class="yellow">{{ quests| those }}</b> quests finished<br>
             </p>
 
             <!-- TOTAL KILLS WINS COINS -->
-            <p class='text-left'>
+            <p>
                 <b>Total coins</b>: {{totalCoins| those}} <br>
                 <b>Total kills</b>: {{totalKills| those}} <br>
                 <b>Total wins</b>: {{totalWins| those}} <br>
             </p>
 
             <!--- GUILD --->
-            <p class='text-left'>
+            <p>
                 {% if guildList[0] != 0 %}
                     <b>{{ guildList[2] }}</b> in guild <b>{{ guildList[1] }}<span class='{{ guildList[3] }}'> [{{ guildList[0] }}]<span></b></p>
                 {% endif %}
             </p>
 
-            <p class='text-left'>
+            <p>
                 <!--- SENIORITY  --->
                 {% if firstLoginUnix > 1357027200 %}
                 <span class="{{ seniority[2] }}">{{ seniority[0] }} <b>Hypixel {{seniority[1]}}</b></span> - Joined {{ joinedAgoText }} ago<br>
@@ -122,7 +122,7 @@
                 {% endif %}
             </p>
 
-            <p class='text-left'>
+            <p>
                 <!--- LAST SESSION/LAST LOGOUT/FIRST/LAST LOGIN --->
                 {% if lastSession != False %}
                     Last session: <b>{{ lastSession }}</b><br>
@@ -138,7 +138,7 @@
                 {% endif %}
             </p>
 
-            <p class='text-left'>
+            <p>
                 <!--- SOCIAL MEDIA --->
                 {% if twitter != [] %}
                     <span class="twitter"><b>Twitter: </b></span><a href='{{ twitter[1] }}'>@{{ twitter[0] }}</a><br>
@@ -165,14 +165,14 @@
             </p>
 
             <!-- LANG/GIFTS/VERSION -->
-            <p class='text-left'>
+            <p>
                 <b>Language</b>: {{userLanguage}}<br>
                 <b>Sent</b> {{giftsSent| those}} gifts, <b>received</b> {{giftsReceived| those}}<br>
                 Plays on <b>{{userVersion}}</b><br>
             </p>
 
             <!-- REWARDS -->
-            <p class='text-left'>
+            <p>
                 <b>Reward streak</b>: {{rewards['streak_current']| those}} (Best: {{rewards['streak_best']| those}}) <br>
                 <b>Rewards claimed</b>: {{rewards['claimed']| those}} ({{rewards['claimed_daily']| those}} daily)
             </p>
@@ -181,10 +181,10 @@
     <!------ PLAYER STATS ------>
 
         <!--- SkyWars --->
-        <div class='col-start-2 col-end-10 bg-gray-100 rounded-2xl text-4xl font-bold p-5 shadow'>SkyWars</div>
+        <div class='col-start-2 col-end-10 bg-gray-100 rounded-2xl text-4xl font-bold p-6 shadow text-center'>SkyWars</div>
 
             <!-- Overall -->
-            <div class="col-start-2 col-end-6 row-span-2 bg-gray-100 p-5 rounded-2xl shadow">
+            <div class="col-start-2 col-end-6 row-span-2 bg-gray-100 p-6 rounded-2xl shadow">
                 <p><span class="{{ swUnscannedDict['prestige'][1] }}"><b></span>{{ swStatsDict['skywars_experience']| those }}</b> SkyWars experience · <b><span class="{{ swUnscannedDict['prestige'][1] }}">[{{ swUnscannedDict['level'] }}{{swUnscannedDict['presIcon']}}]</b></span>, {{ swUnscannedDict['prestige'][0] }} Prestige - <span class="{{ swUnscannedDict['prestige'][1] }}"><b>{{swUnscannedDict['xpRemainder']| those}} XP left ({{ swUnscannedDict['xpRemainderPerc'] }}%)</b></span> to <b>{{ swUnscannedDict['level']+1 }}</b><br>Approximately <b>{{swUnscannedDict['xpRemainder']| those}}</b> kills or <b>{{swUnscannedDict['winsRemainder']| those}}</b> wins until next level</p>
                 {% if swBestGame[1] != False %}
                     {{ username }} plays <b>{{ swBestGame[1] }}</b> most often, with <b>{{ swBestGame[0]| those}}</b> games played.
@@ -229,7 +229,7 @@
             </div>
 
             <!-- SW MODE -->
-            <div class='col-start-6 col-end-10 bg-gray-100 rounded-2xl p-5 shadow'>
+            <div class='col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow'>
                 {% if swUnscannedDict['games_played'] > 0 %}
                     <div class="tabForYes">
                         {% for y, x in gamemodes.items() %}
@@ -314,7 +314,7 @@
             </div>
 
             <!-- SW MODE 2-->
-            <div class='col-start-6 col-end-10 bg-gray-100 rounded-2xl p-5 shadow'>
+            <div class='col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow'>
                 {% if swUnscannedDict['games_played'] > 0 %}
                     <div class="tabForYes2">
                         {% for y, x in gamemodes2.items() %}
@@ -392,19 +392,20 @@
             </div>
 
             <!--- HEADS -->
-            <div class='col-start-2 col-end-6 row-span-2 bg-gray-100 rounded-2xl p-5 shadow'>
-                <div class="h3d">Heads</div>
+            <div class='col-start-2 col-end-6 row-span-2 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+                <div class="text-3xl font-semibold pb-6">Heads</div>
 
-                {% if swHeadsImpBool[0] %}
-                <div class='text-2xl'>Overall</div>
-                    <div class="flex">
+                <div class='py-5 content-center'>
+                    {% if swHeadsImpBool[0] %}
+                    <div class='text-2xl'>Overall</div>
+                    <div class="flex justify-around">
                         <div>
                             {% for item in swHeadsListList[0] %}
                                 <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]| those}} ({{item[3]}}%)<br>
                             {% endfor %} </p>
                         </div>
-                        <div class='headscont' style='position:relative;'>
-                            <canvas id="heads" height='176px'></canvas>
+                        <div class='headscont'>
+                            <canvas id="heads" style="width:100%;height:100%;"></canvas>
                             <script>
                             var ctx = document.getElementById('heads');
                             // @ts-ignore
@@ -431,134 +432,156 @@
                             </script>
                         </div>
                     </div>
-                {% else %}
-                <p>No heads collected.</p>
-                {% endif %}
+                    {% else %}
+                    <p>No heads collected.</p>
+                    {% endif %}
+                </div>
 
-                {% if swHeadsImpBool[1] %}
-                    <div class='text-2xl'>Solo</div>
-                        <div class="flex">
-                            <div class='headscontsolo' style='position:relative;'>
-                                <canvas id="headssolo" height='176px'></canvas>
-                                <script>
-                                var ctx = document.getElementById('headssolo');
-                                // @ts-ignore
-                                var swHLS = {{swHeadsRawSolo}};
-                                var headssolo = new Chart(ctx, {
-                                    type: 'doughnut',
-                                    responsive: true,
-                                    maintainAspectRatio:false,
-                                    options: {
-                                        legend: {
-                                            display:false,
-                                        }
-                                    },
-                                    data: {
-                                        labels: ['Heavenly', 'Divine', 'Sweet', 'Succulent', 'Tasty', 'Salty', 'Decent', 'Meh', 'Yucky', 'Eww'],
-                                        datasets: [{
-                                            data: swHLS,
-                                            borderWidth: 1,
-                                            backgroundColor: ['#a0a', '#fa0', '#5ff', '#f5f', '#0aa', '#5f5', '#ff5', '#ccc', '#aaa', '#555'],
-                                        }]
-                                    },
-                                });
-                                </script>
+                <div class='py-5 content-center'>
+                    {% if swHeadsImpBool[1] %}
+                        <div class='text-2xl'>Solo</div>
+                            <div class="flex flex-row-reverse justify-around">
+                                <div>
+                                    {% for item in swHeadsListList[1] %}
+                                        <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]| those}} ({{item[3]}}%)<br>
+                                    {% endfor %}</p>
+                                </div>
+                                <div class='headscontsolo'>
+                                    <canvas id="headssolo" style="width:100%;height:100%;"></canvas>
+                                    <script>
+                                    var ctx = document.getElementById('headssolo');
+                                    // @ts-ignore
+                                    var swHLS = {{swHeadsRawSolo}};
+                                    var headssolo = new Chart(ctx, {
+                                        type: 'doughnut',
+                                        responsive: true,
+                                        maintainAspectRatio:false,
+                                        options: {
+                                            legend: {
+                                                display:false,
+                                            }
+                                        },
+                                        data: {
+                                            labels: ['Heavenly', 'Divine', 'Sweet', 'Succulent', 'Tasty', 'Salty', 'Decent', 'Meh', 'Yucky', 'Eww'],
+                                            datasets: [{
+                                                data: swHLS,
+                                                borderWidth: 1,
+                                                backgroundColor: ['#a0a', '#fa0', '#5ff', '#f5f', '#0aa', '#5f5', '#ff5', '#ccc', '#aaa', '#555'],
+                                            }]
+                                        },
+                                    });
+                                    </script>
+                                </div>
                             </div>
-                            <div>
-                                {% for item in swHeadsListList[1] %}
-                                    <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]| those}} ({{item[3]}}%)<br>
-                                {% endfor %}</p>
-                            </div>
-                        </div>
-                {% else %}
-                    <p>No heads collected in Solo.</p>
-                {% endif %}
+                    {% else %}
+                        <p>No heads collected in Solo.</p>
+                    {% endif %}
+                </div>
 
-                {% if swHeadsImpBool[2] %}
-                <div class='text-2xl'>Teams</div>
-                        <div class="flex">
-                            <div>
-                                {% for item in swHeadsListList[2] %}
-                                    <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]| those}} ({{item[3]}}%)<br>
-                                {% endfor %}</p>
+                <div class='py-5 content-center'>
+                    {% if swHeadsImpBool[2] %}
+                    <div class='text-2xl'>Teams</div>
+                            <div class="flex justify-around">
+                                <div>
+                                    {% for item in swHeadsListList[2] %}
+                                        <b><span class="{{item[2]}}">{{item[0]}}:</b></span> {{item[1]| those}} ({{item[3]}}%)<br>
+                                    {% endfor %}</p>
+                                </div>
+                                <div class='headscontteam'>
+                                    <canvas id="headsteam" style="width:100%;height:100%;"></canvas>
+                                    <script>
+                                    var ctx = document.getElementById('headsteam');
+                                    // @ts-ignore
+                                    var swHLT = {{swHeadsRawTeam}};
+                                    var headsteam = new Chart(ctx, {
+                                        type: 'doughnut',
+                                        responsive: true,
+                                        maintainAspectRatio:false,
+                                        options: {
+                                            legend: {
+                                                display:false,
+                                            }
+                                        },
+                                        data: {
+                                            labels: ['Heavenly', 'Divine', 'Sweet', 'Succulent', 'Tasty', 'Salty', 'Decent', 'Meh', 'Yucky', 'Eww'],
+                                            datasets: [{
+                                                data: swHLT,
+                                                borderWidth: 1,
+                                                backgroundColor: ['#a0a', '#fa0', '#5ff', '#f5f', '#0aa', '#5f5', '#ff5', '#ccc', '#aaa', '#555'],
+                                            }]
+                                        },
+                                    });
+                                    </script>
+                                </div>
                             </div>
-                            <div class='headscontteam'>
-                                <canvas id="headsteam" height='176px'></canvas>
-                                <script>
-                                var ctx = document.getElementById('headsteam');
-                                // @ts-ignore
-                                var swHLT = {{swHeadsRawTeam}};
-                                var headsteam = new Chart(ctx, {
-                                    type: 'doughnut',
-                                    responsive: true,
-                                    maintainAspectRatio:false,
-                                    options: {
-                                        legend: {
-                                            display:false,
-                                        }
-                                    },
-                                    data: {
-                                        labels: ['Heavenly', 'Divine', 'Sweet', 'Succulent', 'Tasty', 'Salty', 'Decent', 'Meh', 'Yucky', 'Eww'],
-                                        datasets: [{
-                                            data: swHLT,
-                                            borderWidth: 1,
-                                            backgroundColor: ['#a0a', '#fa0', '#5ff', '#f5f', '#0aa', '#5f5', '#ff5', '#ccc', '#aaa', '#555'],
-                                        }]
-                                    },
-                                });
-                                </script>
-                            </div>
-                        </div>
-                {% else %}
-                    <p>No heads collected in Teams.</p>
-                {% endif %}
+                    {% else %}
+                        <p>No heads collected in Teams.</p>
+                    {% endif %}
+                </div>
             </div>
 
             <!-- Kills by -->
-            <div class='col-start-6 col-end-10 bg-gray-100 rounded-2xl p-5 shadow flex justify-around'>
-                <div>
-                    <span class="text-2xl">Kills by:</span> 
-                    {% if swKillTypeList['success'] == True %}
+            <div class='col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow'>
+                <div class="text-3xl font-semibold pb-6">Kills by:</div> 
+                {% if swKillTypeList['success'] == True %}
+                <div class="flex justify-around">
+                    <div>
                         <p>
-                            {% for killType in swKillTypeList %}
-                                {% if killType != 'success' %}
-                                    <b>{{killType|title}}</b>: {{ swKillTypeList[killType][0] | those}} ({{swKillTypeList[killType][1] }}%)<br>
+                            {% if swKillTypeList['success'] %}
+                                {% if swKillTypeList['melee'][0] %}
+                                    Melee: <b>{{swKillTypeList['melee'][0]}} kills</b> ({{swKillTypeList['melee'][1]}})<br>
                                 {% endif %}
-                            {% endfor %}
+                                {% if swKillTypeList['void'][0] %}
+                                    Void: <b>{{swKillTypeList['void'][0]}} kills</b> ({{swKillTypeList['void'][1]}})<br>
+                                {% endif %}
+                                {% if swKillTypeList['bow'][0] %}
+                                    Bow: <b>{{swKillTypeList['bow'][0]}} kills</b> ({{swKillTypeList['bow'][1]}})<br>
+                                {% endif %}
+                                {% if swKillTypeList['mob'][0] %}
+                                    Mob: <b>{{swKillTypeList['mob'][0]}} kills</b> ({{swKillTypeList['mob'][1]}})<br>
+                                {% endif %}
+                                {% if swKillTypeList['fall'][0] %}
+                                    Fall: <b>{{swKillTypeList['fall'][0]}} kills</b> ({{swKillTypeList['fall'][1]}})<br>
+                                {% endif %}
+                                {% if swKillTypeList['other'][0] %}
+                                    Other: <b>{{swKillTypeList['other'][0]}} kills</b> ({{swKillTypeList['other'][1]}})<br>
+                                {% endif %}
+                            {% endif %}
                         </p>
-                </div>
-                <div class='canvasContainer'>
-                    <canvas id="myChart" height='176'></canvas>
-                    <script>
-                    var ctx = document.getElementById('myChart');
-                    // @ts-ignore
-                    var swKTL = {{swKTLList}};
-                    var myChart = new Chart(ctx, {
-                        type: 'doughnut',
-                        responsive: true,
-                        maintainAspectRatio:false,
-                        options: {
-                            legend: {
-                                display:false,
-                            }
-                        },
-                        data: {
-                            labels: ['Melee', 'Void', 'Bow', 'Mob', 'Fall', 'Other'],
-                            datasets: [{
-                                data: swKTL,
-                                borderWidth: 1,
-                                backgroundColor: [
-                                    '#4357ad',
-                                    '#48a9a6',
-                                    '#e4dfda',
-                                    '#D4B483',
-                                    '#C1666B',
-                                    '#F42521',
-                                ],
-                            }]
-                        },
-                    });
-                    </script>
+                    </div>
+                    <div class='canvasContainer'>
+                        <canvas id="myChart" height='176'></canvas>
+                        <script>
+                        var ctx = document.getElementById('myChart');
+                        // @ts-ignore
+                        var swKTL = {{swKTLList}};
+                        var myChart = new Chart(ctx, {
+                            type: 'doughnut',
+                            responsive: true,
+                            maintainAspectRatio:false,
+                            options: {
+                                legend: {
+                                    display:false,
+                                }
+                            },
+                            data: {
+                                labels: ['Melee', 'Void', 'Bow', 'Mob', 'Fall', 'Other'],
+                                datasets: [{
+                                    data: swKTL,
+                                    borderWidth: 1,
+                                    backgroundColor: [
+                                        '#4357ad',
+                                        '#48a9a6',
+                                        '#e4dfda',
+                                        '#D4B483',
+                                        '#C1666B',
+                                        '#F42521',
+                                    ],
+                                }]
+                            },
+                        });
+                        </script>
+                    </div>
                 </div>
                 {% else %}
                     <p>Nothing to show here.</p>
@@ -566,10 +589,53 @@
             </div>
 
             <!-- Time Wasted -->
-            <div class="col-start-6 col-end-10 row-span-2 bg-gray-100 rounded-2xl p-5 shadow">
+            <div class="col-start-6 col-end-10 row-span-2 bg-gray-100 rounded-2xl p-6 shadow">
                 {% if swTimeLists[0][5] != '0s' %}
-                    <div class='text-2xl'>Time Wasted</div>
-                    <div class="flex justify-around">
+                    <div class='text-3xl font-semibold pb-6'>Time Wasted</div>
+                    <div class='canvasContainer2'>
+                        <canvas id="myChart2" style="width:25%;"></canvas>
+                        <script>
+                        var ctx = document.getElementById('myChart2');
+                        // @ts-ignore
+                        var swTWL = {{swTimeListPercMinusOverall}}
+                        var myChart2 = new Chart(ctx, {
+                            type: 'bar',
+                            responsive: true,
+                            maintainAspectRatio:false,
+                            options: {
+                                scales: {
+                                    y: {
+                                        title: {
+                                            display: true,
+                                            text: 'fus',
+                                        },
+                                        suggestedMin: 0,
+                                        suggestedMax: 100,
+                                    }
+                                },
+                                legend: {
+                                    display:false,
+                                },
+                            },
+                            data: {
+                                labels: ['Solo', 'Teams', 'Mega', 'Ranked', 'Laboratory'],
+                                datasets: [{
+                                    data: swTWL,
+                                    borderWidth: 1,
+                                    backgroundColor: [
+                                        '#283044',
+                                        '#78a1bb',
+                                        '#ebf5ee',
+                                        'bfa89e',
+                                        '8b786d',
+                                    ]
+                                }]
+                            },
+                        });
+                        </script>
+                    </div>
+                    <p>Since their first login, {{username}} has spent <b>{{ swKWperLists[2] }}%</b> of their life playing SkyWars. </p>
+                    <div class="grid grid-cols-2 gap-10 justify-around">
                         <div>
                             <p>
                                 <b>{{ swTimeLists[0][5] }}</b> in total <br>
@@ -581,56 +647,22 @@
                                 {% for item in swUnitConvList2 %}
                                     {{ item[0] }}<b>{{ '{0:,}'.format(item[1]) }}</b>{{ item[2] }} <br>
                                 {% endfor %}
-                                </p>
-                                <p>Since their first login, {{username}} has spent <b>{{ swKWperLists[2] }}%</b> of life playing SkyWars. </p>
+                            </p>    
                         </div>
                         <div>
-                            <div class='canvasContainer2'>
-                                <canvas id="myChart2" height='176'></canvas>
-                                <script>
-                                var ctx = document.getElementById('myChart2');
-                                // @ts-ignore
-                                var swTWL = {{swTimeListPercMinusOverall}}
-                                var myChart2 = new Chart(ctx, {
-                                    type: 'doughnut',
-                                    responsive: true,
-                                    maintainAspectRatio:false,
-                                    options: {
-                                        legend: {
-                                            display:false,
-                                        }
-                                    },
-                                    data: {
-                                        labels: ['Solo', 'Teams', 'Mega', 'Ranked', 'Laboratory'],
-                                        datasets: [{
-                                            data: swTWL,
-                                            borderWidth: 1,
-                                            backgroundColor: [
-                                                '#283044',
-                                                '#78a1bb',
-                                                '#ebf5ee',
-                                                'bfa89e',
-                                                '8b786d',
-                                            ]
-                                        }]
-                                    },
-                                });
-                                </script>
-                            </div>
-                            <div>
-                                <p>
+                            <p>
                                 {% for item in swUnitConvList %}
                                     <b>{{ '{0:,}'.format(item[0]) }}</b> {{ item[1] }} <br>
                                 {% endfor %}
-                                </p>
-
+                            </p>
+                            <p>
                                 {% for item in swKWperLists[0] %}
                                     <b>{{item[0]| thraw}}</b> kills per {{item[1]}}<br>
                                 {% endfor %}
                                 {% for item in swKWperLists[1] %}
                                     <b>{{item[0]| thraw}}</b> wins per {{item[1]}}<br>
                                 {% endfor %}
-                            </div>
+                            </p>
                         </div>
                     </div>
                 {% else %}
@@ -639,44 +671,53 @@
             </div>
 
             <!-- Souls -->
-            <div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-5 shadow">
-                <div class="h3d">Souls</div>
+            <div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow">
+                <div class="text-3xl font-semibold pb-6">Souls</div>
                 {% if swStatsDict['souls'] %}
-                    <p>
-                        <span class="gray"><b>{{swSoulList['souls'] | those}}</b> souls</span> <br>
-                        <b>{{swSoulList['souls_gathered'] | those}}</b> souls harvested <br>
-                        <b>{{swSoulList['paid_souls'] | those}}</b> souls bought <br>
-                        <b>{{swSoulList['souls_gathered_lab'] | those}}</b> ({{swSoulList['labperc'][0]}}%) souls gathered in laboratory modes <br>
-                        <b>{{swSoulList['souls_nonlab'] | those}}</b> ({{swSoulList['labperc'][1]}}%) souls gathered in non-laboratory modes<br>
-                        <span class="gold"><b>{{swSoulList['soul_well_legendaries'] | those}}</b> legendaries</span> <br>
-                        <span class="blue"><b>{{swSoulList['soul_well_rares'] | those}}</b> rares</span> <br>
-                        <span class="green"><b>{{swSoulList['soul_well_commons'] | those}}</b> commons</span> <br>
-                        <b>{{swSoulList['soul_well'] | those}}</b> soul well uses <br>
-                    </p>
-                <div class='canvasContainerSouls'>
-                    <canvas id="myChartSouls"></canvas>
-                    <script>
-                    var ctx = document.getElementById('myChartSouls');
-                    // @ts-ignore
-                    var swSRL = {{swSoulsRaritiesList}};
-                    var myChartSouls = new Chart(ctx, {
-                        type: 'doughnut',
-                        responsive: true,
-                        maintainAspectRatio:false,
-                        data: {
-                            labels: ['Commons', 'Rares', 'Legendaries'],
-                            datasets: [{
-                                data: swSRL,
-                                borderWidth: 1,
-                                backgroundColor: [
-                                    '#5f5',
-                                    '#55f',
-                                    '#fa0',
-                                ],
-                            }]
-                        },
-                    });
-                    </script>
+                <div class="flex justify-around">
+                    <div>
+                        <p>
+                            <span class="gray"><b>{{swSoulList['souls'] | those}}</b> souls</span> <br>
+                            <b>{{swSoulList['souls_gathered'] | those}}</b> souls harvested <br>
+                            <b>{{swSoulList['paid_souls'] | those}}</b> souls bought <br>
+                            <b>{{swSoulList['souls_gathered_lab'] | those}}</b> ({{swSoulList['labperc'][0]}}%) souls gathered in Lab <br>
+                            <b>{{swSoulList['souls_nonlab'] | those}}</b> ({{swSoulList['labperc'][1]}}%) souls gathered in non-Lab<br>
+                            <span class="gold"><b>{{swSoulList['soul_well_legendaries'] | those}}</b> legendaries</span> <br>
+                            <span class="blue"><b>{{swSoulList['soul_well_rares'] | those}}</b> rares</span> <br>
+                            <span class="green"><b>{{swSoulList['soul_well_commons'] | those}}</b> commons</span> <br>
+                            <b>{{swSoulList['soul_well'] | those}}</b> soul well uses <br>
+                        </p>
+                    </div>
+                    <div class='canvasContainerSouls'>
+                        <canvas id="myChartSouls" style="width:100%;height:100%;"></canvas>
+                        <script>
+                        var ctx = document.getElementById('myChartSouls');
+                        // @ts-ignore
+                        var swSRL = {{swSoulsRaritiesList}};
+                        var myChartSouls = new Chart(ctx, {
+                            type: 'doughnut',
+                            responsive: true,
+                            maintainAspectRatio:false,
+                            options: {
+                                legend: {
+                                    display:false,
+                                }
+                            },
+                            data: {
+                                labels: ['Commons', 'Rares', 'Legendaries'],
+                                datasets: [{
+                                    data: swSRL,
+                                    borderWidth: 1,
+                                    backgroundColor: [
+                                        '#5f5',
+                                        '#55f',
+                                        '#fa0',
+                                    ],
+                                }]
+                            },
+                        });
+                        </script>
+                    </div>
                 </div>
                 {% else %}
                     <p>No souls harvested.</p>
@@ -684,8 +725,8 @@
             </div>
 
             <!-- Favorite Maps & Cages-->
-            <div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-5 shadow">
-                <div class="h3d">Favorite Maps & Cages</div>
+            <div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow">
+                <div class="text-3xl font-semibold pb-6">Favorite Maps & Cages</div>
                 <p>
                     {% if not swMapsList %}
                     <p>No favorite maps.</p>
@@ -703,8 +744,8 @@
             </div>
 
             <!-- Angel's Descent -->
-            <div class="col-start-6 col-end-10 bg-gray-100 rounded-2xl p-5 shadow">
-                <div class="h3d">Angel's Descent</div>
+            <div class="col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow">
+                <div class="text-3xl font-semibold pb-6">Angel's Descent</div>
                 {% if swOpals['shards'] %}
                     {% for a, b in swOpals.items() %}
                         {% if a == 'shards per kill' or a == 'shards per game' or a == 'opals from prestige' %}
@@ -728,8 +769,8 @@
             </div>
 
             <!-- Challenges -->
-            <div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-5 shadow">
-                <div class="h3d">Challenges</div>
+            <div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow">
+                <div class="text-3xl font-semibold pb-6">Challenges</div>
                 {% if swChalAtt['overall'] %}
                     <p>
                         <b>Archer attempts</b>: {{swChalAtt['archer']}} <br>
@@ -768,8 +809,8 @@
             </div>
 
             <!-- Cosmetics -->
-            <div class="col-start-6 col-end-10 bg-gray-100 rounded-2xl p-5 shadow">
-                <div class="h3d">Cosmetics</div>
+            <div class="col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow">
+                <div class="text-3xl font-semibold pb-6">Cosmetics</div>
                 {% if swCosmetics %}
                 <p>
                     {% if 'balloon' in swCosmetics %}
@@ -803,10 +844,10 @@
             </div>
                 
         <!-- BedWars -->
-        <div class="col-start-2 col-end-10 bg-gray-100 rounded-2xl text-4xl font-bold p-5 shadow">BedWars</div>
+        <div class="col-start-2 col-end-10 bg-gray-100 rounded-2xl text-4xl font-bold p-6 shadow text-center">BedWars</div>
             
             <!-- Overall -->
-            <div class="col-start-2 col-end-4 bg-gray-100 rounded-2xl p-5 shadow">
+            <div class="col-start-2 col-end-4 bg-gray-100 rounded-2xl p-6 shadow">
                 <p>
                     <b><span class="{{bwOverallStats['prestige'][1]}}">
                         [{{bwOverallStats['level']| those}}☆]
@@ -842,8 +883,8 @@
             </div>
 
             <!-- BedWars by mode -->
-            <div class="col-start-4 col-end-10 bg-gray-100 rounded-2xl p-5 shadow">
-                <div class="h3d">BedWars - by Mode</div>
+            <div class="col-start-4 col-end-10 bg-gray-100 rounded-2xl p-6 shadow">
+                <div class="text-3xl font-semibold pb-6">BedWars - by Mode</div>
                 {% if bwOverallStats['games_played_bedwars'] > 0 %}
                     {% if bwMKWList[3] != '' and bwMKWList[4] != '' and bwMKWList[5] != '' %}
                         <p>{{username}} plays <b>{{bwMKWList[3]}}</b> the most, has the highest K/D in <b>{{bwMKWList[4]}}</b>, and has the highest W/L in <b>{{bwMKWList[5]}}</b>.
@@ -921,8 +962,8 @@
             </div>
 
             <!-- Kills via -->
-            <div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-5 shadow">
-                <div class="h3d">Kills via</div>
+            <div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow">
+                <div class="text-3xl font-semibold pb-6">Kills via</div>
                     {% if bwOverallStats['kills_bedwars'] %}
                         <p><b>🗡 Melee</b>: {{bwKillsList[0]['🗡 Melee'][0]| those}} ({{bwKillsList[0]['🗡 Melee'][1]}}%)<br>
                         {% for name, num in bwKillsList[0].items() %}
@@ -971,8 +1012,8 @@
             </div>
             
             <!-- Loot crates -->
-            <div class="col-start-6 col-end-10 bg-gray-100 rounded-2xl p-5 shadow">
-                <div class="h3d">Loot Crates</div>
+            <div class="col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow">
+                <div class="text-3xl font-semibold pb-6">Loot Crates</div>
                 {% if bwLootBoxes['bedwars_box'] %}
                     <p>
                         <b>Total loot crates</b>: {{bwLootBoxes['bedwars_box']| those}} <br>
@@ -1022,8 +1063,8 @@
             </div>
 
             <!-- Final kills -->
-            <div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-5 shadow">
-                <div class="h3d">Final kills via</div>
+            <div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow">
+                <div class="text-3xl font-semibold pb-6">Final kills via</div>
                     {% if bwOverallStats['final_kills_bedwars'] %}
                         <p><b>🗡 Melee</b>: {{bwKillsList[2]['🗡 Melee'][0]| those}} ({{bwKillsList[2]['🗡 Melee'][1]}}%)<br>
                         {% for name, num in bwKillsList[2].items() %}
@@ -1072,8 +1113,8 @@
             </div>
 
             <!-- Resources collected -->
-            <div class="col-start-6 col-end-10 bg-gray-100 rounded-2xl p-5 shadow">
-                <div class="h3d">Resources collected</div>
+            <div class="col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow">
+                <div class="text-3xl font-semibold pb-6">Resources collected</div>
                 {% if bwTotalResources %}
                     <p>
                         <b>Iron collected</b>: {{bwResCol[0]| those}} ({{bwResColPerc[0]}}%) <br>
@@ -1119,8 +1160,8 @@
             </div>
 
             <!-- Cosmetics -->
-            <div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-5 shadow">
-                <div class="h3d">Cosmetics</div><p>
+            <div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow">
+                <div class="text-3xl font-semibold pb-6">Cosmetics</div><p>
                 {% if bwCosmetics %}
                     {% for x, y in bwCosmetics.items() %}
                         <b>{{x}}</b>: {{y}}<br>
@@ -1131,6 +1172,6 @@
             </div>
         </div>
     <script src='/static/tabs.js'></script>
-    <div class="h2d">Guild</div>
+    <!-- <div class="h2d">Guild</div> -->
 </body>
 {% endblock %}

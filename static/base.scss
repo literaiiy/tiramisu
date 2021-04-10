@@ -17,12 +17,14 @@ YM.    , YA.   ,A9 MM    MM    MM   MM   ,AP YA.   ,A9 MM    MM YM.    ,  MM    
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-* {font-family:'Inconsolata'; line-height: 1.35;}
+* {font-family:'Inconsolata'; line-height: 1.15;}
+p {padding-top:0.35rem;padding-bottom:0.35rem}
 
 // ? Keeping these for now
 // .h2d{font-size:42px}
 // .h3d{font-size:22px}
 footer{text-align:center;bottom:0}
+.table{max-height:65%;overflow:auto;height:auto}
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus, 

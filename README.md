@@ -50,7 +50,7 @@ My main landing page is at literaiiy.me, where you can read more about me!
 **Why don't the player counts instantly update every time I refresh?**
 - Player counts only update once every 3 seconds to avoid spam and running over the Hypixel API's rate limit of 120 requests per minute.
 
-**Why can't I search for a previous name I had?**
+**Why can't I search for a name I've previously had?**
 - At some point in November of 2020, Mojang stopped support for querying a UUID to receive a username at a certain timestamp, making it impossible to find a player's current name from a previous one. Sorry about that. Source: [Mojang API Documentation](https://wiki.vg/Mojang_API). See [this ticket](https://bugs.mojang.com/browse/WEB-3367) for more information on the topic.
 
 *Last updated on March 29th, 2021*

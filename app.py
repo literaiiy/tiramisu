@@ -184,10 +184,10 @@ def compute(q):
         except:
             reqListKarma = 0
         reqList['karma']=int(reqListKarma)
-        try:
-            hypixelUN = reqAPI['player']['displayname']
-        except:
-            hypixelUN = username
+        # try:
+        #     hypixelUN = reqAPI['player']['displayname']
+        # except:
+        #     hypixelUN = username
 
 # ! Name history
         namehis = MojangAPI.get_name_history(uuid)
@@ -607,6 +607,7 @@ def compute(q):
             'blocks_placed_per_game':0,
             'eggs_per_game':0,
             'arrows_per_game':0,
+            'arrows_hit_per_game':0,
             'pearls_per_game':0,
         }
 
@@ -646,6 +647,7 @@ def compute(q):
             swUnscannedDict['blocks_placed_per_game'] = weirdDiv(swStatsDict['blocks_placed'],swUnscannedDict['games_played'])
             swUnscannedDict['eggs_per_game'] = weirdDiv(swStatsDict['egg_thrown'],swUnscannedDict['games_played'])
             swUnscannedDict['arrows_per_game'] = weirdDiv(swStatsDict['arrows_shot'],swUnscannedDict['games_played'])
+            swUnscannedDict['arrows_hit_per_game'] = weirdDiv(swStatsDict['arrows_hit'],swUnscannedDict['games_played'])
             swUnscannedDict['pearls_per_game'] = weirdDiv(swStatsDict['enderpearls_thrown'],swUnscannedDict['games_played'])
 
         # Leveling stuff
@@ -1328,7 +1330,7 @@ def compute(q):
         # 1 - guild name
         # 2 - guild role
         # 3 - guild color
-        guildList = [0,0,0,0]
+        guildList = [0,0,0,'darkgray']
         if playedOnHypixel:
             VVV = requests.Session().get('https://api.hypixel.net/guild?key=' + HAPIKEY + '&player=' + uuid)
             reqGUILD = VVV.json()
@@ -1343,7 +1345,7 @@ def compute(q):
                     try:
                         guildList[3] = reqGUILD['guild']['tagColor'].lower()
                     except:
-                        guildList[3] = 'darkgray'
+                        pass
             except: pass
         guildDict = {
             'guildName':'',
@@ -1354,15 +1356,15 @@ def compute(q):
         }
 
 # ! Render base.html        
-        displayname = username
+        displayAddon = ''
         if uuid in ADMINS:
-            displayname += ' 🍰'
+            displayAddon += ' 🍰'
         if uuid in FLOWERS:
-            displayname += ' 🌸'
+            displayAddon += ' 🌸'
         if uuid in SPARKLES:
-            displayname += ' ✨'
+            displayAddon += ' ✨'
         if uuid in PENGUINS:
-            displayname += ' 🐧'
+            displayAddon += ' 🐧'
         #print(rankParsed)
         print("--- %s seconds ---" % (time.time() - start_time))
 
@@ -1370,7 +1372,7 @@ def compute(q):
         #print('firstLogin')
         #print(firstLoginUnix)
         
-        return render_template('base.html', uuid=uuid, username=username, displayname=displayname, hypixelUN=hypixelUN, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankNoPlus, rankPlusses=rankPlusses, newPackageRank=newPackageRank, rankColorParsed=rankColorParsed, plusColorParsed=plusColorParsed, multiplier=multiplier, swStatsDict=swStatsDict, swUnscannedDict=swUnscannedDict, joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=plusColorParsed, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources, bwCosmetics=bwCosmetics, userLanguage=userLanguage, userVersion=userVersion, totalKills=totalKills, totalWins=totalWins, totalCoins=totalCoins, giftsSent=giftsSent, giftsReceived=giftsReceived, rewards=rewards, lastPlayed=lastPlayed, lastSeen=lastSeen, lastSeenUnix=lastSeenUnix, swMapsList=swMapsList, swCagesList=swCagesList, swCosmetics=swCosmetics, swHeadsImpBool=swHeadsImpBool, swChalAtt=swChalAtt, swChalAttNum=swChalAttNum, swChalWins=swChalWins, swChalWinsNum=swChalWinsNum, guildList=guildList)
+        return render_template('base.html', uuid=uuid, username=username, displayAddon=displayAddon, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankNoPlus, rankPlusses=rankPlusses, newPackageRank=newPackageRank, rankColorParsed=rankColorParsed, plusColorParsed=plusColorParsed, multiplier=multiplier, swStatsDict=swStatsDict, swUnscannedDict=swUnscannedDict, joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=plusColorParsed, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources, bwCosmetics=bwCosmetics, userLanguage=userLanguage, userVersion=userVersion, totalKills=totalKills, totalWins=totalWins, totalCoins=totalCoins, giftsSent=giftsSent, giftsReceived=giftsReceived, rewards=rewards, lastPlayed=lastPlayed, lastSeen=lastSeen, lastSeenUnix=lastSeenUnix, swMapsList=swMapsList, swCagesList=swCagesList, swCosmetics=swCosmetics, swHeadsImpBool=swHeadsImpBool, swChalAtt=swChalAtt, swChalAttNum=swChalAttNum, swChalWins=swChalWins, swChalWinsNum=swChalWinsNum, guildList=guildList)
     
 # ! Invalid username exception
     else:

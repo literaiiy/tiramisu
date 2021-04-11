@@ -13,7 +13,6 @@ YM.    , YA.   ,A9 MM    MM    MM   MM   ,AP YA.   ,A9 MM    MM YM.    ,  MM    
   src: 'https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap';
 }
 
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -24,7 +23,14 @@ p {padding-top:0.35rem;padding-bottom:0.35rem}
 // .h2d{font-size:42px}
 // .h3d{font-size:22px}
 footer{text-align:center;bottom:0}
-.table{max-height:65%;overflow:auto;height:auto}
+.table {
+  width: auto;
+  height: auto;
+  max-height: 65px;
+  line-height: 3em;
+  overflow: auto;
+  margin-top: 35px;
+  margin-bottom: 35px;
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus, 

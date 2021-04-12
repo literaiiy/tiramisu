@@ -23,21 +23,19 @@ p {padding-top:0.35rem;padding-bottom:0.35rem}
 // .h2d{font-size:42px}
 // .h3d{font-size:22px}
 footer{text-align:center;bottom:0}
-.table {
-  width: auto;
-  height: auto;
-  max-height: 65px;
-  line-height: 3em;
-  overflow: auto;
-  margin-top: 35px;
-  margin-bottom: 35px;
+.namehistable {
+  max-height: 80vh;
+}
+
+::-webkit-scrollbar{width:10px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#aaa;border-radius: 5px;}
+::-webkit-scrollbar-thumb:hover{background:#777;border-radius: 5px;}
+
 input:-webkit-autofill,
 input:-webkit-autofill:hover, 
 input:-webkit-autofill:focus, 
 input:-webkit-autofill:active
-{
- -webkit-box-shadow: 0 0 0 30px white inset !important;
-}
 
 // ? Colors for namehis links
 a{color:royalblue}
@@ -55,11 +53,11 @@ YM.    , YA.   ,A9 MM YA.   ,A9 MM     L.   I8
 .black { color: black }
 .blank {color: #010101}
 .dark_blue { color: #00a }
-.dark_green { color: #0a0 }
-.dark_aqua, .cyan { color: #0aa }
+.dark_green, .DARK_GREEN { color: #0a0 }
+.dark_aqua, .cyan, .DARK_AQUA { color: #0aa }
 .dark_red { color: #a00 }
 .dark_purple, .purple { color: #a0a }
-.gold { color: #fa0 }
+.gold, .GOLD { color: #fa0 }
 .gray { color: #aaa }
 .dark_gray, .darkgray { color: #555 }
 .blue { color: #55f }
@@ -67,7 +65,7 @@ YM.    , YA.   ,A9 MM YA.   ,A9 MM     L.   I8
 .aqua { color: #5ff }
 .red { color: #f55 }
 .light_purple, .pink { color: #f5f }
-.yellow { color: #FFD965 } // not actual yellow
+.yellow, .YELLOW { color: #ff0 }
 .white { color: #fff }
 
 .chocolate {background-image:linear-gradient(to right,tomato,coral,gold,lawngreen,steelblue,blueviolet,orchid);-webkit-background-clip:text;-webkit-text-fill-color:transparent}

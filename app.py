@@ -1330,30 +1330,106 @@ def compute(q):
         # 1 - guild name
         # 2 - guild role
         # 3 - guild color
-        guildList = [0,0,0,'darkgray']
-        if playedOnHypixel:
-            VVV = requests.Session().get('https://api.hypixel.net/guild?key=' + HAPIKEY + '&player=' + uuid)
-            reqGUILD = VVV.json()
-            try:
-                if reqGUILD['guild'] != 'null':
-                    guildList[0] = reqGUILD['guild']['tag']
-                    guildList[1] = reqGUILD['guild']['name']
-                    for member in reqGUILD['guild']['members']:
-                        if member['uuid'] == uuid:
-                            guildList[2] = member['rank']
-                            break
-                    try:
-                        guildList[3] = reqGUILD['guild']['tagColor'].lower()
-                    except:
-                        pass
-            except: pass
-        guildDict = {
-            'guildName':'',
-            'guildTag':'',
-            'guildTagColor':'',
-            'userRole':'',
+        guildDict = {'success':False,}
 
-        }
+        if playedOnHypixel:
+            variable_name = requests.Session().get('https://karma-25.uc.r.appspot.com/guild/' + uuid)
+            greqAPI = variable_name.json()
+            if greqAPI['success']:
+                guildListAPI = greqAPI.get('guild', False)
+                guildNamesAPI = greqAPI.get('names', False)
+
+            # Guild info
+                for x in ['exp','joinable','tag', '_id', 'name', 'coins','coinsEver', 'publiclyListed','legacyRanking', 'preferredGames']:
+                    guildDict[x] = guildListAPI.get(x, False)
+                guildDict['created'] = datetime.fromtimestamp(guildListAPI.get('created',False)/1000).strftime('%b %d, %Y @ %I:%M:%S %p')
+                guildDict['tagColor'] = guildListAPI.get('tagColor', 'gray')
+
+                def guildLevel(xp): # ! Doesn't work, please fix
+                    if xp >= 1750000: return (xp - 1750000)/3000000
+
+                    elif xp < 17500000: return 12+(xp-15000000)/17500000
+                    elif xp < 15000000: return 11+(xp-12500000)/15000000
+                    elif xp < 12500000: return 10+(xp-10000000)/12500000
+                    elif xp < 10000000: return 9+(xp-7500000)/10000000
+                    elif xp < 7500000: return 8(xp-5500000)/7500000
+                    elif xp < 5500000: return 7+(xp-4000000)/5500000
+                    elif xp < 4000000: return 6+(xp-2750000)/4000000
+                    elif xp < 2750000: return 5+(xp-1750000)/2750000
+                    elif xp < 1750000: return 4+(xp-1000000)/1750000
+                    elif xp < 1000000: return 3+(xp-500000)/1000000
+                    elif xp < 500000: return 2+(xp-250000)/500000
+                    elif xp < 250000: return 1+(xp-100000)/250000
+                    elif xp < 100000: return xp/100000
+                guildDict['level'] = guildLevel(guildDict['exp'])
+
+            # Guild members
+                members = {}
+                for m in guildListAPI['members']:
+                    print(m)
+                    memberList = {}
+                    try:
+                        user = guildNamesAPI[m['uuid']]
+                    except: 
+                        helpGuildReq = requests.Session().get('https://karma-25.uc.r.appspot.com/name/' + m['uuid'])
+                        helpGuildReqJSON = helpGuildReq.json()['name']
+
+                        guildUsername = helpGuildReqJSON['username']
+                        print(helpGuildReqJSON)
+                        print(guildUsername)
+                        memberList['serverRank'] = helpGuildReqJSON.get('rank',helpGuildReqJSON.get('newPackageRank', helpGuildReqJSON.get('packageRank','False'))).replace('_PLUS','+')
+                        if 'monthlyPackageRank' in helpGuildReqJSON:
+                            if helpGuildReqJSON['monthlyPackageRank'] != 'NONE':
+                                memberList['serverRank'] = 'MVP++'
+                        if 'prefix' in helpGuildReqJSON:
+                            memberList['serverRank'] = re.sub('[a-z§0-9\[\]]','',helpGuildReqJSON['prefix'])
+                    else:
+                        guildUsername = user['username']
+                        memberList['serverRank'] = user.get('rank',user.get('newPackageRank', user.get('packageRank','False'))).replace('_PLUS','+')
+                        if 'monthlyPackageRank' in user:
+                            if user['monthlyPackageRank'] != 'NONE':
+                                memberList['serverRank'] = 'MVP++'
+                        if 'prefix' in user:
+                            memberList['serverRank'] = re.sub('[a-z§0-9\[\]]','',user['prefix'])
+
+                    memberList['joined'] = datetime.fromtimestamp(m['joined']/1000).strftime('%b %d, %Y @ %I:%M:%S %p')
+                    memberList['guildRank'] = m['rank']
+
+                    try:
+                        memberList['quests'] = m['questParticipation']
+                    except: memberList['quests'] = 0
+                    members[guildUsername] = memberList
+                    print(guildUsername)
+                guildDict['members'] = members
+                guildDict['success'] = True
+                guildDict['selfGuildRank'] = guildDict['members'][username]['guildRank']
+            
+            # Guild ranks
+
+        # guildList = [0,0,0,'darkgray']
+        # if playedOnHypixel:
+        #     VVV = requests.Session().get('https://api.hypixel.net/guild?key=' + HAPIKEY + '&player=' + uuid)
+        #     reqGUILD = VVV.json()
+        #     try:
+        #         if reqGUILD['guild'] != 'null':
+        #             guildList[0] = reqGUILD['guild']['tag']
+        #             guildList[1] = reqGUILD['guild']['name']
+        #             for member in reqGUILD['guild']['members']:
+        #                 if member['uuid'] == uuid:
+        #                     guildList[2] = member['rank']
+        #                     break
+        #             try:
+        #                 guildList[3] = reqGUILD['guild']['tagColor'].lower()
+        #             except:
+        #                 pass
+        #     except: pass
+        # guildDict = {
+        #     'guildName':'',
+        #     'guildTag':'',
+        #     'guildTagColor':'',
+        #     'userRole':'',
+
+        # }
 
 # ! Render base.html        
         displayAddon = ''
@@ -1372,7 +1448,7 @@ def compute(q):
         #print('firstLogin')
         #print(firstLoginUnix)
         
-        return render_template('base.html', uuid=uuid, username=username, displayAddon=displayAddon, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankNoPlus, rankPlusses=rankPlusses, newPackageRank=newPackageRank, rankColorParsed=rankColorParsed, plusColorParsed=plusColorParsed, multiplier=multiplier, swStatsDict=swStatsDict, swUnscannedDict=swUnscannedDict, joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=plusColorParsed, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources, bwCosmetics=bwCosmetics, userLanguage=userLanguage, userVersion=userVersion, totalKills=totalKills, totalWins=totalWins, totalCoins=totalCoins, giftsSent=giftsSent, giftsReceived=giftsReceived, rewards=rewards, lastPlayed=lastPlayed, lastSeen=lastSeen, lastSeenUnix=lastSeenUnix, swMapsList=swMapsList, swCagesList=swCagesList, swCosmetics=swCosmetics, swHeadsImpBool=swHeadsImpBool, swChalAtt=swChalAtt, swChalAttNum=swChalAttNum, swChalWins=swChalWins, swChalWinsNum=swChalWinsNum, guildList=guildList)
+        return render_template('base.html', uuid=uuid, username=username, displayAddon=displayAddon, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankNoPlus, rankPlusses=rankPlusses, newPackageRank=newPackageRank, rankColorParsed=rankColorParsed, plusColorParsed=plusColorParsed, multiplier=multiplier, swStatsDict=swStatsDict, swUnscannedDict=swUnscannedDict, joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=plusColorParsed, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources, bwCosmetics=bwCosmetics, userLanguage=userLanguage, userVersion=userVersion, totalKills=totalKills, totalWins=totalWins, totalCoins=totalCoins, giftsSent=giftsSent, giftsReceived=giftsReceived, rewards=rewards, lastPlayed=lastPlayed, lastSeen=lastSeen, lastSeenUnix=lastSeenUnix, swMapsList=swMapsList, swCagesList=swCagesList, swCosmetics=swCosmetics, swHeadsImpBool=swHeadsImpBool, swChalAtt=swChalAtt, swChalAttNum=swChalAttNum, swChalWins=swChalWins, swChalWinsNum=swChalWinsNum, guildDict=guildDict)
     
 # ! Invalid username exception
     else:
@@ -1390,6 +1466,17 @@ def compute(q):
         #    return "Errored out. Lol"
 
 # ! Friends list
+# @app.route('/f/<q>', methods=['POST','GET'])
+# @cache.cached(timeout=60)
+#     def friends(q):
+#     friendsList = {}
+#     if playedOnHypixel:
+#         friendsReq = requests.Session().get('https://karma-25.uc.r.appspot.com/friends/' + uuid)
+#         freqAPI = friendsreq.json()['']
+
+#     else: return render_template('friends.html',hasFriends=False)
+
+# ! Friends list (Deprecated)
 
     # @app.route('/f/<q>', methods=['POST', 'GET'])
     # @cache.cached(timeout=50)

@@ -1,12 +1,19 @@
-<meta charset="UTF-8">
-<link href="{{ url_for('static', filename='base.scss') }}" rel="stylesheet" type="text/css">
-<link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='datatables.scss') }}">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<!-- <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script> -->
-<link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Orienta&display=swap" rel="stylesheet">
+<html>
+{% block head %}
+<head>
+	<title>tiramisu - Hypixel Player Stats Analysis & Name History</title>
+{% endblock %}
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link href="{{ url_for('static', filename='base.scss') }}" rel="stylesheet" type="text/css">
+	<link href="{{ url_for('static', filename='tailwind.css') }}" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='datatables.scss') }}">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.js"></script>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Orienta&display=swap" rel="stylesheet">
+</head>
 
 <div class="grid grid-cols-3 sticky top-0 bg-gray-100 mb-8 z-40 shadow place-content-center">
 	<a href='/'><img class='h-24 ml-4' src='https://raw.githubusercontent.com/gist/literaiiy/62febf3d1f9a035b469e06bdef8456bc/raw/223650b7551fd90e7747e687a2643cdb1cdebf9d/teeramouse.svg' alt="tiramisu Logo" height='6%' width='auto'>
@@ -24,12 +31,6 @@
 		<button class="">🌞</button>
 	</div>
 </div>
-
-{% block head %}
-<head>
-<title>tiramisu - Hypixel Player Stats Analysis & Name History</title>
-{% endblock %}
-</head>
 
 {% block content %}
 <div class='h2d'>
@@ -97,3 +98,4 @@
 	<p>Copyright © 2021 <a style='text-decoration:none;color:rgb(205, 248, 227);' href='/p/floraphile'>floraphile</a>. All rights reserved. Terms of Service. Privacy Policy. Credits. All times are in PDT.</p>
 </footer>
 {% endblock %}
+</html>

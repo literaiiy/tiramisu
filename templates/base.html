@@ -102,7 +102,10 @@
 
             <!--- GUILD --->
                 {% if guildDict['success'] %} 
-                    <p>Rank <b>{{guildDict['selfGuildRank']}}</b> in guild <b>{{guildDict['name']}}</b> <b class="{{guildDict['tagColor']}}">[{{guildDict['tag']}}]</b>
+                    <p>Rank <b>{{guildDict['selfGuildRank']}}</b> in guild <b>{{guildDict['name']}}</b>
+                    {% if guildDict['tag'] %}
+                        <b class="{{guildDict['tagColor']}}">[{{guildDict['tag']}}]</b>
+                   {% endif %}
                 {% endif %}
 
                 {#% if guildList[0] != 0 %}
@@ -1271,16 +1274,67 @@
                     {% endif %}
                 </div>
             </div>
-        
+
         <!-- Guild -->
-        {{guildDict}}
-            <div>
-                Total Guild XP: {{guildDict['exp']}}
-                Guild Level:
-                
+        {% if guildDict['success'] %}
+            <div class="col-start-2 col-end-10 bg-gray-100 rounded-2xl text-4xl font-bold p-6 shadow text-center">
+                {% if guildDict['success'] %} 
+                    <b>{{guildDict['name']}}</b>
+                    {% if guildDict['tag'] %}
+                        <b class="{{guildDict['tagColor']}}">[{{guildDict['tag']}}]</b>
+                    {% endif %}
+                {% endif %}
             </div>
+
+            <div class='col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+                <p>
+                    <b>Description</b>: <i>{{guildDict['description']}}</i><br>
+                    <b>Guild ID</b>: {{guildDict['_id']}}<br>
+                    <b>Date of creation</b>: {{guildDict['created']}}<br>
+                    <b>Preferred games</b>: {{guildDict['preferredGamesTL']}}<br>
+                </p>
+                <p>
+                    <b>Guild Level</b>: {{guildDict['level'] | thraw}}<br>
+                    <b>Total Guild XP</b>: {{guildDict['exp'] | those}} <br>
+                    <b>Lifetime coins</b>: {{guildDict['coinsEver']}}<br>
+                    <b>Total coins</b>: {{guildDict['coins']}}<br>
+                </p>
+                <p>
+                    <b>
+                        {% if guildDict['joinable'] %}
+                            <span class="dark_green">Publicly joinable</span>
+                        {% else %}
+                            <span class="red">Not publicly joinable</span>
+                        {% endif %}<br>
+                        {% if guildDict['publiclyListed'] %}
+                            <span class="dark_green">Publicly listed</span>
+                        {% else %}
+                            <span class="red">Not publicly listed</span>
+                        {% endif %}<br>
+                    </b>
+                </p>
+                {# if guildDict['legacyRanking'] %}
+                    Rank {{guildDict['legacyRanking']}} on leaderboards
+                {% else %}
+                    Not on leaderboards
+                {% endif #}
+                <p>
+                    <b>Achievement winners</b>: {{guildDict['achievements']['WINNERS']}}<br>
+                    <b>Experience kings</b>: {{guildDict['achievements']['EXPERIENCE_KINGS']}}<br>
+                    <b>Online players</b>: {{guildDict['achievements']['ONLINE_PLAYERS']}}<br>
+                </p>
+            </div>
+            <div class='col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+                <div class="text-3xl font-semibold pb-5">Members</div>
+                <div class="pt-5">
+                List of all members in the guild. Remove this text!!!!!! L<><><>
+                </div>
+            </div>
+        {% else %}
+            Player is not in a guild.
+        {% endif %}
         </div>
+
     <script src='/static/tabs.js'></script>
-    <div class="text-2xl">Guild</div>
 </body>
 {% endblock %}

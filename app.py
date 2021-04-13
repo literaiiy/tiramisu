@@ -48,7 +48,7 @@ app.config.from_mapping(config)
 cache = Cache(app)
 
 # requests_cache.install_cache('demo_cache', expire_after=3)
-requests_cache.install_cache('demo_cache', expire_after=3)
+requests_cache.install_cache('requests_cache', expire_after=3)
 
 class searchBar():
     query = TextField("Search...")
@@ -456,30 +456,52 @@ def compute(q):
         except: pass
 
 # ! Session Data
+        def gameTranslate(game):
+            if game == 'SKYWARS': return 'SkyWars'
+            elif game == 'SKYBLOCK': return 'SkyBlock'
+            elif game == 'BEDWARS': return 'BedWars'
+            elif game == 'SUPER_SMASH': return 'Smash Heroes'
+            elif game == 'SPEED_UHC': return 'Speed UHC'
+            elif game == 'MCGO': return 'Cops and Crims'
+            elif game == 'PIT': return 'The Pit'
+            elif game == 'UHC': return 'UHC Champions'
+            elif game == 'BATTLEGROUND': return 'Warlords'
+            elif game == 'SURVIVAL_GAMES': return 'Blitz Survival Games'
+            elif game == 'WALLS3': return  'Mega Walls'
+            elif game == 'TNTGAMES': return  'TNT Games'
+            else: return game.replace('_',' ').title()
+            
         currentSession = False
         sessionType = ''
-        if playedOnHypixel and rankjson['online']:
-            reqAPIsess = requests.Session().get('https://karma-25.uc.r.appspot.com/player/' + uuid)
-            reqAPIsession = reqAPIsess.json()
-            if reqAPIsession['success']:
-                if reqAPIsession['status']['online']:
-                    if reqAPIsession['status']['gameType'] == 'SKYWARS': currentSession = 'SkyWars'
-                    elif reqAPIsession['status']['gameType'] == 'SKYBLOCK': currentSession = 'SkyBlock'
-                    elif reqAPIsession['status']['gameType'] == 'BEDWARS': currentSession = 'BedWars'
-                    elif reqAPIsession['status']['gameType'] == 'SUPER_SMASH': currentSession = 'Smash Heroes'
-                    elif reqAPIsession['status']['gameType'] == 'SPEED_UHC': currentSession = 'Speed UHC'
-                    elif reqAPIsession['status']['gameType'] == 'MCGO': currentSession = 'Cops and Crims'
-                    elif reqAPIsession['status']['gameType'] == 'PIT': currentSession = 'The Pit'
-                    elif reqAPIsession['status']['gameType'] == 'UHC': currentSession = 'UHC Champions'
-                    elif reqAPIsession['status']['gameType'] == 'BATTLEGROUND': currentSession = 'Warlords'
-                    elif reqAPIsession['status']['gameType'] == 'SURVIVAL_GAMES': currentSession = 'Blitz Survival Games'
-                    elif reqAPIsession['status']['gameType'] == 'WALLS3': currentSession = 'Mega Walls'
-                    elif reqAPIsession['status']['gameType'] == 'TNTGAMES': currentSession = 'TNT Games'
-                    else: currentSession = reqAPIsession['status']['gameType'].replace('_',' ').title()
+        try:
+            if playedOnHypixel and rankjson['online']:
+                reqAPIsess = requests.Session().get('https://karma-25.uc.r.appspot.com/player/' + uuid)
+                reqAPIsession = reqAPIsess.json()
+                if reqAPIsession['success']:
+                    currentSession = gameTranslate(reqAPIsession['status']['gameType'])
                     try:
                         sessionType = reqAPIsession['status']['mode'].replace('_',' ').title()
                     except:
-                        sessionType = 'somewhere...'
+                        sessionType = 'Lobby'
+                    # if reqAPIsession['status']['online']:
+                        #     if reqAPIsession['status']['gameType'] == 'SKYWARS': currentSession = 'SkyWars'
+                        #     elif reqAPIsession['status']['gameType'] == 'SKYBLOCK': currentSession = 'SkyBlock'
+                        #     elif reqAPIsession['status']['gameType'] == 'BEDWARS': currentSession = 'BedWars'
+                        #     elif reqAPIsession['status']['gameType'] == 'SUPER_SMASH': currentSession = 'Smash Heroes'
+                        #     elif reqAPIsession['status']['gameType'] == 'SPEED_UHC': currentSession = 'Speed UHC'
+                        #     elif reqAPIsession['status']['gameType'] == 'MCGO': currentSession = 'Cops and Crims'
+                        #     elif reqAPIsession['status']['gameType'] == 'PIT': currentSession = 'The Pit'
+                        #     elif reqAPIsession['status']['gameType'] == 'UHC': currentSession = 'UHC Champions'
+                        #     elif reqAPIsession['status']['gameType'] == 'BATTLEGROUND': currentSession = 'Warlords'
+                        #     elif reqAPIsession['status']['gameType'] == 'SURVIVAL_GAMES': currentSession = 'Blitz Survival Games'
+                        #     elif reqAPIsession['status']['gameType'] == 'WALLS3': currentSession = 'Mega Walls'
+                        #     elif reqAPIsession['status']['gameType'] == 'TNTGAMES': currentSession = 'TNT Games'
+                        #     else: currentSession = reqAPIsession['status']['gameType'].replace('_',' ').title()
+                        #     try:
+                        #         sessionType = reqAPIsession['status']['mode'].replace('_',' ').title()
+                        #     except:
+                        #         sessionType = 'somewhere...'
+        except: pass
 
 # ! Socials
         twitter = []
@@ -538,7 +560,7 @@ def compute(q):
         giftsSent = rankjson.get('gifts_sent', 0)
         giftsReceived = rankjson.get('gifts_received', 0)
         rewards = rankjson.get('rewards', {"streak_current":0,"streak_best":0,"claimed":0,"claimed_daily":0,"tokens":0})
-        lastPlayed = rankjson.get('last_game', 'nothing')
+        lastPlayed = rankjson.get('last_game', 'something...')
         lastSeenUnix = int(time.time()) - lastLogoutUnix
         lastSeen = significantTimeDenom(sec2format(lastSeenUnix))
 
@@ -1340,43 +1362,68 @@ def compute(q):
                 guildNamesAPI = greqAPI.get('names', False)
 
             # Guild info
-                for x in ['exp','joinable','tag', '_id', 'name', 'coins','coinsEver', 'publiclyListed','legacyRanking', 'preferredGames']:
+                for x in ['exp','joinable','tag', '_id', 'name', 'coins','coinsEver', 'publiclyListed','legacyRanking', 'preferredGames', 'achievements']:
                     guildDict[x] = guildListAPI.get(x, False)
                 guildDict['created'] = datetime.fromtimestamp(guildListAPI.get('created',False)/1000).strftime('%b %d, %Y @ %I:%M:%S %p')
                 guildDict['tagColor'] = guildListAPI.get('tagColor', 'gray')
+                guildDict['description'] = guildListAPI.get('description', 'None')
+                guildDict['preferredGamesTL'] = []
+                if guildDict['preferredGames']:
+                    for i in guildDict['preferredGames']:
+                        guildDict['preferredGamesTL'].append(gameTranslate(i))
+                guildDict['preferredGamesTL'] = re.sub("[\[\]']",'',str(guildDict['preferredGamesTL']))
+                guildDict['GXPBG'] = {}
+                try:
+                    for x,y in guildListAPI['guildExpByGameType'].items():
+                        guildDict['GXPBG'][gameTranslate(x)] = y
+                except: pass
+                # def guildLevel(xp): # ! Doesn't work, please fix
+                    #     if xp >= 17500000: return 13+(xp - 17500000)/3000000
 
-                def guildLevel(xp): # ! Doesn't work, please fix
-                    if xp >= 1750000: return (xp - 1750000)/3000000
+                    #     elif xp < 100000:   return     xp          /100000
+                    #     elif xp < 250000:   return 1 +(xp-100000)  /150000
+                    #     elif xp < 500000:   return 2 +(xp-250000)  /250000
+                    #     elif xp < 1000000:  return 3 +(xp-500000)  /500000
+                    #     elif xp < 1750000:  return 4 +(xp-1000000) /750000
+                    #     elif xp < 2750000:  return 5 +(xp-1750000) /1000000
+                    #     elif xp < 4000000:  return 6 +(xp-2750000) /1250000
+                    #     elif xp < 5500000:  return 7 +(xp-4000000) /1500000
+                    #     elif xp < 7500000:  return 8 +(xp-5500000) /2000000
+                    #     elif xp < 10000000: return 9 +(xp-7500000) /2500000
+                    #     elif xp < 12500000: return 10+(xp-10000000)/2500000
+                    #     elif xp < 15000000: return 11+(xp-12500000)/2500000
+                    #     elif xp < 17500000: return 12+(xp-15000000)/2500000
+                
+                def guildLevel(xp):
+                    EXP_NEEDED=[100000,150000,250000,500000,750000,1000000,1250000,1500000,2000000,2500000,2500000,2500000,2500000,2500000,3000000,]
+                    level = 0
+                    for i in range(0, 1000):
+                        need = 0
+                        if i >= len(EXP_NEEDED):
+                            need = EXP_NEEDED[len(EXP_NEEDED) - 1]
+                        else:
+                            need = EXP_NEEDED[i]
+                        i += 1
 
-                    elif xp < 17500000: return 12+(xp-15000000)/17500000
-                    elif xp < 15000000: return 11+(xp-12500000)/15000000
-                    elif xp < 12500000: return 10+(xp-10000000)/12500000
-                    elif xp < 10000000: return 9+(xp-7500000)/10000000
-                    elif xp < 7500000: return 8(xp-5500000)/7500000
-                    elif xp < 5500000: return 7+(xp-4000000)/5500000
-                    elif xp < 4000000: return 6+(xp-2750000)/4000000
-                    elif xp < 2750000: return 5+(xp-1750000)/2750000
-                    elif xp < 1750000: return 4+(xp-1000000)/1750000
-                    elif xp < 1000000: return 3+(xp-500000)/1000000
-                    elif xp < 500000: return 2+(xp-250000)/500000
-                    elif xp < 250000: return 1+(xp-100000)/250000
-                    elif xp < 100000: return xp/100000
+                        if (xp - need) < 0:
+                            return ((level + (xp / need)) * 100) / 100
+                        level += 1
+                        xp -= need
+
+                    return 0
+
                 guildDict['level'] = guildLevel(guildDict['exp'])
 
             # Guild members
                 members = {}
                 for m in guildListAPI['members']:
-                    print(m)
                     memberList = {}
                     try:
                         user = guildNamesAPI[m['uuid']]
                     except: 
                         helpGuildReq = requests.Session().get('https://karma-25.uc.r.appspot.com/name/' + m['uuid'])
                         helpGuildReqJSON = helpGuildReq.json()['name']
-
                         guildUsername = helpGuildReqJSON['username']
-                        print(helpGuildReqJSON)
-                        print(guildUsername)
                         memberList['serverRank'] = helpGuildReqJSON.get('rank',helpGuildReqJSON.get('newPackageRank', helpGuildReqJSON.get('packageRank','False'))).replace('_PLUS','+')
                         if 'monthlyPackageRank' in helpGuildReqJSON:
                             if helpGuildReqJSON['monthlyPackageRank'] != 'NONE':
@@ -1399,10 +1446,11 @@ def compute(q):
                         memberList['quests'] = m['questParticipation']
                     except: memberList['quests'] = 0
                     members[guildUsername] = memberList
-                    print(guildUsername)
                 guildDict['members'] = members
                 guildDict['success'] = True
-                guildDict['selfGuildRank'] = guildDict['members'][username]['guildRank']
+                try:
+                    guildDict['selfGuildRank'] = guildDict['members'][username]['guildRank']
+                except: guildDict['selfGuildRank'] = "Member"
             
             # Guild ranks
 

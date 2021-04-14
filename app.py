@@ -31,6 +31,36 @@ PENGUINS = ['cfc42e543d834b4f9f7a23c059783ba5']
 swearList = [
     'anal','anus','bastard','bitch','blowjob','buttplug','clitoris','cock','cunt','dick','dildo','fag','fuck','jizz','kkk','nigger','nigga','penis','piss','pussy','scrotum','sex','shit','slut','vagina']
 sweetHeadsRanks = ['HELPER', 'MODERATOR', 'ADMIN', 'OWNER']
+# Translate list for rank colors
+rankColorList = {
+    '0':'blank',
+    '1':'dark_blue',
+    '2':'dark_green',
+    '3':'dark_aqua',
+    '4':'dark_red',
+    '5':'dark_purple',
+    '6':'gold',
+    '7':'gray',
+    '8':'dark_gray',
+    '9':'blue',
+    'a':'green',
+    'b':'aqua',
+    'c':'red',
+    'd':'light_purple',
+    'e':'yellow',
+    'f':'white'}
+
+dumbassHypixelRanks = {
+    'VIP':['green','gold'],
+    'HELPER':['blue',''],
+    'MOD':['dark_green',''],
+    'ADMIN':['red',''],
+    'OWNER':['red',''],
+    'SLOTH':['red',''],
+    'MCP':['red',''],
+    'MOJANG':['gold',''],
+    'EVENTS':['gold','']
+}
 
 requests_cache.install_cache('test_cache', backend='sqlite', expire_after=30)
 
@@ -292,25 +322,6 @@ def compute(q):
         # If they have a rank, extract the non-plus section, the plusses, and the colors of each
         if 'rank_formatted' in rankjson:
             rankformattable = rankjson['rank_formatted']
-            
-            # Translate list for rank colors
-            rankColorList = {
-                '0':'blank',
-                '1':'dark_blue',
-                '2':'dark_green',
-                '3':'dark_aqua',
-                '4':'dark_red',
-                '5':'dark_purple',
-                '6':'gold',
-                '7':'gray',
-                '8':'dark_gray',
-                '9':'blue',
-                'a':'green',
-                'b':'aqua',
-                'c':'red',
-                'd':'light_purple',
-                'e':'yellow',
-                'f':'white'}
             
             # Strips all the crap off of rank_formatted (API) ex. &d[MVP&6+&d] into MVP
             rankParsed = re.sub('[a-z&0-9\[\]]','',rankformattable) if 'rank_formatted' in rankjson else ''
@@ -1415,37 +1426,97 @@ def compute(q):
                 guildDict['level'] = guildLevel(guildDict['exp'])
 
             # Guild members
-                members = {}
+                members = []
                 for m in guildListAPI['members']:
                     memberList = {}
+                    guildRankRaw = ''
+                    guildRankColor = 'black'
+                    guildPlusColor = 'red'
+                    plusses = ''
                     try:
                         user = guildNamesAPI[m['uuid']]
                     except: 
+                        # helpGuildReq = requests.Session().get('https://karma-25.uc.r.appspot.com/name/' + m['uuid'])
+                        # user = helpGuildReq.json()['name']
+                        # memberList['username'] = user['username']
+                        # memberList['serverRank'] = user.get('rank',user.get('newPackageRank', user.get('packageRank','False'))).replace('_PLUS','+')
+                        # if 'monthlyPackageRank' in user:
+                        #     if user['monthlyPackageRank'] != 'NONE':
+                        #         memberList['serverRank'] = 'MVP++'
+                        # if 'prefix' in user:
+                        #     memberList['serverRank'] = re.sub('[a-z§0-9\[\]]','',user['prefix'])
+                        #####
                         helpGuildReq = requests.Session().get('https://karma-25.uc.r.appspot.com/name/' + m['uuid'])
-                        helpGuildReqJSON = helpGuildReq.json()['name']
-                        guildUsername = helpGuildReqJSON['username']
-                        memberList['serverRank'] = helpGuildReqJSON.get('rank',helpGuildReqJSON.get('newPackageRank', helpGuildReqJSON.get('packageRank','False'))).replace('_PLUS','+')
-                        if 'monthlyPackageRank' in helpGuildReqJSON:
-                            if helpGuildReqJSON['monthlyPackageRank'] != 'NONE':
-                                memberList['serverRank'] = 'MVP++'
-                        if 'prefix' in helpGuildReqJSON:
-                            memberList['serverRank'] = re.sub('[a-z§0-9\[\]]','',helpGuildReqJSON['prefix'])
-                    else:
-                        guildUsername = user['username']
-                        memberList['serverRank'] = user.get('rank',user.get('newPackageRank', user.get('packageRank','False'))).replace('_PLUS','+')
-                        if 'monthlyPackageRank' in user:
-                            if user['monthlyPackageRank'] != 'NONE':
-                                memberList['serverRank'] = 'MVP++'
-                        if 'prefix' in user:
-                            memberList['serverRank'] = re.sub('[a-z§0-9\[\]]','',user['prefix'])
+                        user = helpGuildReq.json()['name']
 
+                    # if 'VIP' in guildRankRaw: guildRankColor = 'green'; guildPlusColor = 'gold'
+                        # elif 'MVP' in guildRankRaw:
+                        #     guildRankColor = 'aqua'; guildPlusColor = user.get('rankPlusColor', 'red').lower()
+
+                        # if 'monthlyPackageRank' in user:
+                        #     if user['monthlyPackageRank'] != 'NONE':
+                        #         guildRankRaw = 'MVP'
+                        #         guildRankColor = user.get('monthlyRankColor','gold').lower()
+                        #         guildPlusColor = user.get('rankPlusColor', 'red').lower()
+                        #         plusses = '++'
+                                
+                        # if 'prefix' in user:
+                        #     guildRankRaw = re.sub('[a-z§0-9\[\]]','',user['prefix'])
+                        #     guildPossibleRankColors = re.sub('[A-Z+§\[\]]','',user['prefix'])
+                        #     guildRankColor = rankColorList[guildPossibleRankColors[0]]
+                        #     guildPlusColor = rankColorList[guildPossibleRankColors[1]]
+                        #     plusses = guildRankRaw.count('+')*'+'
+                        #     guildRankRaw = guildRankRaw.replace('+','')
+                        #####
+                    # else:
+                    memberList['username'] = user['username']
+                    guildRankRaw = user.get('rank',user.get('newPackageRank', user.get('packageRank','')))
+                    plusses = guildRankRaw.count('PLUS')*'+'
+                    guildRankRaw = guildRankRaw.replace('_PLUS','')
+
+                    for x, y in dumbassHypixelRanks.items():
+                        if x in guildRankRaw:
+                            guildRankColor = y[0]
+                            if y[1]:
+                                guildPlusColor = y[1]
+
+                    if 'NONE' in guildRankRaw: guildRankRaw = ''
+                    if 'YOUTUBE' in guildRankRaw:
+                        guildRankRaw = ''
+                    # if 'VIP' in guildRankRaw: guildRankColor = 'green'; guildPlusColor = 'gold'
+                    elif 'MVP' in guildRankRaw:
+                        guildRankColor = 'aqua'; guildPlusColor = user.get('rankPlusColor', 'red').lower()
+
+                    if 'monthlyPackageRank' in user:
+                        if user['monthlyPackageRank'] != 'NONE':
+                            guildRankRaw = 'MVP'
+                            guildRankColor = user.get('monthlyRankColor','gold').lower()
+                            guildPlusColor = user.get('rankPlusColor', 'red').lower()
+                            plusses = '++'
+                            
+                    if 'prefix' in user:
+                        guildRankRaw = re.sub('[a-z§0-9\[\]]','',user['prefix'])
+                        guildPossibleRankColors = re.sub('[A-Z+§\[\]]','',user['prefix'])
+                        guildRankColor = rankColorList[guildPossibleRankColors[0]]
+                        guildPlusColor = rankColorList[guildPossibleRankColors[1]]
+                        plusses = guildRankRaw.count('+')*'+'
+                        guildRankRaw = guildRankRaw.replace('+','')
+
+                        # guildMemberRank = [, '', '']
+
+                    memberList['serverRank'] = [guildRankRaw, guildRankColor, guildPlusColor, plusses]
+                    print(memberList['serverRank'])
                     memberList['joined'] = datetime.fromtimestamp(m['joined']/1000).strftime('%b %d, %Y @ %I:%M:%S %p')
                     memberList['guildRank'] = m['rank']
+                    memberList['expPastWeek'] = sum(m['expHistory'].values())
 
+                    # Add player's quests to their memberList
                     try:
                         memberList['quests'] = m['questParticipation']
                     except: memberList['quests'] = 0
-                    members[guildUsername] = memberList
+                    members.append(memberList)
+                
+                # Add the temporary members list to guildDict
                 guildDict['members'] = members
                 guildDict['success'] = True
                 try:
@@ -1454,7 +1525,7 @@ def compute(q):
             
             # Guild ranks
 
-        # guildList = [0,0,0,'darkgray']
+    # guildList = [0,0,0,'darkgray']
         # if playedOnHypixel:
         #     VVV = requests.Session().get('https://api.hypixel.net/guild?key=' + HAPIKEY + '&player=' + uuid)
         #     reqGUILD = VVV.json()

@@ -41,7 +41,6 @@
                     {% endfor %}
                 </tbody>
             </table>
-            <script src='/static/table.js'></script>
         </div>
 
         <!------ PLAYER IMAGE ------>
@@ -1286,7 +1285,7 @@
                 {% endif %}
             </div>
 
-            <div class='col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+            <div class='col-start-2 col-end-4 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
                 <p>
                     <b>Description</b>: <i>{{guildDict['description']}}</i><br>
                     <b>Guild ID</b>: {{guildDict['_id']}}<br>
@@ -1323,18 +1322,49 @@
                     <b>Experience kings</b>: {{guildDict['achievements']['EXPERIENCE_KINGS']}}<br>
                     <b>Online players</b>: {{guildDict['achievements']['ONLINE_PLAYERS']}}<br>
                 </p>
+                    --- Ranks
             </div>
-            <div class='col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+            <div class='col-start-4 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
                 <div class="text-3xl font-semibold pb-5">Members</div>
                 <div class="pt-5">
-                List of all members in the guild. Remove this text!!!!!! L<><><>
+                    <table id='guildTable' class='compact hover order-column'>
+                        <thead>
+                            <tr>
+                                <th>Username</th>
+                                <th>Rank</th>
+                                <th>Join time</th>
+                                <th>Guild Rank</th>
+                                <th>GEXP past week</th>
+                                <th>Guild quests</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in guildDict['members'] %}
+                            <tr>
+                                {% for ask, vals in item.items() %}
+                                    {% if ask == 'username' %}
+                                        <td><a href='/p/{{vals}}'><b>{{vals}}</b></a></td>
+                                    {% elif ask == 'serverRank' %}
+                                        {% if vals[0] %}
+                                            <td><b><span class="{{vals[1]}}">[{{vals[0]}}<span class='{{vals[2]}}'>{{vals[3]}}</span>]</span></b></td>
+                                        {% else %}
+                                            <td></td>
+                                        {% endif %}
+                                    {% else %}
+                                        <td>{{vals}}</td>
+                                    {% endif %}
+                                {% endfor %}
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
             </div>
         {% else %}
             Player is not in a guild.
         {% endif %}
         </div>
-
+        <script src='/static/table.js'></script>
     <script src='/static/tabs.js'></script>
 </body>
 {% endblock %}

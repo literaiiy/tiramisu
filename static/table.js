@@ -17,3 +17,19 @@ $(document).ready( function () {
         }
     });
 });
+
+$(document).ready( function () {
+    $('#guildTable').DataTable( {
+        // "order": [[ 0, "desc" ]],
+        'paging': true,
+        'bPaginate': true,
+        //"sDom": '<"top"if>rt<"clear">',
+        "language": {
+            "info": "_TOTAL_ results",
+            "infoFiltered": " - _MAX_ total",
+            "infoEmpty": "No matching results",
+            "search":"",
+            "zeroRecords": "No matching results",
+        }
+    });
+});

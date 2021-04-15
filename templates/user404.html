@@ -4,7 +4,6 @@
 <html>
     <head>
         <title>{{q}} doesn't exist</title>
-        <div class="h2d">This player doesn't exist</div>
     </head>
 {% endblock %}
 
@@ -12,6 +11,7 @@
     {% if noAutocorrect != True %}
         <p>Did you mean to search for <a href='/p/{{noAutocorrect}}'><b>{{noAutocorrect}}</b></a>?</p>
     {% endif %}
+    <div class="text-2xl">This player doesn't exist</div>
     <p>{{screwup}}</p>
     {#% if remo %#}
 <!-- <span class="water">WATER  df fdfd fd</span> <br>

@@ -162,18 +162,22 @@ def queryt(path):
 def reddorect(k):
     return redirect(url_for('compute', q=k))
 
-# ! Thousands separator filter
-# No decimals
+# ! Filters
+# Thousands separator no decimals
 @app.template_filter()
 def those(n):
     try:
         return f'{int(n):,}'
     except: return n
 
-# Raw
+# Thousands separator raw
 @app.template_filter()
 def thraw(n):
     return f'{n:,}'
+
+@app.template_filter()
+def floor(n):
+    return math.floor(n)
 
 # ! Routing for search page
 @app.route('/p/<q>', methods=['POST','GET'])
@@ -480,6 +484,7 @@ def compute(q):
             elif game == 'SURVIVAL_GAMES': return 'Blitz Survival Games'
             elif game == 'WALLS3': return  'Mega Walls'
             elif game == 'TNTGAMES': return  'TNT Games'
+            elif game == 'VAMPIREZ': return 'VampireZ'
             else: return game.replace('_',' ').title()
             
         currentSession = False
@@ -494,24 +499,6 @@ def compute(q):
                         sessionType = reqAPIsession['status']['mode'].replace('_',' ').title()
                     except:
                         sessionType = 'Lobby'
-                    # if reqAPIsession['status']['online']:
-                        #     if reqAPIsession['status']['gameType'] == 'SKYWARS': currentSession = 'SkyWars'
-                        #     elif reqAPIsession['status']['gameType'] == 'SKYBLOCK': currentSession = 'SkyBlock'
-                        #     elif reqAPIsession['status']['gameType'] == 'BEDWARS': currentSession = 'BedWars'
-                        #     elif reqAPIsession['status']['gameType'] == 'SUPER_SMASH': currentSession = 'Smash Heroes'
-                        #     elif reqAPIsession['status']['gameType'] == 'SPEED_UHC': currentSession = 'Speed UHC'
-                        #     elif reqAPIsession['status']['gameType'] == 'MCGO': currentSession = 'Cops and Crims'
-                        #     elif reqAPIsession['status']['gameType'] == 'PIT': currentSession = 'The Pit'
-                        #     elif reqAPIsession['status']['gameType'] == 'UHC': currentSession = 'UHC Champions'
-                        #     elif reqAPIsession['status']['gameType'] == 'BATTLEGROUND': currentSession = 'Warlords'
-                        #     elif reqAPIsession['status']['gameType'] == 'SURVIVAL_GAMES': currentSession = 'Blitz Survival Games'
-                        #     elif reqAPIsession['status']['gameType'] == 'WALLS3': currentSession = 'Mega Walls'
-                        #     elif reqAPIsession['status']['gameType'] == 'TNTGAMES': currentSession = 'TNT Games'
-                        #     else: currentSession = reqAPIsession['status']['gameType'].replace('_',' ').title()
-                        #     try:
-                        #         sessionType = reqAPIsession['status']['mode'].replace('_',' ').title()
-                        #     except:
-                        #         sessionType = 'somewhere...'
         except: pass
 
 # ! Socials
@@ -1359,11 +1346,36 @@ def compute(q):
         # return 'fu'
 
 # ! Guild PLEASE FIX THIS YOU GOTTA USE 25KARMA API
-        # 0 - guild tag
-        # 1 - guild name
-        # 2 - guild role
-        # 3 - guild color
-        guildDict = {'success':False,}
+        guildDict = {'success':False,'selfGuildRank':'Member'}
+        EXP_NEEDED = [100000, 150000, 250000, 500000, 750000, 1000000, 1250000, 1500000, 2000000, 2500000, 2500000, 2500000, 2500000, 2500000, 3000000]
+        # A list of amount of XP required for leveling up in each of the beginning levels (1-15).
+
+        def guildLevel(exp):
+            level = 0
+
+            for i in range(1000):
+            # Increment by one from zero to the level cap.
+                need = 0
+                if  i >= len(EXP_NEEDED):
+                    need = EXP_NEEDED[len(EXP_NEEDED) - 1]
+                else:
+                    need = EXP_NEEDED[i]
+                # Determine the current amount of XP required to level up,
+                # in regards to the "i" variable.
+        
+                if (exp - need) < 0:
+                    return [((level + (exp / need)) * 100) / 100, need]
+                # If the remaining exp < the total amount of XP required for the next level,
+                # return their level using this formula.
+
+                level += 1
+                exp -= need
+                # Otherwise, increase their level by one,
+                # and subtract the required amount of XP to level up,
+                # from the total amount of XP that the guild had.
+
+            return [1000, 3000000]
+            # This should never happen...
 
         if playedOnHypixel:
             variable_name = requests.Session().get('https://karma-25.uc.r.appspot.com/guild/' + uuid)
@@ -1373,60 +1385,48 @@ def compute(q):
                 guildNamesAPI = greqAPI.get('names', False)
 
             # Guild info
+                # Gets the automatable ones
                 for x in ['exp','joinable','tag', '_id', 'name', 'coins','coinsEver', 'publiclyListed','legacyRanking', 'preferredGames', 'achievements']:
                     guildDict[x] = guildListAPI.get(x, False)
+                
+                # Extension to those above who have some special thing they need changed
                 guildDict['created'] = datetime.fromtimestamp(guildListAPI.get('created',False)/1000).strftime('%b %d, %Y @ %I:%M:%S %p')
                 guildDict['tagColor'] = guildListAPI.get('tagColor', 'gray')
                 guildDict['description'] = guildListAPI.get('description', 'None')
+
+                # Preferred games
                 guildDict['preferredGamesTL'] = []
                 if guildDict['preferredGames']:
                     for i in guildDict['preferredGames']:
                         guildDict['preferredGamesTL'].append(gameTranslate(i))
                 guildDict['preferredGamesTL'] = re.sub("[\[\]']",'',str(guildDict['preferredGamesTL']))
+
+                # Guild ranks
+                guildDict['theGuildRanks'] = {}
+                for x in guildListAPI.get('ranks'):
+                    listenGuild = []
+                    listenGuild.append(x.get('default', False))
+                    listenGuild.append(x.get('tag', ''))
+                    listenGuild.append(datetime.fromtimestamp(x.get('created', 0)/1000).strftime('%b %d, %Y @ %I:%M:%S %p'))
+                    guildDict['theGuildRanks'][x.get('name', 'Unnamed rank')] = listenGuild
+
+                # GXP by game
                 guildDict['GXPBG'] = {}
                 try:
                     for x,y in guildListAPI['guildExpByGameType'].items():
-                        guildDict['GXPBG'][gameTranslate(x)] = y
+                        if y:
+                            guildDict['GXPBG'][gameTranslate(x)] = y 
+                    guildDict['GXPBG'] = {k: v for k, v in sorted(guildDict['GXPBG'].items(), reverse=True, key=lambda item: item[1])}
                 except: pass
-                # def guildLevel(xp): # ! Doesn't work, please fix
-                    #     if xp >= 17500000: return 13+(xp - 17500000)/3000000
 
-                    #     elif xp < 100000:   return     xp          /100000
-                    #     elif xp < 250000:   return 1 +(xp-100000)  /150000
-                    #     elif xp < 500000:   return 2 +(xp-250000)  /250000
-                    #     elif xp < 1000000:  return 3 +(xp-500000)  /500000
-                    #     elif xp < 1750000:  return 4 +(xp-1000000) /750000
-                    #     elif xp < 2750000:  return 5 +(xp-1750000) /1000000
-                    #     elif xp < 4000000:  return 6 +(xp-2750000) /1250000
-                    #     elif xp < 5500000:  return 7 +(xp-4000000) /1500000
-                    #     elif xp < 7500000:  return 8 +(xp-5500000) /2000000
-                    #     elif xp < 10000000: return 9 +(xp-7500000) /2500000
-                    #     elif xp < 12500000: return 10+(xp-10000000)/2500000
-                    #     elif xp < 15000000: return 11+(xp-12500000)/2500000
-                    #     elif xp < 17500000: return 12+(xp-15000000)/2500000
-                
-                def guildLevel(xp):
-                    EXP_NEEDED=[100000,150000,250000,500000,750000,1000000,1250000,1500000,2000000,2500000,2500000,2500000,2500000,2500000,3000000,]
-                    level = 0
-                    for i in range(0, 1000):
-                        need = 0
-                        if i >= len(EXP_NEEDED):
-                            need = EXP_NEEDED[len(EXP_NEEDED) - 1]
-                        else:
-                            need = EXP_NEEDED[i]
-                        i += 1
-
-                        if (xp - need) < 0:
-                            return ((level + (xp / need)) * 100) / 100
-                        level += 1
-                        xp -= need
-
-                    return 0
-
-                guildDict['level'] = guildLevel(guildDict['exp'])
+                # Guild level
+                guildLevelTempVar = guildLevel(guildDict['exp'])
+                guildDict['level'] = guildLevelTempVar[0]
+                guildDict['levelLeft'] = round(guildLevelTempVar[0] % 1 * guildLevelTempVar[1],2)
+                guildDict['levelPercThere'] = round(100*(guildLevelTempVar[0] % 1),2)
 
             # Guild members
-                members = []
+                members = {}
                 for m in guildListAPI['members']:
                     memberList = {}
                     guildRankRaw = ''
@@ -1436,40 +1436,11 @@ def compute(q):
                     try:
                         user = guildNamesAPI[m['uuid']]
                     except: 
-                        # helpGuildReq = requests.Session().get('https://karma-25.uc.r.appspot.com/name/' + m['uuid'])
-                        # user = helpGuildReq.json()['name']
-                        # memberList['username'] = user['username']
-                        # memberList['serverRank'] = user.get('rank',user.get('newPackageRank', user.get('packageRank','False'))).replace('_PLUS','+')
-                        # if 'monthlyPackageRank' in user:
-                        #     if user['monthlyPackageRank'] != 'NONE':
-                        #         memberList['serverRank'] = 'MVP++'
-                        # if 'prefix' in user:
-                        #     memberList['serverRank'] = re.sub('[a-z§0-9\[\]]','',user['prefix'])
-                        #####
                         helpGuildReq = requests.Session().get('https://karma-25.uc.r.appspot.com/name/' + m['uuid'])
                         user = helpGuildReq.json()['name']
 
-                    # if 'VIP' in guildRankRaw: guildRankColor = 'green'; guildPlusColor = 'gold'
-                        # elif 'MVP' in guildRankRaw:
-                        #     guildRankColor = 'aqua'; guildPlusColor = user.get('rankPlusColor', 'red').lower()
-
-                        # if 'monthlyPackageRank' in user:
-                        #     if user['monthlyPackageRank'] != 'NONE':
-                        #         guildRankRaw = 'MVP'
-                        #         guildRankColor = user.get('monthlyRankColor','gold').lower()
-                        #         guildPlusColor = user.get('rankPlusColor', 'red').lower()
-                        #         plusses = '++'
-                                
-                        # if 'prefix' in user:
-                        #     guildRankRaw = re.sub('[a-z§0-9\[\]]','',user['prefix'])
-                        #     guildPossibleRankColors = re.sub('[A-Z+§\[\]]','',user['prefix'])
-                        #     guildRankColor = rankColorList[guildPossibleRankColors[0]]
-                        #     guildPlusColor = rankColorList[guildPossibleRankColors[1]]
-                        #     plusses = guildRankRaw.count('+')*'+'
-                        #     guildRankRaw = guildRankRaw.replace('+','')
-                        #####
                     # else:
-                    memberList['username'] = user['username']
+                    #memberList['username'] = user['username']
                     guildRankRaw = user.get('rank',user.get('newPackageRank', user.get('packageRank','')))
                     plusses = guildRankRaw.count('PLUS')*'+'
                     guildRankRaw = guildRankRaw.replace('_PLUS','')
@@ -1483,7 +1454,7 @@ def compute(q):
                     if 'NONE' in guildRankRaw: guildRankRaw = ''
                     if 'YOUTUBE' in guildRankRaw:
                         guildRankRaw = ''
-                    # if 'VIP' in guildRankRaw: guildRankColor = 'green'; guildPlusColor = 'gold'
+
                     elif 'MVP' in guildRankRaw:
                         guildRankColor = 'aqua'; guildPlusColor = user.get('rankPlusColor', 'red').lower()
 
@@ -1502,53 +1473,21 @@ def compute(q):
                         plusses = guildRankRaw.count('+')*'+'
                         guildRankRaw = guildRankRaw.replace('+','')
 
-                        # guildMemberRank = [, '', '']
-
                     memberList['serverRank'] = [guildRankRaw, guildRankColor, guildPlusColor, plusses]
-                    print(memberList['serverRank'])
                     memberList['joined'] = datetime.fromtimestamp(m['joined']/1000).strftime('%b %d, %Y @ %I:%M:%S %p')
                     memberList['guildRank'] = m['rank']
                     memberList['expPastWeek'] = sum(m['expHistory'].values())
 
+                    if m['uuid'] == uuid: guildDict['selfGuildRank'] == memberList.get('guildRank')
                     # Add player's quests to their memberList
                     try:
                         memberList['quests'] = m['questParticipation']
                     except: memberList['quests'] = 0
-                    members.append(memberList)
+                    members[user['username']] = memberList
                 
                 # Add the temporary members list to guildDict
                 guildDict['members'] = members
                 guildDict['success'] = True
-                try:
-                    guildDict['selfGuildRank'] = guildDict['members'][username]['guildRank']
-                except: guildDict['selfGuildRank'] = "Member"
-            
-            # Guild ranks
-
-    # guildList = [0,0,0,'darkgray']
-        # if playedOnHypixel:
-        #     VVV = requests.Session().get('https://api.hypixel.net/guild?key=' + HAPIKEY + '&player=' + uuid)
-        #     reqGUILD = VVV.json()
-        #     try:
-        #         if reqGUILD['guild'] != 'null':
-        #             guildList[0] = reqGUILD['guild']['tag']
-        #             guildList[1] = reqGUILD['guild']['name']
-        #             for member in reqGUILD['guild']['members']:
-        #                 if member['uuid'] == uuid:
-        #                     guildList[2] = member['rank']
-        #                     break
-        #             try:
-        #                 guildList[3] = reqGUILD['guild']['tagColor'].lower()
-        #             except:
-        #                 pass
-        #     except: pass
-        # guildDict = {
-        #     'guildName':'',
-        #     'guildTag':'',
-        #     'guildTagColor':'',
-        #     'userRole':'',
-
-        # }
 
 # ! Render base.html        
         displayAddon = ''

@@ -23,6 +23,8 @@ $(document).ready( function () {
         // "order": [[ 0, "desc" ]],
         'paging': true,
         'bPaginate': true,
+        'pageLength': 20,
+        'aLengthMenu': [[10,15,20,25,50,-1], [10,15,20,25,50,'All']],
         //"sDom": '<"top"if>rt<"clear">',
         "language": {
             "info": "_TOTAL_ results",

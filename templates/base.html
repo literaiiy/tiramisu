@@ -1276,7 +1276,7 @@
 
         <!-- Guild -->
         {% if guildDict['success'] %}
-            <div class="col-start-2 col-end-10 bg-gray-100 rounded-2xl text-4xl font-bold p-6 shadow text-center">
+            <div class="col-start-2 col-end-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow text-center">
                 {% if guildDict['success'] %} 
                     <b>{{guildDict['name']}}</b>
                     {% if guildDict['tag'] %}
@@ -1285,7 +1285,7 @@
                 {% endif %}
             </div>
 
-            <div class='col-start-2 col-end-4 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+            <div class='col-start-2 col-end-5 bg-gray-100 rounded-2xl p-6 shadow'>
                 <p>
                     <b>Description</b>: <i>{{guildDict['description']}}</i><br>
                     <b>Guild ID</b>: {{guildDict['_id']}}<br>
@@ -1293,7 +1293,7 @@
                     <b>Preferred games</b>: {{guildDict['preferredGamesTL']}}<br>
                 </p>
                 <p>
-                    <b>Guild Level</b>: {{guildDict['level'] | thraw}}<br>
+                    Guild Level <b>{{guildDict['level']|floor}}</b> - {{guildDict['levelLeft'] | those}} XP ({{guildDict['levelPercThere']}}%) to {{guildDict['level']|floor +1}}<br>
                     <b>Total Guild XP</b>: {{guildDict['exp'] | those}} <br>
                     <b>Lifetime coins</b>: {{guildDict['coinsEver']}}<br>
                     <b>Total coins</b>: {{guildDict['coins']}}<br>
@@ -1322,9 +1322,24 @@
                     <b>Experience kings</b>: {{guildDict['achievements']['EXPERIENCE_KINGS']}}<br>
                     <b>Online players</b>: {{guildDict['achievements']['ONLINE_PLAYERS']}}<br>
                 </p>
-                    --- Ranks
+                <p>
+                    <b>Preferred games</b>: {% if guildDict['preferredGames'] %}{{guildDict['preferredGamesTL']}}{% else %}No preferred games set.{% endif %}
+                </p>
+                    <div class='text-xl'>Guild ranks:</div>
+                    {% for z, a in guildDict['theGuildRanks'].items() %}
+                        <b>{{z}}</b>
+                        {% if a[1] %} <b class='gray'>[{{a[1]}}]</b>{% endif %}
+                        {% if a[0] %} <i>(default)</i>{% endif%}
+                        - created {{a[2]}}<br>
+                    {% endfor %}
+                <p>
+                    <div class='text-xl'>Guild XP earned by game</div>
+                    {% for d, f in guildDict['GXPBG'].items() %}
+                        <b>{{d}}</b>: {{f}}<br>
+                    {% endfor %}
+                </p>
             </div>
-            <div class='col-start-4 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+            <div class='col-start-5 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
                 <div class="text-3xl font-semibold pb-5">Members</div>
                 <div class="pt-5">
                     <table id='guildTable' class='compact hover order-column'>
@@ -1339,29 +1354,27 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for item in guildDict['members'] %}
-                            <tr>
-                                {% for ask, vals in item.items() %}
-                                    {% if ask == 'username' %}
-                                        <td><a href='/p/{{vals}}'><b>{{vals}}</b></a></td>
-                                    {% elif ask == 'serverRank' %}
-                                        {% if vals[0] %}
-                                            <td><b><span class="{{vals[1]}}">[{{vals[0]}}<span class='{{vals[2]}}'>{{vals[3]}}</span>]</span></b></td>
-                                        {% else %}
-                                            <td></td>
-                                        {% endif %}
+                            {% for items in guildDict['members'].items()|list %}
+                                <tr>
+                                    <td><b>{{items[0]}}</b></td>
+                                    {% if items[1]['serverRank'][0] %}
+                                        <td><b><span class="{{items[1]['serverRank'][1]}}">[{{items[1]['serverRank'][0]}}<span class='{{items[1]["serverRank"][2]}}'>{{items[1]['serverRank'][3]}}</span>]</span></b></td>
                                     {% else %}
-                                        <td>{{vals}}</td>
+                                        <td></td>
                                     {% endif %}
-                                {% endfor %}
-                            </tr>
+                                    <td>{{items[1]['joined']}}</td>
+                                    <td>{{items[1]['guildRank']}}</td>
+                                    <td>{{items[1]['expPastWeek']}}</td>
+                                    <td>{{items[1]['quests']}}</td>
+                                </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
             </div>
         {% else %}
-            Player is not in a guild.
+            <div class="col-start-2 col-end-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow text-center">Guild</div>
+            <div class="col-start-2 col-end-10 bg-gray-100 rounded-2xl p-6 shadow">Player is not in a guild.</div>
         {% endif %}
         </div>
         <script src='/static/table.js'></script>

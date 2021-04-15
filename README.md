@@ -1,3 +1,4 @@
+![Tiramisu logo](https://raw.githubusercontent.com/gist/literaiiy/62febf3d1f9a035b469e06bdef8456bc/raw/223650b7551fd90e7747e687a2643cdb1cdebf9d/teeramouse.svg)
 # 🍰 tiramisu: Minecraft Name History & Hypixel Stats Analysis ☕
 tiramisu is a Minecraft player statistics site that gives a comprehensive outlook on your Minecraft account and Hypixel profile- complete name history, detailed breakdowns of your Hypixel statistics (including an elaborate analysis of your SkyWars and BedWars stats), among other things. It is currently in an open Beta, and there are bound to be a lot of bugs, but I am actively working on resolving these bugs and improving the experience tiramisu provides.
 

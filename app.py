@@ -313,33 +313,81 @@ def compute(q):
 
 # ! Rank
 
-        # Get from slothpixel.me API
+        def getRank():
+        
+            # rank - for staff and youtube
+                        # prefix
+            if 'prefix' in reqAPI['player']:
+                x = reqAPI['player']['prefix']
+                rankParsed = re.sub('[a-z§0-9+\[\]]','',x)
+                rankPlusses = x.count('+')*'+'
+                rankParsedColor = rankColorList[re.sub('[A-Z§+\[\]]','',x)[0]]
+                rankPlussesColor = rankColorList[re.sub('[A-Z§+\[\]]','',x.replace(rankParsedColor,''))]
+                return (rankParsed, rankPlusses, rankParsedColor, rankPlussesColor)
+
+            if 'rank' in reqAPI['player']:
+                x = reqAPI['player']['rank']
+                if 'YOUTUBE' in x: return ('YOUTUBE', '', 'red', 'lightgray')
+                elif 'HELPER' in x: return ('HELPER', '', 'blue', 'blue')
+                elif 'MOD' in x: return ('MOD', '', 'dark_green', 'dark_green')
+                elif 'ADMIN' in x: return ('ADMIN', '', 'red', 'red')
+
+            # monthlyPackageRank - for mvp++
+            if 'monthlyPackageRank' in reqAPI['player']:
+                if reqAPI['player']['monthlyPackageRank'] == 'SUPERSTAR':
+                    return ('MVP', '++', reqAPI['player']['monthlyRankColor'].lower(), reqAPI['player']['rankPlusColor'].lower())
+
+            #packageRank
+            if 'packageRank' in reqAPI['player']:
+                x = reqAPI['player']['packageRank']
+                try:
+                    if x == 'MVP_PLUS': return ('MVP', '+', 'aqua', reqAPI['player']['rankPlusColor'].lower())
+                except: pass
+                if x == 'MVP': return ('MVP', '', 'aqua', '')
+                elif x == 'VIP_PLUS': return ('VIP', '+', 'green', 'gold')
+                elif x == 'VIP': return ('VIP', '', 'green', '')
+
+            # newPackageRank
+            if 'newPackageRank' in reqAPI['player']:
+                x = reqAPI['player']['newPackageRank']
+                try:
+                    if x == 'MVP_PLUS': return ('MVP', '+', 'aqua', reqAPI['player']['rankPlusColor'].lower())
+                except: pass
+                if x == 'MVP': return ('MVP', '', 'aqua', '')
+                elif x == 'VIP_PLUS': return ('VIP', '+', 'green', 'gold')
+                elif x == 'VIP': return ('VIP', '', 'green', '')
+
+            return False
+
+        rankv3 = getRank()
+
+        # # Get from slothpixel.me API
         rankson = requests.Session().get('https://api.slothpixel.me/api/players/' + uuid)
         rankjson = rankson.json()
 
-        # Set defaults
-        rankNoPlus = ''
-        rankPlusses = ''
-        rankColorParsed = 'white'
-        plusColorParsed = 'white'
+        # # Set defaults
+        # rankNoPlus = ''
+        # rankPlusses = ''
+        # rankColorParsed = 'white'
+        # plusColorParsed = 'white'
 
-        # If they have a rank, extract the non-plus section, the plusses, and the colors of each
-        if 'rank_formatted' in rankjson:
-            rankformattable = rankjson['rank_formatted']
+        # # If they have a rank, extract the non-plus section, the plusses, and the colors of each
+        # if 'rank_formatted' in rankjson:
+        #     rankformattable = rankjson['rank_formatted']
             
-            # Strips all the crap off of rank_formatted (API) ex. &d[MVP&6+&d] into MVP
-            rankParsed = re.sub('[a-z&0-9\[\]]','',rankformattable) if 'rank_formatted' in rankjson else ''
+        #     # Strips all the crap off of rank_formatted (API) ex. &d[MVP&6+&d] into MVP
+        #     rankParsed = re.sub('[a-z&0-9\[\]]','',rankformattable) if 'rank_formatted' in rankjson else ''
 
-            # Gets no-plus and plus-only versions of rankParsed
-            rankNoPlus = rankParsed.replace('+','')
-            rankPlusses = re.sub('[A-Z]','',rankParsed)
+        #     # Gets no-plus and plus-only versions of rankParsed
+        #     rankNoPlus = rankParsed.replace('+','')
+        #     rankPlusses = re.sub('[A-Z]','',rankParsed)
 
-            # Gets color code for player's rank
-            rankColor = re.sub('[A-Z&+\[\]]','',rankformattable)
+        #     # Gets color code for player's rank
+        #     rankColor = re.sub('[A-Z&+\[\]]','',rankformattable)
 
-            # Sets rankColorParsed and plusColorParsed to the translated rank color
-            rankColorParsed = rankColorList[rankColor[0]]
-            if len(rankColor) > 1: plusColorParsed = rankColorList[rankColor[1]]
+        #     # Sets rankColorParsed and plusColorParsed to the translated rank color
+        #     rankColorParsed = rankColorList[rankColor[0]]
+        #     if len(rankColor) > 1: plusColorParsed = rankColorList[rankColor[1]]
 
 # ! Network Level, XP
         try:
@@ -472,20 +520,22 @@ def compute(q):
 
 # ! Session Data
         def gameTranslate(game):
-            if game == 'SKYWARS': return 'SkyWars'
-            elif game == 'SKYBLOCK': return 'SkyBlock'
-            elif game == 'BEDWARS': return 'BedWars'
-            elif game == 'SUPER_SMASH': return 'Smash Heroes'
-            elif game == 'SPEED_UHC': return 'Speed UHC'
-            elif game == 'MCGO': return 'Cops and Crims'
-            elif game == 'PIT': return 'The Pit'
-            elif game == 'UHC': return 'UHC Champions'
-            elif game == 'BATTLEGROUND': return 'Warlords'
-            elif game == 'SURVIVAL_GAMES': return 'Blitz Survival Games'
-            elif game == 'WALLS3': return  'Mega Walls'
-            elif game == 'TNTGAMES': return  'TNT Games'
-            elif game == 'VAMPIREZ': return 'VampireZ'
-            else: return game.replace('_',' ').title()
+            try:
+                if game == 'SKYWARS': return 'SkyWars'
+                elif game == 'SKYBLOCK': return 'SkyBlock'
+                elif game == 'BEDWARS': return 'BedWars'
+                elif game == 'SUPER_SMASH': return 'Smash Heroes'
+                elif game == 'SPEED_UHC': return 'Speed UHC'
+                elif game == 'MCGO': return 'Cops and Crims'
+                elif game == 'PIT': return 'The Pit'
+                elif game == 'UHC': return 'UHC Champions'
+                elif game == 'BATTLEGROUND': return 'Warlords'
+                elif game == 'SURVIVAL_GAMES': return 'Blitz Survival Games'
+                elif game == 'WALLS3': return  'Mega Walls'
+                elif game == 'TNTGAMES': return  'TNT Games'
+                elif game == 'VAMPIREZ': return 'VampireZ'
+                else: return game.replace('_',' ').title()
+            except: return ''
             
         currentSession = False
         sessionType = ''
@@ -550,15 +600,16 @@ def compute(q):
             elif list[3] != 0: return str(list[3]) + 'm'
             else: return str(list[4]) + 's'
 
-        userLanguage = rankjson.get('language', 'English').title()
-        userVersion = rankjson.get('mc_version') if rankjson.get('mc_version') != None else 'unspecified version'
+        userLanguage = reqAPI['player'].get('userLanguage', 'Unspecified').title()
+        userVersion = reqAPI['player'].get('mcVersionRp') if reqAPI['player'].get('mcVersionRp') != None else 'unspecified version'
         totalKills = rankjson.get('total_kills', 0)
         totalWins = rankjson.get('total_wins', 0)
         totalCoins = rankjson.get('total_coins', 0)
-        giftsSent = rankjson.get('gifts_sent', 0)
-        giftsReceived = rankjson.get('gifts_received', 0)
-        rewards = rankjson.get('rewards', {"streak_current":0,"streak_best":0,"claimed":0,"claimed_daily":0,"tokens":0})
-        lastPlayed = rankjson.get('last_game', 'something...')
+        giftsMeta = reqAPI['player'].get('giftingMeta', {'bundlesGiven':0,'giftsGiven':0})
+        rewards = [reqAPI['player'].get('rewardStreak', 0), reqAPI['player'].get('rewardHighScore', 0), reqAPI['player'].get('totalRewards', 0), reqAPI['player'].get('totalDailyRewards', 0)]
+        #rewards = rankjson.get('rewards', {"streak_current":0,"streak_best":0,"claimed":0,"claimed_daily":0,"tokens":0})
+        lastPlayed = gameTranslate(reqAPI['player'].get('mostRecentGameType', False))
+
         lastSeenUnix = int(time.time()) - lastLogoutUnix
         lastSeen = significantTimeDenom(sec2format(lastSeenUnix))
 
@@ -646,7 +697,8 @@ def compute(q):
             swUnscannedDict['W/L'] = weirdDiv(swStatsDict['wins'],swStatsDict['losses'])
 
             # Head tastiness
-            if rankNoPlus in sweetHeadsRanks and swStatsDict['kills'] < 10000: swUnscannedDict['head_tastiness'] = ('Sweet!', 'aqua')
+            if rankv3: 
+                if rankv3[0] in sweetHeadsRanks and swStatsDict['kills'] < 10000: swUnscannedDict['head_tastiness'] = ('Sweet!', 'aqua')
             elif swStatsDict['kills'] < 49: swUnscannedDict['head_tastiness'] = ('Eww!', 'darkgray')
             elif swStatsDict['kills'] < 200: swUnscannedDict['head_tastiness'] = ('Yucky!', 'gray')
             elif swStatsDict['kills'] < 500: swUnscannedDict['head_tastiness'] = ('Meh.','lightgray')
@@ -1403,12 +1455,16 @@ def compute(q):
 
                 # Guild ranks
                 guildDict['theGuildRanks'] = {}
-                for x in guildListAPI.get('ranks'):
-                    listenGuild = []
-                    listenGuild.append(x.get('default', False))
-                    listenGuild.append(x.get('tag', ''))
-                    listenGuild.append(datetime.fromtimestamp(x.get('created', 0)/1000).strftime('%b %d, %Y @ %I:%M:%S %p'))
-                    guildDict['theGuildRanks'][x.get('name', 'Unnamed rank')] = listenGuild
+                if guildListAPI.get('ranks'):
+                    for x in guildListAPI.get('ranks'):
+                        try:
+                            listenGuild = []
+                            listenGuild.append(x.get('default', False))
+                            listenGuild.append(x.get('tag', ''))
+                            listenGuild.append(datetime.fromtimestamp(x.get('created', 0)/1000).strftime('%b %d, %Y @ %I:%M:%S %p'))
+                            guildDict['theGuildRanks'][x.get('name', 'Unnamed rank')] = listenGuild
+                        except: 
+                            guildDict['theGuildRanks'][x.get('name', 'Unnamed rank')] = [False, None, 'Unknown date']
 
                 # GXP by game
                 guildDict['GXPBG'] = {}
@@ -1429,10 +1485,10 @@ def compute(q):
                 members = {}
                 for m in guildListAPI['members']:
                     memberList = {}
-                    guildRankRaw = ''
-                    guildRankColor = 'black'
-                    guildPlusColor = 'red'
-                    plusses = ''
+                    # guildRankRaw = ''
+                    # guildRankColor = 'black'
+                    # guildPlusColor = 'red'
+                    # plusses = ''
                     try:
                         user = guildNamesAPI[m['uuid']]
                     except: 
@@ -1441,44 +1497,48 @@ def compute(q):
 
                     # else:
                     #memberList['username'] = user['username']
-                    guildRankRaw = user.get('rank',user.get('newPackageRank', user.get('packageRank','')))
-                    plusses = guildRankRaw.count('PLUS')*'+'
-                    guildRankRaw = guildRankRaw.replace('_PLUS','')
+                    # guildRankRaw = user.get('rank',user.get('newPackageRank', user.get('packageRank','')))
+                    # plusses = guildRankRaw.count('PLUS')*'+'
+                    # guildRankRaw = guildRankRaw.replace('_PLUS','')
 
-                    for x, y in dumbassHypixelRanks.items():
-                        if x in guildRankRaw:
-                            guildRankColor = y[0]
-                            if y[1]:
-                                guildPlusColor = y[1]
+                    # for x, y in dumbassHypixelRanks.items():
+                    #     if x in guildRankRaw:
+                    #         guildRankColor = y[0]
+                    #         if y[1]:
+                    #             guildPlusColor = y[1]
 
-                    if 'NONE' in guildRankRaw: guildRankRaw = ''
-                    if 'YOUTUBE' in guildRankRaw:
-                        guildRankRaw = ''
+                    # if 'YOUTUBE' in guildRankRaw:
+                    #     guildRankRaw = ''
 
-                    elif 'MVP' in guildRankRaw:
-                        guildRankColor = 'aqua'; guildPlusColor = user.get('rankPlusColor', 'red').lower()
+                    # elif 'MVP' in guildRankRaw:
+                    #     guildRankColor = 'aqua'; guildPlusColor = user.get('rankPlusColor', 'red').lower()
 
-                    if 'monthlyPackageRank' in user:
-                        if user['monthlyPackageRank'] != 'NONE':
-                            guildRankRaw = 'MVP'
-                            guildRankColor = user.get('monthlyRankColor','gold').lower()
-                            guildPlusColor = user.get('rankPlusColor', 'red').lower()
-                            plusses = '++'
+                    # if 'monthlyPackageRank' in user:
+                    #     if user['monthlyPackageRank'] != 'NONE':
+                    #         guildRankRaw = 'MVP'
+                    #         guildRankColor = user.get('monthlyRankColor','gold').lower()
+                    #         guildPlusColor = user.get('rankPlusColor', 'red').lower()
+                    #         plusses = '++'
                             
-                    if 'prefix' in user:
-                        guildRankRaw = re.sub('[a-z§0-9\[\]]','',user['prefix'])
-                        guildPossibleRankColors = re.sub('[A-Z+§\[\]]','',user['prefix'])
-                        guildRankColor = rankColorList[guildPossibleRankColors[0]]
-                        guildPlusColor = rankColorList[guildPossibleRankColors[1]]
-                        plusses = guildRankRaw.count('+')*'+'
-                        guildRankRaw = guildRankRaw.replace('+','')
+                    # if 'prefix' in user:
+                    #     guildRankRaw = re.sub('[a-z§0-9\[\]]','',user['prefix'])
+                    #     guildPossibleRankColors = re.sub('[A-Z+§\[\]]','',user['prefix'])
+                    #     guildRankColor = rankColorList[guildPossibleRankColors[0]]
+                    #     try:
+                    #         guildPlusColor = rankColorList[guildPossibleRankColors[1]]
+                    #     except: guildPlusColor = guildRankColor
+                    #     plusses = guildRankRaw.count('+')*'+'
+                    #     guildRankRaw = guildRankRaw.replace('+','')
+                    
+                    #if 'NONE' in guildRankRaw: guildRankRaw = ''
+                    
+                    if guildRankRaw not in ['']: guildRankRaw = ''
 
                     memberList['serverRank'] = [guildRankRaw, guildRankColor, guildPlusColor, plusses]
                     memberList['joined'] = datetime.fromtimestamp(m['joined']/1000).strftime('%b %d, %Y @ %I:%M:%S %p')
                     memberList['guildRank'] = m['rank']
                     memberList['expPastWeek'] = sum(m['expHistory'].values())
 
-                    if m['uuid'] == uuid: guildDict['selfGuildRank'] == memberList.get('guildRank')
                     # Add player's quests to their memberList
                     try:
                         memberList['quests'] = m['questParticipation']
@@ -1487,6 +1547,7 @@ def compute(q):
                 
                 # Add the temporary members list to guildDict
                 guildDict['members'] = members
+                guildDict['selfGuildRank'] = guildDict['members'][username].get('guildRank','Member')
                 guildDict['success'] = True
 
 # ! Render base.html        
@@ -1506,7 +1567,7 @@ def compute(q):
         #print('firstLogin')
         #print(firstLoginUnix)
         
-        return render_template('base.html', uuid=uuid, username=username, displayAddon=displayAddon, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rank=rankNoPlus, rankPlusses=rankPlusses, newPackageRank=newPackageRank, rankColorParsed=rankColorParsed, plusColorParsed=plusColorParsed, multiplier=multiplier, swStatsDict=swStatsDict, swUnscannedDict=swUnscannedDict, joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, pluscolor=plusColorParsed, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources, bwCosmetics=bwCosmetics, userLanguage=userLanguage, userVersion=userVersion, totalKills=totalKills, totalWins=totalWins, totalCoins=totalCoins, giftsSent=giftsSent, giftsReceived=giftsReceived, rewards=rewards, lastPlayed=lastPlayed, lastSeen=lastSeen, lastSeenUnix=lastSeenUnix, swMapsList=swMapsList, swCagesList=swCagesList, swCosmetics=swCosmetics, swHeadsImpBool=swHeadsImpBool, swChalAtt=swChalAtt, swChalAttNum=swChalAttNum, swChalWins=swChalWins, swChalWinsNum=swChalWinsNum, guildDict=guildDict)
+        return render_template('base.html', uuid=uuid, username=username, displayAddon=displayAddon, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rankv3=rankv3, multiplier=multiplier, swStatsDict=swStatsDict, swUnscannedDict=swUnscannedDict, joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources, bwCosmetics=bwCosmetics, userLanguage=userLanguage, userVersion=userVersion, totalKills=totalKills, totalWins=totalWins, totalCoins=totalCoins, giftsMeta=giftsMeta, rewards=rewards, lastPlayed=lastPlayed, lastSeen=lastSeen, lastSeenUnix=lastSeenUnix, swMapsList=swMapsList, swCagesList=swCagesList, swCosmetics=swCosmetics, swHeadsImpBool=swHeadsImpBool, swChalAtt=swChalAtt, swChalAttNum=swChalAttNum, swChalWins=swChalWins, swChalWinsNum=swChalWinsNum, guildDict=guildDict)
     
 # ! Invalid username exception
     else:

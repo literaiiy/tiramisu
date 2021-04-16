@@ -50,18 +50,26 @@
         <div class="col-span-3 align-start">
             <!--- USERNAME --->
             <div id='username' class=' lg:text-3xl'>
-                {% if rank == 'YOUTUBE' %}
-                <b><span class='{{rankColorParsed}}'>[<span class='{{plusColorParsed}}'>{{rank}}</span>]</b></span>
-                {% elif rank != '' %}
-                <b><span class='{{rankColorParsed}}'>[{{rank}}<span class='{{plusColorParsed}}'>{{rankPlusses}}</span>]</b></span>
+                {% if rankv3[0] %}
+                    {% if rankv3[0] == 'YOUTUBE' %}
+                    <b class='{{rankv3[2]}}'>[<b class='{{rankv3[3]}}'>{{rankv3[0]}}</b>]</b>
+                    {% else %}
+                    <b class='{{rankv3[2]}}'>[{{rankv3[0]}}<b class='{{rankv3[3]}}'>{{rankv3[1]}}</b>]</b>
+                    {% endif %}
                 {% endif %}
                 {{username}}
                 {% if guildDict['tag'] %}
                 <b><span class='{{guildDict["tagColor"]}}'> [{{ guildDict['tag'] }}]<span></b>{{displayAddon}}
                 {% endif %}
-                {#% if guildList[0] %}
-                <b><span class='{{ guildList[3] }}'> [{{ guildList[0] }}]<span></b>{{displayAddon}}
-                {% endif %#}
+
+                {#% if rank == 'YOUTUBE' %}
+                <b><span class='{{rankColorParsed}}'>[<span class='{{plusColorParsed}}'>{{rank}}</span>]</b></span>
+                {% elif rank != '' %}
+                <b><span class='{{rankColorParsed}}'>[{{rank}}<span class='{{plusColorParsed}}'>{{rankPlusses}}</span>]</b></span>
+                {% endif %}
+                {{username}#}
+
+
             </div>
 
             <div id='uuid' class=" text-xl font-extralight">
@@ -75,7 +83,10 @@
                 {% else %}
                     <b class='red'>Offline</b>
                         {% if lastSeenUnix < 756864000 %}
-                            - last seen <b>{{lastSeen}}</b> ago playing <b>{{lastPlayed}}</b>
+                            - last seen <b>{{lastSeen}}</b> ago
+                            {% if lastPlayed %}
+                                 playing <b>{{lastPlayed}}</b>
+                            {% endif %}
                         {% endif %}
                 {% endif %}
             </p>
@@ -114,7 +125,7 @@
             <p>
                 <!--- SENIORITY  --->
                 {% if firstLoginUnix > 1357027200 %}
-                <span class="{{ seniority[2] }}">{{ seniority[0] }} <b>Hypixel {{seniority[1]}}</b></span> - Joined {{ joinedAgoText }} ago<br>
+                <span class="{{ seniority[2] }}">{{ seniority[0] }} <b>Hypixel {{seniority[1]}}</b></span> - Joined <b>{{ joinedAgoText }}</b> ago<br>
                 {% endif %}
             
                 <!--- RANK SENIORITY --->
@@ -136,16 +147,16 @@
             <p>
                 <!--- LAST SESSION/LAST LOGOUT/FIRST/LAST LOGIN --->
                 {% if lastSession  %}
-                    Last session: <b>{{ lastSession }}</b><br>
+                    <b>Last session</b>: {{ lastSession }}<br>
                 {% endif %}
                 {% if lastLogoutUnix != 1 %}
-                    Last logout: <b>{{ lastLogout }}</b><br>
+                    <b>Last logout</b>: {{ lastLogout }}<br>
                 {% endif %}
                 {% if lastLoginUnix != 1 %}
-                    Last login: <b>{{ lastLogin }}</b><br>
+                    <b>Last login</b>: {{ lastLogin }}<br>
                 {% endif %}
                 {% if firstLoginUnix != 1 %}
-                    First login: <b>{{ firstLogin }}</b>
+                    <b>First login</b>: {{ firstLogin }}
                 {% else %}
                 ...
                 {% endif %}
@@ -154,40 +165,40 @@
             <p>
                 <!--- SOCIAL MEDIA --->
                 {% if twitter != [] %}
-                    <span class="twitter"><b>Twitter: </b></span><a href='{{ twitter[1] }}'>@{{ twitter[0] }}</a><br>
+                    <i class="fab fa-twitter"></i> <span class="twitter"><b>Twitter: </b></span><a href='{{ twitter[1] }}'>@{{ twitter[0] }}</a><br>
                 {% endif %}
                 {% if instagram != [] %}
-                    <span class="instagram"><b>Instagram: </b></span><a href='{{ instagram[1] }}'>@{{ instagram[0] }}</a><br>
+                    <i class="fab fa-instagram"></i> <span class="instagram"><b>Instagram: </b></span><a href='{{ instagram[1] }}'>@{{ instagram[0] }}</a><br>
                 {% endif %}
                 {% if twitch != [] %}
-                    <span class="twitch"><b>Twitch: </b></span><a href='{{ twitch[1] }}'>@{{ twitch[0] }}</a><br>
+                    <i class="fab fa-twitch"></i> <span class="twitch"><b>Twitch: </b></span><a href='{{ twitch[1] }}'>@{{ twitch[0] }}</a><br>
                 {% endif %}
                 {% if discord != '' and 'discord.gg' not in discord %}
-                    <span class="discord"><b>Discord: </b></span>@{{ discord }}<br>
+                    <i class="fab fa-discord"></i> <span class="discord"><b>Discord: </b></span>@{{ discord }}<br>
                 {% elif 'https://discord.gg' in discord or 'http://discord.gg' in discord %}
-                    <span class="discord"><b>Discord:</b></span> <a href='{{ discord }}'>{{ discord }}</a><br>
+                    <i class="fab fa-discord"></i> <span class="discord"><b>Discord:</b></span> <a href='{{ discord }}'>{{ discord }}</a><br>
                 {% elif 'discord.gg' in discord %}
-                    <span class="discord"><b>Discord: </b></span> <a href='https://{{ discord }}'>{{ discord }}</a><br>
+                    <i class="fab fa-discord"></i> <span class="discord"><b>Discord: </b></span> <a href='https://{{ discord }}'>{{ discord }}</a><br>
                 {% endif %}
                 {% if hypixelForums != [] %}
-                    <span class="hypixelForums"><b>Hypixel Forums:</b></span> <a href='{{ hypixelForums[1] }}'>@{{ hypixelForums[0] }}</a><br>
+                    <img src="https://raw.githubusercontent.com/gist/literaiiy/ef8dcabfe98d9beafd6c303fe2bc4b7f/raw/6a7fccbc4262cc15478f520bd4677c7d6d6484a9/htopixel%20(1).svg" alt="hypixel logo" style='height:1rem;float:left;margin-right:0.5rem;'> <span class="hypixelForums"><b>Hypixel Forums:</b></span> <a href='{{ hypixelForums[1] }}'>@{{ hypixelForums[0] }}</a><br>
                 {% endif %}
                 {% if youtube != [] %}
-                    <span class="youtube"><b>YouTube: </b></span><a href='{{ youtube[1] }}'>{{ youtube[0] }}</a><br>
+                    <i class="fab fa-youtube"></i> <span class="youtube"><b>YouTube: </b></span><a href='{{ youtube[1] }}'>{{ youtube[0] }}</a><br>
                 {% endif %}
             </p>
 
             <!-- LANG/GIFTS/VERSION -->
             <p>
                 <b>Language</b>: {{userLanguage}}<br>
-                <b>Sent</b> {{giftsSent| those}} gifts, <b>received</b> {{giftsReceived| those}}<br>
+                Sent <b>{{giftsMeta['giftsGiven']| those}}</b> gifts (<b>{{giftsMeta['bundlesGiven'] | those}}</b> bundles)<br>
                 Plays on <b>{{userVersion}}</b><br>
             </p>
 
             <!-- REWARDS -->
             <p>
-                <b>Reward streak</b>: {{rewards['streak_current']| those}} (Best: {{rewards['streak_best']| those}}) <br>
-                <b>Rewards claimed</b>: {{rewards['claimed']| those}} ({{rewards['claimed_daily']| those}} daily)
+                <b>Reward streak</b>: {{rewards[0]| those}} (Best: {{rewards[1]| those}}) <br>
+                <b>Rewards claimed</b>: {{rewards[2]| those}} ({{rewards[3]| those}} daily)
             </p>
         </div>
 
@@ -238,10 +249,10 @@
                         </div>
                         <div>
                             <p>
-                                <b class='gold'>{{ swStatsDict['coins']| those }}</b> coins <br>
-                                <b class='dark_green'>{{swStatsDict['cosmetic_tokens']| those}}</b> tokens <br>
-                                <b class='aqua'>{{ swStatsDict['souls']| those }}</b> souls <br>
-                                <b class='light_purple'>{{ swStatsDict['heads']| those }}</b> heads <br>
+                                <span class='gold'><b>{{ swStatsDict['coins']| those }}</b> coins</span><br>
+                                <span class='dark_green'><b>{{swStatsDict['cosmetic_tokens']| those}}</b> tokens</span><br>
+                                <span class='aqua'><b>{{ swStatsDict['souls']| those }}</b> souls</span><br>
+                                <span class='light_purple'><b>{{ swStatsDict['heads']| those }}</b> heads</span><br>
                             </p>
                             <p>
                                 <b>{{swStatsDict['blocks_placed']| those}}</b> blocks placed <br>
@@ -278,7 +289,7 @@
                     <div class="tabForYes pb-5">
                         {% for y, x in gamemodes.items() %}
                             {% if x['games_played'] != 0 %}
-                                <button class="tablinks text-2xl text-gray-600 font-bold" onclick="openCity(event, '{{y}}')" id='defaultOpen'>{{y}}</button>
+                                <button class="tablinks text-2xl text-gray-600 p-1 rounded-lg font-bold bg-gray-200 focus:bg-gray-300 focus:outline-none" onclick="openCity(event, '{{y}}')" id='defaultOpen'>{{y}}</button>
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -361,10 +372,10 @@
             <!-- SW MODE 2-->
             <div class='col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
                 {% if swUnscannedDict['games_played'] > 0 %}
-                    <div class="tabForYes2 pb-5">
+                    <div class="tabForYes2 pb-3">
                         {% for y, x in gamemodes2.items() %}
                             {% if x['games_played'] != 0 %}
-                                <button class="tabgaming text-2xl text-gray-600 font-bold" onclick="tabs2(event, '{{y}}')" id='defaultOpen2'>{{y}}</button>
+                                <button class="tabgaming text-2xl text-gray-600 font-bold p-1 mb-2 rounded-lg bg-gray-200 focus:bg-gray-300 focus:outline-none" onclick="tabs2(event, '{{y}}')" id='defaultOpen2'>{{y}}</button>
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -745,8 +756,6 @@
                         Chart.defaults.global.defaultFontSize = 15
                         var myChartSouls = new Chart(ctx, {
                             type: 'doughnut',
-                            responsive: true,
-                            maintainAspectRatio:true,
                             options: {
                                 legend: {
                                     display:false,
@@ -779,14 +788,14 @@
                 <div class="pt-5">
                     <p>
                         {% if not swMapsList %}
-                        <p>No favorite maps.</p>
+                        No favorite maps.
                         {% else %}
                         <b>Favorite Maps 🗺️:</b> {{swMapsList}}
                         {% endif %}
                     </p>
                     <p>
                         {% if not swCagesList %}
-                        <p>No cages unlocked.</p>
+                        No cages unlocked.
                         {% else %}
                         <b>Cages unlocked 📦:</b> {{swCagesList}}
                         {% endif %}
@@ -906,7 +915,8 @@
             
             <!-- Overall -->
             <div class="col-start-2 col-end-4 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-                <p>
+                <div class="text-3xl font-semibold pb-5">Overall</div>
+                <p class='pt-5'>
                     <b><span class="{{bwOverallStats['prestige'][1]}}">
                         [{{bwOverallStats['level']| those}}☆]
                     </span></b>
@@ -952,7 +962,7 @@
                             <div class='tabsBedWarsModes'>
                                 {% for mode in bwModeStats %}
                                     {% if bwModeStats[mode]['games_played_bedwars'][0] > 0 %}
-                                        <button class="bwTabLinks text-2xl text-gray-600 font-bold leading-tight" onclick="bwTabs(event, '{{mode}}')" id="defaultOpenBw">{{bwTranslateList[mode]}}</button><br>
+                                        <button class="bwTabLinks text-2xl text-gray-600 font-bold leading-none p-1 mb-2 rounded-lg bg-gray-200 focus:bg-gray-300 focus:outline-none" onclick="bwTabs(event, '{{mode}}')" id="defaultOpenBw">{{bwTranslateList[mode]}}</button><br>
                                     {% endif %}
                                 {% endfor %}
                             </div>
@@ -1087,15 +1097,15 @@
                 </div>
             </div>
             
-            <!-- Loot crates -->
+            <!-- Loot chests -->
             <div class="col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-                <div class="text-3xl font-semibold pb-5">Loot Crates</div>
+                <div class="text-3xl font-semibold pb-5">Loot Chests</div>
                 <div class='flex justify-between pt-5'>
                     {% if bwLootBoxes['bedwars_box'] %}
                         <div>
                             <p>
-                                <b>Total loot crates</b>: {{bwLootBoxes['bedwars_box']| those}} <br>
-                                <b>Current loot crates</b>: {{bwLootBoxes['bedwars_boxes'][0]| those}} ({{bwLootBoxes['bedwars_boxes'][1]}}%) <br>
+                                <b>Total loot chests</b>: {{bwLootBoxes['bedwars_box']| those}} <br>
+                                <b>Current loot chests</b>: {{bwLootBoxes['bedwars_boxes'][0]| those}} ({{bwLootBoxes['bedwars_boxes'][1]}}%) <br>
                             </p>
                             <p>
                                 <b><span class="gold">Legendaries</span></b>: {{bwLootBoxes['bedwars_box_legendaries'][0]| those}} ({{bwLootBoxes['bedwars_box_legendaries'][1]}}%) <br>
@@ -1144,7 +1154,7 @@
                             </script>
                         </div>
                     {% else %}
-                        <p>No loot crates.</p>
+                        <p>No loot chests.</p>
                     {% endif %}
                 </div>
             </div>
@@ -1219,7 +1229,7 @@
                                 <b>Emeralds collected</b>: {{bwResCol[3]| those}} ({{bwResColPerc[3]}}%) <br>
                                 <b>Presents collected</b>: {{bwResCol[4]| those}} ({{bwResColPerc[4]}}%) <br>
                             </p>
-                            <p>
+                            <p class='mb-24'>
                                 <b>Total resources collected</b>: {{bwTotalResources| those}} <br>
                                 <b>Total purchased items</b>: {{bwItemsPurchased| those}} <br>
                             </p>
@@ -1276,68 +1286,67 @@
 
         <!-- Guild -->
         {% if guildDict['success'] %}
-            <div class="col-start-2 col-end-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow text-center">
+            <div class="col-start-2 col-end-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow font-semibold text-center">
                 {% if guildDict['success'] %} 
-                    <b>{{guildDict['name']}}</b>
+                    {{guildDict['name']}}
                     {% if guildDict['tag'] %}
                         <b class="{{guildDict['tagColor']}}">[{{guildDict['tag']}}]</b>
                     {% endif %}
                 {% endif %}
             </div>
 
-            <div class='col-start-2 col-end-5 bg-gray-100 rounded-2xl p-6 shadow'>
-                <p>
-                    <b>Description</b>: <i>{{guildDict['description']}}</i><br>
-                    <b>Guild ID</b>: {{guildDict['_id']}}<br>
-                    <b>Date of creation</b>: {{guildDict['created']}}<br>
-                    <b>Preferred games</b>: {{guildDict['preferredGamesTL']}}<br>
-                </p>
-                <p>
-                    Guild Level <b>{{guildDict['level']|floor}}</b> - {{guildDict['levelLeft'] | those}} XP ({{guildDict['levelPercThere']}}%) to {{guildDict['level']|floor +1}}<br>
-                    <b>Total Guild XP</b>: {{guildDict['exp'] | those}} <br>
-                    <b>Lifetime coins</b>: {{guildDict['coinsEver']}}<br>
-                    <b>Total coins</b>: {{guildDict['coins']}}<br>
-                </p>
-                <p>
-                    <b>
-                        {% if guildDict['joinable'] %}
-                            <span class="dark_green">Publicly joinable</span>
-                        {% else %}
-                            <span class="red">Not publicly joinable</span>
-                        {% endif %}<br>
-                        {% if guildDict['publiclyListed'] %}
-                            <span class="dark_green">Publicly listed</span>
-                        {% else %}
-                            <span class="red">Not publicly listed</span>
-                        {% endif %}<br>
-                    </b>
-                </p>
-                {# if guildDict['legacyRanking'] %}
-                    Rank {{guildDict['legacyRanking']}} on leaderboards
-                {% else %}
-                    Not on leaderboards
-                {% endif #}
-                <p>
-                    <b>Achievement winners</b>: {{guildDict['achievements']['WINNERS']}}<br>
-                    <b>Experience kings</b>: {{guildDict['achievements']['EXPERIENCE_KINGS']}}<br>
-                    <b>Online players</b>: {{guildDict['achievements']['ONLINE_PLAYERS']}}<br>
-                </p>
-                <p>
-                    <b>Preferred games</b>: {% if guildDict['preferredGames'] %}{{guildDict['preferredGamesTL']}}{% else %}No preferred games set.{% endif %}
-                </p>
-                    <div class='text-xl'>Guild ranks:</div>
-                    {% for z, a in guildDict['theGuildRanks'].items() %}
-                        <b>{{z}}</b>
-                        {% if a[1] %} <b class='gray'>[{{a[1]}}]</b>{% endif %}
-                        {% if a[0] %} <i>(default)</i>{% endif%}
-                        - created {{a[2]}}<br>
-                    {% endfor %}
-                <p>
-                    <div class='text-xl'>Guild XP earned by game</div>
-                    {% for d, f in guildDict['GXPBG'].items() %}
-                        <b>{{d}}</b>: {{f}}<br>
-                    {% endfor %}
-                </p>
+            <div class='col-start-2 col-end-5 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+                <div class='py-1'>
+                    <p>
+                        <b>Description</b>: <i>{{guildDict['description']}}</i><br>
+                        <b>Guild ID</b>: {{guildDict['_id']}}<br>
+                        <b>Date of creation</b>: {{guildDict['created']}}<br>
+                        <b>Preferred games</b>: {{guildDict['preferredGamesTL']}}<br>
+                    </p>
+                    <p>
+                        Guild Level <b>{{guildDict['level']|floor}}</b> - {{guildDict['levelLeft'] | those}} XP ({{guildDict['levelPercThere']}}%) to {{guildDict['level']|floor +1}}<br>
+                        <b>Total Guild XP</b>: {{guildDict['exp'] | those}} <br>
+                        <b>Lifetime coins</b>: {{guildDict['coinsEver']}}<br>
+                        <b>Total coins</b>: {{guildDict['coins']}}<br>
+                    </p>
+                    <p>
+                        <b>
+                            {% if guildDict['joinable'] %}
+                                <span class="dark_green">Publicly joinable</span>
+                            {% else %}
+                                <span class="red">Not publicly joinable</span>
+                            {% endif %}<br>
+                            {% if guildDict['publiclyListed'] %}
+                                <span class="dark_green">Publicly listed</span>
+                            {% else %}
+                                <span class="red">Not publicly listed</span>
+                            {% endif %}<br>
+                        </b>
+                    </p>
+                    <p>
+                        <b>Achievement winners</b>: {{guildDict['achievements']['WINNERS']}}<br>
+                        <b>Experience kings</b>: {{guildDict['achievements']['EXPERIENCE_KINGS']}}<br>
+                        <b>Online players</b>: {{guildDict['achievements']['ONLINE_PLAYERS']}}<br>
+                    </p>
+                    <p>
+                        <b>Preferred games</b>: {% if guildDict['preferredGames'] %}{{guildDict['preferredGamesTL']}}{% else %}No preferred games set.{% endif %}
+                    </p>
+                </div>
+                <div class='py-2'>
+                        <div class='text-xl font-semibold'>Guild ranks</div>
+                        {% for z, a in guildDict['theGuildRanks'].items() %}
+                            <b>{{z}}</b>
+                            {% if a[1] %} <b class='gray'>[{{a[1]}}]</b>{% endif %}
+                            {% if a[0] %} <i>(default)</i>{% endif%}
+                            - created {{a[2]}}<br>
+                        {% endfor %}
+                </div>
+                <div class='py-2'>
+                        <div class='text-xl font-semibold'>Guild XP earned by game</div>
+                        {% for d, f in guildDict['GXPBG'].items() %}
+                            <b>{{d}}</b>: {{f}}<br>
+                        {% endfor %}
+                </div>
             </div>
             <div class='col-start-5 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
                 <div class="text-3xl font-semibold pb-5">Members</div>
@@ -1356,7 +1365,7 @@
                         <tbody>
                             {% for items in guildDict['members'].items()|list %}
                                 <tr>
-                                    <td><b>{{items[0]}}</b></td>
+                                    <td><b><a href="/p/{{items[0]}}">{{items[0]}}</a></b></td>
                                     {% if items[1]['serverRank'][0] %}
                                         <td><b><span class="{{items[1]['serverRank'][1]}}">[{{items[1]['serverRank'][0]}}<span class='{{items[1]["serverRank"][2]}}'>{{items[1]['serverRank'][3]}}</span>]</span></b></td>
                                     {% else %}
@@ -1373,8 +1382,7 @@
                 </div>
             </div>
         {% else %}
-            <div class="col-start-2 col-end-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow text-center">Guild</div>
-            <div class="col-start-2 col-end-10 bg-gray-100 rounded-2xl p-6 shadow">Player is not in a guild.</div>
+            <div class="col-start-2 col-end-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow font-semibold text-center">No guild</div>
         {% endif %}
         </div>
         <script src='/static/table.js'></script>

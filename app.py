@@ -313,57 +313,57 @@ def compute(q):
 
 # ! Rank
 
-        def getRank():
-        
-            # rank - for staff and youtube
-                        # prefix
-            if 'prefix' in reqAPI['player']:
-                x = reqAPI['player']['prefix']
-                rankParsed = re.sub('[a-z§0-9+\[\]]','',x)
-                rankPlusses = x.count('+')*'+'
-                rankParsedColor = rankColorList[re.sub('[A-Z§+\[\]]','',x)[0]]
-                rankPlussesColor = rankColorList[re.sub('[A-Z§+\[\]]','',x.replace(rankParsedColor,''))]
-                return (rankParsed, rankPlusses, rankParsedColor, rankPlussesColor)
+        def getRank(reqapiplayer):
+            if reqapiplayer:
+                # prefix - for special guys with PIG+++/SLOTH and whatever
+                if 'prefix' in reqapiplayer:
+                    x = reqapiplayer['prefix']
+                    rankParsed = re.sub('[a-z§0-9+\[\]]','',x)
+                    rankPlusses = x.count('+')*'+'
+                    rankTotal = re.sub('[A-Z§+\[\]]','',x)
+                    rankParsedColor = rankColorList[rankTotal[0]]
+                    rankPlussesColor = rankColorList.get(rankTotal.replace(rankTotal[0],''), 'red')
+                    return (rankParsed, rankPlusses, rankParsedColor, rankPlussesColor)
 
-            if 'rank' in reqAPI['player']:
-                x = reqAPI['player']['rank']
-                if 'YOUTUBE' in x: return ('YOUTUBE', '', 'red', 'lightgray')
-                elif 'HELPER' in x: return ('HELPER', '', 'blue', 'blue')
-                elif 'MOD' in x: return ('MOD', '', 'dark_green', 'dark_green')
-                elif 'ADMIN' in x: return ('ADMIN', '', 'red', 'red')
+                # rank - for staff and youtube
+                if 'rank' in reqapiplayer:
+                    x = reqapiplayer['rank']
+                    if 'YOUTUBE' in x: return ('YOUTUBE', '', 'red', 'lightgray')
+                    elif 'HELPER' in x: return ('HELPER', '', 'blue', 'blue')
+                    elif 'MOD' in x: return ('MOD', '', 'dark_green', 'dark_green')
+                    elif 'ADMIN' in x: return ('ADMIN', '', 'red', 'red')
 
-            # monthlyPackageRank - for mvp++
-            if 'monthlyPackageRank' in reqAPI['player']:
-                if reqAPI['player']['monthlyPackageRank'] == 'SUPERSTAR':
-                    return ('MVP', '++', reqAPI['player']['monthlyRankColor'].lower(), reqAPI['player']['rankPlusColor'].lower())
+                # monthlyPackageRank - for mvp++
+                if 'monthlyPackageRank' in reqapiplayer:
+                    if reqapiplayer['monthlyPackageRank'] == 'SUPERSTAR':
+                        return ('MVP', '++', reqapiplayer.get('monthlyRankColor', 'gold').lower(), reqapiplayer.get('rankPlusColor', 'red').lower())
 
-            #packageRank
-            if 'packageRank' in reqAPI['player']:
-                x = reqAPI['player']['packageRank']
-                try:
-                    if x == 'MVP_PLUS': return ('MVP', '+', 'aqua', reqAPI['player']['rankPlusColor'].lower())
-                except: pass
-                if x == 'MVP': return ('MVP', '', 'aqua', '')
-                elif x == 'VIP_PLUS': return ('VIP', '+', 'green', 'gold')
-                elif x == 'VIP': return ('VIP', '', 'green', '')
+                #packageRank - pre EULA MVP/VIP/+/+
+                if 'packageRank' in reqapiplayer:
+                    x = reqapiplayer['packageRank']
+                    try:
+                        if x == 'MVP_PLUS': return ('MVP', '+', 'aqua', reqapiplayer.get('rankPlusColor', 'red').lower())
+                    except: pass
+                    if x == 'MVP': return ('MVP', '', 'aqua', '')
+                    elif x == 'VIP_PLUS': return ('VIP', '+', 'green', 'gold')
+                    elif x == 'VIP': return ('VIP', '', 'green', '')
 
-            # newPackageRank
-            if 'newPackageRank' in reqAPI['player']:
-                x = reqAPI['player']['newPackageRank']
-                try:
-                    if x == 'MVP_PLUS': return ('MVP', '+', 'aqua', reqAPI['player']['rankPlusColor'].lower())
-                except: pass
-                if x == 'MVP': return ('MVP', '', 'aqua', '')
-                elif x == 'VIP_PLUS': return ('VIP', '+', 'green', 'gold')
-                elif x == 'VIP': return ('VIP', '', 'green', '')
+                # newPackageRank - post EULA MVP/VIP/+/+
+                if 'newPackageRank' in reqapiplayer:
+                    x = reqapiplayer['newPackageRank']
+                    if x == 'MVP_PLUS': return ('MVP', '+', 'aqua', reqapiplayer.get('rankPlusColor', 'red').lower())
+                    if x == 'MVP': return ('MVP', '', 'aqua', '')
+                    elif x == 'VIP_PLUS': return ('VIP', '+', 'green', 'gold')
+                    elif x == 'VIP': return ('VIP', '', 'green', '')
 
+            # non rank
             return False
 
-        rankv3 = getRank()
+        rankv3 = getRank(reqAPI['player'])
 
         # # Get from slothpixel.me API
-        rankson = requests.Session().get('https://api.slothpixel.me/api/players/' + uuid)
-        rankjson = rankson.json()
+        # rankson = requests.Session().get('https://api.slothpixel.me/api/players/' + uuid)
+        # rankjson = rankson.json()
 
         # # Set defaults
         # rankNoPlus = ''
@@ -539,16 +539,18 @@ def compute(q):
             
         currentSession = False
         sessionType = ''
+        reqAPIsess = requests.Session().get('https://karma-25.uc.r.appspot.com/player/' + uuid)
+        reqAPIsession = reqAPIsess.json()
         try:
-            if playedOnHypixel and rankjson['online']:
-                reqAPIsess = requests.Session().get('https://karma-25.uc.r.appspot.com/player/' + uuid)
-                reqAPIsession = reqAPIsess.json()
-                if reqAPIsession['success']:
-                    currentSession = gameTranslate(reqAPIsession['status']['gameType'])
-                    try:
-                        sessionType = reqAPIsession['status']['mode'].replace('_',' ').title()
-                    except:
-                        sessionType = 'Lobby'
+            if playedOnHypixel and reqAPIsess['status']['online']:
+                #reqAPIsess = requests.Session().get('https://karma-25.uc.r.appspot.com/player/' + uuid)
+                #reqAPIsession = reqAPIsess.json()
+                #if reqAPIsession['success']:
+                currentSession = gameTranslate(reqAPIsession['status']['gameType'])
+                try:
+                    sessionType = reqAPIsession['status']['mode'].replace('_',' ').title()
+                except:
+                    sessionType = 'Lobby'
         except: pass
 
 # ! Socials
@@ -600,15 +602,25 @@ def compute(q):
             elif list[3] != 0: return str(list[3]) + 'm'
             else: return str(list[4]) + 's'
 
-        userLanguage = reqAPI['player'].get('userLanguage', 'Unspecified').title()
-        userVersion = reqAPI['player'].get('mcVersionRp') if reqAPI['player'].get('mcVersionRp') != None else 'unspecified version'
-        totalKills = rankjson.get('total_kills', 0)
-        totalWins = rankjson.get('total_wins', 0)
-        totalCoins = rankjson.get('total_coins', 0)
-        giftsMeta = reqAPI['player'].get('giftingMeta', {'bundlesGiven':0,'giftsGiven':0})
-        rewards = [reqAPI['player'].get('rewardStreak', 0), reqAPI['player'].get('rewardHighScore', 0), reqAPI['player'].get('totalRewards', 0), reqAPI['player'].get('totalDailyRewards', 0)]
+        try:
+            userLanguage = reqAPI['player'].get('userLanguage', 'Unspecified').title()
+        except: userLanguage = 'Unspecified'
+        try:
+            userVersion = reqAPI['player'].get('mcVersionRp') if reqAPI['player'].get('mcVersionRp') != None else 'unspecified version'
+        except: userVersion = 'unspecified version'
+        totalKills = 'FIX THIS PLEASE'
+        totalWins = 'FIX THIS PLEASE'
+        totalCoins = 'FIX THIS PLEASE'
+        try:
+            giftsMeta = reqAPI['player'].get('giftingMeta', {'bundlesGiven':0,'giftsGiven':0})
+        except: giftsMeta = {'bundlesGiven':0,'giftsGiven':0}
+        try:
+            rewards = [reqAPI['player'].get('rewardStreak', 0), reqAPI['player'].get('rewardHighScore', 0), reqAPI['player'].get('totalRewards', 0), reqAPI['player'].get('totalDailyRewards', 0)]
+        except: rewards = [0,0,0,0]
         #rewards = rankjson.get('rewards', {"streak_current":0,"streak_best":0,"claimed":0,"claimed_daily":0,"tokens":0})
-        lastPlayed = gameTranslate(reqAPI['player'].get('mostRecentGameType', False))
+        try:
+            lastPlayed = gameTranslate(reqAPI['player'].get('mostRecentGameType', False))
+        except: lastPlayed = False
 
         lastSeenUnix = int(time.time()) - lastLogoutUnix
         lastSeen = significantTimeDenom(sec2format(lastSeenUnix))
@@ -1399,10 +1411,9 @@ def compute(q):
 
 # ! Guild PLEASE FIX THIS YOU GOTTA USE 25KARMA API
         guildDict = {'success':False,'selfGuildRank':'Member'}
-        EXP_NEEDED = [100000, 150000, 250000, 500000, 750000, 1000000, 1250000, 1500000, 2000000, 2500000, 2500000, 2500000, 2500000, 2500000, 3000000]
-        # A list of amount of XP required for leveling up in each of the beginning levels (1-15).
-
         def guildLevel(exp):
+            # A list of amount of XP required for leveling up in each of the beginning levels (1-15).
+            EXP_NEEDED = [100000, 150000, 250000, 500000, 750000, 1000000, 1250000, 1500000, 2000000, 2500000, 2500000, 2500000, 2500000, 2500000, 3000000]
             level = 0
 
             for i in range(1000):
@@ -1484,19 +1495,32 @@ def compute(q):
             # Guild members
                 members = {}
                 for m in guildListAPI['members']:
+                    
+                    # Set defaults
                     memberList = {}
-                    # guildRankRaw = ''
-                    # guildRankColor = 'black'
-                    # guildPlusColor = 'red'
-                    # plusses = ''
+                    guildRankRaw = ''
+                    guildRankColor = 'black'
+                    guildPlusColor = 'red'
+                    plusses = ''
+
+                    # Get user clause either from guild API or name API
                     try:
                         user = guildNamesAPI[m['uuid']]
-                    except: 
-                        helpGuildReq = requests.Session().get('https://karma-25.uc.r.appspot.com/name/' + m['uuid'])
-                        user = helpGuildReq.json()['name']
+                    except:
+                        try:
+                            helpGuildReq = requests.Session().get('https://karma-25.uc.r.appspot.com/name/' + m['uuid'])
+                            user = helpGuildReq.json()['name']
+                        except: 
+                            helpGuildReq = requests.Session().get('https://karma-25.uc.r.appspot.com/name/' + m['uuid'])
+                            user = helpGuildReq.json()['name']
 
-                    # else:
-                    #memberList['username'] = user['username']
+                    # username, server rank, join date, rank in guild, GEXP past 7 days
+                    memberList['username'] = user['username']
+                    memberList['serverRank'] = getRank(user)
+                    memberList['joined'] = datetime.fromtimestamp(m['joined']/1000).strftime('%b %d, %Y @ %I:%M:%S %p')
+                    memberList['guildRank'] = m['rank']
+                    memberList['expPastWeek'] = sum(m['expHistory'].values())
+                # old rank
                     # guildRankRaw = user.get('rank',user.get('newPackageRank', user.get('packageRank','')))
                     # plusses = guildRankRaw.count('PLUS')*'+'
                     # guildRankRaw = guildRankRaw.replace('_PLUS','')
@@ -1530,20 +1554,17 @@ def compute(q):
                     #     plusses = guildRankRaw.count('+')*'+'
                     #     guildRankRaw = guildRankRaw.replace('+','')
                     
-                    #if 'NONE' in guildRankRaw: guildRankRaw = ''
-                    
-                    if guildRankRaw not in ['']: guildRankRaw = ''
+                    # if 'NONE' in guildRankRaw: guildRankRaw = ''
 
-                    memberList['serverRank'] = [guildRankRaw, guildRankColor, guildPlusColor, plusses]
-                    memberList['joined'] = datetime.fromtimestamp(m['joined']/1000).strftime('%b %d, %Y @ %I:%M:%S %p')
-                    memberList['guildRank'] = m['rank']
-                    memberList['expPastWeek'] = sum(m['expHistory'].values())
+                    # if guildRankRaw not in ['']: guildRankRaw = ''
+                    # memberList['serverRank'] = [guildRankRaw, guildRankColor, guildPlusColor, plusses]
 
                     # Add player's quests to their memberList
                     try:
                         memberList['quests'] = m['questParticipation']
                     except: memberList['quests'] = 0
                     members[user['username']] = memberList
+                    #guildDict['serverRank'] = getRank(user)
                 
                 # Add the temporary members list to guildDict
                 guildDict['members'] = members

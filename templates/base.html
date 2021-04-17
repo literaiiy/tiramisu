@@ -191,14 +191,16 @@
             <!-- LANG/GIFTS/VERSION -->
             <p>
                 <b>Language</b>: {{userLanguage}}<br>
-                Sent <b>{{giftsMeta['giftsGiven']| those}}</b> gifts (<b>{{giftsMeta['bundlesGiven'] | those}}</b> bundles)<br>
+                {% if giftsMeta['giftsGiven'] %}
+                    Sent <b>{{giftsMeta['giftsGiven']| those}}</b> gifts (<b>{{giftsMeta['bundlesGiven'] | those}}</b> bundles)<br>
+                {% endif %}
                 Plays on <b>{{userVersion}}</b><br>
             </p>
 
             <!-- REWARDS -->
             <p>
-                <b>Reward streak</b>: {{rewards[0]| those}} (Best: {{rewards[1]| those}}) <br>
-                <b>Rewards claimed</b>: {{rewards[2]| those}} ({{rewards[3]| those}} daily)
+                <b>Reward streak</b>: <b>{{rewards[0]| those}}</b> (Best: <b>{{rewards[1]| those}}</b>) <br>
+                <b>Rewards claimed</b>: <b>{{rewards[2]| those}}</b> (<b>{{rewards[3]| those}}</b> daily)
             </p>
         </div>
 
@@ -289,7 +291,7 @@
                     <div class="tabForYes pb-5">
                         {% for y, x in gamemodes.items() %}
                             {% if x['games_played'] != 0 %}
-                                <button class="tablinks text-2xl text-gray-600 p-1 rounded-lg font-bold bg-gray-200 focus:bg-gray-300 focus:outline-none" onclick="openCity(event, '{{y}}')" id='defaultOpen'>{{y}}</button>
+                                <button class="tablinks text-2xl text-gray-600 p-1 rounded-lg font-bold bg-gray-200 focus:bg-gray-300 focus:outline-none hover:bg-gray-300" onclick="openCity(event, '{{y}}')" id='defaultOpen'>{{y}}</button>
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -375,7 +377,7 @@
                     <div class="tabForYes2 pb-3">
                         {% for y, x in gamemodes2.items() %}
                             {% if x['games_played'] != 0 %}
-                                <button class="tabgaming text-2xl text-gray-600 font-bold p-1 mb-2 rounded-lg bg-gray-200 focus:bg-gray-300 focus:outline-none" onclick="tabs2(event, '{{y}}')" id='defaultOpen2'>{{y}}</button>
+                                <button class="tabgaming text-2xl text-gray-600 font-bold p-1 mb-2 rounded-lg bg-gray-200 focus:bg-gray-300 focus:outline-none hover:bg-gray-300" onclick="tabs2(event, '{{y}}')" id='defaultOpen2'>{{y}}</button>
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -928,26 +930,33 @@
                     <b><span class="{{bwOverallStats['prestige'][1]}}">[{{(bwOverallStats['level']+1)| those}}☆]
                     </span></b>
                     <br>
-                {{bwOverallStats['Experience']| those}} experience <br></p>
-                {{bwOverallStats['games_played_bedwars']| those}} games played <br>
-                {{bwOverallStats['K/D']}} K/D<br>
-                {{bwOverallStats['finK/D']}} final K/D<br>
-                {{bwOverallStats['kills_bedwars']| those}} kills<br>
-                {{bwOverallStats['deaths_bedwars']| those}} deaths<br>
-                {{bwOverallStats['final_kills_bedwars']| those}} final kills<br>
-                {{bwOverallStats['final_deaths_bedwars']| those}} final deaths<br>
-                {{bwOverallStats['K/FD']}} kills/final deaths<br>
-                {{bwOverallStats['FK/D']}} final kills/deaths<br>
-                {{bwOverallStats['winstreak']| those}} winstreak<br>
-                {{bwOverallStats['W/L']}} W/L<br>
-                {{bwOverallStats['winrate']}}% win rate<br>
-                {{bwOverallStats['wins_bedwars']| those}} wins<br>
-                {{bwOverallStats['losses_bedwars']| those}} losses<br>
-                {{bwOverallStats['beds_broken_bedwars']| those}} beds broken<br>
-                {{bwOverallStats['beds_lost_bedwars']| those}} beds lost<br>
-                {{bwOverallStats['B/L']}} bed break/lose<br>
-                {{bwOverallStats['_items_purchased_bedwars']| those}} items bought<br>
-                {{bwOverallStats['resources_collected_bedwars']| those}} resources collected<br>
+                    {{bwOverallStats['Experience']| those}} experience <br>
+                </p>
+                <p>
+                    <b>{{bwOverallStats['games_played_bedwars']| those}}</b> games played <br>
+                    <b>{{bwOverallStats['kills_bedwars']| those}}</b> kills<br>
+                    <b>{{bwOverallStats['deaths_bedwars']| those}}</b> deaths<br>
+                    <b>{{bwOverallStats['K/D']}}</b> K/D<br>
+                    <b>{{bwOverallStats['final_kills_bedwars']| those}}</b> final kills<br>
+                    <b>{{bwOverallStats['final_deaths_bedwars']| those}}</b> final deaths<br>
+                    <b>{{bwOverallStats['finK/D']}}</b> final K/D<br>
+                    <b>{{bwOverallStats['K/FD']}}</b> kills/final deaths<br>
+                    <b>{{bwOverallStats['FK/D']}}</b> final kills/deaths<br>
+                </p>
+                <p>
+                    <b>{{bwOverallStats['winstreak']| those}}</b> winstreak<br>
+                    <b>{{bwOverallStats['wins_bedwars']| those}}</b> wins<br>
+                    <b>{{bwOverallStats['losses_bedwars']| those}}</b> losses<br>
+                    <b>{{bwOverallStats['W/L']}}</b> W/L<br>
+                    <b>{{bwOverallStats['winrate']}}%</b> win rate<br>
+                </p>
+                <p>
+                    <b>{{bwOverallStats['beds_broken_bedwars']| those}}</b> beds broken<br>
+                    <b>{{bwOverallStats['beds_lost_bedwars']| those}}</b> beds lost<br>
+                    <b>{{bwOverallStats['B/L']}}</b> bed break/lose<br>
+                    <b>{{bwOverallStats['_items_purchased_bedwars']| those}}</b> items bought<br>
+                    <b>{{bwOverallStats['resources_collected_bedwars']| those}}</b> resources collected<br>
+                </p>
             </div>
 
             <!-- BedWars by mode -->
@@ -962,7 +971,7 @@
                             <div class='tabsBedWarsModes'>
                                 {% for mode in bwModeStats %}
                                     {% if bwModeStats[mode]['games_played_bedwars'][0] > 0 %}
-                                        <button class="bwTabLinks text-2xl text-gray-600 font-bold leading-none p-1 mb-2 rounded-lg bg-gray-200 focus:bg-gray-300 focus:outline-none" onclick="bwTabs(event, '{{mode}}')" id="defaultOpenBw">{{bwTranslateList[mode]}}</button><br>
+                                        <button class="bwTabLinks text-2xl text-gray-600 font-bold leading-none p-1 mb-2 rounded-lg bg-gray-200 focus:bg-gray-300 focus:outline-none hover:bg-gray-300" onclick="bwTabs(event, '{{mode}}')" id="defaultOpenBw">{{bwTranslateList[mode]}}</button><br>
                                     {% endif %}
                                 {% endfor %}
                             </div>
@@ -1367,7 +1376,11 @@
                                 <tr>
                                     <td><b><a href="/p/{{items[0]}}">{{items[0]}}</a></b></td>
                                     {% if items[1]['serverRank'][0] %}
-                                        <td><b><span class="{{items[1]['serverRank'][1]}}">[{{items[1]['serverRank'][0]}}<span class='{{items[1]["serverRank"][2]}}'>{{items[1]['serverRank'][3]}}</span>]</span></b></td>
+                                        {% if items[1]['serverRank'] == 'YOUTUBE' %}
+                                            <td><b class="red">[<b class="white">YOUTUBE</b>]</b></td>
+                                        {% else %}
+                                            <td><b class="{{items[1]['serverRank'][2]}}">[{{items[1]['serverRank'][0]}}<b class="{{items[1]['serverRank'][3]}}">{{items[1]['serverRank'][1]}}</b>]</b></td>
+                                        {% endif %}
                                     {% else %}
                                         <td></td>
                                     {% endif %}

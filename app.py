@@ -30,7 +30,7 @@ SPARKLES = ['903100946468408aaf2462365389059c', '35bb69ce904a4380a03ffd55acbc233
 PENGUINS = ['cfc42e543d834b4f9f7a23c059783ba5']
 swearList = [
     'anal','anus','bastard','bitch','blowjob','buttplug','clitoris','cock','cunt','dick','dildo','fag','fuck','jizz','kkk','nigger','nigga','penis','piss','pussy','scrotum','sex','shit','slut','vagina']
-sweetHeadsRanks = ['HELPER', 'MODERATOR', 'ADMIN', 'OWNER']
+sweetHeadsRanks = ['HELPER', 'MOD', 'ADMIN', 'OWNER']
 # Translate list for rank colors
 rankColorList = {
     '0':'blank',
@@ -161,6 +161,16 @@ def queryt(path):
 @app.route('/<k>', methods=['POST', 'GET'])
 def reddorect(k):
     return redirect(url_for('compute', q=k))
+
+@app.route('/privacy')
+@cache.cached(timeout=60)
+def privacy():
+    return render_template('privacy.html')
+
+@app.route('/about')
+@cache.cached(timeout=60)
+def about():
+    return render_template('about.html')
 
 # ! Filters
 # Thousands separator no decimals

@@ -11,10 +11,11 @@
         
         <!-- Table of Contents -->
         <div class='main row-start-1' style='grid-row-end: 17;'>
+            <div id='overview' class='anchor'></div>
             <nav class="section-nav">
                 <ol>
-                    <li class='font-bold ml-2'><a href="#">Overview</a></li>
-                    <li class='font-bold ml-2'><a href="#skywars">SkyWars</a></li>
+                    <li class='ml-2'><a href="#overview"><b>Overview</b></a></li>
+                    <li class='ml-2'><a href="#skywars"><b>SkyWars</b></a></li>
                         <ul>
                             <li class=""><a href="#skywars-overall">Overall</a></li>
                             <li class=""><a href="#skywars-by-mode">Stats by mode</a></li>
@@ -27,7 +28,7 @@
                             <li class=""><a href="#skywars-challenges">Challenges</a></li>
                             <li class=""><a href="#skywars-cosmetics">Cosmetics</a></li>
                         </ul>
-                    <li class='font-bold ml-2'><a href="#bedwars">BedWars</a></li>
+                    <li class='ml-2'><a href="#bedwars"><b>BedWars</b></a></li>
                         <ul>
                             <li class=""><a href="#bedwars-overall">Overall</a></li>
                             <li class=""><a href="#bedwars-by-mode">Stats by mode</a></li>
@@ -246,10 +247,13 @@
     <!------ PLAYER STATS ------>
 
         <!--- SkyWars --->
-        <div id='skywars' class='col-start-2 col-end-10 bg-gray-100 rounded-2xl text-4xl font-bold p-6 shadow text-center'>SkyWars</div>
+        <div class='col-start-2 col-end-10 bg-gray-100 rounded-2xl text-4xl font-bold p-6 shadow text-center'>
+            <div id='skywars' class='anchor'></div>
+            SkyWars</div>
         <!-- Overall -->
-        <div id='skywars-overall' class="col-start-2 col-end-6 row-span-2 bg-gray-100 p-6 rounded-2xl shadow divide-y divide-gray-300">
-            <div class="text-3xl font-semibold pb-5">Overall</div>
+        <div class="col-start-2 col-end-6 row-span-2 bg-gray-100 p-6 rounded-2xl shadow divide-y divide-gray-300">
+            <div class="text-3xl font-semibold pb-5">
+                <div id='skywars-overall' class='anchor'></div>Overall</div>
             <div class='pt-5'>
                 {% if swBestGame[1]  %}
                     {{ username }} plays <b>{{ swBestGame[1] }}</b> most often, with <b>{{ swBestGame[0]| those}}</b> games played.
@@ -323,9 +327,10 @@
             </div>
         </div>
         <!-- SW MODE -->
-        <div id='skywars-by-mode' class='col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+        <div class='col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
             {% if swUnscannedDict['games_played'] > 0 %}
                 <div class="tabForYes pb-5">
+                    <div id='skywars-by-mode' class='anchor'></div>
                     {% for y, x in gamemodes.items() %}
                         {% if x['games_played'] != 0 %}
                             <button class="tablinks text-2xl text-gray-600 p-1 rounded-lg font-bold bg-gray-200 focus:bg-gray-300 focus:outline-none hover:bg-gray-300" onclick="openCity(event, '{{y}}')" id='defaultOpen'>{{y}}</button>
@@ -484,8 +489,9 @@
             {% endif %}
         </div>
         <!--- HEADS -->
-        <div id='skywars-heads' class='col-start-2 col-end-6 row-span-2 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
-            <div class="text-3xl font-semibold pb-5">Heads</div>
+        <div class='col-start-2 col-end-6 row-span-2 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+            <div class="text-3xl font-semibold pb-5">
+                <div id='skywars-heads' class='anchor'></div>Heads</div>
             <div class='py-5 content-center'>
                 {% if swHeadsImpBool[0] %}
                 <div class='text-2xl'>Overall</div>
@@ -614,8 +620,8 @@
             </div>
         </div>
         <!-- Kills via -->
-        <div id='skywars-kills-via' class='col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
-            <div class="text-3xl font-semibold pb-5">Kills via</div>
+        <div class='col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+            <div class="text-3xl font-semibold pb-5"><div id='skywars-kills-via' class='anchor'></div>Kills via</div>
             <div class="flex justify-between pt-5">
                 {% if swKillTypeList['success'] == True %}
                     <div>
@@ -681,8 +687,8 @@
             </div>
         </div>
         <!-- Time Wasted -->
-        <div id='skywars-time' class="col-start-6 col-end-10 row-span-2 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class='text-3xl font-semibold pb-5'>Time Wasted</div>
+        <div class="col-start-6 col-end-10 row-span-2 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+            <div class='text-3xl font-semibold pb-5'><div id='skywars-time' class='anchor'></div>Time Wasted</div>
             <div class="pt-5">
                 {% if swTimeLists[0][5] != '0s' %}
                     <div class='canvasContainer2'>
@@ -759,8 +765,8 @@
             </div>
         </div>
         <!-- Souls -->
-        <div id='skywars-souls' class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class="text-3xl font-semibold pb-5">Souls</div>
+        <div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+            <div class="text-3xl font-semibold pb-5"><div id='skywars-souls' class='anchor'></div>Souls</div>
             <div class="flex justify-between pt-5">
             {% if swStatsDict['souls'] %}
                 <div>
@@ -812,8 +818,8 @@
             </div>
         </div>
         <!-- Favorite Maps & Cages-->
-        <div id='skywars-maps-cages' class="mapscag col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class="text-3xl font-semibold pb-5">Favorite Maps & Cages</div>
+        <div class="mapscag col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+            <div class="text-3xl font-semibold pb-5"><div id='skywars-maps-cages' class='anchor'></div>Favorite Maps & Cages</div>
             <div class="pt-5">
                 <p>
                     {% if not swMapsList %}
@@ -832,8 +838,8 @@
             </div>
         </div>
         <!-- Angel's Descent -->
-        <div id='skywars-angels-descent' class="col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class="text-3xl font-semibold pb-5">Angel's Descent</div>
+        <div class="col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+            <div class="text-3xl font-semibold pb-5"><div id='skywars-angels-descent' class='anchor'></div>Angel's Descent</div>
             <div class="pt-5">
                 {% if swOpals['shards'] %}
                     {% for a, b in swOpals.items() %}
@@ -858,8 +864,8 @@
             </div>
         </div>
         <!-- Challenges -->
-        <div id='skywars-challenges' class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class="text-3xl font-semibold pb-5">Challenges</div>
+        <div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+            <div class="text-3xl font-semibold pb-5"><div id='skywars-challenges' class='anchor'></div>Challenges</div>
                 <div class='grid grid-cols-2 pt-5'>
                     {% if swChalAtt['overall'] %}
                     <div>
@@ -902,8 +908,8 @@
             </div>
         </div>
         <!-- Cosmetics -->
-        <div id='skywars-cosmetics' class="col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class="text-3xl font-semibold pb-5">Cosmetics</div>
+        <div class="col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+            <div class="text-3xl font-semibold pb-5"><div id='skywars-cosmetics' class='anchor'></div>Cosmetics</div>
             <p class='pt-5'>
             {% if swCosmetics %}
                 {% if 'balloon' in swCosmetics %}
@@ -937,11 +943,12 @@
         </div>
                 
         <!-- BedWars -->
-        <div id='bedwars' class="col-start-2 col-end-10 bg-gray-100 rounded-2xl text-4xl font-bold p-6 shadow text-center">BedWars</div>
+        <div class="col-start-2 col-end-10 bg-gray-100 rounded-2xl text-4xl font-bold p-6 shadow text-center">
+            <div id='bedwars' class='anchor'></div>BedWars</div>
         
         <!-- Overall -->
-        <div id='bedwars-overall' class="col-start-2 col-end-4 bg-gray-100 rounded-2xl p-6 shadow">
-            <div class="text-3xl font-semibold pb-5">Overall</div>
+        <div class="col-start-2 col-end-4 bg-gray-100 rounded-2xl p-6 shadow">
+            <div class="text-3xl font-semibold pb-5"><div id='bedwars-overall' class='anchor'></div>Overall</div>
             <p>
                 <b><span class="{{bwOverallStats['prestige'][1]}}">
                     [{{bwOverallStats['level']| those}}☆]
@@ -984,8 +991,8 @@
         </div>
 
         <!-- BedWars by mode -->
-        <div id='bedwars-by-mode' class="col-start-4 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <!-- <div class="text-3xl font-semibold pb-5">BedWars - by Mode</div> -->
+        <div class="col-start-4 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+            <div class="text-3xl font-semibold pb-5"><div id='bedwars-by-mode' class='anchor'></div>Stats by mode</div>
             {% if bwOverallStats['games_played_bedwars'] > 0 %}
                 <div class='pb-5'>
                     {% if bwMKWList[3] != '' and bwMKWList[4] != '' and bwMKWList[5] != '' %}
@@ -1079,8 +1086,8 @@
         </div>
 
         <!-- Kills via -->
-        <div id='bedwars-kills-via' class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class="text-3xl font-semibold pb-5">Kills via</div>
+        <div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+            <div class="text-3xl font-semibold pb-5"><div id='bedwars-kills-via' class='anchor'></div>Kills via</div>
             <div class='flex justify-between pt-5'>
                 {% if bwOverallStats['kills_bedwars'] %}
                     <div>
@@ -1144,8 +1151,8 @@
         </div>
         
         <!-- Loot chests -->
-        <div id='bedwars-loot-chests' class="col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class="text-3xl font-semibold pb-5">Loot Chests</div>
+        <div class="col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+            <div class="text-3xl font-semibold pb-5"><div id='bedwars-loot-chests' class='anchor'></div>Loot Chests</div>
             <div class='flex justify-between pt-5'>
                 {% if bwLootBoxes['bedwars_box'] %}
                     <div>
@@ -1206,8 +1213,8 @@
         </div>
 
         <!-- Final kills -->
-        <div id='bedwars-final-kills' class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class="text-3xl font-semibold pb-5">Final kills via</div>
+        <div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+            <div class="text-3xl font-semibold pb-5"><div id='bedwars-final-kills' class='anchor'></div>Final kills via</div>
             <div class='pt-5 flex justify-between'>
                 {% if bwOverallStats['final_kills_bedwars'] %}
                     <div>
@@ -1263,8 +1270,8 @@
         </div>
 
         <!-- Resources collected -->
-        <div id='bedwars-resources' class="col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class="text-3xl font-semibold pb-5">Resources collected</div>
+        <div class="col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+            <div class="text-3xl font-semibold pb-5"><div id='bedwars-resources' class='anchor'></div>Resources collected</div>
             <div class='pt-5 flex justify-between'>
                 {% if bwTotalResources %}
                     <div>
@@ -1317,8 +1324,8 @@
         </div>
 
         <!-- Cosmetics -->
-        <div id='bedwars-cosmetics' class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class="text-3xl font-semibold pb-5">Cosmetics</div>
+        <div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+            <div class="text-3xl font-semibold pb-5"><div id='bedwars-cosmetics' class='anchor'></div>Cosmetics</div>
             <div class="pt-5">
                 {% if bwCosmetics %}
                     {% for x, y in bwCosmetics.items() %}
@@ -1332,7 +1339,8 @@
 
         <!-- Guild -->
         {% if guildDict['success'] %}
-            <div id='guild' class="col-start-2 col-end-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow font-semibold text-center">
+            <div class="col-start-2 col-end-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow font-semibold text-center">
+                <div id='guild' class='anchor'></div>
                 {% if guildDict['success'] %}
                     {{guildDict['name']}}
                     {% if guildDict['tag'] %}

@@ -220,8 +220,11 @@ def compute(q):
         username = MojangAPI.get_username(uuid)
 
 # ! Retrieve from API and initialize
+        print('right before requeas ',(time.time() - start_time), ' sec')
         r = requests.Session().get('https://api.hypixel.net/player?key=' + HAPIKEY + '&uuid=' + uuid)
+        print('RIGHT AFTER REQAPI is being gotten. ',(time.time() - start_time), ' sec')
         reqAPI = r.json()
+        print('json deserialized ',(time.time() - start_time), ' sec')
         reqList = {}
         try:
             reqListKarma = reqAPI['player']['karma']
@@ -232,6 +235,7 @@ def compute(q):
         #     hypixelUN = reqAPI['player']['displayname']
         # except:
         #     hypixelUN = username
+        print('reqAPI is done. ',round(time.time() - start_time, 4), ' sec')
 
 # ! Name history
         namehis = MojangAPI.get_name_history(uuid)
@@ -321,6 +325,8 @@ def compute(q):
         namehis[0]['changed_to_at'] = ''
         namehisrev = namehis.reverse()
 
+        print('Name history is done. ',round(time.time() - start_time, 4), ' sec')
+
 # ! Rank
 
         def getRank(reqapiplayer):
@@ -398,6 +404,7 @@ def compute(q):
         #     # Sets rankColorParsed and plusColorParsed to the translated rank color
         #     rankColorParsed = rankColorList[rankColor[0]]
         #     if len(rankColor) > 1: plusColorParsed = rankColorList[rankColor[1]]
+        print('rank is done. ',round(time.time() - start_time, 4), ' sec')
 
 # ! Network Level, XP
         try:
@@ -423,6 +430,8 @@ def compute(q):
         if level >= 150 and level <= 199: multiplier = '(6.5×)'
         if level >= 200 and level <= 249: multiplier = '(7×)'
         if level >= 250: multiplier = '(8×)'
+
+        print('network lvl/xp is done. ',round(time.time() - start_time, 4), ' sec')
 
 # ! Login Times
         firstLogin = ''
@@ -473,6 +482,8 @@ def compute(q):
         namehis[0]['time_between'] =sec2format2ydhms(sec2format(int(time.time()-namehispure[-1]['changed_to_at']/1000)))
         if len(namehis) == 1: namehis[0]['time_between'] = ''
 
+        print('login times are done. ',round(time.time() - start_time, 4), ' sec')
+
 # ! Quests, AP, Achievements
 
         try:
@@ -494,6 +505,8 @@ def compute(q):
                     pass
         except:
             pass
+
+        print('quests/ap/achievements is done. ',round(time.time() - start_time, 4), ' sec')
 
 # ! Title and Seniority
         joinedAgo = 0
@@ -528,6 +541,8 @@ def compute(q):
             #print('boughtPastTime')
         except: pass
 
+        print('title and seniority are done. ',round(time.time() - start_time, 4), ' sec')
+
 # ! Session Data
         def gameTranslate(game):
             try:
@@ -549,19 +564,20 @@ def compute(q):
             
         currentSession = False
         sessionType = ''
-        reqAPIsess = requests.Session().get('https://karma-25.uc.r.appspot.com/player/' + uuid)
-        reqAPIsession = reqAPIsess.json()
+        reqAPIsess = requests.Session().get('https://api.hypixel.net/status?key=' + HAPIKEY + '&uuid=' + uuid)
+        sessionAPI = reqAPIsess.json()
+        print('RIGHT AFTER HYPIXEL API SESSION DATA is being gotten. ',(time.time() - start_time), ' sec')
         try:
-            if playedOnHypixel and reqAPIsess['status']['online']:
-                #reqAPIsess = requests.Session().get('https://karma-25.uc.r.appspot.com/player/' + uuid)
-                #reqAPIsession = reqAPIsess.json()
-                #if reqAPIsession['success']:
-                currentSession = gameTranslate(reqAPIsession['status']['gameType'])
+            if playedOnHypixel and sessionAPI['session']['online']:
+                currentSession = gameTranslate(sessionAPI['session']['gameType'])
                 try:
-                    sessionType = reqAPIsession['status']['mode'].replace('_',' ').title()
+                    sessionType = sessionAPI['session']['mode'].replace('_',' ').title()
                 except:
                     sessionType = 'Lobby'
         except: pass
+        print(playedOnHypixel, sessionAPI['session']['online'])
+
+        print('session data is done. ',round(time.time() - start_time, 4), ' sec')
 
 # ! Socials
         twitter = []
@@ -603,6 +619,8 @@ def compute(q):
                 youtube = [youtube.rsplit('/',1)[1], youtube]
         except: pass
 
+        print('social media is done. ',round(time.time() - start_time, 4), ' sec')
+
 # ! Others
 
         def significantTimeDenom(list):
@@ -634,6 +652,8 @@ def compute(q):
 
         lastSeenUnix = int(time.time()) - lastLogoutUnix
         lastSeen = significantTimeDenom(sec2format(lastSeenUnix))
+
+        print('other user stats are done. ',round(time.time() - start_time, 4), ' sec')
 
 # ! SkyWars
         def weirdDiv(first, second, spaces=4):
@@ -1081,6 +1101,8 @@ def compute(q):
 
         ########## Printing!
 
+        print('SkyWars is done. ',round(time.time() - start_time, 4), ' sec')
+
 # ! BedWars
 
     # Overall Stats
@@ -1419,6 +1441,8 @@ def compute(q):
         if 'activeWoodType' in bwSTATVAR: bwCosmetics['Wood Skin'] = bwSTATVAR['activeWoodType'].replace('woodSkin_','').replace('_',' ').title()
         # return 'fu'
 
+        print('BedWars is done. ',round(time.time() - start_time, 4), ' sec')
+
 # ! Guild PLEASE FIX THIS YOU GOTTA USE 25KARMA API
         guildDict = {'success':False,'selfGuildRank':'Member'}
         def guildLevel(exp):
@@ -1453,6 +1477,7 @@ def compute(q):
         if playedOnHypixel:
             variable_name = requests.Session().get('https://karma-25.uc.r.appspot.com/guild/' + uuid)
             greqAPI = variable_name.json()
+            print('RIGHT AFTER GUILD DATA is being gotten. ',(time.time() - start_time), ' sec')
             if greqAPI['success']:
                 guildListAPI = greqAPI.get('guild', False)
                 guildNamesAPI = greqAPI.get('names', False)
@@ -1581,6 +1606,8 @@ def compute(q):
                 guildDict['selfGuildRank'] = guildDict['members'][username].get('guildRank','Member')
                 guildDict['success'] = True
 
+        print('Guild is done. ',round(time.time() - start_time, 4), ' sec')
+
 # ! Render base.html        
         displayAddon = ''
         if uuid in ADMINS:
@@ -1626,68 +1653,9 @@ def compute(q):
 
 #     else: return render_template('friends.html',hasFriends=False)
 
-# ! Friends list (Deprecated)
+# ! Friends list (Deprecated & removed)
 
-    # @app.route('/f/<q>', methods=['POST', 'GET'])
-    # @cache.cached(timeout=50)
-    # def friends(q):
-    #     start_time = time.time()
-    #     def uuid2un(uuid):
-    #         session = FuturesSession()
-    #         robbb = session.get('http://sessionserver.mojang.com/session/minecraft/profile/' + uuid)
-    #         response_one = robbb.result()
-    #         return response_one
-
-    #         #return robbb.json()['name']
-
-    #     friendUUID = ''
-    #     friendListList = []
-    #     if len(q) == 32 or len(q) == 36:
-    #         q = q.replace('-','')
-    #         try:
-    #             if q == MojangAPI.get_uuid(MojangAPI.get_username(q)):
-    #                 username = MojangAPI.get_username(q)
-    #                 uuid = q
-    #             else:
-    #                 return "That UUID doesn't exist. Try again with a different UUID."
-    #         except:
-    #             return "This UUID doesn't exist. Try again with a different UUID."
-
-    #     else:
-    #         uuid = MojangAPI.get_uuid(q)
-    #         username = MojangAPI.get_username(MojangAPI.get_uuid(q))
-
-    #     try:
-    #         r = requests.Session().get('https://api.hypixel.net/friends?key=' + HAPIKEY + '&uuid=' + uuid)
-    #         freqAPI = r.json()
-            
-    #         if freqAPI['records'] == ['']:
-    #             return "This person hasn't friended anyone on the Hypixel Network yet!"
-    #         else:
-    #             friendList = freqAPI['records']
-                
-    #             for friend in friendList:
-    #                 try:
-    #                     if friend['uuidSender'] == uuid:
-    #                         friendListList.append({'name':(friend['uuidReceiver']), 'date':friend['started'], 'initiated':friend['uuidSender'], 'duration':time.time()-friend['started']/1000})
-    #                     elif friend['uuidReceiver'] == uuid:
-    #                         friendListList.append({'name':(friend['uuidSender']), 'date':friend['started'], 'initiated':friend['uuidSender'], 'duration':time.time()-friend['started']/1000})
-    #                 except: pass
-
-    #     except:
-    #         if len(q) < 3 or len(q) > 16:
-    #             return "A Minecraft username has to be between 3 and 16 characters (with a few special exceptions), and can only contain alphanumeric characters and underscores."
-    #         for letter in q:
-    #             if letter not in 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890_':
-    #                 return 'Username contains invalid characters. A Minecraft username can only contain alphanumeric characters and underscores.'
-    #         for swear in swearList:
-    #             if swear in q:
-    #                 return "Username might be blocked by Mojang- username contains one of the following: \nhttps://paste.ee/p/RYo2C. \nIf this is a derivative of the Scunthorpe problem, sorry about that."
-    #         return render_template('user404.html')
-    #     print("--- %s seconds ---" % (time.time() - start_time))    
-    #     return render_template('friends.html', username=username, uuid=uuid, friendListList=friendListList)
-
-# ! Actual Guild (Deprecated)
+# ! Actual Guild (Deprecated & removed)
 
 # ! Error handling
 @app.errorhandler(404)

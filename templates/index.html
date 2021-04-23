@@ -25,72 +25,85 @@
 					<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"width="24" height="24"viewBox="0 0 50 50"style=" fill:#9FA6B2;"><path d="M 21 3 C 11.621094 3 4 10.621094 4 20 C 4 29.378906 11.621094 37 21 37 C 24.710938 37 28.140625 35.804688 30.9375 33.78125 L 44.09375 46.90625 L 46.90625 44.09375 L 33.90625 31.0625 C 36.460938 28.085938 38 24.222656 38 20 C 38 10.621094 30.378906 3 21 3 Z M 21 5 C 29.296875 5 36 11.703125 36 20 C 36 28.296875 29.296875 35 21 35 C 12.703125 35 6 28.296875 6 20 C 6 11.703125 12.703125 5 21 5 Z"></path></svg>
 				</button>
 			</form>
-			<div class="grid grid-cols-8">
-				<button class='h-auto col-start-2 col-span-2 focus:outline-none hover:text-gray-600'><a href="/about">About</a></button>
-				<button class='col-span-2 focus:outline-none hover:text-gray-600'>More text</button>
-				<button class='my-6 mx-2 col-start-7 focus:outline-none bg-gray-200 rounded-xl hover:bg-gray-300'>🏁</button>
-				<button class="my-6 mx-2 focus:outline-none bg-gray-200 rounded-xl hover:bg-gray-300">🌞</button>
+			<div class="flex flex-row-reverse">
+				<button class='my-5 mx-2 px-5 col-start-7 focus:outline-none bg-gray-200 rounded-xl hover:bg-gray-300'><i class="fas fa-flag-usa"></i></button>
+				<button class="my-5 mx-2 px-5 focus:outline-none bg-gray-200 rounded-xl hover:bg-gray-300"><i class="far fa-sun"></i></button>
 			</div>
 		</div>
 	</head>
 
 	{% block content %}
-	<main class='flex-grow'>
-		<h2>Player Counts</h2>
-		<table id='table_id' class='tabbol'>
-			<thead>
-				<tr>
-					<th>#</th>
-					<th>Game</th>
-					<th>Player Count</th>
-					<th>Portion</th>
-				</tr>
-			</thead>
-			<tbody>
-				<td><span class='red'><b></b></span></td>
-				<td><span class='red'>Total Players</span></td>
-				<td><span class='red'>{{ '{0:,}'.format(totalPlayers) }}</span></td>
-				{% for dictitem in gameDict %}
-				<tr>
-					{% if dictitem['game'] == 'Main Lobby' %}
-						<td><span class='dark_red'><b>{{ dictitem['pos'] }}</b></span></td>
-						<td><span class='dark_red'>{{ dictitem['game'] }}</span></td>
-						<td><span class='dark_red'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
-						<td><span class='dark_red'>{{ (100*dictitem['playerCount'] / totalPlayers)|round(3) }}%</span></td>
-					{% elif dictitem['game'] == 'Watching a replay' %}
-						<td><span class='cyan'><b>{{ dictitem['pos'] }}</b></span></td>
-						<td><span class='cyan'>{{ dictitem['game'] }}</span></td>
-						<td><span class='cyan'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
-						<td><span class='cyan'>{{ (100*dictitem['playerCount'] / totalPlayers)|round(3) }}%</span></td>
-					{% elif dictitem['game'] == 'In limbo' %}
-						<td><span class='dark_green'><b>{{ dictitem['pos'] }}</b></span></td>
-						<td><span class='dark_green'>{{ dictitem['game'] }}</span></td>
-						<td><span class='dark_green'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
-						<td><span class='dark_green'>{{ (100*dictitem['playerCount'] / totalPlayers)|round(3) }}%</span></td>
-					{% elif dictitem['game'] == 'Idle' %}
-						<td><span class='gold'><b>{{ dictitem['pos'] }}</b></span></td>
-						<td><span class='gold'>{{ dictitem['game'] }}</span></td>
-						<td><span class='gold'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
-						<td><span class='gold'>{{ (100*dictitem['playerCount'] / totalPlayers)|round(3) }}%</span></td>
+		<main class='flex-grow grid grid-cols-10 gap-4'>
+			<div class='col-start-2 col-end-10 bg-gray-100 rounded-2xl text-4xl font-bold p-6 shadow text-center'>Welcome to tiramisu!</div>
+			<div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+				<div class="text-3xl font-semibold pb-5">Player Counts</div>
+				<div class='pt-5'>
+					{% if totalPlayers != -1 %}
+						<table id='playercount' class='hover compact'>
+							<thead>
+								<tr>
+									<th>#</th>
+									<th>Game</th>
+									<th>Player Count</th>
+									<th>% share</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><span class='red'><b></b></span></td>
+									<td><span class='red'>Total Players</span></td>
+									<td><span class='red'>{{ '{0:,}'.format(totalPlayers) }}</span></td>
+									<td></td>
+								</tr>
+								{% for dictitem in gameDict %}
+								<tr>
+									{% if dictitem['game'] == 'Main Lobby' %}
+										<td><span class='dark_red'><b>{{ dictitem['pos'] }}</b></span></td>
+										<td><span class='dark_red'>{{ dictitem['game'] }}</span></td>
+										<td><span class='dark_red'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
+										<td><span class='dark_red'>{{ (100*dictitem['playerCount'] / totalPlayers)|round(3) }}%</span></td>
+									{% elif dictitem['game'] == 'Watching a replay' %}
+										<td><span class='cyan'><b>{{ dictitem['pos'] }}</b></span></td>
+										<td><span class='cyan'>{{ dictitem['game'] }}</span></td>
+										<td><span class='cyan'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
+										<td><span class='cyan'>{{ (100*dictitem['playerCount'] / totalPlayers)|round(3) }}%</span></td>
+									{% elif dictitem['game'] == 'In limbo' %}
+										<td><span class='dark_green'><b>{{ dictitem['pos'] }}</b></span></td>
+										<td><span class='dark_green'>{{ dictitem['game'] }}</span></td>
+										<td><span class='dark_green'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
+										<td><span class='dark_green'>{{ (100*dictitem['playerCount'] / totalPlayers)|round(3) }}%</span></td>
+									{% elif dictitem['game'] == 'Idle' %}
+										<td><span class='gold'><b>{{ dictitem['pos'] }}</b></span></td>
+										<td><span class='gold'>{{ dictitem['game'] }}</span></td>
+										<td><span class='gold'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
+										<td><span class='gold'>{{ (100*dictitem['playerCount'] / totalPlayers)|round(3) }}%</span></td>
+									{% else %}
+										<td>{{ dictitem['pos'] }}</td>
+										<td>{{ dictitem['game'] }}</td>
+										<td>{{ '{0:,}'.format(dictitem['playerCount']) }}</td>
+										<td>{{ (100*dictitem['playerCount'] / totalPlayers)|round(3) }}%</td>
+									{% endif %}
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
 					{% else %}
-						<td>{{ dictitem['pos'] }}</td>
-						<td>{{ dictitem['game'] }}</td>
-						<td>{{ '{0:,}'.format(dictitem['playerCount']) }}</td>
-						<td>{{ (100*dictitem['playerCount'] / totalPlayers)|round(3) }}%</td>
+					<p class='pt-5'>Can't load player data at the moment. Try again later.</p>
 					{% endif %}
-				</tr>
-				{% endfor %}
-			</tbody>
-		</table>
-		<h2>Welcome to <b>tiramisu</b>!</h2>
-		<p>Welcome to tiramisu. Lorem ipsum some dumb BS here. I was made by floraphile in 2021, something about Visual Studio Code, which is a software created by Microsoft somewhere after 2015. Wikipedia might have a good article on it, but I'm not sure, because I didn't look it up. This is just filler text. I don't even know if this is going to wrap correctly.</p>
-	</main>
+				</div>
+			</div>
+			<div class="col-start-6 col-end-10 bg-gray-100 rounded-2xl p-6 shadow">
+				<p>Hey. This is another stupid div that is also stupid. This is some more text lorem ipsum. I love SAT Practice; I will continue with it for the rest of my life. Just kidding. I should probably generate some Lorem Ipsum text instead of wasting my time, so here it goes. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vulputate arcu at orci bibendum, et ornare tortor suscipit. Donec quis bibendum arcu. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent sed libero est. Aliquam sollicitudin venenatis neque. Sed est elit, mattis sit amet venenatis eu, vestibulum eget ligula. Maecenas diam urna, pharetra at auctor vitae, pharetra vel est. Duis iaculis dolor semper, accumsan tortor a, hendrerit massa. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nullam maximus justo mauris, in dignissim magna eleifend in. Nam interdum arcu eu dolor lacinia, vitae imperdiet nunc laoreet. Suspendisse eget euismod nibh. Donec ut erat bibendum, varius sapien at, rhoncus felis. In diam lorem, vulputate quis placerat sit amet, luctus eget risus. Fusce quis ex justo.</p>
+				<p>Integer cursus pretium nisl nec rutrum. Sed scelerisque iaculis tincidunt. Phasellus id venenatis risus. Donec pellentesque est sit amet viverra tristique. Cras faucibus eget orci vitae tempor. Vivamus at diam sed ex aliquam luctus. Nam malesuada, enim sit amet rhoncus rhoncus, velit nibh egestas ligula, ac blandit eros magna sit amet risus. In ac lacus consequat, hendrerit nunc nec, mollis massa. Cras fermentum quis mauris eget accumsan. In consequat diam mauris, ac elementum lorem efficitur at. Cras vestibulum est turpis, id ullamcorper est porttitor eget.</p>
+			</div>
+			<script src='/static/table.js'></script>
+		</main>
 	{% endblock %}
 
 	{% block footer %}
 	<footer class='w-full bg-gray-100 shadow-md mt-5 py-8'>
 		<p>tiramisu <b>v0.4.0.4δ "delta" (Testing Phase)</b> - April 2, 2021 · Flask <b>v1.1.2</b> · Python <b>v3.7.9</b><p>
-		<p>Copyright © 2021 <a class='no-underline text-gray-500' href='/p/floraphile'>floraphile</a>. All rights reserved. <a class='no-underline text-gray-500' href="/privacy">Privacy Policy</a>. All times are in PDT.</p>
+		<p>Copyright © 2021 <a class='no-underline text-gray-500' href='/p/floraphile'>literaiiy</a>. All rights reserved. <a class='no-underline text-gray-500' href="/privacy">Privacy Policy</a>. Powered by <a class='no-underline text-gray-500' href="https://heroku.com">Heroku</a>. Times in UTC.</p>
 	</footer>
 	{% endblock %}
 </body>

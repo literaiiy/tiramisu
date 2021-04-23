@@ -100,3 +100,4 @@ table.dataTable,table.dataTable th,table.dataTable td{box-sizing:content-box}
 }@media screen and (max-width:640px){.dataTables_wrapper .dataTables_length,.dataTables_wrapper .dataTables_filter{float:none;text-align:center}
 .dataTables_wrapper .dataTables_filter{margin-top:.5em}
 }
+thead, th {text-align: left;}

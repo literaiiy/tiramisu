@@ -10,12 +10,16 @@ import math
 import time
 import re
 import os
+import logging
+#import httpx
 #from itertools import cycle, islice
 #from num2words import num2words
 import requests_cache
 #from flask_sqlalchemy import SQLAlchemy
 from flask_caching import Cache
 #from livereload import Server
+from requests.adapters import HTTPAdapter
+from requests.packages.urllib3.util.retry import Retry
 
 # ! Initialization & Constants
 app = Flask(__name__)
@@ -31,6 +35,7 @@ PENGUINS = ['cfc42e543d834b4f9f7a23c059783ba5']
 swearList = [
     'anal','anus','bastard','bitch','blowjob','buttplug','clitoris','cock','cunt','dick','dildo','fag','fuck','jizz','kkk','nigger','nigga','penis','piss','pussy','scrotum','sex','shit','slut','vagina']
 sweetHeadsRanks = ['HELPER', 'MOD', 'ADMIN', 'OWNER']
+
 # Translate list for rank colors
 rankColorList = {
     '0':'blank',
@@ -49,7 +54,6 @@ rankColorList = {
     'd':'light_purple',
     'e':'yellow',
     'f':'white'}
-
 dumbassHypixelRanks = {
     'VIP':['green','gold'],
     'HELPER':['blue',''],
@@ -62,8 +66,6 @@ dumbassHypixelRanks = {
     'EVENTS':['gold','']
 }
 
-requests_cache.install_cache('test_cache', backend='sqlite', expire_after=30)
-
 username = ''
 uuid = ''
 
@@ -73,12 +75,20 @@ config = {
      'CACHE_DIR': '/tmp',  # Flask-Caching directory
     "CACHE_DEFAULT_TIMEOUT": 60
 }
-# tell Flask to use the above defined config
-app.config.from_mapping(config)
-cache = Cache(app)
 
-# requests_cache.install_cache('demo_cache', expire_after=3)
-requests_cache.install_cache('requests_cache', expire_after=3)
+# some config stuff
+app.config.from_mapping(config)
+#cache = Cache(app)
+logging.basicConfig(level=logging.DEBUG)
+#requests_cache.install_cache('requests_cache', expire_after=3)
+#requests_cache.install_cache('test_cache', backend='sqlite', expire_after=30)
+
+# reqses
+headers = {"User-Agent":"Mozilla/5.0 (X11; U; Linux i686 (x86_64); en-GB; rv:1.9.0.1) Gecko/2008070206 Firefox/3.0.1"}
+reqses = requests.Session()
+reqses.trust_env = False
+retries = Retry(total=5, backoff_factor=0.1, status_forcelist=[ 429, 500, 502, 503, 504 ])
+reqses.mount('http://', HTTPAdapter(max_retries=retries))
 
 class searchBar():
     query = TextField("Search...")
@@ -93,7 +103,10 @@ def favicon():
 def queryt(path):
     
     gameDict = []
-    hs = requests.Session().get('https://api.hypixel.net/gameCounts?key=' + HAPIKEY)
+    try:
+        hs = reqses.get('https://api.hypixel.net/gameCounts?key=' + HAPIKEY)
+    except:
+        return render_template('index.html', gameDict={}, totalPlayers=-1)
     hsjaysonn = hs.json()
     gameCount = hsjaysonn['games']
     gameList = [
@@ -148,7 +161,7 @@ def queryt(path):
             gameDict.append({'game':item[0],'playerCount':0,})
 
     gameDict = sorted(gameDict, reverse=True, key=lambda k: k['playerCount'])
-    for enum, game in enumerate(gameDict):
+    for enum, game in enumerate(gameDict, 1):
         game['pos'] = enum
     form = searchBar()
     if request.method == 'POST':
@@ -163,14 +176,9 @@ def reddorect(k):
     return redirect(url_for('compute', q=k))
 
 @app.route('/privacy')
-@cache.cached(timeout=60)
+#@cache.cached(timeout=0)
 def privacy():
     return render_template('privacy.html')
-
-@app.route('/about')
-@cache.cached(timeout=60)
-def about():
-    return render_template('about.html')
 
 # ! Filters
 # Thousands separator no decimals
@@ -221,7 +229,9 @@ def compute(q):
 
 # ! Retrieve from API and initialize
         print('right before requeas ',(time.time() - start_time), ' sec')
-        r = requests.Session().get('https://api.hypixel.net/player?key=' + HAPIKEY + '&uuid=' + uuid)
+        try:
+            r = reqses.get('https://api.hypixel.net/player?key=' + HAPIKEY + '&uuid=' + uuid)
+        except: return render_template('404.html', error=500, text='API timeout', desc='The Hypixel API timed out.'), 500
         print('RIGHT AFTER REQAPI is being gotten. ',(time.time() - start_time), ' sec')
         reqAPI = r.json()
         print('json deserialized ',(time.time() - start_time), ' sec')
@@ -378,7 +388,7 @@ def compute(q):
         rankv3 = getRank(reqAPI['player'])
 
         # # Get from slothpixel.me API
-        # rankson = requests.Session().get('https://api.slothpixel.me/api/players/' + uuid)
+        # rankson = reqses.get('https://api.slothpixel.me/api/players/' + uuid)
         # rankjson = rankson.json()
 
         # # Set defaults
@@ -564,7 +574,7 @@ def compute(q):
             
         currentSession = False
         sessionType = ''
-        reqAPIsess = requests.Session().get('https://api.hypixel.net/status?key=' + HAPIKEY + '&uuid=' + uuid)
+        reqAPIsess = reqses.get('https://api.hypixel.net/status?key=' + HAPIKEY + '&uuid=' + uuid)
         sessionAPI = reqAPIsess.json()
         print('RIGHT AFTER HYPIXEL API SESSION DATA is being gotten. ',(time.time() - start_time), ' sec')
         try:
@@ -1474,13 +1484,16 @@ def compute(q):
             return [1000, 3000000]
             # This should never happen...
 
+        print(playedOnHypixel)
         if playedOnHypixel:
-            variable_name = requests.Session().get('https://karma-25.uc.r.appspot.com/guild/' + uuid)
+            variable_name = reqses.get('https://karma-25.uc.r.appspot.com/guild/' + uuid)
             greqAPI = variable_name.json()
             print('RIGHT AFTER GUILD DATA is being gotten. ',(time.time() - start_time), ' sec')
+            #print(greqAPI)
+            guildListAPI = greqAPI.get('guild', False)
+            guildNamesAPI = greqAPI.get('names', False)
+
             if greqAPI['success']:
-                guildListAPI = greqAPI.get('guild', False)
-                guildNamesAPI = greqAPI.get('names', False)
 
             # Guild info
                 # Gets the automatable ones
@@ -1527,83 +1540,51 @@ def compute(q):
                 guildDict['levelLeft'] = round(guildLevelTempVar[0] % 1 * guildLevelTempVar[1],2)
                 guildDict['levelPercThere'] = round(100*(guildLevelTempVar[0] % 1),2)
 
+                print('guild info done. ', (time.time() - start_time), ' sec')
+
             # Guild members
-                members = {}
-                for m in guildListAPI['members']:
+                # members = {}
+                # for m in guildListAPI['members']:
                     
-                    # Set defaults
-                    memberList = {}
-                    guildRankRaw = ''
-                    guildRankColor = 'black'
-                    guildPlusColor = 'red'
-                    plusses = ''
+                #     # Set defaults
+                #     memberList = {}
+                #     guildRankRaw = ''
+                #     guildRankColor = 'black'
+                #     guildPlusColor = 'red'
+                #     plusses = ''
 
-                    # Get user clause either from guild API or name API
-                    try:
-                        user = guildNamesAPI[m['uuid']]
-                    except:
-                        try:
-                            helpGuildReq = requests.Session().get('https://karma-25.uc.r.appspot.com/name/' + m['uuid'])
-                            user = helpGuildReq.json()['name']
-                        except: 
-                            helpGuildReq = requests.Session().get('https://karma-25.uc.r.appspot.com/name/' + m['uuid'])
-                            user = helpGuildReq.json()['name']
+                #     # Get user clause either from guild API or name API
+                #     try:
+                #         user = guildNamesAPI[m['uuid']]
+                #         print('user is cached. ', (time.time() - start_time), ' sec')
+                #     except:
+                #         try:
+                #             helpGuildReq = reqses.get('https://karma-25.uc.r.appspot.com/name/' + m['uuid'])
+                #             user = helpGuildReq.json()['name']
+                #         except: 
+                #             helpGuildReq = reqses.get('https://karma-25.uc.r.appspot.com/name/' + m['uuid'])
+                #             user = helpGuildReq.json()['name']
+                #         print('user is not cached. ', (time.time() - start_time), ' sec')
 
-                    # username, server rank, join date, rank in guild, GEXP past 7 days
-                    memberList['username'] = user['username']
-                    memberList['serverRank'] = getRank(user)
-                    memberList['joined'] = datetime.fromtimestamp(m['joined']/1000).strftime('%b %d, %Y @ %I:%M:%S %p')
-                    memberList['guildRank'] = m['rank']
-                    memberList['expPastWeek'] = sum(m['expHistory'].values())
-                # old rank
-                    # guildRankRaw = user.get('rank',user.get('newPackageRank', user.get('packageRank','')))
-                    # plusses = guildRankRaw.count('PLUS')*'+'
-                    # guildRankRaw = guildRankRaw.replace('_PLUS','')
+                #     # username, server rank, join date, rank in guild, GEXP past 7 days
+                #     memberList['username'] = user['username']
+                #     memberList['joined'] = datetime.fromtimestamp(m['joined']/1000).strftime('%b %d, %Y @ %I:%M:%S %p')
+                #     memberList['guildRank'] = m['rank']
+                #     memberList['expPastWeek'] = sum(m['expHistory'].values())
 
-                    # for x, y in dumbassHypixelRanks.items():
-                    #     if x in guildRankRaw:
-                    #         guildRankColor = y[0]
-                    #         if y[1]:
-                    #             guildPlusColor = y[1]
-
-                    # if 'YOUTUBE' in guildRankRaw:
-                    #     guildRankRaw = ''
-
-                    # elif 'MVP' in guildRankRaw:
-                    #     guildRankColor = 'aqua'; guildPlusColor = user.get('rankPlusColor', 'red').lower()
-
-                    # if 'monthlyPackageRank' in user:
-                    #     if user['monthlyPackageRank'] != 'NONE':
-                    #         guildRankRaw = 'MVP'
-                    #         guildRankColor = user.get('monthlyRankColor','gold').lower()
-                    #         guildPlusColor = user.get('rankPlusColor', 'red').lower()
-                    #         plusses = '++'
-                            
-                    # if 'prefix' in user:
-                    #     guildRankRaw = re.sub('[a-z§0-9\[\]]','',user['prefix'])
-                    #     guildPossibleRankColors = re.sub('[A-Z+§\[\]]','',user['prefix'])
-                    #     guildRankColor = rankColorList[guildPossibleRankColors[0]]
-                    #     try:
-                    #         guildPlusColor = rankColorList[guildPossibleRankColors[1]]
-                    #     except: guildPlusColor = guildRankColor
-                    #     plusses = guildRankRaw.count('+')*'+'
-                    #     guildRankRaw = guildRankRaw.replace('+','')
-                    
-                    # if 'NONE' in guildRankRaw: guildRankRaw = ''
-
-                    # if guildRankRaw not in ['']: guildRankRaw = ''
-                    # memberList['serverRank'] = [guildRankRaw, guildRankColor, guildPlusColor, plusses]
-
-                    # Add player's quests to their memberList
-                    try:
-                        memberList['quests'] = m['questParticipation']
-                    except: memberList['quests'] = 0
-                    members[user['username']] = memberList
-                    #guildDict['serverRank'] = getRank(user)
+                #     try:
+                #         memberList['quests'] = m['questParticipation']
+                #     except: memberList['quests'] = 0
+                #     members[user['username']] = memberList
+                #     #guildDict['serverRank'] = getRank(user)
+                #     print('member: ',memberList['username'],' done.', (time.time() - start_time), ' sec')
                 
-                # Add the temporary members list to guildDict
-                guildDict['members'] = members
-                guildDict['selfGuildRank'] = guildDict['members'][username].get('guildRank','Member')
+                # # Add the temporary members list to guildDict
+                # guildDict['members'] = members
+            
+            # remnants
+                for i in guildListAPI['members']:
+                    if i['uuid'] == uuid: guildDict['selfGuildRank'] = i['rank'] 
                 guildDict['success'] = True
 
         print('Guild is done. ',round(time.time() - start_time, 4), ' sec')
@@ -1648,7 +1629,7 @@ def compute(q):
 #     def friends(q):
 #     friendsList = {}
 #     if playedOnHypixel:
-#         friendsReq = requests.Session().get('https://karma-25.uc.r.appspot.com/friends/' + uuid)
+#         friendsReq = reqses.get('https://karma-25.uc.r.appspot.com/friends/' + uuid)
 #         freqAPI = friendsreq.json()['']
 
 #     else: return render_template('friends.html',hasFriends=False)

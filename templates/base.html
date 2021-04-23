@@ -21,7 +21,7 @@
                             <li class=""><a href="#skywars-by-mode">Stats by mode</a></li>
                             <li class=""><a href="#skywars-heads">Heads</a></li>
                             <li class=""><a href="#skywars-kills-via">Kills via</a></li>
-                            <li class=""><a href="#skywars-time">Time Wasted</a></li>
+                            <li class=""><a href="#skywars-time">Time Played</a></li>
                             <li class=""><a href="#skywars-souls">Souls</a></li>
                             <li class=""><a href="#skywars-maps-cages">Fav. Maps & Cages</a></li>
                             <li class=""><a href="#skywars-angels-descent">Angel's Descent</a></li>
@@ -35,10 +35,10 @@
                             <li class=""><a href="#bedwars-kills-via">Kills via</a></li>
                             <li class=""><a href="#bedwars-loot-chests">Loot Chests</a></li>
                             <li class=""><a href="#bedwars-final-kills">Final kills via</a></li>
-                            <li class=""><a href="#bedwars-resources">Resources collected</a></li>
+                            <li class=""><a href="#bedwars-resources">Res. collected</a></li>
                             <li class=""><a href="#bedwars-cosmetics">Cosmetics</a></li>
                         </ul>
-                    <li><a href="#guild">Guild</a></li>
+                    <li class='ml-2'><a href="#guild"><b>Guild</b></a></li>
                     <!-- <li><a href="#endpoints">Endpoints</a>
                         <ul>
                             <li class=""><a href="#endpoints--root">Root</a></li>
@@ -152,7 +152,7 @@
 
             <!--- GUILD --->
             {% if guildDict['success'] %} 
-                <p>Rank <b>{{guildDict['selfGuildRank']}}</b> in guild <b>{{guildDict['name']}}</b>
+                <p>Rank <b>{{guildDict['selfGuildRank']}}</b> in guild <a href="#guild"><b>{{guildDict['name']}}</b></a>
                 {% if guildDict['tag'] %}
                     <b class="{{guildDict['tagColor']}}">[{{guildDict['tag']}}]</b>
                 {% endif %}
@@ -180,11 +180,10 @@
                         <b class='lime'>[VIP]</b> bought <b>{{boughtPastTime}}</b> - <b>{{boughtPastRank}}</b> ago
                     {% endif %}
                 {% else %}
-                Has never bought a rank
+                
                 {% endif %}
             </p>
 
-            <p>
                 <!--- LAST SESSION/LAST LOGOUT/FIRST/LAST LOGIN --->
                 {% if lastSession  %}
                     <b>Last session</b>: {{ lastSession }}<br>
@@ -198,33 +197,32 @@
                 {% if firstLoginUnix != 1 %}
                     <b>First login</b>: {{ firstLogin }}
                 {% else %}
-                Has never logged into Hypixel
+                Has never logged onto Hypixel
                 {% endif %}
-            </p>
 
             <p>
                 <!--- SOCIAL MEDIA --->
                 {% if twitter != [] %}
-                    <i class="fab fa-twitter"></i> <a href='https://twitter.com' target='_blank' class="twitter"><b>Twitter: </b></a><a href='{{ twitter[1] }}' target='_blank'>@{{ twitter[0] }}</a><br>
+                    <i class="fab fa-twitter"></i> <a href='https://twitter.com' target='_blank' class="twitter"><b>Twitter: </b></a><a class='link' href='{{ twitter[1] }}' target='_blank'>@{{ twitter[0] }}</a><br>
                 {% endif %}
                 {% if instagram != [] %}
-                    <i class="fab fa-instagram"></i> <a href='https://instagram.com' target='_blank' class="instagram"><b>Instagram: </b></a><a href='{{ instagram[1] }}' target='_blank'>@{{ instagram[0] }}</a><br>
+                    <i class="fab fa-instagram"></i> <a href='https://instagram.com' target='_blank' class="instagram"><b>Instagram: </b></a><a class='link' href='{{ instagram[1] }}' target='_blank'>@{{ instagram[0] }}</a><br>
                 {% endif %}
                 {% if twitch != [] %}
-                    <i class="fab fa-twitch"></i> <a href='https://twitch.tv' target='_blank' class="twitch"><b>Twitch: </b></a><a href='{{ twitch[1] }}' target='_blank'>@{{ twitch[0] }}</a><br>
+                    <i class="fab fa-twitch"></i> <a href='https://twitch.tv' target='_blank' class="twitch"><b>Twitch: </b></a><a class='link' href='{{ twitch[1] }}' target='_blank'>@{{ twitch[0] }}</a><br>
                 {% endif %}
                 {% if discord != '' and 'discord.gg' not in discord %}
                     <i class="fab fa-discord"></i> <a href='https://discord.com' target='_blank' class="discord"><b>Discord: </b></a>@{{ discord }}<br>
                 {% elif 'https://discord.gg' in discord or 'http://discord.gg' in discord %}
-                    <i class="fab fa-discord"></i> <a href='https://discord.com' target='_blank' class="discord"><b>Discord:</b></a> <a href='{{ discord }}' target='_blank'>{{ discord }}</a><br>
+                    <i class="fab fa-discord"></i> <a href='https://discord.com' target='_blank' class="discord"><b>Discord:</b></a> <a class='link' href='{{ discord }}' target='_blank'>{{ discord }}</a><br>
                 {% elif 'discord.gg' in discord %}
-                    <i class="fab fa-discord"></i> <a href='https://discord.com' target='_blank' class="discord"><b>Discord: </b></a> <a href='https://{{ discord }}' target='_blank'>{{ discord }}</a><br>
+                    <i class="fab fa-discord"></i> <a href='https://discord.com' target='_blank' class="discord"><b>Discord: </b></a> <a class='link' href='https://{{ discord }}' target='_blank'>{{ discord }}</a><br>
                 {% endif %}
                 {% if hypixelForums != [] %}
-                    <img src="https://raw.githubusercontent.com/gist/literaiiy/ef8dcabfe98d9beafd6c303fe2bc4b7f/raw/6a7fccbc4262cc15478f520bd4677c7d6d6484a9/htopixel%20(1).svg" alt="hypixel logo" style='height:1rem;float:left;margin-right:0.5rem;'> <a href='https://hypixel.net/forums' target='_blank' class="hypixelForums"><b>Hypixel Forums:</b></a> <a href='{{ hypixelForums[1] }}' target='_blank'>@{{ hypixelForums[0] }}</a><br>
+                    <img src="https://raw.githubusercontent.com/gist/literaiiy/ef8dcabfe98d9beafd6c303fe2bc4b7f/raw/6a7fccbc4262cc15478f520bd4677c7d6d6484a9/htopixel%20(1).svg" alt="hypixel logo" style='height:1rem;float:left;margin-right:0.5rem;'> <a href='https://hypixel.net/forums' target='_blank' class="hypixelForums"><b>Hypixel Forums:</b></a> <a class='link' href='{{ hypixelForums[1] }}' target='_blank'>@{{ hypixelForums[0] }}</a><br>
                 {% endif %}
                 {% if youtube != [] %}
-                    <i class="fab fa-youtube"></i> <a href='https://youtube.com' target='_blank' class="youtube"><b>YouTube: </b></a><a href='{{ youtube[1] }}' target='_blank'>{{ youtube[0] }}</a><br>
+                    <i class="fab fa-youtube"></i> <a href='https://youtube.com' target='_blank' class="youtube"><b>YouTube: </b></a><a class='link' href='{{ youtube[1] }}' target='_blank'>{{ youtube[0] }}</a><br>
                 {% endif %}
             </p>
 
@@ -513,11 +511,7 @@
                             type: 'doughnut',
                             responsive: true,
                             maintainAspectRatio:false,
-                            options: {
-                                legend: {
-                                    display:false,
-                                }
-                            },
+                            options: {legend:{display:false}},
                             data: {
                                 labels: ['Heavenly', 'Divine', 'Sweet', 'Succulent', 'Tasty', 'Salty', 'Decent', 'Meh', 'Yucky', 'Eww'],
                                 datasets: [{
@@ -555,11 +549,7 @@
                                     type: 'doughnut',
                                     responsive: true,
                                     maintainAspectRatio:false,
-                                    options: {
-                                        legend: {
-                                            display:false,
-                                        }
-                                    },
+                                    options: {legend:{display:false}},
                                     data: {
                                         labels: ['Heavenly', 'Divine', 'Sweet', 'Succulent', 'Tasty', 'Salty', 'Decent', 'Meh', 'Yucky', 'Eww'],
                                         datasets: [{
@@ -597,11 +587,7 @@
                                     type: 'doughnut',
                                     responsive: true,
                                     maintainAspectRatio:false,
-                                    options: {
-                                        legend: {
-                                            display:false,
-                                        }
-                                    },
+                                    options: {legend:{display:false}},
                                     data: {
                                         labels: ['Heavenly', 'Divine', 'Sweet', 'Succulent', 'Tasty', 'Salty', 'Decent', 'Meh', 'Yucky', 'Eww'],
                                         datasets: [{
@@ -627,22 +613,22 @@
                     <div>
                         {% if swKillTypeList['success'] %}
                             {% if swKillTypeList['melee'][0] %}
-                            <span style='color:#4357ad'>Melee</span>: <b>{{swKillTypeList['melee'][0]}} kills</b> ({{swKillTypeList['melee'][1]}})<br>
+                            <span style='color:#4357ad'><b>Melee</b></span>: <b>{{swKillTypeList['melee'][0]}} kills</b> ({{swKillTypeList['melee'][1]}})<br>
                             {% endif %}
                             {% if swKillTypeList['void'][0] %}
-                            <span style='color:#48a9a6'>Void</span>: <b>{{swKillTypeList['void'][0]}} kills</b> ({{swKillTypeList['void'][1]}})<br>
+                            <span style='color:#48a9a6'><b>Void</b></span>: <b>{{swKillTypeList['void'][0]}} kills</b> ({{swKillTypeList['void'][1]}})<br>
                             {% endif %}
                             {% if swKillTypeList['bow'][0] %}
-                            <span style='color:#e4dfda'>Bow</span>: <b>{{swKillTypeList['bow'][0]}} kills</b> ({{swKillTypeList['bow'][1]}})<br>
+                            <span style='color:#e4dfda'><b>Bow</b></span>: <b>{{swKillTypeList['bow'][0]}} kills</b> ({{swKillTypeList['bow'][1]}})<br>
                             {% endif %}
                             {% if swKillTypeList['mob'][0] %}
-                            <span style='color:#D4B483'>Mob</span>: <b>{{swKillTypeList['mob'][0]}} kills</b> ({{swKillTypeList['mob'][1]}})<br>
+                            <span style='color:#D4B483'><b>Mob</b></span>: <b>{{swKillTypeList['mob'][0]}} kills</b> ({{swKillTypeList['mob'][1]}})<br>
                             {% endif %}
                             {% if swKillTypeList['fall'][0] %}
-                            <span style='color:#C1666B'>Fall</span>: <b>{{swKillTypeList['fall'][0]}} kills</b> ({{swKillTypeList['fall'][1]}})<br>
+                            <span style='color:#C1666B'><b>Fall</b></span>: <b>{{swKillTypeList['fall'][0]}} kills</b> ({{swKillTypeList['fall'][1]}})<br>
                             {% endif %}
                             {% if swKillTypeList['other'][0] %}
-                            <span style='color:#F42521'>Other</span>: <b>{{swKillTypeList['other'][0]}} kills</b> ({{swKillTypeList['other'][1]}})<br>
+                            <span style='color:#F42521'><b>Other</b></span>: <b>{{swKillTypeList['other'][0]}} kills</b> ({{swKillTypeList['other'][1]}})<br>
                             {% endif %}
                         {% endif %}
                     </div>
@@ -658,11 +644,7 @@
                             type: 'doughnut',
                             responsive: true,
                             maintainAspectRatio:false,
-                            options: {
-                                legend: {
-                                    display:false,
-                                }
-                            },
+                            options: {legend:{display:false}},
                             data: {
                                 labels: ['Melee', 'Void', 'Bow', 'Mob', 'Fall', 'Other'],
                                 datasets: [{
@@ -688,7 +670,7 @@
         </div>
         <!-- Time Wasted -->
         <div class="col-start-6 col-end-10 row-span-2 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class='text-3xl font-semibold pb-5'><div id='skywars-time' class='anchor'></div>Time Wasted</div>
+            <div class='text-3xl font-semibold pb-5'><div id='skywars-time' class='anchor'></div>Time played</div>
             <div class="pt-5">
                 {% if swTimeLists[0][5] != '0s' %}
                     <div class='canvasContainer2'>
@@ -792,11 +774,7 @@
                     Chart.defaults.global.defaultFontSize = 15
                     var myChartSouls = new Chart(ctx, {
                         type: 'doughnut',
-                        options: {
-                            legend: {
-                                display:false,
-                            }
-                        },
+                        options: {legend:{display:false}},
                         data: {
                             labels: ['Commons', 'Rares', 'Legendaries'],
                             datasets: [{
@@ -1081,7 +1059,7 @@
                     {% endfor %}
                 </div>
             {% else %}
-            <p>No stats to show!</p>
+            <p class='pt-5'>No stats to show!</p>
             {% endif %}
         </div>
 
@@ -1119,11 +1097,7 @@
                             type: 'doughnut',
                             responsive: true,
                             maintainAspectRatio:false,
-                            options: {
-                                legend: {
-                                    display:false,
-                                }
-                            },
+                            options: {legend:{display:false}},
                             data: {
                                 labels: ['Projectile', 'Void', 'Magic', 'Entity', 'Entity explosion', 'Fire', 'Fall Damage', 'Melee'],
                                 datasets: [{
@@ -1299,7 +1273,7 @@
                             type: 'doughnut',
                             responsive: true,
                             maintainAspectRatio:false,
-                            options: {legend:{display:false}},
+                            options: {legend:{display:false}, plugins:{tooltip:{backgroundColor:'rgba(256,256,256,1)'}}},
                             data: {
                                 labels: ['Iron','Gold','Diamonds','Emeralds','Wrapped Presents'],
                                 datasets: [{
@@ -1348,7 +1322,7 @@
                     {% endif %}
                 {% endif %}
             </div>
-            <div class='col-start-2 col-end-5 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+            <div class='col-start-2 col-end-5 row-span-2 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
                 <div class='py-1'>
                     <p>
                         <b>Description</b>: <i>{{guildDict['description']}}</i><br>
@@ -1385,57 +1359,51 @@
                         <b>Preferred games</b>: {% if guildDict['preferredGames'] %}{{guildDict['preferredGamesTL']}}{% else %}No preferred games set.{% endif %}
                     </p>
                 </div>
-                <div class='py-2'>
-                        <div class='text-xl font-semibold'>Guild ranks</div>
-                        {% for z, a in guildDict['theGuildRanks'].items() %}
-                            <b>{{z}}</b>
-                            {% if a[1] %} <b class='gray'>[{{a[1]}}]</b>{% endif %}
-                            {% if a[0] %} <i>(default)</i>{% endif%}
-                            - created {{a[2]}}<br>
-                        {% endfor %}
-                </div>
-                <div class='py-2'>
-                        <div class='text-xl font-semibold'>Guild XP earned by game</div>
-                        {% for d, f in guildDict['GXPBG'].items() %}
-                            <b>{{d}}</b>: {{f}}<br>
-                        {% endfor %}
-                </div>
             </div>
             <div class='col-start-5 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
-                <div class="text-3xl font-semibold pb-5">Members</div>
+                <div class='text-3xl font-semibold pb-5'>Guild ranks</div>
                 <div class="pt-5">
-                    <table id='guildTable' class='compact hover order-column'>
-                        <thead>
-                            <tr>
-                                <th>Username</th>
-                                <th>Rank</th>
-                                <th>Join time</th>
-                                <th>Guild Rank</th>
-                                <th>GEXP past week</th>
-                                <th>Guild quests</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for items in guildDict['members'].items()|list %}
-                                <tr>
-                                    <td><b><a href="/p/{{items[0]}}">{{items[0]}}</a></b></td>
-                                    {% if items[1]['serverRank'][0] %}
-                                        {% if items[1]['serverRank'] == 'YOUTUBE' %}
-                                            <td><b class="red">[<b class="white">YOUTUBE</b>]</b></td>
-                                        {% else %}
-                                            <td><b class="{{items[1]['serverRank'][2]}}">[{{items[1]['serverRank'][0]}}<b class="{{items[1]['serverRank'][3]}}">{{items[1]['serverRank'][1]}}</b>]</b></td>
-                                        {% endif %}
-                                    {% else %}
-                                        <td></td>
-                                    {% endif %}
-                                    <td>{{items[1]['joined']}}</td>
-                                    <td>{{items[1]['guildRank']}}</td>
-                                    <td>{{items[1]['expPastWeek']}}</td>
-                                    <td>{{items[1]['quests']}}</td>
-                                </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                    {% for z, a in guildDict['theGuildRanks'].items() %}
+                        <b>{{z}}</b>
+                        {% if a[1] %} <b class='gray'>[{{a[1]}}]</b>{% endif %}
+                        {% if a[0] %} <i>(default)</i>{% endif%}
+                        - created {{a[2]}}<br>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="col-start-5 col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+                <div class='text-3xl font-semibold pb-5'>Guild XP earned by game</div>
+                <div class="pt-5 flex">
+                    <div class='flex-none'>
+                        {% for d, f in guildDict['GXPBG'].items() %}
+                            <b>{{d}}</b>: {{f | those}}<br>
+                        {% endfor %}
+                    </div>
+                    <div class='canvGuildXP' style='width:100%;max-height:100%'>
+                        <canvas id="GXPCANVAS" style='width:100%;height:100%'></canvas>
+                        <script>
+                        var ctx = document.getElementById('GXPCANVAS');
+                        // @ts-ignore
+                        var data = {{guildDict['GXPBG'].values() | list}};
+                        Chart.defaults.global.defaultFontFamily = 'Inconsolata'
+                        Chart.defaults.global.defaultFontSize = 15
+                        var why = new Chart(ctx, {
+                            type: 'bar',
+                            responsive: true,
+                            maintainAspectRatio:false,
+                            options: {legend:{display:false}, plugins:{tooltip:{backgroundColor:'rgba(256,256,256,1)'}}},
+                            data: {
+                                labels: {{guildDict['GXPBG'].keys() | list | safe}},
+                                datasets: [{
+                                    data: data,
+                                    borderWidth: 1,
+                                    backgroundColor: ['#75DBCD', '#C9DBBA', '#DCDBA8', '#FAA381', '#474350', '#4F646F', '#535657', '#726E75', '#E63946', 
+                                    '#D4E6B5', '#AFC97E', '#E2D686', '#FFDF64', '#877B66', '#5E0B15', '#90323D', '#8C7A6B', '#CB48B7', '#2E2D4D'], 
+                                }]
+                            },
+                        });
+                        </script>
+                    </div>
                 </div>
             </div>
         {% else %}

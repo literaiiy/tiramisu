@@ -35,3 +35,22 @@ $(document).ready( function () {
         }
     });
 });
+
+$(document).ready( function () {
+    $('#playercount').DataTable( {
+        "bLengthChange": false,
+        "pageLength": 100,
+        "bPaginate": false,
+        "language": {
+            "info": "_TOTAL_ games total",
+            "infoFiltered": " - _MAX_ games total",
+            "infoEmpty": "No matching results",
+            "search":"",
+            "zeroRecords": "No matching results",
+        'paging': false
+        },
+        "columnDefs": {
+            className: "dt-head-left"
+        }
+    });
+});

@@ -18,6 +18,7 @@ YM.    , YA.   ,A9 MM    MM    MM   MM   ,AP YA.   ,A9 MM    MM YM.    ,  MM    
 @tailwind utilities;
 * {font-family:'Inconsolata'; line-height: 1.15;box-sizing:border-box}
 p {padding-top:0.35rem;padding-bottom:0.35rem}
+a, .link {text-decoration: underline;color:#666;}
 
 // ? Keeping these for now
 // .h2d{font-size:42px}

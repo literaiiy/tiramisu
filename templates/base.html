@@ -89,7 +89,7 @@
         <!------ PLAYER DESC ------>
         <div class="col-span-3 align-start">
             <!--- USERNAME --->
-            <div id='username' class=' lg:text-3xl'>
+            <div id='username' class='lg:text-3xl drop-shadow-lg'>
                 {% if rankv3[0] %}
                     {% if rankv3[0] == 'YOUTUBE' %}
                     <b class='{{rankv3[2]}}'>[<b class='{{rankv3[3]}}'>{{rankv3[0]}}</b>]</b>
@@ -107,6 +107,7 @@
             <div id='uuid' class=" text-xl font-extralight">
                 {{ uuid }}
             </div>
+            <hr class='my-2'>
 
             <!--- SESSION --->
             <p>
@@ -125,12 +126,12 @@
 
             <!--- LEVEL --->
             <p>
-                Level <b>{{ level }} {{ multiplier }}</b> / <b>{{ levelProgress }}%</b> to <b>{{ levelplusone }}</b><br>
+                Level <b>{{ level }} {{ multiplier }}</b> / <b>{{ levelProgress }}</b>% to <b>{{ levelplusone }}</b><br>
             </p>
 
             <!-- K A Q -->
             <p>
-                karma is <b class='light_purple'>{{ reqList| those }}</b><br>
+                <b class='light_purple'>{{ reqList| those }}</b> karma <br>
                 <b>{{ achievements| those }}</b> achievements for <b>{{ achpot| those }}</b> achievement points<br>
                 <b class="yellow">{{ quests| those }}</b> quests finished<br>
             </p>
@@ -270,14 +271,14 @@
                         </p>
                         <p>
                             <b>{{ swUnscannedDict['W/L'] }}</b> W/L <br>
-                            <b>{{ swUnscannedDict['winrate'] }}%</b> win rate <br>
+                            <b>{{ swUnscannedDict['winrate'] }}</b>% win rate <br>
                             <b>{{ swStatsDict['wins']| those }}</b> wins<br>
                             <b>{{ swStatsDict['losses']| those }}</b> losses <br>
                             <b>{{ swStatsDict['survived_players']| those }}</b> players survived <br>
                         </p>
                         <p>
                             <b>{{ swStatsDict['win_streak']| those }}</b> winstreak <br>
-                            Corruption chance: <b>{{swStatsDict['angel_of_death_level']}}%</b><br>
+                            Corruption chance: <b>{{swStatsDict['angel_of_death_level']}}</b>%<br>
                             <b>{{ swStatsDict['chests_opened']| those }}</b> chests opened<br>
                             <b>{{swStatsDict['refill_chest_destroy']| those}}</b> refill chests destroyed <br>
                         </p>
@@ -294,7 +295,7 @@
                             <b>{{ swStatsDict['blocks_broken']| those }}</b> blocks broken <br>
                             <b>{{ swStatsDict['arrows_shot']| those }}</b> arrows shot <br>
                             <b>{{ swStatsDict['arrows_hit']| those }}</b> arrows hit<br>
-                            <b>{{ swUnscannedDict['arrow_hitrate'] }}%</b> arrow hit rate<br>
+                            <b>{{ swUnscannedDict['arrow_hitrate'] }}</b>% arrow hit rate<br>
                             <b>{{ swStatsDict['egg_thrown']| those }}</b> eggs thrown <br>
                             <b>{{ swStatsDict['enderpearls_thrown']| those}}</b> ender pearls thrown <br>
                         </p>
@@ -338,33 +339,33 @@
                                 {% if x['W/L'] > 100000 %}
                                     & <span class='almost'><b>infinite</b></span> W/L. Awesome!
                                 {% elif x['wlrel'] > 0 %}
-                                    & <b>{{ x['wlrel']|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelperc']|abs }}%</span>). Nice work!
+                                    & <b>{{ x['wlrel']|abs }}</b> higher W/L (<span class='dark_green'>+<b>{{ x['wlrelperc']|abs }}</b>%</span>). Nice work!
                                 {% elif x['wlrel'] < 0 %}
-                                    & <b>{{ x['wlrel']|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelperc'] }}%</span>). Nice work!
+                                    & <b>{{ x['wlrel']|abs }}</b> lower W/L (<span class='red'><b>{{ x['wlrelperc'] }}</b>%</span>). Nice work!
                                 {% endif %}
                             {% elif x['kdrel'] > 0 %}
-                                {{username}} performs better in <b><b>{{y}}</b></b> than overall <br>
-                                <b>{{ x['kdrel']|abs }}</b> higher K/D (<span class='dark_green'>+{{ x['kdrelperc'] }}%</span>)
+                                {{username}} performs better in <b>{{y}}</b> than overall <br>
+                                <b>{{ x['kdrel']|abs }}</b> higher K/D (<span class='dark_green'>+<b>{{ x['kdrelperc'] }}</b>%</span>)
                                 {% if x['W/L'] > 100000 %}
                                     & <span class='almost'><b>infinite</b></span> W/L. Nice work!
                                 {% elif x['wlrel'] > 0 %}
-                                    & <b>{{ x['wlrel']|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelperc']|abs }}%</span>).
+                                    & <b>{{ x['wlrel']|abs }}</b> higher W/L (<span class='dark_green'>+<b>{{ x['wlrelperc']|abs }}</b>%</span>).
                                 {% elif x['wlrel'] < 0 %}
-                                    & <b>{{ x['wlrel']|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelperc'] }}%</span>).
+                                    & <b>{{ x['wlrel']|abs }}</b> lower W/L (<span class='red'><b>{{ x['wlrelperc'] }}</b>%</span>).
                                 {% endif %}
     
                             {% elif x['kdrel'] < 0  %}
                                 {{username}} performs worse in <b><b>{{y}}</b></b> than overall <br>
-                                <b>{{ x['kdrel']|abs }}</b> lower K/D (<span class='red'>{{x['kdrelperc'] }}%</span>)
+                                <b>{{ x['kdrel']|abs }}</b> lower K/D (<span class='red'><b>{{x['kdrelperc'] }}</b>%</span>)
                                 {% if x['W/L'] > 100000 %}
                                     & <span class='almost'><b>infinite</b></span> W/L. Nice work!
                                 {% elif x['wlrel'] > 0 %}
-                                    & <b>{{ x['wlrel']|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelperc']|abs }}%</span>).
+                                    & <b>{{ x['wlrel']|abs }}</b> higher W/L (<span class='dark_green'>+<b>{{ x['wlrelperc']|abs }}</b>%</span>).
                                 {% elif x['wlrel'] < 0 %}
-                                    &  <b>{{ x['wlrel']|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelperc'] }}%</span>).
+                                    &  <b>{{ x['wlrel']|abs }}</b> lower W/L (<span class='red'><b>{{ x['wlrelperc'] }}</b>%</span>).
                                 {% endif %}
                             {% else %}
-                                {{username}} performs as average in <b><b>{{y}}</b></b>.
+                                {{username}} performs as average in <b>{{y}}</b>.
                             {% endif %}
                         </p>
                         <div class="grid grid-cols-2">
@@ -379,9 +380,9 @@
                                 <br><b>{{x['wins']| those}}</b> wins (<b>{{ x['wins%']|round(2) }}</b>%)
                                 <br><b>{{x['losses']| those}}</b> losses (<b>{{ x['losses%']|round(2) }}</b>%)
                                 {% if x['W/L'] > 100000 %}
-                                    <br><b>∞</b> W/L - <b>∞%</b> win rate
+                                    <br><b>∞</b> W/L - <b>∞</b>% win rate
                                 {% else %}
-                                    <br><b>{{ x['W/L'] }}</b> W/L - <b>{{x['winperc']}}%</b> win rate
+                                    <br><b>{{ x['W/L'] }}</b> W/L - <b>{{x['winperc']}}</b>% win rate
                                 {% endif %}
                             </div>
                             <div>
@@ -422,30 +423,30 @@
                             {% if x['W/L'] > 100000 %}
                                 & <span class='almost'><b>infinite</b></span> W/L. Awesome!
                             {% elif x['wlrel'] > 0 %}
-                                & <b>{{ x['wlrel']|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelperc']|abs }}%</span>). Nice work!
+                                & <b>{{ x['wlrel']|abs }}</b> higher W/L (<span class='dark_green'>+<b>{{ x['wlrelperc']|abs }}</b>%</span>). Nice work!
                             {% elif x['wlrel'] < 0 %}
-                                &  <b>{{ x['wlrel']|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelperc'] }}%</span>). Nice work!
+                                &  <b>{{ x['wlrel']|abs }}</b> lower W/L (<span class='red'><b>{{ x['wlrelperc'] }}</b>%</span>). Nice work!
                             {% endif %}
                         {% elif x['kdrel'] > 0 %}
                             {{username}} performs better in <b>{{y}}</b> than overall <br>
-                            <b>{{ x['kdrel']|abs }}</b> higher K/D (<span class='dark_green'>+{{ x['kdrelperc'] }}%</span>)
+                            <b>{{ x['kdrel']|abs }}</b> higher K/D (<span class='dark_green'>+<b>{{ x['kdrelperc'] }}</b>%</span>)
                             {% if x['W/L'] > 100000 %}
                                 & <span class='almost'><b>infinite</b></span> W/L. Nice work!
                             {% elif x['wlrel'] > 0 %}
-                                & <b>{{ x['wlrel']|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelperc']|abs }}%</span>).
+                                & <b>{{ x['wlrel']|abs }}</b> higher W/L (<span class='dark_green'>+<b>{{ x['wlrelperc']|abs }}</b>%</span>).
                             {% elif x['wlrel'] < 0 %}
-                                & <b>{{ x['wlrel']|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelperc'] }}%</span>).
+                                & <b>{{ x['wlrel']|abs }}</b> lower W/L (<span class='red'><b>{{ x['wlrelperc'] }}</b>%</span>).
                             {% endif %}
     
                         {% elif x['kdrel'] < 0  %}
                             {{username}} performs worse in <b>{{y}}</b> than overall <br>
-                            <b>{{ x['kdrel']|abs }}</b> lower K/D (<span class='red'>{{x['kdrelperc'] }}%</span>)
+                            <b>{{ x['kdrel']|abs }}</b> lower K/D (<span class='red'><b>{{x['kdrelperc'] }}</b>%</span>)
                             {% if x['W/L'] > 100000 %}
                                 & <span class='almost'><b>infinite</b></span> W/L. Nice work!
                             {% elif x['wlrel'] > 0 %}
-                                & <b>{{ x['wlrel']|abs }}</b> higher W/L (<span class='dark_green'>+{{ x['wlrelperc']|abs }}%</span>).
+                                & <b>{{ x['wlrel']|abs }}</b> higher W/L (<span class='dark_green'>+<b>{{ x['wlrelperc']|abs }}</b>%</span>).
                             {% elif x['wlrel'] < 0 %}
-                                &  <b>{{ x['wlrel']|abs }}</b> lower W/L (<span class='red'>{{ x['wlrelperc'] }}%</span>).
+                                &  <b>{{ x['wlrel']|abs }}</b> lower W/L (<span class='red'><b>{{ x['wlrelperc'] }}</b>%</span>).
                             {% endif %}
                         {% else %}
                             {{username}} performs as average in Solo.
@@ -466,9 +467,9 @@
                                     <br><b>{{ x["K/D"] }}</b> K/D
                                 {% endif %}
                                 {% if x['W/L'] > 100000 %}
-                                    <br><b>∞</b> W/L - <b>100%</b> win rate
+                                    <br><b>∞</b> W/L - <b>100</b>% win rate
                                 {% else %}
-                                    <br><b>{{ x['W/L'] }}</b> W/L - <b>{{x['winperc']}}%</b> win rate
+                                    <br><b>{{ x['W/L'] }}</b> W/L - <b>{{x['winperc']}}</b>% win rate
                                 {% endif %}
                             </div>
                         </div>
@@ -703,13 +704,13 @@
                         });
                         </script>
                     </div>
-                    <p>Since their first login, {{username}} has spent <b>{{ swKWperLists[2] }}%</b> of their life playing SkyWars. </p>
+                    <p>Since their first login, {{username}} has spent <b>{{ swKWperLists[2] }}</b>% of their life playing SkyWars. </p>
                     <div class="grid grid-cols-2 gap-10 justify-around">
                         <div>
                             <p>
                                 <b>{{ swTimeLists[0][5] }}</b> in total <br>
                                 {% for mode in range(5) %}
-                                    {{ swTimeModeList[mode] }}: <b>{{ swTimeLists[0][mode] }} ({{swTimeLists[1][mode]}}%) </b><br>
+                                    {{ swTimeModeList[mode] }}: <b>{{ swTimeLists[0][mode] }}</b> (<b>{{swTimeLists[1][mode]}}</b>%)<br>
                                 {% endfor %}
                             </p>
                             <p>
@@ -821,12 +822,20 @@
                         {% elif a == 'shards' %}
                             <span class="aqua"><b>{{b| those}}</b> {{a}}</span><br>
                         {% elif a == 'until next opal' %}
-                            <b>{{b| those}}</b> ({{swOpals['shardsTilNextPerc']}}%) shards until next opal <br>
-                                {% for x in range(swOpals['shardsTilNextPrBa']) %}<b><span class="dark_blue">/</span></b>{% endfor %}{% for x in range(32-swOpals['shardsTilNextPrBa']) %}<span class='blue'>/</span>{% endfor %}<br>
+                            <b>{{b| those}}</b> (<b>{{swOpals['shardsTilNextPerc']}}</b>%) shards to next opal <br>
+                            <div id="progressbar"></div>
+                            <script>
+                                var ProgressBar = require('progressbar.js');
+                                // Assuming we have an empty <div id="container"></div> in
+                                // HTML
+                                var bar = new ProgressBar.Line('#progressbar', {easing: 'easeInOut'});
+                                bar.animate(1);  // Value from 0.0 to 1.0
+                            </script>
+                            {#% for x in range(swOpals['shardsTilNextPrBa']) %}<b><span class="dark_blue">/</span></b>{% endfor %}{% for x in range(32-swOpals['shardsTilNextPrBa']) %}<span class='blue'>/</span>{% endfor %#}<br>
                         {% elif a == 'shard_solo' %}
-                            <b>{{b| those}}</b> shards from solo ({{swOpals['shard_solo_perc']}}%) <br>
+                            <b>{{b| those}}</b> shards from solo (<b>{{swOpals['shard_solo_perc']}}</b>%) <br>
                         {% elif a == 'shard_team' %}
-                            <b>{{b| those}}</b> shards from teams ({{swOpals['shard_team_perc']}}%) <br>
+                            <b>{{b| those}}</b> shards from teams (<b>{{swOpals['shard_team_perc']}}</b>%) <br>
                         {% endif %}
                     {% endfor %}
                 {% else %}
@@ -928,11 +937,11 @@
                 <b><span class="{{bwOverallStats['prestige'][1]}}">
                     {{bwOverallStats['prestige'][0]}}
                 </span></b>
-                Prestige - <b>{{bwOverallStats['prestige'][2]}}%</b> to
+                Prestige - <b>{{bwOverallStats['prestige'][2]}}</b>% to
                 <b><span class="{{bwOverallStats['prestige'][1]}}">[{{(bwOverallStats['level']+1)| those}}☆]
                 </span></b>
                 <br>
-                {{bwOverallStats['Experience']| those}} experience <br>
+                <b>{{bwOverallStats['Experience']| those}}</b> experience <br>
             </p>
             <p>
                 <b>{{bwOverallStats['games_played_bedwars']| those}}</b> games played <br>
@@ -950,7 +959,7 @@
                 <b>{{bwOverallStats['wins_bedwars']| those}}</b> wins<br>
                 <b>{{bwOverallStats['losses_bedwars']| those}}</b> losses<br>
                 <b>{{bwOverallStats['W/L']}}</b> W/L<br>
-                <b>{{bwOverallStats['winrate']}}%</b> win rate<br>
+                <b>{{bwOverallStats['winrate']}}</b>% win rate<br>
             </p>
             <p>
                 <b>{{bwOverallStats['beds_broken_bedwars']| those}}</b> beds broken<br>
@@ -985,25 +994,25 @@
                                     {% if bwCompList[mode]['compkd'][0] > 100000 %}
                                         <span class="almost"><b>infinite</b></span> K/D
                                     {% elif bwCompList[mode]['compkd'][0] > 0 %}
-                                        <span class="dark_green"><b>{{bwCompList[mode]['compkd'][0] | abs }}</b></span> higher K/D (<span class="dark_green">+{{bwCompList[mode]['compkd'][1]}}%</span>)
+                                        <span class="dark_green"><b>{{bwCompList[mode]['compkd'][0] | abs }}</b></span> higher K/D (<span class="dark_green">+<b>{{bwCompList[mode]['compkd'][1]}}</b>%</span>)
                                     {% else %}
-                                        <span class="red"><b>{{bwCompList[mode]['compkd'][0] | abs}}</b></span> lower K/D (<span class="red">{{bwCompList[mode]['compkd'][1]}}%</span>)
+                                        <span class="red"><b>{{bwCompList[mode]['compkd'][0] | abs}}</b></span> lower K/D (<span class="red"><b>{{bwCompList[mode]['compkd'][1]}}</b>%</span>)
                                     {% endif %}
                                     •
                                     {% if bwCompList[mode]['compfkd'][0] > 100000 %}
                                         <span class="almost"><b>infinite</b></span> final K/D
                                     {% elif bwCompList[mode]['compfkd'][0] > 0 %}
-                                        <span class="dark_green"><b>{{bwCompList[mode]['compfkd'][0]| abs}}</b></span> higher final K/D (<span class="dark_green">+{{bwCompList[mode]['compfkd'][1]}}%</span>)
+                                        <span class="dark_green"><b>{{bwCompList[mode]['compfkd'][0]| abs}}</b></span> higher final K/D (<span class="dark_green">+<b>{{bwCompList[mode]['compfkd'][1]}}</b>%</span>)
                                     {% else %}
-                                        <span class="red"><b>{{bwCompList[mode]['compfkd'][0]| abs}}</b></span> lower final K/D (<span class="red">{{bwCompList[mode]['compfkd'][1]}}%</span>)
+                                        <span class="red"><b>{{bwCompList[mode]['compfkd'][0]| abs}}</b></span> lower final K/D (<span class="red"><b>{{bwCompList[mode]['compfkd'][1]}}</b>%</span>)
                                     {% endif %}
                                     •
                                     {% if bwCompList[mode]['compwl'][0] > 100000 %}
                                         <span class="almost"><b>infinite</b></span> W/L
                                     {% elif bwCompList[mode]['compwl'][0] > 0 %}
-                                        <span class="dark_green"><b>{{bwCompList[mode]['compwl'][0]| abs}}</b></span> higher W/L (<span class="dark_green">+{{bwCompList[mode]['compwl'][1]}}%</span>)
+                                        <span class="dark_green"><b>{{bwCompList[mode]['compwl'][0]| abs}}</b></span> higher W/L (<span class="dark_green">+<b>{{bwCompList[mode]['compwl'][1]}}</b>%</span>)
                                     {% else %}
-                                        <span class="red"><b>{{bwCompList[mode]['compwl'][0]| abs}}</b></span> lower W/L (<span class="red">{{bwCompList[mode]['compwl'][1]}}%</span>)
+                                        <span class="red"><b>{{bwCompList[mode]['compwl'][0]| abs}}</b></span> lower W/L (<span class="red"><b>{{bwCompList[mode]['compwl'][1]}}</b>%</span>)
                                     {% endif %}
                                 </p>
             
@@ -1070,10 +1079,10 @@
                 {% if bwOverallStats['kills_bedwars'] %}
                     <div>
                         <p>
-                            <b>🗡 Melee</b>: {{bwKillsList[0]['🗡 Melee'][0]| those}} ({{bwKillsList[0]['🗡 Melee'][1]}}%)<br>
+                            <b>🗡 Melee</b>: {{bwKillsList[0]['🗡 Melee'][0]| those}} (<b>{{bwKillsList[0]['🗡 Melee'][1]}}</b>%)<br>
                             {% for name, num in bwKillsList[0].items() %}
                                 {% if 'Melee' not in name %}
-                                    <b>{{name}}</b>: {{num[0]| those}} ({{num[1]}}%)<br>
+                                    <b>{{name}}</b>: {{num[0]| those}} (<b>{{num[1]}}</b>%)<br>
                                 {% endif %}
                             {% endfor %}
                         </p>
@@ -1135,16 +1144,16 @@
                             <b>Current loot chests</b>: {{bwLootBoxes['bedwars_boxes'][0]| those}} ({{bwLootBoxes['bedwars_boxes'][1]}}%) <br>
                         </p>
                         <p>
-                            <b><span class="gold">Legendaries</span></b>: {{bwLootBoxes['bedwars_box_legendaries'][0]| those}} ({{bwLootBoxes['bedwars_box_legendaries'][1]}}%) <br>
-                            <b><span class="dark_purple">Epics</span></b>: {{bwLootBoxes['bedwars_box_epics'][0]| those}} ({{bwLootBoxes['bedwars_box_epics'][1]}}%) <br>
-                            <b><span class="blue">Rares</span></b>: {{bwLootBoxes['bedwars_box_rares'][0]| those}} ({{bwLootBoxes['bedwars_box_rares'][1]}}%) <br>
-                            <b><span class="green">Commons</span></b>: {{bwLootBoxes['bedwars_box_commons'][0]| those}} ({{bwLootBoxes['bedwars_box_commons'][1]}}%) <br>
+                            <b><span class="gold">Legendaries</span></b>: {{bwLootBoxes['bedwars_box_legendaries'][0]| those}} (<b>{{bwLootBoxes['bedwars_box_legendaries'][1]}}</b>%) <br>
+                            <b><span class="dark_purple">Epics</span></b>: {{bwLootBoxes['bedwars_box_epics'][0]| those}} (<b>{{bwLootBoxes['bedwars_box_epics'][1]}}</b>%) <br>
+                            <b><span class="blue">Rares</span></b>: {{bwLootBoxes['bedwars_box_rares'][0]| those}} (<b>{{bwLootBoxes['bedwars_box_rares'][1]}}</b>%) <br>
+                            <b><span class="green">Commons</span></b>: {{bwLootBoxes['bedwars_box_commons'][0]| those}} (<b>{{bwLootBoxes['bedwars_box_commons'][1]}}</b>%) <br>
                         </p>
                         <p class='mb-12'>
-                            <b>🧧 <span class="red">Lunar</span> Crates</b>: {{bwLootBoxes['bedwars_lunar_boxes'][0]| those}} ({{bwLootBoxes['bedwars_lunar_boxes'][1]}}%) <br>
-                            <b>🐇 <span class="aqua">Easter</span> Crates</b>: {{bwLootBoxes['bedwars_easter_boxes'][0]| those}} ({{bwLootBoxes['bedwars_easter_boxes'][1]}}%) <br>
-                            <b>🎃 <span class="orange">Halloween</span> Crates</b>: {{bwLootBoxes['bedwars_halloween_boxes'][0]| those}} ({{bwLootBoxes['bedwars_halloween_boxes'][1]}}%) <br>
-                            <b>🎄 <span class="dark_green">Christmas</span> Crates</b>: {{bwLootBoxes['bedwars_christmas_boxes'][0]| those}} ({{bwLootBoxes['bedwars_christmas_boxes'][1]}}%) <br>
+                            <b>🧧 <span class="red">Lunar</span> Crates</b>: {{bwLootBoxes['bedwars_lunar_boxes'][0]| those}} (<b>{{bwLootBoxes['bedwars_lunar_boxes'][1]}}</b>%) <br>
+                            <b>🐇 <span class="aqua">Easter</span> Crates</b>: {{bwLootBoxes['bedwars_easter_boxes'][0]| those}} (<b>{{bwLootBoxes['bedwars_easter_boxes'][1]}}</b>%) <br>
+                            <b>🎃 <span class="orange">Halloween</span> Crates</b>: {{bwLootBoxes['bedwars_halloween_boxes'][0]| those}} (<b>{{bwLootBoxes['bedwars_halloween_boxes'][1]}}</b>%) <br>
+                            <b>🎄 <span class="dark_green">Christmas</span> Crates</b>: {{bwLootBoxes['bedwars_christmas_boxes'][0]| those}} (<b>{{bwLootBoxes['bedwars_christmas_boxes'][1]}}</b>%) <br>
                         </p>
                     </div>
                     <div class='cvLootBox'>
@@ -1192,10 +1201,10 @@
             <div class='pt-5 flex justify-between'>
                 {% if bwOverallStats['final_kills_bedwars'] %}
                     <div>
-                        <p><b>🗡 Melee</b>: {{bwKillsList[2]['🗡 Melee'][0]| those}} ({{bwKillsList[2]['🗡 Melee'][1]}}%)<br>
+                        <p><b>🗡 Melee</b>: {{bwKillsList[2]['🗡 Melee'][0]| those}} (<b>{{bwKillsList[2]['🗡 Melee'][1]}}</b>%)<br>
                         {% for name, num in bwKillsList[2].items() %}
                             {% if 'Melee' not in name %}
-                                <b>{{name}}</b>: {{num[0]| those}} ({{num[1]}}%)<br>
+                                <b>{{name}}</b>: {{num[0]| those}} (<b>{{num[1]}}</b>%)<br>
                             {% endif %}
                         {% endfor %}</p>
                         {% for name, num in bwKillsList[3].items() %}
@@ -1250,15 +1259,15 @@
                 {% if bwTotalResources %}
                     <div>
                         <p>
-                            <b>Iron collected</b>: {{bwResCol[0]| those}} ({{bwResColPerc[0]}}%) <br>
-                            <b>Gold collected</b>: {{bwResCol[1]| those}} ({{bwResColPerc[1]}}%) <br>
-                            <b>Diamonds collected</b>: {{bwResCol[2]| those}} ({{bwResColPerc[2]}}%) <br>
-                            <b>Emeralds collected</b>: {{bwResCol[3]| those}} ({{bwResColPerc[3]}}%) <br>
-                            <b>Presents collected</b>: {{bwResCol[4]| those}} ({{bwResColPerc[4]}}%) <br>
+                            <b>{{bwResCol[0]| those}} <span class="gray">iron</span></b> collected (<b>{{bwResColPerc[0]}}</b>%) <br>
+                            <b>{{bwResCol[1]| those}} <span class="gold">gold</span></b> collected (<b>{{bwResColPerc[1]}}</b>%) <br>
+                            <b>{{bwResCol[2]| those}} <span class="aqua">diamonds</span></b> collected (<b>{{bwResColPerc[2]}}</b>%) <br>
+                            <b>{{bwResCol[3]| those}} <span class="green">emeralds</span></b> collected (<b>{{bwResColPerc[3]}}</b>%) <br>
+                            <b>{{bwResCol[4]| those}} <span class="red">presents</span></b> collected (<b>{{bwResColPerc[4]}}</b>%) <br>
                         </p>
                         <p class='mb-24'>
-                            <b>Total resources collected</b>: {{bwTotalResources| those}} <br>
-                            <b>Total purchases</b>: {{bwItemsPurchased| those}} <br>
+                            <b>{{bwTotalResources| those}}</b> total resources collected<br>
+                            <b>{{bwItemsPurchased| those}}</b> total purchases<br>
                         </p>
                     </div>
                     <div class='cavResCol'>
@@ -1331,10 +1340,10 @@
                         <b>Preferred games</b>: {{guildDict['preferredGamesTL']}}<br>
                     </p>
                     <p>
-                        Guild Level <b>{{guildDict['level']|floor}}</b> - {{guildDict['levelLeft'] | those}} XP ({{guildDict['levelPercThere']}}%) to {{guildDict['level']|floor +1}}<br>
-                        <b>Total Guild XP</b>: {{guildDict['exp'] | those}} <br>
-                        <b>Lifetime coins</b>: {{guildDict['coinsEver']}}<br>
-                        <b>Total coins</b>: {{guildDict['coins']}}<br>
+                        Guild Level <b>{{guildDict['level']|floor}}</b> - <b>{{guildDict['levelLeft'] | those}}</b> XP (<b>{{guildDict['levelPercThere']}}</b>%) to <b>{{guildDict['level']|floor +1}}</b><br>
+                        <b class="dark_green">{{guildDict['exp'] | those}}</b> total Guild XP<br>
+                        <b class="gold">{{guildDict['coinsEver'] | those}}</b> lifetime coins<br>
+                        <b class="gold">{{guildDict['coins'] | those}}</b> current coins<br>
                     </p>
                     <p>
                         <b>
@@ -1351,9 +1360,9 @@
                         </b>
                     </p>
                     <p>
-                        <b>Achievement winners</b>: {{guildDict['achievements']['WINNERS']}}<br>
-                        <b>Experience kings</b>: {{guildDict['achievements']['EXPERIENCE_KINGS']}}<br>
-                        <b>Online players</b>: {{guildDict['achievements']['ONLINE_PLAYERS']}}<br>
+                        <b>Achievement winners</b>: {{guildDict['achievements']['WINNERS'] | those}}<br>
+                        <b>Experience kings</b>: {{guildDict['achievements']['EXPERIENCE_KINGS'] | those}}<br>
+                        <b>Online players</b>: {{guildDict['achievements']['ONLINE_PLAYERS'] | those}}<br>
                     </p>
                     <p>
                         <b>Preferred games</b>: {% if guildDict['preferredGames'] %}{{guildDict['preferredGamesTL']}}{% else %}No preferred games set.{% endif %}

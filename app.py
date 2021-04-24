@@ -293,7 +293,7 @@ def compute(q):
         for namehisUnixTime in namehis:
             try:
                 nhutChangedToAt = namehisUnixTime['changed_to_at']
-                namehisUnixTime['changed_to_at'] = datetime.fromtimestamp(nhutChangedToAt/1000).strftime('%b %d, %Y @ %I:%M:%S %p') #int(nhutChangedToAt/1000) #
+                namehisUnixTime['changed_to_at'] = datetime.fromtimestamp(nhutChangedToAt/1000).strftime('%b %#d, %Y @ %#I:%M:%S %p')
                 namehisDiff = (nhutChangedToAt - nhutminus1)/1000
                 namehisUnixTime['time_between'] = sec2format2ydhms(sec2format(namehisDiff))
                 nhutminus1 = nhutChangedToAt
@@ -574,7 +574,9 @@ def compute(q):
             
         currentSession = False
         sessionType = ''
-        reqAPIsess = reqses.get('https://api.hypixel.net/status?key=' + HAPIKEY + '&uuid=' + uuid)
+        try:
+            reqAPIsess = reqses.get('https://api.hypixel.net/status?key=' + HAPIKEY + '&uuid=' + uuid)
+        except: reqAPIsess = reqses.get('https://api.hypixel.net/status?key=' + HAPIKEY + '&uuid=' + uuid)
         sessionAPI = reqAPIsess.json()
         print('RIGHT AFTER HYPIXEL API SESSION DATA is being gotten. ',(time.time() - start_time), ' sec')
         try:
@@ -1064,7 +1066,7 @@ def compute(q):
                 if 'favoritemap' in x:
                     swMapsList.append(x.replace('favoritemap_','').title())
                 elif 'cage' in x:
-                    swCagesList.append(x.replace('cage_','').replace('-cage','').replace('-',' ').title())
+                    swCagesList.append(x.replace('cage_','').replace('-cage','').replace('-',' ').replace('_',' ').title())
         except: pass
         swMapsList = re.sub("[\[\]']",'',str(swMapsList))
         swCagesList = re.sub("[\[\]']",'',str(swCagesList))

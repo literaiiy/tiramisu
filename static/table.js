@@ -1,4 +1,5 @@
 $(document).ready( function () {
+    $.fn.dataTable.moment( 'MMM DD, YYYY @ HH:mm:ss A' );
     $('#table_id').DataTable( {
         "order": [[ 0, "desc" ]],
         "bLengthChange": false,

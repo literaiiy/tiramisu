@@ -125,7 +125,7 @@ def queryt(path):
         ('🏇 Warlords', 'BATTLEGROUND'),
         ('🏠 Housing', 'HOUSING'),
         ('🕹️ Arcade', 'ARCADE'),
-        ('🗡️ Blitz Survival Games', 'SURVIVAL_GAMES'),
+        ('🗡️ Blitz SG', 'SURVIVAL_GAMES'),
         ('🧱 Mega Walls', 'WALLS3'),
         ('🏗️ Prototype', 'PROTOTYPE'),
         ('💣 TNT Games', 'TNTGAMES'),
@@ -565,7 +565,7 @@ def compute(q):
                 elif game == 'PIT': return 'The Pit'
                 elif game == 'UHC': return 'UHC Champions'
                 elif game == 'BATTLEGROUND': return 'Warlords'
-                elif game == 'SURVIVAL_GAMES': return 'Blitz Survival Games'
+                elif game == 'SURVIVAL_GAMES': return 'Blitz SG'
                 elif game == 'WALLS3': return  'Mega Walls'
                 elif game == 'TNTGAMES': return  'TNT Games'
                 elif game == 'VAMPIREZ': return 'VampireZ'
@@ -751,7 +751,7 @@ def compute(q):
             # Head tastiness
             if rankv3: 
                 if rankv3[0] in sweetHeadsRanks and swStatsDict['kills'] < 10000: swUnscannedDict['head_tastiness'] = ('Sweet!', 'aqua')
-            elif swStatsDict['kills'] < 49: swUnscannedDict['head_tastiness'] = ('Eww!', 'darkgray')
+            if swStatsDict['kills'] < 49: swUnscannedDict['head_tastiness'] = ('Eww!', 'darkgray')
             elif swStatsDict['kills'] < 200: swUnscannedDict['head_tastiness'] = ('Yucky!', 'gray')
             elif swStatsDict['kills'] < 500: swUnscannedDict['head_tastiness'] = ('Meh.','lightgray')
             elif swStatsDict['kills'] < 1000: swUnscannedDict['head_tastiness'] = ('Decent...','yellow')
@@ -1252,23 +1252,23 @@ def compute(q):
         bwTranslateList = {
             'eight_one':'Solo',
             'eight_two':'Duos',
-            'four_three':'3s',
-            'four_four':'4s',
+            'four_three':'3\'s',
+            'four_four':'4\'s',
             'two_four':'4v4',
             'eight_two_armed':'Duos Armed',
-            'four_four_armed':'4s Armed',
+            'four_four_armed':'4\'s Armed',
             'castle':'Castle',
             'eight_one_rush':'Solo Rush',
             'eight_two_rush': 'Duos Rush',
-            'four_four_rush': '4s Rush',
+            'four_four_rush': '4\'s Rush',
             'eight_one_ultimate':'Solo Ultimate',
             'eight_two_ultimate':'Duos Ultimate',
-            'four_four_ultimate':'4s Ultimate',
+            'four_four_ultimate':'4\'s Ultimate',
             'eight_two_lucky':'Duos Lucky Block',
-            'four_four_lucky': '4s Lucky Block',
+            'four_four_lucky': '4\'s Lucky Block',
             'eight_two_voidless':'Duos Voidless',
-            'four_four_voidless':'4s Voidless',
-            'tourney_bedwars4s_1':'Tournament (4s)',
+            'four_four_voidless':'4\'s Voidless',
+            'tourney_bedwars4s_1':'Tournament (4\'s)',
             'tourney_bedwars_two_four_0':'Tournament (4v4)'}
         bwMKWList = [0,0,0,'','','']
         bwModeStats = {}

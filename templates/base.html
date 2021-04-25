@@ -7,7 +7,7 @@
 
 {% block content %}
 <body>
-    <div class='grid sm:grid-cols-1 lg:grid-cols-10 gap-6'>
+    <div class='grid grid-cols-10 gap-6'>
         
         <!-- Table of Contents -->
         <div class='main row-start-1' style='grid-row-end: 17;'>
@@ -51,7 +51,7 @@
         </div>
 
         <!--- NAME HISTORY --->
-        <div class='namehistable col-start-2 col-span-4 bg-gray-100 p-6 rounded-2xl shadow overflow-scroll overflow-x-hidden'>
+        <div class='namehistable sm:col-span-8 col-start-2 lg:col-span-4 bg-gray-100 p-6 rounded-2xl shadow overflow-scroll overflow-x-hidden'>
             <table id="table_id" class="compact hover order-column">
                 <thead>
                     <tr>
@@ -89,7 +89,7 @@
         <!------ PLAYER DESC ------>
         <div class="col-span-3 align-start">
             <!--- USERNAME --->
-            <div id='username' class='lg:text-3xl drop-shadow-lg'>
+            <div id='username' class='text-3xl drop-shadow-lg'>
                 {% if rankv3[0] %}
                     {% if rankv3[0] == 'YOUTUBE' %}
                     <b class='{{rankv3[2]}}'>[<b class='{{rankv3[3]}}'>{{rankv3[0]}}</b>]</b>
@@ -750,8 +750,8 @@
                         <span class="gray"><b>{{swSoulList['souls'] | those}}</b> souls</span> <br>
                         <b>{{swSoulList['souls_gathered'] | those}}</b> souls harvested <br>
                         <b>{{swSoulList['paid_souls'] | those}}</b> souls bought <br>
-                        <b>{{swSoulList['souls_gathered_lab'] | those}}</b> ({{swSoulList['labperc'][0]}}%) souls from Lab <br>
-                        <b>{{swSoulList['souls_nonlab'] | those}}</b> ({{swSoulList['labperc'][1]}}%) souls from non-Lab<br>
+                        <b>{{swSoulList['souls_gathered_lab'] | those}}</b> (<b>{{swSoulList['labperc'][0]}}</b>%) souls from Lab <br>
+                        <b>{{swSoulList['souls_nonlab'] | those}}</b> (<b>{{swSoulList['labperc'][1]}}</b>%) souls from non-Lab<br>
                         <span class="gold"><b>{{swSoulList['soul_well_legendaries'] | those}}</b> legendaries</span> <br>
                         <span class="blue"><b>{{swSoulList['soul_well_rares'] | those}}</b> rares</span> <br>
                         <span class="green"><b>{{swSoulList['soul_well_commons'] | those}}</b> commons</span> <br>
@@ -789,9 +789,9 @@
             {% endif %}
             </div>
         </div>
-        <!-- Favorite Maps & Cages-->
+        <!-- Favorite maps & cages-->
         <div class="mapscag col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class="text-3xl font-semibold pb-5"><div id='skywars-maps-cages' class='anchor'></div>Favorite Maps & Cages</div>
+            <div class="text-3xl font-semibold pb-5"><div id='skywars-maps-cages' class='anchor'></div>Favorite maps & cages</div>
             <div class="pt-5">
                 <p>
                     {% if not swMapsList %}
@@ -823,14 +823,6 @@
                             <span class="aqua"><b>{{b| those}}</b> {{a}}</span><br>
                         {% elif a == 'until next opal' %}
                             <b>{{b| those}}</b> (<b>{{swOpals['shardsTilNextPerc']}}</b>%) shards to next opal <br>
-                            <div id="progressbar"></div>
-                            <script>
-                                var ProgressBar = require('progressbar.js');
-                                // Assuming we have an empty <div id="container"></div> in
-                                // HTML
-                                var bar = new ProgressBar.Line('#progressbar', {easing: 'easeInOut'});
-                                bar.animate(1);  // Value from 0.0 to 1.0
-                            </script>
                             {#% for x in range(swOpals['shardsTilNextPrBa']) %}<b><span class="dark_blue">/</span></b>{% endfor %}{% for x in range(32-swOpals['shardsTilNextPrBa']) %}<span class='blue'>/</span>{% endfor %#}<br>
                         {% elif a == 'shard_solo' %}
                             <b>{{b| those}}</b> shards from solo (<b>{{swOpals['shard_solo_perc']}}</b>%) <br>
@@ -902,7 +894,7 @@
                 <b>Death cry</b>: {{swCosmetics['deathcry']}} <br>
                 {% endif %}
                 {% if 'killeffect' in swCosmetics %}
-                <b>Kill effect</b>: {{swCosmetics['killeffect']}} <br>
+                <b>Kill Effect</b>: {{swCosmetics['killeffect']}} <br>
                 {% endif %}
                 {% if 'killmessages' in swCosmetics %}
                 <b>Kill messages</b>: {{swCosmetics['killmessages']}} <br>
@@ -1141,7 +1133,7 @@
                     <div>
                         <p>
                             <b>Total loot chests</b>: {{bwLootBoxes['bedwars_box']| those}} <br>
-                            <b>Current loot chests</b>: {{bwLootBoxes['bedwars_boxes'][0]| those}} ({{bwLootBoxes['bedwars_boxes'][1]}}%) <br>
+                            <b>Current loot chests</b>: {{bwLootBoxes['bedwars_boxes'][0]| those}} (<b>{{bwLootBoxes['bedwars_boxes'][1]}}</b>%) <br>
                         </p>
                         <p>
                             <b><span class="gold">Legendaries</span></b>: {{bwLootBoxes['bedwars_box_legendaries'][0]| those}} (<b>{{bwLootBoxes['bedwars_box_legendaries'][1]}}</b>%) <br>
@@ -1376,7 +1368,7 @@
                         <b>{{z}}</b>
                         {% if a[1] %} <b class='gray'>[{{a[1]}}]</b>{% endif %}
                         {% if a[0] %} <i>(default)</i>{% endif%}
-                        - created {{a[2]}}<br>
+                        - created <b>{{a[2]}}</b><br>
                     {% endfor %}
                 </div>
             </div>

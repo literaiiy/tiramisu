@@ -6,8 +6,8 @@
 	{% endblock %}
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link href="{{ url_for('static', filename='base.scss') }}" rel="stylesheet" type="text/css">
 		<link href="{{ url_for('static', filename='tailwind.css') }}" rel="stylesheet" type="text/css">
+		<!-- <link href="{{ url_for('static', filename='tailwind.css') }}" rel="stylesheet" type="text/css"> -->
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='datatables.scss') }}">
 		<script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
@@ -31,14 +31,14 @@
 				</button>
 			</form>
 			<div class="flex flex-row-reverse">
-				<button class='my-5 mx-2 px-3 col-start-7 focus:outline-none bg-gray-200 rounded-xl hover:bg-gray-300'><i class="twa twa-2x twa-1f1fa-1f1f8"></i></button>
+				<button class='my-5 mx-2 px-3 col-start-7 focus:outline-none bg-gray-200 rounded-xl hover:bg-gray-300'><i class="m-0 twa twa-2x twa-1f1fa-1f1f8"></i></button>
 				<button class="my-5 mx-2 px-3 focus:outline-none bg-gray-200 rounded-xl hover:bg-gray-300"><i class="twa twa-2x twa-2600"></i></button>
 			</div>
 		</div>
 	</head>
 
 	{% block content %}
-		<main class='flex-grow grid grid-cols-10 gap-4'>
+		<main class='flex-grow grid grid-cols-10 gap-4 sm:mx-5'>
 			<div class='col-start-2 col-end-10 bg-gray-100 rounded-2xl text-4xl font-bold p-6 shadow text-center'>Welcome to tiramisu!</div>
 			<div class="col-start-2 col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
 				<div class="text-3xl font-semibold pb-5">Player Counts</div>

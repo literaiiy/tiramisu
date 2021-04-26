@@ -1,4 +1,13 @@
-                                                                                                                                                                                              
+/*  ▄▄▄▄▄ ▄▄▄· ▪  ▄▄▌  ▄▄▌ ▐ ▄▌▪   ▐ ▄ ·▄▄▄▄      ▄▄· .▄▄ · .▄▄ · 
+   •██  ▐█ ▀█ ██ ██•  ██· █▌▐███ •█▌▐███▪ ██    ▐█ ▌▪▐█ ▀. ▐█ ▀. 
+   ▐█.▪▄█▀▀█ ▐█·██▪  ██▪▐█▐▐▌▐█·▐█▐▐▌▐█· ▐█▌   ██ ▄▄▄▀▀▀█▄▄▀▀▀█▄
+  ▐█▌·▐█ ▪▐▌▐█▌▐█▌▐▌▐█▌██▐█▌▐█▌██▐█▌██. ██    ▐███▌▐█▄▪▐█▐█▄▪▐█
+ ▀▀▀  ▀  ▀ ▀▀▀.▀▀▀  ▀▀▀▀ ▀▪▀▀▀▀▀ █▪▀▀▀▀▀•  ▀ ·▀▀▀  ▀▀▀▀  ▀▀▀▀  */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /*                                                                                   mm           
                                                                                     MM           
  ,p6"bo   ,pW"Wq.`7MMpMMMb.pMMMb. `7MMpdMAo.  ,pW"Wq.`7MMpMMMb.  .gP"Ya `7MMpMMMb.mmMMmm ,pP"Ybd 
@@ -8,28 +17,20 @@ YM.    , YA.   ,A9 MM    MM    MM   MM   ,AP YA.   ,A9 MM    MM YM.    ,  MM    
  YMbmd'   `Ybmd9'.JMML  JMML  JMML. MMbmmd'   `Ybmd9'.JMML  JMML.`Mbmmd'.JMML  JMML.`MbmoM9mmmP' 
                                     MM                                                           
                                   .JMML.                                                      */
+
 @font-face {
   font-family: 'Inconsolata';
   src: 'https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap';
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
 * {font-family:'Inconsolata'; line-height: 1.15;box-sizing:border-box}
 p {padding-top:0.35rem;padding-bottom:0.35rem}
 a, .link {text-decoration: underline;color:#666;}
 
-// ? Keeping these for now
-// .h2d{font-size:42px}
-// .h3d{font-size:22px}
 footer{text-align:center;bottom:0}
 .namehistable {
   max-height: 80vh;
 }
-// .tablinks: {
-//   background-color:grey;
-// }
 
 ::-webkit-scrollbar{width:10px}
 ::-webkit-scrollbar-track{background:transparent}
@@ -44,7 +45,7 @@ input:-webkit-autofill:active
   background-color: transparent !important;
 }
 
-// ? Table of Contents
+
 html {scroll-behavior:smooth}
 .main>nav{position:sticky;top:8rem;align-self:start}
 .section-nav li.active>a{color:#333;font-weight:500}
@@ -66,14 +67,14 @@ html {scroll-behavior:smooth}
   pointer-events: none;
 }
 
+.twa-2x {
+  margin: 0 !important
+}
+
 ul,ol{list-style:none;margin:0;padding:0}
 li{margin-left:1rem}
 h1{font-weight:300}
 
-// ? Colors for namehis links
-// a{color:royalblue}
-// .nhfirst{color:#87afeb}
-// .nhmiddle{color:cornflowerblue}
 /*                  ,,                          
                  `7MM                          
                    MM                          

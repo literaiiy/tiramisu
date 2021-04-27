@@ -10,7 +10,7 @@ import math
 import time
 import re
 import os
-#import logging
+#import loggingf
 #import httpx
 #from itertools import cycle, islice
 #from num2words import num2words
@@ -78,10 +78,10 @@ config = {
 
 # some config stuff
 app.config.from_mapping(config)
-#cache = Cache(app)
-#logging.basicConfig(level=logging.DEBUG)
-#requests_cache.install_cache('requests_cache', expire_after=3)
-#requests_cache.install_cache('test_cache', backend='sqlite', expire_after=30)
+    #cache = Cache(app)
+    #logging.basicConfig(level=logging.DEBUG)
+    #requests_cache.install_cache('requests_cache', expire_after=3)
+    #requests_cache.install_cache('test_cache', backend='sqlite', expire_after=30)
 
 # reqses
 headers = {"User-Agent":"Mozilla/5.0 (X11; U; Linux i686 (x86_64); en-GB; rv:1.9.0.1) Gecko/2008070206 Firefox/3.0.1"}
@@ -1359,13 +1359,13 @@ def compute(q):
 
     # Kills via
         bwKillsVia = {
-            '🏹 Projectile':'projectile',
-            '🌌 Void':'void',
-            '🪄 Magic':'magic',
-            '🐕 Entity':'entity',
-            '🤯 Entity explosion':'entity_explosion',
-            '🔥 Fire':'final_tick',
-            '👞 Fall damage':'fall',
+            'Projectile':'projectile',
+            'Void':'void',
+            'Magic':'magic',
+            'Entity':'entity',
+            'Entity explosion':'entity_explosion',
+            'Fire':'final_tick',
+            'Fall damage':'fall',
         }
         bwTakeKillsCount = 0
         bwPureKillsVia = []
@@ -1378,21 +1378,21 @@ def compute(q):
                 bwKillsVia[x] = [0,0]
                 bwPureKillsVia.append(0)
         try:
-            bwKillsVia['🗡 Melee'] = (bwOverallStats['kills_bedwars'] - bwTakeKillsCount, round(100*(bwOverallStats['kills_bedwars'] - bwTakeKillsCount)/bwOverallStats['kills_bedwars'],2))
-            bwPureKillsVia.append(bwKillsVia['🗡 Melee'][0])
+            bwKillsVia['Melee'] = (bwOverallStats['kills_bedwars'] - bwTakeKillsCount, round(100*(bwOverallStats['kills_bedwars'] - bwTakeKillsCount)/bwOverallStats['kills_bedwars'],2))
+            bwPureKillsVia.append(bwKillsVia['Melee'][0])
         except: 
-            bwKillsVia['🗡 Melee'] = (0,0)
+            bwKillsVia['Melee'] = (0,0)
             bwPureKillsVia.append(0)
 
     # Final kills via
         bwFinKillsVia = {
-            '🏹 Projectile':'projectile',
-            '🌌 Void':'void',
-            '🪄 Magic':'magic',
-            '🐕 Entity':'entity',
-            '🤯 Entity explosion':'entity_explosion',
-            '🔥 Fire':'final_tick',
-            '👞 Fall damage':'fall',
+            'Projectile':'projectile',
+            'Void':'void',
+            'Magic':'magic',
+            'Entity':'entity',
+            'Entity explosion':'entity_explosion',
+            'Fire':'final_tick',
+            'Fall damage':'fall',
         }
         bwTakeFinKillsCount = 0
         bwPureFinKillsVia = []
@@ -1405,10 +1405,10 @@ def compute(q):
                 bwFinKillsVia[x] = [0,0]
                 bwPureFinKillsVia.append(0)
         try:
-            bwFinKillsVia['🗡 Melee'] = (bwOverallStats['final_kills_bedwars'] - bwTakeFinKillsCount, round(100*(bwOverallStats['final_kills_bedwars'] - bwTakeFinKillsCount)/bwOverallStats['final_kills_bedwars'],2))
-            bwPureFinKillsVia.append(bwFinKillsVia['🗡 Melee'][0])
+            bwFinKillsVia['Melee'] = (bwOverallStats['final_kills_bedwars'] - bwTakeFinKillsCount, round(100*(bwOverallStats['final_kills_bedwars'] - bwTakeFinKillsCount)/bwOverallStats['final_kills_bedwars'],2))
+            bwPureFinKillsVia.append(bwFinKillsVia['Melee'][0])
         except: 
-            bwFinKillsVia['🗡 Melee'] = (0,0)
+            bwFinKillsVia['Melee'] = (0,0)
             bwPureFinKillsVia.append(0)
     
     # Loot crates

@@ -1,9 +1,9 @@
 module.exports = {
   purge: [],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: 'class', // or 'media' or 'class'
   theme: {
     screens: {
-      'sm':'150px',
+      'sm':'1px',
       'lg':'1024px',
     },
     extend: {},

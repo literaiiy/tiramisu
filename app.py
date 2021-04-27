@@ -10,7 +10,7 @@ import math
 import time
 import re
 import os
-import logging
+#import logging
 #import httpx
 #from itertools import cycle, islice
 #from num2words import num2words
@@ -79,7 +79,7 @@ config = {
 # some config stuff
 app.config.from_mapping(config)
 #cache = Cache(app)
-logging.basicConfig(level=logging.DEBUG)
+#logging.basicConfig(level=logging.DEBUG)
 #requests_cache.install_cache('requests_cache', expire_after=3)
 #requests_cache.install_cache('test_cache', backend='sqlite', expire_after=30)
 
@@ -569,25 +569,24 @@ def compute(q):
                 elif game == 'WALLS3': return  'Mega Walls'
                 elif game == 'TNTGAMES': return  'TNT Games'
                 elif game == 'VAMPIREZ': return 'VampireZ'
+                elif game == 'ARENA': return 'Arena Brawl'
                 else: return game.replace('_',' ').title()
             except: return ''
             
         currentSession = False
         sessionType = ''
-        try:
+        if playedOnHypixel:
             reqAPIsess = reqses.get('https://api.hypixel.net/status?key=' + HAPIKEY + '&uuid=' + uuid)
-        except: reqAPIsess = reqses.get('https://api.hypixel.net/status?key=' + HAPIKEY + '&uuid=' + uuid)
-        sessionAPI = reqAPIsess.json()
-        print('RIGHT AFTER HYPIXEL API SESSION DATA is being gotten. ',(time.time() - start_time), ' sec')
-        try:
-            if playedOnHypixel and sessionAPI['session']['online']:
-                currentSession = gameTranslate(sessionAPI['session']['gameType'])
-                try:
-                    sessionType = sessionAPI['session']['mode'].replace('_',' ').title()
-                except:
-                    sessionType = 'Lobby'
-        except: pass
-        print(playedOnHypixel, sessionAPI['session']['online'])
+            sessionAPI = reqAPIsess.json()
+            print('RIGHT AFTER HYPIXEL API SESSION DATA is being gotten. ',(time.time() - start_time), ' sec')
+            try:
+                if playedOnHypixel and sessionAPI['session']['online']:
+                    currentSession = gameTranslate(sessionAPI['session']['gameType'])
+                    try:
+                        sessionType = sessionAPI['session']['mode'].replace('_',' ').title()
+                    except:
+                        sessionType = 'Lobby'
+            except: pass
 
         print('session data is done. ',round(time.time() - start_time, 4), ' sec')
 
@@ -648,9 +647,9 @@ def compute(q):
         try:
             userVersion = reqAPI['player'].get('mcVersionRp') if reqAPI['player'].get('mcVersionRp') != None else 'unspecified version'
         except: userVersion = 'unspecified version'
-        totalKills = 'FIX THIS PLEASE'
-        totalWins = 'FIX THIS PLEASE'
-        totalCoins = 'FIX THIS PLEASE'
+        totalKills = 'FIX THIS PLEASEAY@ddd(ADHUSDHJIADAA'
+        totalWins = 'FIX THIS PLEASEDAH&*@UHD*QUIADAD@QD'
+        totalCoins = 'FIX THIS PLEASEASDHG&*A@YDHsUSAI@DW'
         try:
             giftsMeta = reqAPI['player'].get('giftingMeta', {'bundlesGiven':0,'giftsGiven':0})
         except: giftsMeta = {'bundlesGiven':0,'giftsGiven':0}
@@ -1266,8 +1265,8 @@ def compute(q):
             'eight_one_ultimate':'Solo Ultimate',
             'eight_two_ultimate':'Duos Ultimate',
             'four_four_ultimate':'4\'s Ultimate',
-            'eight_two_lucky':'Duos Lucky Block',
-            'four_four_lucky': '4\'s Lucky Block',
+            'eight_two_lucky':'Duos Lucky',
+            'four_four_lucky': '4\'s Lucky',
             'eight_two_voidless':'Duos Voidless',
             'four_four_voidless':'4\'s Voidless',
             'tourney_bedwars4s_1':'Tournament (4\'s)',
@@ -1486,14 +1485,12 @@ def compute(q):
             return [1000, 3000000]
             # This should never happen...
 
-        print(playedOnHypixel)
         if playedOnHypixel:
-            variable_name = reqses.get('https://karma-25.uc.r.appspot.com/guild/' + uuid)
+            variable_name = reqses.get('https://api.hypixel.net/guild?key='+ HAPIKEY + '&player=' + uuid)
             greqAPI = variable_name.json()
             print('RIGHT AFTER GUILD DATA is being gotten. ',(time.time() - start_time), ' sec')
             #print(greqAPI)
             guildListAPI = greqAPI.get('guild', False)
-            guildNamesAPI = greqAPI.get('names', False)
 
             if greqAPI['success']:
 
@@ -1544,46 +1541,6 @@ def compute(q):
 
                 print('guild info done. ', (time.time() - start_time), ' sec')
 
-            # Guild members
-                # members = {}
-                # for m in guildListAPI['members']:
-                    
-                #     # Set defaults
-                #     memberList = {}
-                #     guildRankRaw = ''
-                #     guildRankColor = 'black'
-                #     guildPlusColor = 'red'
-                #     plusses = ''
-
-                #     # Get user clause either from guild API or name API
-                #     try:
-                #         user = guildNamesAPI[m['uuid']]
-                #         print('user is cached. ', (time.time() - start_time), ' sec')
-                #     except:
-                #         try:
-                #             helpGuildReq = reqses.get('https://karma-25.uc.r.appspot.com/name/' + m['uuid'])
-                #             user = helpGuildReq.json()['name']
-                #         except: 
-                #             helpGuildReq = reqses.get('https://karma-25.uc.r.appspot.com/name/' + m['uuid'])
-                #             user = helpGuildReq.json()['name']
-                #         print('user is not cached. ', (time.time() - start_time), ' sec')
-
-                #     # username, server rank, join date, rank in guild, GEXP past 7 days
-                #     memberList['username'] = user['username']
-                #     memberList['joined'] = datetime.fromtimestamp(m['joined']/1000).strftime('%b %d, %Y @ %I:%M:%S %p')
-                #     memberList['guildRank'] = m['rank']
-                #     memberList['expPastWeek'] = sum(m['expHistory'].values())
-
-                #     try:
-                #         memberList['quests'] = m['questParticipation']
-                #     except: memberList['quests'] = 0
-                #     members[user['username']] = memberList
-                #     #guildDict['serverRank'] = getRank(user)
-                #     print('member: ',memberList['username'],' done.', (time.time() - start_time), ' sec')
-                
-                # # Add the temporary members list to guildDict
-                # guildDict['members'] = members
-            
             # remnants
                 for i in guildListAPI['members']:
                     if i['uuid'] == uuid: guildDict['selfGuildRank'] = i['rank'] 

@@ -31807,11 +31807,16 @@ video {
   --tw-backdrop-sepia: sepia(100%);
 }
 
-@media (min-width: 150px) {
-  .mobile {
-    grid-column: span 3 / span 3;
-    grid-column-start: 1;
-  }
+.text-center-resp {
+  text-align: center;
+}
+
+.text-left-resp {
+  text-align: left;
+}
+
+.row-end-18 {
+  grid-row-end: 18;
 }
 
 /*                                                                                   mm           
@@ -63234,6 +63239,18 @@ YA.   ,A9 MM     MM    MM YM.    ,  MM
   .sm\:backdrop-sepia {
     --tw-backdrop-sepia: sepia(100%);
   }
+
+  .sm\:text-center-resp {
+    text-align: center;
+  }
+
+  .sm\:text-left-resp {
+    text-align: left;
+  }
+
+  .sm\:row-end-18 {
+    grid-row-end: 18;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -90685,10 +90702,6 @@ YA.   ,A9 MM     MM    MM YM.    ,  MM
     grid-row-end: 7;
   }
 
-  .lg\:row-end-17 {
-    grid-row-end: 17;
-  }
-
   .lg\:row-end-auto {
     grid-row-end: auto;
   }
@@ -94318,5 +94331,17 @@ YA.   ,A9 MM     MM    MM YM.    ,  MM
 
   .lg\:backdrop-sepia {
     --tw-backdrop-sepia: sepia(100%);
+  }
+
+  .lg\:text-center-resp {
+    text-align: center;
+  }
+
+  .lg\:text-left-resp {
+    text-align: left;
+  }
+
+  .lg\:row-end-18 {
+    grid-row-end: 18;
   }
 }

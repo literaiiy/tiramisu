@@ -10,7 +10,7 @@
     <div class='grid sm:grid-cols-1 lg:grid-cols-10 gap-6 sm:mx-5'>
         
         <!-- Table of Contents -->
-        <div class='main row-start-1 lg:row-end-17'>
+        <div class='main row-start-1 lg:row-end-18'>
             <div id='overview' class='anchor'></div>
             <nav class="section-nav">
                 <ol>
@@ -89,7 +89,7 @@
         <!------ PLAYER DESC ------>
         <div class="sm:col-span-1 lg:col-span-3 lg:col-start-7 align-start">
             <!--- USERNAME --->
-            <div id='username' class='text-3xl drop-shadow-lg sm:text-center sm:text-2xl'>
+            <div id='username' class='text-3xl drop-shadow-lg lg:text-left-resp sm:text-center-resp sm:text-2xl'>
                 {% if rankv3[0] %}
                     {% if rankv3[0] == 'YOUTUBE' %}
                     <b class='{{rankv3[2]}}'>[<b class='{{rankv3[3]}}'>{{rankv3[0]}}</b>]</b>
@@ -104,7 +104,7 @@
 
             </div>
 
-            <div id='uuid' class=" text-xl font-extralight sm:text-center">
+            <div id='uuid' class=" text-xl font-extralight lg:text-left-resp sm:text-center-resp break-words">
                 {{ uuid }}
             </div>
             <hr class='my-2'>
@@ -196,26 +196,26 @@
             <p>
                 <!--- SOCIAL MEDIA --->
                 {% if twitter != [] %}
-                    <i class="fab fa-twitter"></i> <a href='https://twitter.com' target='_blank' class="twitter"><b>Twitter: </b></a><a class='link' href='{{ twitter[1] }}' target='_blank'>@{{ twitter[0] }}</a><br>
+                    <i class="fab fa-twitter"></i> <a href='https://twitter.com' target='_blank' class="twitter"><b>Twitter</b></a>: <a class='link' href='{{ twitter[1] }}' target='_blank'>@{{ twitter[0] }}</a><br>
                 {% endif %}
                 {% if instagram != [] %}
-                    <i class="fab fa-instagram"></i> <a href='https://instagram.com' target='_blank' class="instagram"><b>Instagram: </b></a><a class='link' href='{{ instagram[1] }}' target='_blank'>@{{ instagram[0] }}</a><br>
+                    <i class="fab fa-instagram"></i> <a href='https://instagram.com' target='_blank' class="instagram"><b>Instagram</b></a>: <a class='link' href='{{ instagram[1] }}' target='_blank'>@{{ instagram[0] }}</a><br>
                 {% endif %}
                 {% if twitch != [] %}
-                    <i class="fab fa-twitch"></i> <a href='https://twitch.tv' target='_blank' class="twitch"><b>Twitch: </b></a><a class='link' href='{{ twitch[1] }}' target='_blank'>@{{ twitch[0] }}</a><br>
+                    <i class="fab fa-twitch"></i> <a href='https://twitch.tv' target='_blank' class="twitch"><b>Twitch</b></a>: <a class='link' href='{{ twitch[1] }}' target='_blank'>@{{ twitch[0] }}</a><br>
                 {% endif %}
                 {% if discord != '' and 'discord.gg' not in discord %}
-                    <i class="fab fa-discord"></i> <a href='https://discord.com' target='_blank' class="discord"><b>Discord:</b></a> @{{ discord }}<br>
+                    <i class="fab fa-discord"></i> <a href='https://discord.com' target='_blank' class="discord"><b>Discord</b></a>: @{{ discord }}<br>
                 {% elif 'https://discord.gg' in discord or 'http://discord.gg' in discord %}
-                    <i class="fab fa-discord"></i> <a href='https://discord.com' target='_blank' class="discord"><b>Discord:</b></a> <a class='link' href='{{ discord }}' target='_blank'>{{ discord }}</a><br>
+                    <i class="fab fa-discord"></i> <a href='https://discord.com' target='_blank' class="discord"><b>Discord</b></a>: <a class='link' href='{{ discord }}' target='_blank'>{{ discord }}</a><br>
                 {% elif 'discord.gg' in discord %}
-                    <i class="fab fa-discord"></i> <a href='https://discord.com' target='_blank' class="discord"><b>Discord:</b></a> <a class='link' href='https://{{ discord }}' target='_blank'>{{ discord }}</a><br>
+                    <i class="fab fa-discord"></i> <a href='https://discord.com' target='_blank' class="discord"><b>Discord</b></a>: <a class='link' href='https://{{ discord }}' target='_blank'>{{ discord }}</a><br>
                 {% endif %}
                 {% if hypixelForums != [] %}
-                    <img src="https://raw.githubusercontent.com/gist/literaiiy/ef8dcabfe98d9beafd6c303fe2bc4b7f/raw/6a7fccbc4262cc15478f520bd4677c7d6d6484a9/htopixel%20(1).svg" alt="hypixel logo" style='height:1rem;float:left;margin-right:0.5rem;'> <a href='https://hypixel.net/forums' target='_blank' class="hypixelForums"><b>Hypixel Forums:</b></a> <a class='link' href='{{ hypixelForums[1] }}' target='_blank'>@{{ hypixelForums[0] }}</a><br>
+                    <img src="https://raw.githubusercontent.com/gist/literaiiy/ef8dcabfe98d9beafd6c303fe2bc4b7f/raw/6a7fccbc4262cc15478f520bd4677c7d6d6484a9/htopixel%20(1).svg" alt="hypixel logo" style='height:1rem;float:left;margin-right:0.5rem;'> <a href='https://hypixel.net/forums' target='_blank' class="hypixelForums"><b>Hypixel Forums</b></a>: <a class='link' href='{{ hypixelForums[1] }}' target='_blank'>@{{ hypixelForums[0] }}</a><br>
                 {% endif %}
                 {% if youtube != [] %}
-                    <i class="fab fa-youtube"></i> <a href='https://youtube.com' target='_blank' class="youtube"><b>YouTube: </b></a><a class='link' href='{{ youtube[1] }}' target='_blank'>{{ youtube[0] }}</a><br>
+                    <i class="fab fa-youtube"></i> <a href='https://youtube.com' target='_blank' class="youtube"><b>YouTube</b></a>: <a class='link' href='{{ youtube[1] }}' target='_blank'>{{ youtube[0] }}</a><br>
                 {% endif %}
             </p>
 
@@ -285,10 +285,10 @@
                     </div>
                     <div>
                         <p>
-                            <span class='gold'><b>{{ swStatsDict['coins']| those }}</b> coins</span><br>
-                            <span class='dark_green'><b>{{swStatsDict['cosmetic_tokens']| those}}</b> tokens</span><br>
-                            <span class='aqua'><b>{{ swStatsDict['souls']| those }}</b> souls</span><br>
-                            <span class='light_purple'><b>{{ swStatsDict['heads']| those }}</b> heads</span><br>
+                            <span class='gold'><b>{{ swStatsDict['coins']| those }}</b> </span>coins<br>
+                            <span class='dark_green'><b>{{swStatsDict['cosmetic_tokens']| those}}</b> </span>tokens<br>
+                            <span class='aqua'><b>{{ swStatsDict['souls']| those }}</b> </span>souls<br>
+                            <span class='light_purple'><b>{{ swStatsDict['heads']| those }}</b> </span>heads<br>
                         </p>
                         <p>
                             <b>{{swStatsDict['blocks_placed']| those}}</b> blocks placed <br>
@@ -975,13 +975,13 @@
                     <div class='tabsBedWarsModes'>
                         {% for mode in bwModeStats %}
                             {% if bwModeStats[mode]['games_played_bedwars'][0] > 0 %}
-                                <button class="bwTabLinks text-2xl w-full text-gray-600 font-bold leading-none p-1 mb-1 rounded-lg bg-gray-200 focus:bg-gray-300 focus:outline-none hover:bg-gray-300" onclick="bwTabs(event, '{{mode}}')" id="defaultOpenBw">{{bwTranslateList[mode]}}</button><br>
+                                <button class="bwTabLinks text-2xl w-full text-left text-gray-600 font-bold leading-none px-2 py-1 mb-1.5 rounded-lg bg-gray-200 focus:bg-gray-300 focus:outline-none hover:bg-gray-300" onclick="bwTabs(event, '{{mode}}')" id="defaultOpenBw">{{bwTranslateList[mode]}}</button><br>
                             {% endif %}
                         {% endfor %}
                     </div>
                     {% for mode in bwModeStats %}
                         {% if bwModeStats[mode]['games_played_bedwars'][0] > 0 %}
-                            <div id='{{mode}}' class='bwTabContent'>
+                            <div id='{{mode}}' class='bwTabContent ml-5'>
                                 <p>
                                     {% if bwCompList[mode]['compkd'][0] > 100000 %}
                                         <span class="almost"><b>infinite</b></span> K/D
@@ -1314,7 +1314,7 @@
 
         <!-- Guild -->
         {% if guildDict['success'] %}
-            <div class="  sm:col-span-1 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow font-semibold text-center bg-gradient-to-r from-blue-900 to-pink-900 text-white">
+            <div class="sm:col-span-1 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow font-semibold text-center bg-gradient-to-r from-blue-900 to-pink-900 text-white">
                 <div id='guild' class='anchor'></div>
                 {% if guildDict['success'] %}
                     {{guildDict['name']}}
@@ -1323,7 +1323,7 @@
                     {% endif %}
                 {% endif %}
             </div>
-            <div class=' sm:col-span-1 lg:col-start-2 lg:col-end-5 lg:row-span-2 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+            <div class=' sm:col-span-1 lg:col-start-2 lg:col-end-7 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
                 <div class='py-1'>
                     <p>
                         <b>Description</b>: <i>{{guildDict['description']}}</i><br>
@@ -1361,7 +1361,7 @@
                     </p>
                 </div>
             </div>
-            <div class=' sm:col-span-1 lg:col-start-5 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+            <div class=' sm:col-span-1 lg:col-start-7 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
                 <div class='text-3xl font-semibold pb-5'>Guild ranks</div>
                 <div class="pt-5">
                     {% for z, a in guildDict['theGuildRanks'].items() %}
@@ -1372,10 +1372,10 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class=" sm:col-span-1 lg:col-start-5 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+            <div class=" sm:col-span-1 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
                 <div class='text-3xl font-semibold pb-5'>Guild XP earned by game</div>
-                <div class="pt-5 flex lg:flex-row sm:flex-col">
-                    <div class='flex-none'>
+                <div class="pt-5 flex lg:flex-row sm:flex-col gap-4">
+                    <div class='flex-none max-h-full'>
                         {% for d, f in guildDict['GXPBG'].items() %}
                             <b>{{d}}</b>: {{f | those}}<br>
                         {% endfor %}
@@ -1408,7 +1408,7 @@
                 </div>
             </div>
         {% else %}
-            <div id='guild' class=" sm:col-span-1 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow font-semibold text-center">No guild</div>
+            <div id='guild' class="sm:col-span-1 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow font-semibold text-center bg-gradient-to-r from-blue-900 to-pink-900 text-white">No guild</div>
         {% endif %}
         </div>
     <script src='/static/table.js'></script>

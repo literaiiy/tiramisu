@@ -8,6 +8,20 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  @variants responsive {
+    .text-center-resp {
+      text-align: center;
+    }
+    .text-left-resp {
+      text-align: left;
+    }
+    .row-end-18 {
+      grid-row-end: 18;
+    }
+  }
+}
+
 /*                                                                                   mm           
                                                                                     MM           
  ,p6"bo   ,pW"Wq.`7MMpMMMb.pMMMb. `7MMpdMAo.  ,pW"Wq.`7MMpMMMb.  .gP"Ya `7MMpMMMb.mmMMmm ,pP"Ybd 

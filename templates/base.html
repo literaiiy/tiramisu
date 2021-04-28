@@ -7,7 +7,7 @@
 
 {% block content %}
 <body>
-    <div class='grid sm:grid-cols-1 lg:grid-cols-10 gap-6 sm:mx-5'>
+    <div class='grid sm:grid-cols-1 md:grid-cols-9 lg:grid-cols-10 gap-6 sm:mx-5'>
         
         <!-- Table of Contents -->
         <div class='main row-start-1 lg:row-end-18'>
@@ -51,7 +51,7 @@
         </div>
 
         <!--- NAME HISTORY --->
-        <div class=' sm:col-span-1 namehistable lg:col-start-2 lg:col-span-4 bg-gray-100 p-6 rounded-2xl shadow overflow-scroll overflow-x-hidden'>
+        <div class=' sm:col-span-1 md:col-start-2 md:col-end-7 namehistable lg:col-start-2 lg:col-span-4 bg-gray-100 p-6 rounded-2xl shadow overflow-scroll overflow-x-hidden'>
             <table id="table_id" class="compact hover order-column">
                 <thead>
                     <tr>
@@ -84,10 +84,10 @@
         </div>
 
         <!------ PLAYER IMAGE ------>
-        <div class=" col-span-1 lg:col-start-6 image justify-self-center"><img src='https://mc-heads.net/body/{{uuid}}'><br></div>
+        <div class="sm:col-span-1 lg:col-span-1 md:col-span-2 lg:col-start-6 image justify-self-center"><img src='https://mc-heads.net/body/{{uuid}}'><br></div>
 
         <!------ PLAYER DESC ------>
-        <div class="sm:col-span-1 lg:col-span-3 lg:col-start-7 align-start">
+        <div class="sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-span-3 lg:col-start-7 align-start">
             <!--- USERNAME --->
             <div id='username' class='lg:text-3xl drop-shadow-lg lg:text-left-resp sm:text-center-resp sm:text-2xl'>
                 {% if rankv3[0] %}
@@ -239,11 +239,11 @@
     <!------ PLAYER STATS ------>
 
         <!--- SkyWars --->
-        <div class=' sm:col-span-1 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl text-4xl font-bold p-6 shadow text-center bg-gradient-to-r from-green-300 to-blue-800 text-white'>
+        <div class=' sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl text-4xl font-bold p-6 shadow text-center bg-gradient-to-r from-green-300 to-blue-800 text-white'>
             <div id='skywars' class='anchor'></div>
             SkyWars</div>
         <!-- Overall -->
-        <div class=" sm:col-span-1 lg:col-start-2 lg:col-span-4 lg:row-span-2 bg-gray-100 p-6 rounded-2xl shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-span-4 lg:row-span-2 bg-gray-100 p-6 rounded-2xl shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5">
                 <div id='skywars-overall' class='anchor'></div>Overall</div>
             <div class='pt-5'>
@@ -319,7 +319,7 @@
             </div>
         </div>
         <!-- SW MODE -->
-        <div class=' sm:col-span-1 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+        <div class=' sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
             {% if swUnscannedDict['games_played'] > 0 %}
                 <div class="tabForYes pb-5">
                     <div id='skywars-by-mode' class='anchor'></div>
@@ -404,7 +404,7 @@
             {% endif %}
         </div>
         <!-- SW MODE 2-->
-        <div class=' sm:col-span-1 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+        <div class=' sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
             {% if swUnscannedDict['games_played'] > 0 %}
                 <div class="tabForYes2 pb-3">
                     {% for y, x in gamemodes2.items() %}
@@ -481,13 +481,13 @@
             {% endif %}
         </div>
         <!--- HEADS -->
-        <div class=' sm:col-span-1 lg:col-start-2 lg:col-end-6 lg:row-span-2 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+        <div class=' sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-6 lg:row-span-2 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
             <div class="text-3xl font-semibold pb-5">
                 <div id='skywars-heads' class='anchor'></div>Heads</div>
             <div class='py-5 content-center'>
                 {% if swHeadsImpBool[0] %}
                 <div class='text-2xl text-gray-600 font-bold mb-2'>Overall</div>
-                <div class="flex lg:flex-row sm:flex-col justify-between">
+                <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-between">
                     <div>
                         {% for item in swHeadsListList[0] %}
                             <b><span class="{{item[2]}}">{{item[0]}}:</b></span> <b>{{item[1]| those}}</b> (<b>{{item[3]}}</b>%)<br>
@@ -503,7 +503,7 @@
                         Chart.defaults.global.defaultFontSize = 15
                         var heads = new Chart(ctx, {
                             type: 'doughnut',
-                            responsive: true,
+                            responsive: false,
                             maintainAspectRatio:true,
                             options: {legend:{display:false}},
                             data: {
@@ -525,7 +525,7 @@
             <div class='py-5 content-center'>
                 {% if swHeadsImpBool[1] %}
                     <div class='text-2xl text-gray-600 font-bold mb-2'>Solo</div>
-                        <div class="flex lg:flex-row sm:flex-col justify-between">
+                        <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-between">
                             <div>
                                 {% for item in swHeadsListList[1] %}
                                     <b><span class="{{item[2]}}">{{item[0]}}:</b></span> <b>{{item[1]| those}}</b> (<b>{{item[3]}}</b>%)<br>
@@ -541,7 +541,7 @@
                                 Chart.defaults.global.defaultFontSize = 15
                                 var headssolo = new Chart(ctx, {
                                     type: 'doughnut',
-                                    responsive: true,
+                                    responsive: false,
                                     maintainAspectRatio:true,
                                     options: {legend:{display:false}},
                                     data: {
@@ -563,14 +563,14 @@
             <div class='py-5 content-center'>
                 {% if swHeadsImpBool[2] %}
                 <div class='text-2xl text-gray-600 font-bold mb-2'>Teams</div>
-                        <div class="flex lg:flex-row sm:flex-col justify-between">
+                        <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-between">
                             <div>
                                 {% for item in swHeadsListList[2] %}
                                     <b><span class="{{item[2]}}">{{item[0]}}:</b></span> <b>{{item[1]| those}}</b> (<b>{{item[3]}}</b>%)<br>
                                 {% endfor %}</p>
                             </div>
-                            <div class='headscontteam'>
-                                <canvas id="headsteam" style="width:100%;height:100%"></canvas>
+                            <div>
+                                <canvas id="headsteam" style='height:100%;width:100%;'></canvas>
                                 <script>
                                 var ctx = document.getElementById('headsteam');
                                 // @ts-ignore
@@ -579,7 +579,7 @@
                                 Chart.defaults.global.defaultFontSize = 15
                                 var headsteam = new Chart(ctx, {
                                     type: 'doughnut',
-                                    responsive: true,
+                                    responsive: false,
                                     maintainAspectRatio:true,
                                     options: {legend:{display:false}},
                                     data: {
@@ -600,9 +600,9 @@
             </div>
         </div>
         <!-- Kills via -->
-        <div class=' sm:col-span-1 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+        <div class=' sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
             <div class="text-3xl font-semibold pb-5"><div id='skywars-kills-via' class='anchor'></div>Kills via</div>
-            <div class="flex lg:flex-row sm:flex-col justify-between pt-5">
+            <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-between pt-5">
                 {% if swKillTypeList['success'] == True %}
                     <div>
                         {% if swKillTypeList['success'] %}
@@ -636,7 +636,7 @@
                         Chart.defaults.global.defaultFontSize = 15
                         var myChart = new Chart(ctx, {
                             type: 'doughnut',
-                            responsive: true,
+                            responsive: false,
                             maintainAspectRatio:true,
                             options: {legend:{display:false}},
                             data: {
@@ -663,7 +663,7 @@
             </div>
         </div>
         <!-- Time Wasted -->
-        <div class=" sm:col-span-1 lg:col-start-6 lg:col-end-10 lg:row-span-2 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-6 lg:col-end-10 lg:row-span-2 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class='text-3xl font-semibold pb-5'><div id='skywars-time' class='anchor'></div>Time played</div>
             <div class="pt-5">
                 {% if swTimeLists[0][5] != '0s' %}
@@ -677,7 +677,7 @@
                         Chart.defaults.global.defaultFontSize = 15
                         var myChart2 = new Chart(ctx, {
                             type: 'bar',
-                            responsive: true,
+                            responsive: false,
                             maintainAspectRatio:true,
                             data: {
                                 labels: ['Solo', 'Teams', 'Mega', 'Ranked', 'Laboratory'],
@@ -742,9 +742,9 @@
             </div>
         </div>
         <!-- Souls -->
-        <div class=" sm:col-span-1 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='skywars-souls' class='anchor'></div>Souls</div>
-            <div class="flex lg:flex-row sm:flex-col justify-between pt-5">
+            <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-between pt-5">
             {% if swStatsDict['souls'] %}
                 <div>
                     <p>
@@ -795,7 +795,7 @@
             </div>
         </div>
         <!-- Favorite maps & cages-->
-        <div class=" sm:col-span-1 mapscag lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 mapscag lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='skywars-maps-cages' class='anchor'></div>Favorite maps & cages</div>
             <div class="pt-5">
                 <p>
@@ -815,7 +815,7 @@
             </div>
         </div>
         <!-- Angel's Descent -->
-        <div class=" sm:col-span-1 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='skywars-angels-descent' class='anchor'></div>Angel's Descent</div>
             <div class="pt-5">
                 {% if swOpals['shards'] %}
@@ -839,7 +839,7 @@
             </div>
         </div>
         <!-- Challenges -->
-        <div class=" sm:col-span-1 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='skywars-challenges' class='anchor'></div>Challenges</div>
                 <div class='grid sm:grid-cols-1 lg:grid-cols-2 pt-5'>
                     {% if swChalAtt['overall'] %}
@@ -883,7 +883,7 @@
             </div>
         </div>
         <!-- Cosmetics -->
-        <div class=" sm:col-span-1 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='skywars-cosmetics' class='anchor'></div>Cosmetics</div>
             <p class='pt-5'>
             {% if swCosmetics %}
@@ -918,11 +918,11 @@
         </div>
                 
         <!-- BedWars -->
-        <div class=" sm:col-span-1 lg:col-start-2 lg:col-end-10 rounded-2xl text-4xl font-bold p-6 shadow text-center bg-gradient-to-r from-yellow-100 to-red-600 text-white">
+        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-10 rounded-2xl text-4xl font-bold p-6 shadow text-center bg-gradient-to-r from-yellow-100 to-red-600 text-white">
             <div id='bedwars' class='anchor'></div>BedWars</div>
         
         <!-- Overall -->
-        <div class=" sm:col-span-1 lg:col-start-2 lg:col-end-4 bg-gray-100 rounded-2xl p-6 shadow">
+        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-4 bg-gray-100 rounded-2xl p-6 shadow">
             <div class="text-3xl font-semibold pb-5"><div id='bedwars-overall' class='anchor'></div>Overall</div>
             <p>
                 <b><span class="{{bwOverallStats['prestige'][1]}}">
@@ -966,7 +966,7 @@
         </div>
 
         <!-- BedWars by mode -->
-        <div class=" sm:col-span-1 lg:col-start-4 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-4 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='bedwars-by-mode' class='anchor'></div>Stats by mode</div>
             {% if bwOverallStats['games_played_bedwars'] > 0 %}
                 <div>
@@ -1068,9 +1068,9 @@
         </div>
 
         <!-- Kills via -->
-        <div class=" sm:col-span-1 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='bedwars-kills-via' class='anchor'></div>Kills via</div>
-            <div class='flex lg:flex-row sm:flex-col justify-between pt-5'>
+            <div class='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-between pt-5'>
                 {% if bwOverallStats['kills_bedwars'] %}
                     <div>
                         <p>
@@ -1106,7 +1106,7 @@
                         Chart.defaults.global.defaultFontSize = 15
                         var killsva = new Chart(ctx, {
                             type: 'doughnut',
-                            responsive: true,
+                            responsive: false,
                             maintainAspectRatio:true,
                             options: {legend:{display:false}},
                             data: {
@@ -1136,9 +1136,9 @@
         </div>
         
         <!-- Loot chests -->
-        <div class=" sm:col-span-1 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='bedwars-loot-chests' class='anchor'></div>Loot Chests</div>
-            <div class='flex lg:flex-row sm:flex-col justify-between pt-5'>
+            <div class='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-between pt-5'>
                 {% if bwLootBoxes['bedwars_box'] %}
                     <div>
                         <p>
@@ -1168,7 +1168,7 @@
                         Chart.defaults.global.defaultFontSize = 15
                         var lootboxer = new Chart(ctx, {
                             type: 'doughnut',
-                            responsive: true,
+                            responsive: false,
                             maintainAspectRatio:true,
                             options: {
                                 legend: {
@@ -1198,9 +1198,9 @@
         </div>
 
         <!-- Final kills -->
-        <div class=" sm:col-span-1 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='bedwars-final-kills' class='anchor'></div>Final kills via</div>
-            <div class='pt-5 flex lg:flex-row sm:flex-col justify-between'>
+            <div class='pt-5 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-between'>
                 {% if bwOverallStats['final_kills_bedwars'] %}
                     <div>
                         <p>
@@ -1229,7 +1229,7 @@
                         Chart.defaults.global.defaultFontSize = 15
                         var fkillsva = new Chart(ctx, {
                             type: 'doughnut',
-                            responsive: true,
+                            responsive: false,
                             maintainAspectRatio:true,
                             options: {legend:{display:false}},
                             data: {
@@ -1259,9 +1259,9 @@
         </div>
 
         <!-- Resources collected -->
-        <div class=" sm:col-span-1 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='bedwars-resources' class='anchor'></div>Resources collected</div>
-            <div class='pt-5 flex lg:flex-row sm:flex-col justify-between'>
+            <div class='pt-5 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-between'>
                 {% if bwTotalResources %}
                     <div>
                         <p>
@@ -1286,7 +1286,7 @@
                         Chart.defaults.global.defaultFontSize = 15
                         var rescolss = new Chart(ctx, {
                             type: 'doughnut',
-                            responsive: true,
+                            responsive: false,
                             maintainAspectRatio:true,
                             options: {legend:{display:false}, plugins:{tooltip:{backgroundColor:'rgba(256,256,256,1)'}}},
                             data: {
@@ -1313,7 +1313,7 @@
         </div>
 
         <!-- Cosmetics -->
-        <div class=" sm:col-span-1 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='bedwars-cosmetics' class='anchor'></div>Cosmetics</div>
             <div class="pt-5">
                 {% if bwCosmetics %}
@@ -1328,7 +1328,7 @@
 
         <!-- Guild -->
         {% if guildDict['success'] %}
-            <div class="sm:col-span-1 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow font-semibold text-center bg-gradient-to-r from-blue-900 to-pink-900 text-white">
+            <div class="sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow font-semibold text-center bg-gradient-to-r from-blue-900 to-pink-900 text-white">
                 <div id='guild' class='anchor'></div>
                 {% if guildDict['success'] %}
                     {{guildDict['name']}}
@@ -1337,7 +1337,7 @@
                     {% endif %}
                 {% endif %}
             </div>
-            <div class=' sm:col-span-1 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+            <div class=' sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
                 <div class='py-1'>
                     <p>
                         <b>Description</b>: <i>{{guildDict['description']}}</i><br>
@@ -1375,7 +1375,7 @@
                     </p>
                 </div>
             </div>
-            <div class=' sm:col-span-1 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+            <div class=' sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
                 <div class='text-3xl font-semibold pb-5'>Guild ranks</div>
                 <div class="pt-5">
                     {% for z, a in guildDict['theGuildRanks'].items() %}
@@ -1386,9 +1386,9 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class=" sm:col-span-1 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+            <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
                 <div class='text-3xl font-semibold pb-5'>Guild XP earned by game</div>
-                <div class="pt-5 flex lg:flex-row sm:flex-col gap-4">
+                <div class="pt-5 flex md:flex-row lg:flex-row sm:flex-col gap-4">
                     <div class='flex-none max-h-full'>
                         {% for d, f in guildDict['GXPBG'].items() %}
                             <b>{{d}}</b>: {{f | those}}<br>
@@ -1404,7 +1404,7 @@
                         Chart.defaults.global.defaultFontSize = 15
                         var why = new Chart(ctx, {
                             type: 'bar',
-                            responsive: true,
+                            responsive: false,
                             maintainAspectRatio:true,
                             options: {legend:{display:false}, plugins:{tooltip:{backgroundColor:'rgba(256,256,256,1)'}}},
                             data: {
@@ -1421,7 +1421,7 @@
                 </div>
             </div>
         {% else %}
-            <div id='guild' class="sm:col-span-1 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow font-semibold text-center bg-gradient-to-r from-blue-900 to-pink-900 text-white">No guild</div>
+            <div id='guild' class="sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow font-semibold text-center bg-gradient-to-r from-blue-900 to-pink-900 text-white">No guild</div>
         {% endif %}
         </div>
     <script src='/static/table.js'></script>

@@ -10,7 +10,7 @@ import math
 import time
 import re
 import os
-#import loggingf
+import logging
 #import httpx
 #from itertools import cycle, islice
 #from num2words import num2words
@@ -79,15 +79,15 @@ config = {
 # some config stuff
 app.config.from_mapping(config)
     #cache = Cache(app)
-    #logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.DEBUG)
     #requests_cache.install_cache('requests_cache', expire_after=3)
     #requests_cache.install_cache('test_cache', backend='sqlite', expire_after=30)
 
 # reqses
-headers = {"User-Agent":"Mozilla/5.0 (X11; U; Linux i686 (x86_64); en-GB; rv:1.9.0.1) Gecko/2008070206 Firefox/3.0.1"}
+headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36"}
 reqses = requests.Session()
 reqses.trust_env = False
-retries = Retry(total=5, backoff_factor=0.1, status_forcelist=[ 429, 500, 502, 503, 504 ])
+retries = Retry(total=5, backoff_factor=1, status_forcelist=[ 429, 500, 502, 503, 504 ])
 reqses.mount('http://', HTTPAdapter(max_retries=retries))
 
 class searchBar():
@@ -663,6 +663,77 @@ def compute(q):
 
         lastSeenUnix = int(time.time()) - lastLogoutUnix
         lastSeen = significantTimeDenom(sec2format(lastSeenUnix))
+
+        totalKillsPlaces = [
+            ['Battleground', 'kills'],
+            ['HungerGames', 'kills'],
+            ['MCGO', 'kills'],
+            ['Paintball', 'kills'],
+            ['Quake', 'kills'],
+            ['UHC', 'kills'],
+            ['Walls', 'kills'],
+            ['Walls3', 'kills'],
+            ['SkyWars', 'kills'],
+            ['TrueCombat', 'kills'],
+            ['SuperSmash', 'kills'],
+            ['SpeedUHC', 'kills'],
+            ['SkyClash', 'kills'],
+            ['MurderMystery', 'kills'],
+            ['Duels', 'kills'],
+            #['Pit', 'pit_stats_ptl', 'kills'],
+            ['Bedwars', 'kills_bedwars'],
+        ]
+        totalCoinsPlaces = [
+            ['Arcade', 'coins'],
+            ['Arena', 'coins'],
+            ['BuildBattle', 'coins'],
+            ['Battleground', 'coins'],
+            ['HungerGames', 'coins'],
+            ['GingerBread', 'coins'],
+            ['MCGO', 'coins'],
+            ['Paintball', 'coins'],
+            ['Quake', 'coins'],
+            ['UHC', 'coins'],
+            ['Walls', 'coins'],
+            ['Walls3', 'coins'],
+            ['SkyWars', 'coins'],
+            ['TNTGames', 'coins'],
+            ['TrueCombat', 'coins'],
+            ['SuperSmash', 'coins'],
+            ['SpeedUHC', 'coins'],
+            ['SkyClash', 'coins'],
+            ['VampireZ', 'coins'],
+            ['MurderMystery', 'coins'],
+            ['Duels', 'coins'],
+            #['Pit', 'pit_stats_ptl', 'kills'],
+            ['Bedwars', 'coins'],
+        ]
+        totalKills = 0
+        totalWins = 0
+        totalCoins = 0
+
+        for i in totalKillsPlaces:
+            try:
+                print(i)
+                totalKills += reqAPI['player']['stats'][i[0]][i[1]]
+            except KeyError:
+                print('Key duhsint exist.')
+                pass
+        print('totalKills: ', totalKills)
+        
+        for h, i in reqAPI['player']['achievements'].items():
+            if 'wins' in h:
+                totalWins += i
+        print('totalWins: ', totalWins)
+
+        for i in totalCoinsPlaces:
+            try:
+                print(i)
+                totalCoins += reqAPI['player']['stats'][i[0]][i[1]]
+            except KeyError:
+                print('Key duhsint exist.')
+                pass
+        print('totalCoins: ', totalCoins)
 
         print('other user stats are done. ',round(time.time() - start_time, 4), ' sec')
 

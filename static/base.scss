@@ -98,6 +98,49 @@ html {scroll-behavior:smooth}
   margin: 0 !important
 }
 
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 15rem;
+  background-color: rgba(255, 255, 255, 0.75);
+  color: rgb(0, 0, 0);
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px 0;
+  /* Position the tooltip */
+  position: absolute;
+  right:0;
+  margin-top: 3rem;
+  z-index: 99;
+  opacity: 0;
+  transition: opacity 1s;
+  --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.tooltip:hover .tooltiptext {
+  opacity: 1;
+}
+
+.tooltip .tooltiptext::after {
+  content: " ";
+  position: absolute;
+  bottom: 100%;  /* At the top of the tooltip */
+  left: 87.5%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent rgb(255, 255, 255) transparent;
+  }
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
 ul,ol{list-style:none;margin:0;padding:0}
 li{margin-left:1rem}
 h1{font-weight:300}

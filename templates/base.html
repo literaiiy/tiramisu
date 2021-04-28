@@ -35,7 +35,7 @@
                             <li class=""><a href="#bedwars-kills-via">Kills via</a></li>
                             <li class=""><a href="#bedwars-loot-chests">Loot Chests</a></li>
                             <li class=""><a href="#bedwars-final-kills">Final kills via</a></li>
-                            <li class=""><a href="#bedwars-resources">Res. collected</a></li>
+                            <li class=""><a href="#bedwars-resources">Res. Collected</a></li>
                             <li class=""><a href="#bedwars-cosmetics">Cosmetics</a></li>
                         </ul>
                     <li class='ml-2'><a href="#guild"><b>Guild</b></a></li>
@@ -664,7 +664,7 @@
         </div>
         <!-- Time Wasted -->
         <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-6 lg:col-end-10 lg:row-span-2 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class='text-3xl font-semibold pb-5'><div id='skywars-time' class='anchor'></div>Time played</div>
+            <div class='text-3xl font-semibold pb-5'><div id='skywars-time' class='anchor'></div>Time Played</div>
             <div class="pt-5">
                 {% if swTimeLists[0][5] != '0s' %}
                     <div class='canvasContainer2'>
@@ -796,7 +796,7 @@
         </div>
         <!-- Favorite maps & cages-->
         <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 mapscag lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class="text-3xl font-semibold pb-5"><div id='skywars-maps-cages' class='anchor'></div>Favorite maps & cages</div>
+            <div class="text-3xl font-semibold pb-5"><div id='skywars-maps-cages' class='anchor'></div>Favorite Maps & Cages</div>
             <div class="pt-5">
                 <p>
                     {% if not swMapsList %}
@@ -1199,7 +1199,7 @@
 
         <!-- Final kills -->
         <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class="text-3xl font-semibold pb-5"><div id='bedwars-final-kills' class='anchor'></div>Final kills via</div>
+            <div class="text-3xl font-semibold pb-5"><div id='bedwars-final-kills' class='anchor'></div>Final Kills via</div>
             <div class='pt-5 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-between'>
                 {% if bwOverallStats['final_kills_bedwars'] %}
                     <div>
@@ -1260,7 +1260,7 @@
 
         <!-- Resources collected -->
         <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class="text-3xl font-semibold pb-5"><div id='bedwars-resources' class='anchor'></div>Resources collected</div>
+            <div class="text-3xl font-semibold pb-5"><div id='bedwars-resources' class='anchor'></div>Resources Collected</div>
             <div class='pt-5 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-between'>
                 {% if bwTotalResources %}
                     <div>
@@ -1376,7 +1376,7 @@
                 </div>
             </div>
             <div class=' sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
-                <div class='text-3xl font-semibold pb-5'>Guild ranks</div>
+                <div class='text-3xl font-semibold pb-5'>Guild Ranks</div>
                 <div class="pt-5">
                     {% for z, a in guildDict['theGuildRanks'].items() %}
                         <b>{{z}}</b>
@@ -1421,8 +1421,8 @@
                 </div>
             </div>
         {% else %}
-            <div id='guild' class="sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow font-semibold text-center bg-gradient-to-r from-blue-900 to-pink-900 text-white">No guild</div>
-        {% endif %}
+            <div id='guild' class="sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:colend-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow font-semibold text-center bg-gradient-to-r from-blue-900 to-pink-900 text-white">No guild</div>
+        {% endif %}-
         </div>
     <script src='/static/table.js'></script>
     <script src='/static/tabs.js'></script>

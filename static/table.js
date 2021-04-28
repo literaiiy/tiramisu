@@ -13,6 +13,7 @@ $(document).ready( function () {
             "search":"",
             "zeroRecords": "No matching results",
         'scrollY':'50vh',
+        'scrollX':'50vh',
         'scrollCollapse': true,
         'paging': false
         }

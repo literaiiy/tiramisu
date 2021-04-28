@@ -48107,7 +48107,7 @@ footer{
 }
 
 ::-webkit-scrollbar-thumb:hover{
-  background:#777;
+  background:#ddd;
   border-radius: 5px;
 }
 

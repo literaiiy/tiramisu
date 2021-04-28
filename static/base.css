@@ -49,7 +49,7 @@ footer{text-align:center;bottom:0}
 ::-webkit-scrollbar{width:10px}
 ::-webkit-scrollbar-track{background:#999}
 ::-webkit-scrollbar-thumb{background:#aaa;border-radius: 5px;}
-::-webkit-scrollbar-thumb:hover{background:#777;border-radius: 5px;}
+::-webkit-scrollbar-thumb:hover{background:#ddd;border-radius: 5px;}
 
 #mobilelogo {
   display:none;

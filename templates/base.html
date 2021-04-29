@@ -5,12 +5,21 @@
 </head>
 {% endblock %}
 
+<div class="loader-wrapper z-50">
+    <span class="loader"><span class="loader-inner"></span></span>
+</div>
+<script>
+    $(window).on("load",function(){
+      $(".loader-wrapper").fadeOut("slow");
+    });
+</script>
+
 {% block content %}
 <body>
     <div class='grid sm:grid-cols-1 md:grid-cols-9 lg:grid-cols-10 gap-6 sm:mx-5'>
         
         <!-- Table of Contents -->
-        <div class='main row-start-1 lg:row-end-18'>
+        <div class='main row-start-1 sm:col-span-1 lg:col-span-1 md:col-span-2 md:row-end-27 lg:row-end-18'>
             <div id='overview' class='anchor'></div>
             <nav class="section-nav">
                 <ol>
@@ -51,7 +60,7 @@
         </div>
 
         <!--- NAME HISTORY --->
-        <div class=' sm:col-span-1 md:col-start-2 md:col-end-7 namehistable lg:col-start-2 lg:col-span-4 bg-gray-100 p-6 rounded-2xl shadow overflow-scroll overflow-x-hidden'>
+        <div class=' sm:col-span-1 md:col-start-3 md:col-end-8 namehistable lg:col-start-2 lg:col-span-4 bg-gray-100 p-6 rounded-2xl shadow overflow-scroll overflow-y-auto overflow-x-auto'>
             <table id="table_id" class="compact hover order-column">
                 <thead>
                     <tr>
@@ -87,19 +96,26 @@
         <div class="sm:col-span-1 lg:col-span-1 md:col-span-2 lg:col-start-6 image justify-self-center"><img src='https://mc-heads.net/body/{{uuid}}'><br></div>
 
         <!------ PLAYER DESC ------>
-        <div class="sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-span-3 lg:col-start-7 align-start">
+        <div class="sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-span-3 lg:col-start-7 align-start">
             <!--- USERNAME --->
-            <div id='username' class='lg:text-3xl drop-shadow-lg lg:text-left-resp sm:text-center-resp sm:text-2xl'>
-                {% if rankv3[0] %}
-                    {% if rankv3[0] == 'YOUTUBE' %}
-                    <b class='{{rankv3[2]}}'>[<b class='{{rankv3[3]}}'>{{rankv3[0]}}</b>]</b>
-                    {% else %}
-                    <b class='{{rankv3[2]}}'>[{{rankv3[0]}}<b class='{{rankv3[3]}}'>{{rankv3[1]}}</b>]</b>
+            <div id='username' class='whitespace-nowrap lg:text-3xl drop-shadow-lg lg:text-left-resp sm:text-center-resp sm:text-2xl'>
+                {% if uuid == '35a178c0c37043aea959983223c04de0' %}
+                    <b class='fleuraphile font-black'>[MVP+]</b>
+                    <span class="water font-extra-bold">{{username}}</span>
+                    <b><span class='fleuraphile font-black'> [{{ guildDict['tag'] }}]<span></b>
+                    <img class='float-right h-8' src="https://raw.githubusercontent.com/gist/literaiiy/4abf7e5c3a61d91437788459eecc044c/raw/b51b7045ee1d35a2faf889228ef5c353777481e5/tiramis2.svg" alt=" [STAFF]">
+                {% else %}
+                    {% if rankv3[0] %}
+                        {% if rankv3[0] == 'YOUTUBE' %}
+                            <b class='{{rankv3[2]}}'>[<b class='{{rankv3[3]}}'>{{rankv3[0]}}</b>]</b>
+                        {% else %}
+                            <b class='{{rankv3[2]}}'>[{{rankv3[0]}}<b class='{{rankv3[3]}}'>{{rankv3[1]}}</b>]</b>
+                        {% endif %}
                     {% endif %}
-                {% endif %}
-                {{username}}
-                {% if guildDict['tag'] %}
-                <b><span class='{{guildDict["tagColor"]}}'> [{{ guildDict['tag'] }}]<span></b>{{displayAddon}}
+                        {{username}}
+                    {% if guildDict['tag'] %}
+                        <b><span class='{{guildDict["tagColor"]}}'> [{{ guildDict['tag'] }}]<span></b>
+                    {% endif %}
                 {% endif %}
 
             </div>
@@ -239,18 +255,18 @@
     <!------ PLAYER STATS ------>
 
         <!--- SkyWars --->
-        <div class=' sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl text-4xl font-bold p-6 shadow text-center bg-gradient-to-r from-green-300 to-blue-800 text-white'>
+        <div class=' sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl text-4xl font-bold p-6 shadow text-center bg-gradient-to-r from-green-300 to-blue-800 text-white two-px-border'>
             <div id='skywars' class='anchor'></div>
             SkyWars</div>
         <!-- Overall -->
-        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-span-4 lg:row-span-2 bg-gray-100 p-6 rounded-2xl shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-2 lg:col-span-4 lg:row-span-2 bg-gray-100 p-6 rounded-2xl shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5">
                 <div id='skywars-overall' class='anchor'></div>Overall</div>
             <div class='pt-5'>
                 {% if swBestGame[1]  %}
-                    {{ username }} plays <b>{{ swBestGame[1] }}</b> most often, with <b>{{ swBestGame[0]| those}}</b> games played.
+                    {{ username }} plays <b>{{ swBestGame[1] }}</b> most often, with <b>{{ swBestGame[0]| those}}</b> games played.<br>
                 {% endif %}
-                <div class="grid grid-cols-2 gap-2">
+                <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2">
                     <div>
                         <p>
                             <b><span class="{{ swUnscannedDict['prestige'][1] }}">[{{ swUnscannedDict['level'] }}{{swUnscannedDict['presIcon']}}]</span> {{username}}</b><br>
@@ -261,23 +277,22 @@
                             <b class='{{ swUnscannedDict["head_tastiness"][1] }}'>{{ swUnscannedDict['head_tastiness'][0] }}</b> head <br>
                         </p>
                         <p>
-                            <b>{{ swUnscannedDict['games_played']| those }}</b> games played <br>
-                            <b>{{ swStatsDict['quits']| those }}</b> games quit<br>
-                            <b>{{ swUnscannedDict['K/D'] }}</b> K/D<br>
-                            <b>{{ swUnscannedDict['KDA'] }}</b> K/D/A<br>
                             <b>{{ swStatsDict['kills']| those }}</b> kills<br>
                             <b>{{ swStatsDict['assists']| those }}</b> assists <br>
                             <b>{{ swStatsDict['deaths']| those }}</b> deaths<br>
+                            <b>{{ swUnscannedDict['K/D'] }}</b> K/D<br>
+                            <b>{{ swUnscannedDict['KDA'] }}</b> K/D/A<br>
                         </p>
                         <p>
-                            <b>{{ swUnscannedDict['W/L'] }}</b> W/L <br>
-                            <b>{{ swUnscannedDict['winrate'] }}</b>% win rate <br>
                             <b>{{ swStatsDict['wins']| those }}</b> wins<br>
                             <b>{{ swStatsDict['losses']| those }}</b> losses <br>
-                            <b>{{ swStatsDict['survived_players']| those }}</b> players survived <br>
+                            <b>{{ swUnscannedDict['W/L'] }}</b> W/L - <b>{{ swUnscannedDict['winrate'] }}</b>% win rate <br>
                         </p>
                         <p>
-                            <b>{{ swStatsDict['win_streak']| those }}</b> winstreak <br>
+                            <b>{{ swStatsDict['win_streak']| those }}</b> winstreak<br>
+                            <b>{{ swUnscannedDict['games_played']| those }}</b> games played <br>
+                            <b>{{ swStatsDict['quits']| those }}</b> games quit<br>
+                            <b>{{ swStatsDict['survived_players']| those }}</b> players survived <br>
                             Corruption chance: <b>{{swStatsDict['angel_of_death_level']}}</b>%<br>
                             <b>{{ swStatsDict['chests_opened']| those }}</b> chests opened<br>
                             <b>{{swStatsDict['refill_chest_destroy']| those}}</b> refill chests destroyed <br>
@@ -319,7 +334,7 @@
             </div>
         </div>
         <!-- SW MODE -->
-        <div class=' sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+        <div class=' sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
             {% if swUnscannedDict['games_played'] > 0 %}
                 <div class="tabForYes pb-5">
                     <div id='skywars-by-mode' class='anchor'></div>
@@ -355,7 +370,7 @@
                                 {% endif %}
     
                             {% elif x['kdrel'] < 0  %}
-                                {{username}} performs worse in <b><b>{{y}}</b></b> than overall <br>
+                                {{username}} performs worse in <b>{{y}}</b> than overall <br>
                                 <b>{{ x['kdrel']|abs }}</b> lower K/D (<span class='red'><b>{{x['kdrelperc'] }}</b>%</span>)
                                 {% if x['W/L'] > 100000 %}
                                     & <span class='almost'><b>infinite</b></span> W/L. Nice work!
@@ -387,8 +402,8 @@
                             </div>
                             <div>
                                 <br><b>{{x['assists']| those}}</b> assists  (<b>{{ x['assists%']|round(2) }}</b>%)
-                                <br><b>{{ x['survived_players']| those }}</b> players survived (<b>{{ x['survived_players%']|round(2) }}</b>%)
                                 <br><b>{{x['games_played']| those}}</b> games played (<b>{{ x['games_played%']|round(2) }}</b>%)
+                                <br><b>{{ x['survived_players']| those }}</b> players survived (<b>{{ x['survived_players%']|round(2) }}</b>%)
                                 {% if y != 'Laboratory' %}
                                     <br><b>{{x['kit']}}</b> currently equipped
                                 {% endif %}
@@ -404,7 +419,7 @@
             {% endif %}
         </div>
         <!-- SW MODE 2-->
-        <div class=' sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+        <div class=' sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
             {% if swUnscannedDict['games_played'] > 0 %}
                 <div class="tabForYes2 pb-3">
                     {% for y, x in gamemodes2.items() %}
@@ -456,21 +471,13 @@
                             <div>
                                 <br><b>{{ x['kills']| those }}</b> kills (<b>{{ x['kills%']|round(2) }}</b>%)
                                 <br><b>{{ x['deaths']| those }}</b> deaths (<b>{{ x['deaths%']|round(2) }}</b>%)
-                                <br><b>{{x['wins']| those}}</b> wins (<b>{{ x['wins%']|round(2) }}</b>%)
-                                <br><b>{{x['losses']| those}}</b> losses (<b>{{ x['losses%']|round(2) }}</b>%)
+                                {% if x["K/D"] > 100000 %}<br><b>∞</b> K/D{% else %}<br><b>{{ x["K/D"] }}</b> K/D{% endif %}
                             </div>
                             <div>
+                                <br><b>{{x['wins']| those}}</b> wins (<b>{{ x['wins%']|round(2) }}</b>%)
+                                <br><b>{{x['losses']| those}}</b> losses (<b>{{ x['losses%']|round(2) }}</b>%)
+                                {% if x['W/L'] > 100000 %}<br><b>∞</b> W/L - <b>100</b>% win rate{% else %}<br><b>{{ x['W/L'] }}</b> W/L - <b>{{x['winperc']}}</b>% win rate{% endif %}
                                 <br><b>{{x['games_played']| those}}</b> games played (<b>{{ x['games_played%']|round(2) }}</b>%)
-                                {% if x["K/D"] > 100000 %}
-                                    <br><b>∞</b> K/D
-                                {% else %}
-                                    <br><b>{{ x["K/D"] }}</b> K/D
-                                {% endif %}
-                                {% if x['W/L'] > 100000 %}
-                                    <br><b>∞</b> W/L - <b>100</b>% win rate
-                                {% else %}
-                                    <br><b>{{ x['W/L'] }}</b> W/L - <b>{{x['winperc']}}</b>% win rate
-                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -481,7 +488,7 @@
             {% endif %}
         </div>
         <!--- HEADS -->
-        <div class=' sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-6 lg:row-span-2 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+        <div class=' sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-2 lg:col-end-6 lg:row-span-2 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
             <div class="text-3xl font-semibold pb-5">
                 <div id='skywars-heads' class='anchor'></div>Heads</div>
             <div class='py-5 content-center'>
@@ -600,7 +607,7 @@
             </div>
         </div>
         <!-- Kills via -->
-        <div class=' sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+        <div class=' sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
             <div class="text-3xl font-semibold pb-5"><div id='skywars-kills-via' class='anchor'></div>Kills via</div>
             <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-between pt-5">
                 {% if swKillTypeList['success'] == True %}
@@ -663,7 +670,7 @@
             </div>
         </div>
         <!-- Time Wasted -->
-        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-6 lg:col-end-10 lg:row-span-2 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-6 lg:col-end-10 lg:row-span-2 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class='text-3xl font-semibold pb-5'><div id='skywars-time' class='anchor'></div>Time Played</div>
             <div class="pt-5">
                 {% if swTimeLists[0][5] != '0s' %}
@@ -706,7 +713,7 @@
                         </script>
                     </div>
                     <p>Since their first login, {{username}} has spent <b>{{ swKWperLists[2] }}</b>% of their life playing SkyWars. </p>
-                    <div class="grid grid-cols-2 gap-10 justify-around">
+                    <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 justify-around">
                         <div>
                             <p>
                                 <b>{{ swTimeLists[0][5] }}</b> in total <br>
@@ -742,7 +749,7 @@
             </div>
         </div>
         <!-- Souls -->
-        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='skywars-souls' class='anchor'></div>Souls</div>
             <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-between pt-5">
             {% if swStatsDict['souls'] %}
@@ -795,7 +802,7 @@
             </div>
         </div>
         <!-- Favorite maps & cages-->
-        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 mapscag lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 mapscag lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='skywars-maps-cages' class='anchor'></div>Favorite Maps & Cages</div>
             <div class="pt-5">
                 <p>
@@ -815,7 +822,7 @@
             </div>
         </div>
         <!-- Angel's Descent -->
-        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='skywars-angels-descent' class='anchor'></div>Angel's Descent</div>
             <div class="pt-5">
                 {% if swOpals['shards'] %}
@@ -839,9 +846,9 @@
             </div>
         </div>
         <!-- Challenges -->
-        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='skywars-challenges' class='anchor'></div>Challenges</div>
-                <div class='grid sm:grid-cols-1 lg:grid-cols-2 pt-5'>
+                <div class='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 pt-5'>
                     {% if swChalAtt['overall'] %}
                     <div>
                         <p>
@@ -883,7 +890,7 @@
             </div>
         </div>
         <!-- Cosmetics -->
-        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='skywars-cosmetics' class='anchor'></div>Cosmetics</div>
             <p class='pt-5'>
             {% if swCosmetics %}
@@ -918,55 +925,66 @@
         </div>
                 
         <!-- BedWars -->
-        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-10 rounded-2xl text-4xl font-bold p-6 shadow text-center bg-gradient-to-r from-yellow-100 to-red-600 text-white">
+        <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-2 lg:col-end-10 rounded-2xl text-4xl font-bold p-6 shadow text-center bg-gradient-to-r from-yellow-100 to-red-600 text-white two-px-border">
             <div id='bedwars' class='anchor'></div>BedWars</div>
         
         <!-- Overall -->
-        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-4 bg-gray-100 rounded-2xl p-6 shadow">
+        <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-2 lg:col-end-5 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300 ">
             <div class="text-3xl font-semibold pb-5"><div id='bedwars-overall' class='anchor'></div>Overall</div>
-            <p>
-                <b><span class="{{bwOverallStats['prestige'][1]}}">
-                    [{{bwOverallStats['level']| those}}☆]
-                </span></b>
-                {{username}} <br>
-                <b><span class="{{bwOverallStats['prestige'][1]}}">
-                    {{bwOverallStats['prestige'][0]}}
-                </span></b>
-                Prestige - <b>{{bwOverallStats['prestige'][2]}}</b>% to
-                <b><span class="{{bwOverallStats['prestige'][1]}}">[{{(bwOverallStats['level']+1)| those}}☆]
-                </span></b>
-                <br>
-                <b>{{bwOverallStats['Experience']| those}}</b> experience <br>
-            </p>
-            <p>
-                <b>{{bwOverallStats['games_played_bedwars']| those}}</b> games played <br>
-                <b>{{bwOverallStats['kills_bedwars']| those}}</b> kills<br>
-                <b>{{bwOverallStats['deaths_bedwars']| those}}</b> deaths<br>
-                <b>{{bwOverallStats['K/D']}}</b> K/D<br>
-                <b>{{bwOverallStats['final_kills_bedwars']| those}}</b> final kills<br>
-                <b>{{bwOverallStats['final_deaths_bedwars']| those}}</b> final deaths<br>
-                <b>{{bwOverallStats['finK/D']}}</b> final K/D<br>
-                <b>{{bwOverallStats['K/FD']}}</b> kills/final deaths<br>
-                <b>{{bwOverallStats['FK/D']}}</b> final kills/deaths<br>
-            </p>
-            <p>
-                <b>{{bwOverallStats['winstreak']| those}}</b> winstreak<br>
-                <b>{{bwOverallStats['wins_bedwars']| those}}</b> wins<br>
-                <b>{{bwOverallStats['losses_bedwars']| those}}</b> losses<br>
-                <b>{{bwOverallStats['W/L']}}</b> W/L<br>
-                <b>{{bwOverallStats['winrate']}}</b>% win rate<br>
-            </p>
-            <p>
-                <b>{{bwOverallStats['beds_broken_bedwars']| those}}</b> beds broken<br>
-                <b>{{bwOverallStats['beds_lost_bedwars']| those}}</b> beds lost<br>
-                <b>{{bwOverallStats['B/L']}}</b> bed break/lose<br>
-                <b>{{bwOverallStats['_items_purchased_bedwars']| those}}</b> total purchases<br>
-                <b>{{bwOverallStats['resources_collected_bedwars']| those}}</b> resources collected<br>
-            </p>
+            <div class='pt-5'>
+                <p>
+                    <b><span class="{{bwOverallStats['prestige'][1]}}">
+                        [{{bwOverallStats['level']| those}}☆]
+                    </span></b>
+                    {{username}} <br>
+                    <b><span class="{{bwOverallStats['prestige'][1]}}">
+                        {{bwOverallStats['prestige'][0]}}
+                    </span></b>
+                    Prestige - <b>{{bwOverallStats['prestige'][2]}}</b>% to
+                    <b><span class="{{bwOverallStats['prestige'][1]}}">[{{(bwOverallStats['level']+1)| those}}☆]
+                    </span></b>
+                    <br>
+                    <b>{{bwOverallStats['Experience']| those}}</b> experience <br>
+                </p>
+                <p>
+                    <b>{{bwOverallStats['kills_bedwars']| those}}</b> kills<br>
+                    <b>{{bwOverallStats['deaths_bedwars']| those}}</b> deaths<br>
+                    <b>{{bwOverallStats['K/D']}}</b> K/D<br>
+                </p>
+                <p>
+                    <b>{{bwOverallStats['final_kills_bedwars']| those}}</b> final kills<br>
+                    <b>{{bwOverallStats['final_deaths_bedwars']| those}}</b> final deaths<br>
+                    <b>{{bwOverallStats['finK/D']}}</b> final K/D<br>
+                </p>
+                <p>
+                    <b>{{bwOverallStats['K/FD']}}</b> kills/final deaths<br>
+                    <b>{{bwOverallStats['FK/D']}}</b> final kills/deaths<br>
+                </p>
+                <p>
+                    <b>{{bwOverallStats['winstreak']| those}}</b> winstreak<br>
+                    <b>{{bwOverallStats['games_played_bedwars']| those}}</b> games played <br>
+                </p>
+                <p>
+                    <b>{{bwOverallStats['wins_bedwars']| those}}</b> wins<br>
+                    <b>{{bwOverallStats['losses_bedwars']| those}}</b> losses<br>
+                    <b>{{bwOverallStats['W/L']}}</b> W/L - <b>{{bwOverallStats['winrate']}}</b>% win rate<br>
+                </p>
+                <p>
+                    <b>{{bwOverallStats['beds_broken_bedwars']| those}}</b> beds broken<br>
+                    <b>{{bwOverallStats['beds_lost_bedwars']| those}}</b> beds lost<br>
+                    <b>{{bwOverallStats['B/L']}}</b> bed break/lose<br>
+                </p>
+                <p>
+                    <b>{{bwOverallStats['_items_purchased_bedwars']| those}}</b> total purchases<br>
+                    <b>{{bwOverallStats['resources_collected_bedwars']| those}}</b> resources collected<br>
+                    <b>{{bwOverallStats['items/game']| thraw}}</b> purchases per game<br>
+                    <b>{{bwOverallStats['resources/game']| thraw}}</b> resources collected per game<br>
+                </p>
+            </div>
         </div>
 
         <!-- BedWars by mode -->
-        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-4 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-5 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='bedwars-by-mode' class='anchor'></div>Stats by mode</div>
             {% if bwOverallStats['games_played_bedwars'] > 0 %}
                 <div>
@@ -974,17 +992,23 @@
                         <p>{{username}} plays <b>{{bwMKWList[3]}}</b> the most, has the highest K/D in <b>{{bwMKWList[4]}}</b>, and has the highest W/L in <b>{{bwMKWList[5]}}</b>.
                     {% endif %}
                 </div>
-                <div class='flex gap-4 pt-5'>
-                    <div class='tabsBedWarsModes'>
+                <div class='flex sm:flex-col md:flex-row lg:flex-row pt-5'>
+                    <div class='tabsBedWarsModes py-3'>
                         {% for mode in bwModeStats %}
                             {% if bwModeStats[mode]['games_played_bedwars'][0] > 0 %}
-                                <button class="bwTabLinks text-2xl w-full text-left text-gray-600 font-bold leading-none px-2 py-1 mb-1.5 rounded-lg bg-gray-200 focus:bg-gray-300 focus:outline-none hover:bg-gray-300" onclick="bwTabs(event, '{{mode}}')" id="defaultOpenBw">{{bwTranslateList[mode]}}</button><br>
+                                <button class="bwTabLinks text-xl text-left text-gray-600 font-bold leading-none p-1.5 mb-1.5 mr-5 rounded-lg bg-gray-200 focus:bg-gray-300 focus:outline-none hover:bg-gray-300" onclick="bwTabs(event, '{{mode}}')" id="defaultOpenBw">
+                                    {% if ' ' in bwTranslateList[mode] %}
+                                        <span class="text-xl">{{(bwTranslateList[mode] | split)[1]}}</span><span class="text-base text-gray-400 font-extrabold"> {{(bwTranslateList[mode] | split)[0]}}</span>
+                                    {% else %}
+                                        {{bwTranslateList[mode]}}
+                                    {% endif %}
+                                </button><br>
                             {% endif %}
                         {% endfor %}
                     </div>
                     {% for mode in bwModeStats %}
                         {% if bwModeStats[mode]['games_played_bedwars'][0] > 0 %}
-                            <div id='{{mode}}' class='bwTabContent ml-5'>
+                            <div id='{{mode}}' class='bwTabContent sm:mt-5'>
                                 <p>
                                     {% if bwCompList[mode]['compkd'][0] > 100000 %}
                                         <span class="almost"><b>infinite</b></span> K/D
@@ -1011,7 +1035,7 @@
                                     {% endif %}
                                 </p>
             
-                                <div class='grid sm:grid-cols-1 lg:grid-cols-2'>
+                                <div class='grid sm:grid-cols-1 md:lg-grid-cols lg:grid-cols-2'>
                                     <div>
                                         <p>
                                             <b>{{ bwModeStats[mode]['kills_bedwars'][0]| those }}</b> kills (<b>{{ bwModeStats[mode]['kills_bedwars'][1]}}</b>%) <br>
@@ -1036,8 +1060,8 @@
                                     </div>
                                     <div>
                                         <p>
-                                            <b>{{ bwModeStats[mode]['games_played_bedwars'][0]| those }}</b> games played (<b>{{ bwModeStats[mode]['games_played_bedwars'][1]}}</b>%) <br>
                                             <b>{{ bwModeStats[mode]['winstreak'][0]| those }}</b> winstreak<br>
+                                            <b>{{ bwModeStats[mode]['games_played_bedwars'][0]| those }}</b> games played (<b>{{ bwModeStats[mode]['games_played_bedwars'][1]}}</b>%) <br>
                                         </p>
                                         <p>
                                             <b>{{ bwModeStats[mode]['wins_bedwars'][0]| those }}</b> wins (<b>{{ bwModeStats[mode]['wins_bedwars'][1]}}</b>%) <br>
@@ -1068,7 +1092,7 @@
         </div>
 
         <!-- Kills via -->
-        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='bedwars-kills-via' class='anchor'></div>Kills via</div>
             <div class='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-between pt-5'>
                 {% if bwOverallStats['kills_bedwars'] %}
@@ -1136,7 +1160,7 @@
         </div>
         
         <!-- Loot chests -->
-        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='bedwars-loot-chests' class='anchor'></div>Loot Chests</div>
             <div class='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-between pt-5'>
                 {% if bwLootBoxes['bedwars_box'] %}
@@ -1198,7 +1222,7 @@
         </div>
 
         <!-- Final kills -->
-        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='bedwars-final-kills' class='anchor'></div>Final Kills via</div>
             <div class='pt-5 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-between'>
                 {% if bwOverallStats['final_kills_bedwars'] %}
@@ -1259,7 +1283,7 @@
         </div>
 
         <!-- Resources collected -->
-        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='bedwars-resources' class='anchor'></div>Resources Collected</div>
             <div class='pt-5 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-between'>
                 {% if bwTotalResources %}
@@ -1276,7 +1300,7 @@
                             <b>{{bwItemsPurchased| those}}</b> total purchases<br>
                         </p>
                     </div>
-                    <div class='cavResCol'>
+                    <div>
                         <canvas id="RESCOL" style="width:100%;height:100%"></canvas>
                         <script>
                         var ctx = document.getElementById('RESCOL');
@@ -1288,7 +1312,7 @@
                             type: 'doughnut',
                             responsive: false,
                             maintainAspectRatio:true,
-                            options: {legend:{display:false}, plugins:{tooltip:{backgroundColor:'rgba(256,256,256,1)'}}},
+                            options: {legend:{display:false}},
                             data: {
                                 labels: ['Iron','Gold','Diamonds','Emeralds','Wrapped Presents'],
                                 datasets: [{
@@ -1313,7 +1337,7 @@
         </div>
 
         <!-- Cosmetics -->
-        <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+        <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='bedwars-cosmetics' class='anchor'></div>Cosmetics</div>
             <div class="pt-5">
                 {% if bwCosmetics %}
@@ -1328,7 +1352,7 @@
 
         <!-- Guild -->
         {% if guildDict['success'] %}
-            <div class="sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow font-semibold text-center bg-gradient-to-r from-blue-900 to-pink-900 text-white">
+            <div class="sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow font-semibold text-center bg-gradient-to-r from-blue-900 to-pink-900 text-white two-px-border">
                 <div id='guild' class='anchor'></div>
                 {% if guildDict['success'] %}
                     {{guildDict['name']}}
@@ -1337,7 +1361,7 @@
                     {% endif %}
                 {% endif %}
             </div>
-            <div class=' sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+            <div class=' sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
                 <div class='py-1'>
                     <p>
                         <b>Description</b>: <i>{{guildDict['description']}}</i><br>
@@ -1375,7 +1399,7 @@
                     </p>
                 </div>
             </div>
-            <div class=' sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+            <div class=' sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
                 <div class='text-3xl font-semibold pb-5'>Guild Ranks</div>
                 <div class="pt-5">
                     {% for z, a in guildDict['theGuildRanks'].items() %}
@@ -1386,7 +1410,7 @@
                     {% endfor %}
                 </div>
             </div>
-            <div class=" sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+            <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
                 <div class='text-3xl font-semibold pb-5'>Guild XP earned by game</div>
                 <div class="pt-5 flex md:flex-row lg:flex-row sm:flex-col gap-4">
                     <div class='flex-none max-h-full'>
@@ -1421,7 +1445,7 @@
                 </div>
             </div>
         {% else %}
-            <div id='guild' class="sm:col-span-1 md:col-start-2 md:col-span-8 lg:col-start-2 lg:colend-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow font-semibold text-center bg-gradient-to-r from-blue-900 to-pink-900 text-white">No guild</div>
+            <div id='guild' class="sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-2 lg:colend-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow font-semibold text-center bg-gradient-to-r from-blue-900 to-pink-900 text-white two-px-border">No guild</div>
         {% endif %}-
         </div>
     <script src='/static/table.js'></script>

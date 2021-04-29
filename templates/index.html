@@ -18,6 +18,8 @@
 		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/plug-ins/1.10.21/sorting/datetime-moment.js"></script>
 		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/datetime/1.0.3/js/dataTables.dateTime.min.js"></script>
 		<link rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/twemoji-awesome@1.0.6/dist/twemoji-awesome.min.css'></link>
+		<link rel="stylesheet" type="text/css" href="loading-bar.css"/>
+		<script type="text/javascript" src="loading-bar.js"></script>
 		<link rel="preconnect" href="https://fonts.gstatic.com">
 		<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css2?family=Orienta&display=swap" rel="stylesheet">
@@ -63,6 +65,17 @@
 			<!-- <button class="my-5 mx-2 px-3 focus:outline-none bg-gray-200 rounded-xl hover:bg-gray-300"><i class="twa twa-2x twa-2600"></i></button> -->
 		</div>
 	</head>
+
+	{% block thisthing %}
+	<div class="loader-wrapper z-50">
+		<span class="loader"><span class="loader-inner"></span></span>
+	</div>
+	<script>
+		$(window).on("load",function(){
+		$(".loader-wrapper").fadeOut("slow");
+		});
+	</script>
+	{% endblock %}
 
 	{% block content %}
 		<main class='flex-grow grid sm:grid-cols-1 lg:grid-cols-10 gap-4 sm:mx-5'>

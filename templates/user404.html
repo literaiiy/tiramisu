@@ -9,10 +9,10 @@
 
 {% block content %}
     {% if noAutocorrect != True %}
-        <p>Did you mean to search for <a href='/p/{{noAutocorrect}}'><b>{{noAutocorrect}}</b></a>?</p>
+        <p class='text-center'>Did you mean to search for <a href='/p/{{noAutocorrect}}'><b>{{noAutocorrect}}</b></a>?</p>
     {% endif %}
-    <div class="text-2xl">This player doesn't exist</div>
-    <p>{{screwup}}</p>
+    <div class="text-center text-4xl">This player doesn't exist.</div>
+    <p class='text-center'>{{screwup}}</p>
     {#% if remo %#}
 <!-- <span class="water">WATER  df fdfd fd</span> <br>
 <span class="mirror">Mirrorf d dfdf df df </span><br>

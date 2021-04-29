@@ -9,6 +9,9 @@
 @tailwind utilities;
 
 @layer utilities {
+  .two-px-border {
+    text-shadow: 2px 2px 2px rgba(0,0,0,0.5);
+  }
   @variants responsive {
     .text-center-resp {
       text-align: center;
@@ -18,6 +21,9 @@
     }
     .row-end-18 {
       grid-row-end: 18;
+    }
+    .row-end-27 {
+      grid-row-end: 27;
     }
   }
 }
@@ -46,10 +52,10 @@ footer{text-align:center;bottom:0}
   max-height: 80vh;
 }
 
-::-webkit-scrollbar{width:10px}
-::-webkit-scrollbar-track{background:#999}
+::-webkit-scrollbar{height:10px;width:10px}
+::-webkit-scrollbar-track{background:#ddd}
 ::-webkit-scrollbar-thumb{background:#aaa;border-radius: 5px;}
-::-webkit-scrollbar-thumb:hover{background:#ddd;border-radius: 5px;}
+::-webkit-scrollbar-thumb:hover{background:#999;border-radius: 5px;}
 
 #mobilelogo {
   display:none;
@@ -145,6 +151,49 @@ ul,ol{list-style:none;margin:0;padding:0}
 li{margin-left:1rem}
 h1{font-weight:300}
 
+th {
+  white-space: nowrap;
+}
+  .loader-wrapper {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  }
+  .loader {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  border: 4px solid #02064a;
+  animation: loader 2s infinite ease;
+  }
+  .loader-inner {
+  vertical-align: top;
+  display: inline-block;
+  width: 100%;
+  background-color: #fff;
+  animation: loader-inner 2s infinite ease-in;
+  }
+  @keyframes loader {
+  0% { transform: rotate(0deg);}
+  25% { transform: rotate(180deg);}
+  50% { transform: rotate(180deg);}
+  75% { transform: rotate(360deg);}
+  100% { transform: rotate(360deg);}
+  }
+  @keyframes loader-inner {
+  0% { height: 0%;}
+  25% { height: 0%;}
+  50% { height: 100%;}
+  75% { height: 100%;}
+  100% { height: 0%;}
+  }
 /*                  ,,                          
                  `7MM                          
                    MM                          
@@ -197,7 +246,9 @@ YM.    , YA.   ,A9 MM YA.   ,A9 MM     L.   I8
 .thunder{background-image:linear-gradient(to right,#ff6,#fff,#666);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .earth{background-image:linear-gradient(to right,#0f0,#070,#fa0,#ff6);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .water{background-image:linear-gradient(to right,aqua,teal, royalblue);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.fire{background-image:linear-gradient(to right,#ff3,#fa0,#800);-webkit-background-clip:text;-webkit-text-fill-color:transparent}                       
+.fire{background-image:linear-gradient(to right,#ff3,#fa0,#800);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+.fleuraphile{background-image:linear-gradient(to right,#0f0c29,#302b63,#24243e);-webkit-background-clip:text;-webkit-text-fill-color:transparent} 
                                            
 /*  ██▄   ██     ▄▄▄▄▀ ██     ▄▄▄▄▀ ██   ███   █     ▄███▄     ▄▄▄▄▄   
    █  █  █ █ ▀▀▀ █    █ █ ▀▀▀ █    █ █  █  █  █     █▀   ▀   █     ▀▄ 

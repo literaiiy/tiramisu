@@ -11,7 +11,7 @@ import time
 import re
 import os
 import logging
-#import httpx
+import httpx
 #from itertools import cycle, islice
 #from num2words import num2words
 import requests_cache
@@ -86,7 +86,7 @@ logging.basicConfig(level=logging.DEBUG)
 # reqses
 headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36"}
 reqses = requests.Session()
-reqses.trust_env = False
+#reqses.trust_env = False
 retries = Retry(total=5, backoff_factor=1, status_forcelist=[ 429, 500, 502, 503, 504 ])
 reqses.mount('http://', HTTPAdapter(max_retries=retries))
 
@@ -193,9 +193,16 @@ def those(n):
 def thraw(n):
     return f'{n:,}'
 
+# Floor number
 @app.template_filter()
 def floor(n):
     return math.floor(n)
+
+# Split
+@app.template_filter()
+def split(l):
+    return l.split()
+
 
 # ! Routing for search page
 @app.route('/p/<q>', methods=['POST','GET'])
@@ -229,9 +236,9 @@ def compute(q):
 
 # ! Retrieve from API and initialize
         print('right before requeas ',(time.time() - start_time), ' sec')
-        try:
-            r = reqses.get('https://api.hypixel.net/player?key=' + HAPIKEY + '&uuid=' + uuid)
-        except: return render_template('404.html', error=500, text='API timeout', desc='The Hypixel API timed out.'), 500
+        #try:
+        r = httpx.get('https://api.hypixel.net/player?key=' + HAPIKEY + '&uuid=' + uuid)
+        #except: return render_template('404.html', error=500, text='API timeout', desc='The Hypixel API timed out.'), 500
         print('RIGHT AFTER REQAPI is being gotten. ',(time.time() - start_time), ' sec')
         reqAPI = r.json()
         print('json deserialized ',(time.time() - start_time), ' sec')
@@ -293,7 +300,7 @@ def compute(q):
         for namehisUnixTime in namehis:
             try:
                 nhutChangedToAt = namehisUnixTime['changed_to_at']
-                namehisUnixTime['changed_to_at'] = datetime.fromtimestamp(nhutChangedToAt/1000).strftime('%b %#d, %Y @ %#I:%M:%S %p')
+                namehisUnixTime['changed_to_at'] = datetime.fromtimestamp(nhutChangedToAt/1000).strftime('%b %d, %Y @ %I:%M:%S %p')
                 namehisDiff = (nhutChangedToAt - nhutminus1)/1000
                 namehisUnixTime['time_between'] = sec2format2ydhms(sec2format(namehisDiff))
                 nhutminus1 = nhutChangedToAt
@@ -714,26 +721,19 @@ def compute(q):
 
         for i in totalKillsPlaces:
             try:
-                print(i)
                 totalKills += reqAPI['player']['stats'][i[0]][i[1]]
             except KeyError:
-                print('Key duhsint exist.')
                 pass
-        print('totalKills: ', totalKills)
         
         for h, i in reqAPI['player']['achievements'].items():
             if 'wins' in h:
                 totalWins += i
-        print('totalWins: ', totalWins)
 
         for i in totalCoinsPlaces:
             try:
-                print(i)
                 totalCoins += reqAPI['player']['stats'][i[0]][i[1]]
             except KeyError:
-                print('Key duhsint exist.')
                 pass
-        print('totalCoins: ', totalCoins)
 
         print('other user stats are done. ',round(time.time() - start_time, 4), ' sec')
 
@@ -1220,7 +1220,7 @@ def compute(q):
 
         
         # Add 4 criss cross final kill death crap, W/L, and B/L
-        for x in [['K/D','kills_bedwars','deaths_bedwars'], ['finK/D','final_kills_bedwars','final_deaths_bedwars'], ['K/FD', 'kills_bedwars', 'final_deaths_bedwars'], ['FK/D', 'final_kills_bedwars', 'deaths_bedwars'], ['W/L', 'wins_bedwars', 'losses_bedwars'], ['B/L', 'beds_broken_bedwars', 'beds_lost_bedwars']]:
+        for x in [['K/D','kills_bedwars','deaths_bedwars'], ['finK/D','final_kills_bedwars','final_deaths_bedwars'], ['K/FD', 'kills_bedwars', 'final_deaths_bedwars'], ['FK/D', 'final_kills_bedwars', 'deaths_bedwars'], ['W/L', 'wins_bedwars', 'losses_bedwars'], ['B/L', 'beds_broken_bedwars', 'beds_lost_bedwars'], ['items/game', '_items_purchased_bedwars', 'games_played_bedwars'], ['resources/game', 'resources_collected_bedwars', 'games_played_bedwars']]:
             # try:
             bwOverallStats[x[0]] = weirdDiv(bwOverallStats[x[1]], bwOverallStats[x[2]],4)
             # except ZeroDivisionError:
@@ -1561,10 +1561,9 @@ def compute(q):
             variable_name = reqses.get('https://api.hypixel.net/guild?key='+ HAPIKEY + '&player=' + uuid)
             greqAPI = variable_name.json()
             print('RIGHT AFTER GUILD DATA is being gotten. ',(time.time() - start_time), ' sec')
-            #print(greqAPI)
             guildListAPI = greqAPI.get('guild', False)
 
-            if greqAPI['success']:
+            if greqAPI['guild']:
 
             # Guild info
                 # Gets the automatable ones
@@ -1621,15 +1620,15 @@ def compute(q):
         print('Guild is done. ',round(time.time() - start_time, 4), ' sec')
 
 # ! Render base.html        
-        displayAddon = ''
-        if uuid in ADMINS:
-            displayAddon += ' 🍰'
-        if uuid in FLOWERS:
-            displayAddon += ' 🌸'
-        if uuid in SPARKLES:
-            displayAddon += ' ✨'
-        if uuid in PENGUINS:
-            displayAddon += ' 🐧'
+        # displayAddon = ''
+        # if uuid in ADMINS:
+        #     displayAddon += ' 🍰'
+        # if uuid in FLOWERS:
+        #     displayAddon += ' 🌸'
+        # if uuid in SPARKLES:
+        #     displayAddon += ' ✨'
+        # if uuid in PENGUINS:
+            # displayAddon += ' 🐧'
         #print(rankParsed)
         print("--- %s seconds ---" % (time.time() - start_time))
 
@@ -1637,7 +1636,7 @@ def compute(q):
         #print('firstLogin')
         #print(firstLoginUnix)
         
-        return render_template('base.html', uuid=uuid, username=username, displayAddon=displayAddon, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rankv3=rankv3, multiplier=multiplier, swStatsDict=swStatsDict, swUnscannedDict=swUnscannedDict, joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc, swTimeColorList], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources, bwCosmetics=bwCosmetics, userLanguage=userLanguage, userVersion=userVersion, totalKills=totalKills, totalWins=totalWins, totalCoins=totalCoins, giftsMeta=giftsMeta, rewards=rewards, lastPlayed=lastPlayed, lastSeen=lastSeen, lastSeenUnix=lastSeenUnix, swMapsList=swMapsList, swCagesList=swCagesList, swCosmetics=swCosmetics, swHeadsImpBool=swHeadsImpBool, swChalAtt=swChalAtt, swChalAttNum=swChalAttNum, swChalWins=swChalWins, swChalWinsNum=swChalWinsNum, guildDict=guildDict)
+        return render_template('base.html', uuid=uuid, username=username, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rankv3=rankv3, multiplier=multiplier, swStatsDict=swStatsDict, swUnscannedDict=swUnscannedDict, joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc, swTimeColorList], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources, bwCosmetics=bwCosmetics, userLanguage=userLanguage, userVersion=userVersion, totalKills=totalKills, totalWins=totalWins, totalCoins=totalCoins, giftsMeta=giftsMeta, rewards=rewards, lastPlayed=lastPlayed, lastSeen=lastSeen, lastSeenUnix=lastSeenUnix, swMapsList=swMapsList, swCagesList=swCagesList, swCosmetics=swCosmetics, swHeadsImpBool=swHeadsImpBool, swChalAtt=swChalAtt, swChalAttNum=swChalAttNum, swChalWins=swChalWins, swChalWinsNum=swChalWinsNum, guildDict=guildDict)
     
 # ! Invalid username exception
     else:

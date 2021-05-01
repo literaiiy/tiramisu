@@ -11,7 +11,7 @@ import time
 import re
 import os
 import logging
-import httpx
+#import httpx
 #from itertools import cycle, islice
 #from num2words import num2words
 import requests_cache
@@ -236,7 +236,7 @@ def compute(q):
 # ! Retrieve from API and initialize
         print('right before requeas ',(time.time() - start_time), ' sec')
         #try:
-        r = httpx.get('https://api.hypixel.net/player?key=' + HAPIKEY + '&uuid=' + uuid)
+        r = reqses.get('https://api.hypixel.net/player?key=' + HAPIKEY + '&uuid=' + uuid)
         #except: return render_template('404.html', error=500, text='API timeout', desc='The Hypixel API timed out.'), 500
         print('RIGHT AFTER REQAPI is being gotten. ',(time.time() - start_time), ' sec')
         reqAPI = r.json()

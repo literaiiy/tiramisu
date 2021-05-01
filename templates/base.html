@@ -30,7 +30,7 @@
                             <li class=""><a href="#skywars-by-mode">Stats by mode</a></li>
                             <li class=""><a href="#skywars-heads">Heads</a></li>
                             <li class=""><a href="#skywars-kills-via">Kills via</a></li>
-                            <li class=""><a href="#skywars-time">Time Played</a></li>
+                            <li class=""><a href="#skywars-time">Time played</a></li>
                             <li class=""><a href="#skywars-souls">Souls</a></li>
                             <li class=""><a href="#skywars-maps-cages">Fav. Maps & Cages</a></li>
                             <li class=""><a href="#skywars-angels-descent">Angel's Descent</a></li>
@@ -42,9 +42,9 @@
                             <li class=""><a href="#bedwars-overall">Overall</a></li>
                             <li class=""><a href="#bedwars-by-mode">Stats by mode</a></li>
                             <li class=""><a href="#bedwars-kills-via">Kills via</a></li>
-                            <li class=""><a href="#bedwars-loot-chests">Loot Chests</a></li>
+                            <li class=""><a href="#bedwars-loot-chests">Loot chests</a></li>
                             <li class=""><a href="#bedwars-final-kills">Final kills via</a></li>
-                            <li class=""><a href="#bedwars-resources">Res. Collected</a></li>
+                            <li class=""><a href="#bedwars-resources">Res. collected</a></li>
                             <li class=""><a href="#bedwars-cosmetics">Cosmetics</a></li>
                         </ul>
                     <li class='ml-2'><a href="#guild"><b>Guild</b></a></li>
@@ -98,12 +98,14 @@
         <!------ PLAYER DESC ------>
         <div class="sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-span-3 lg:col-start-7 align-start">
             <!--- USERNAME --->
-            <div id='username' class='whitespace-nowrap lg:text-3xl drop-shadow-lg lg:text-left-resp sm:text-center-resp sm:text-2xl'>
+            <div id='username' class=' lg:text-3xl drop-shadow-lg lg:text-left-resp sm:text-center-resp sm:text-2xl'>
                 {% if uuid == '35a178c0c37043aea959983223c04de0' %}
-                    <b class='fleuraphile font-black'>[MVP+]</b>
-                    <span class="water font-extra-bold">{{username}}</span>
-                    <b><span class='fleuraphile font-black'> [{{ guildDict['tag'] }}]<span></b>
-                    <img class='float-right h-8' src="https://raw.githubusercontent.com/gist/literaiiy/4abf7e5c3a61d91437788459eecc044c/raw/b51b7045ee1d35a2faf889228ef5c353777481e5/tiramis2.svg" alt=" [STAFF]">
+                    <h2 class="fleuraphile">
+                        <b class=' font-black'>[MVP+]</b>
+                        <span class=" font-extra-bold">{{username}}</span>
+                        <b class=' font-black'> [{{ guildDict['tag'] }}]</b>
+                        <i class="twa -mb-0.5 twa-1f370" title='Yes hello'></i>
+                    </h2>
                 {% else %}
                     {% if rankv3[0] %}
                         {% if rankv3[0] == 'YOUTUBE' %}
@@ -117,7 +119,6 @@
                         <b><span class='{{guildDict["tagColor"]}}'> [{{ guildDict['tag'] }}]<span></b>
                     {% endif %}
                 {% endif %}
-
             </div>
 
             <div id='uuid' class=" text-xl font-extralight lg:text-left-resp sm:text-center-resp break-words">
@@ -536,7 +537,7 @@
                             <div>
                                 {% for item in swHeadsListList[1] %}
                                     <b><span class="{{item[2]}}">{{item[0]}}:</b></span> <b>{{item[1]| those}}</b> (<b>{{item[3]}}</b>%)<br>
-                                {% endfor %}</p>
+                                {% endfor %}
                             </div>
                             <div class='headscontsolo'>
                                 <canvas id="headssolo" style="width:100%;height:100%"></canvas>
@@ -614,22 +615,22 @@
                     <div>
                         {% if swKillTypeList['success'] %}
                             {% if swKillTypeList['melee'][0] %}
-                            <span class='dark_blue'><b>Melee</b></span>: <b>{{swKillTypeList['melee'][0]| those}}</b> kills (<b>{{swKillTypeList['melee'][1]}}</b>%)<br>
+                            <span class='melee'><b>Melee</b></span>: <b>{{swKillTypeList['melee'][0]| those}}</b> kills (<b>{{swKillTypeList['melee'][1]}}</b>%)<br>
                             {% endif %}
                             {% if swKillTypeList['void'][0] %}
-                            <span class='dark_aqua'><b>Void</b></span>: <b>{{swKillTypeList['void'][0]| those}}</b> kills (<b>{{swKillTypeList['void'][1]}}</b>%)<br>
+                            <span class='void'><b>Void</b></span>: <b>{{swKillTypeList['void'][0]| those}}</b> kills (<b>{{swKillTypeList['void'][1]}}</b>%)<br>
                             {% endif %}
                             {% if swKillTypeList['bow'][0] %}
-                            <span class='gray'><b>Bow</b></span>: <b>{{swKillTypeList['bow'][0]| those}}</b> kills (<b>{{swKillTypeList['bow'][1]}}</b>%)<br>
+                            <span class='bow'><b>Bow</b></span>: <b>{{swKillTypeList['bow'][0]| those}}</b> kills (<b>{{swKillTypeList['bow'][1]}}</b>%)<br>
                             {% endif %}
                             {% if swKillTypeList['mob'][0] %}
-                            <span class='gold'><b>Mob</b></span>: <b>{{swKillTypeList['mob'][0]| those}}</b> kills (<b>{{swKillTypeList['mob'][1]}}</b>%)<br>
+                            <span class='mob'><b>Mob</b></span>: <b>{{swKillTypeList['mob'][0]| those}}</b> kills (<b>{{swKillTypeList['mob'][1]}}</b>%)<br>
                             {% endif %}
                             {% if swKillTypeList['fall'][0] %}
-                            <span class='dark_red'><b>Fall</b></span>: <b>{{swKillTypeList['fall'][0]| those}}</b> kills (<b>{{swKillTypeList['fall'][1]}}</b>%)<br>
+                            <span class='fall'><b>Fall</b></span>: <b>{{swKillTypeList['fall'][0]| those}}</b> kills (<b>{{swKillTypeList['fall'][1]}}</b>%)<br>
                             {% endif %}
                             {% if swKillTypeList['other'][0] %}
-                            <span class='red'><b>Other</b></span>: <b>{{swKillTypeList['other'][0]| those}}</b> kills (<b>{{swKillTypeList['other'][1]}}</b>%)<br>
+                            <span class='other-c'><b>Other</b></span>: <b>{{swKillTypeList['other'][0]| those}}</b> kills (<b>{{swKillTypeList['other'][1]}}</b>%)<br>
                             {% endif %}
                         {% endif %}
                     </div>
@@ -652,12 +653,12 @@
                                     data: swKTL,
                                     borderWidth: 1,
                                     backgroundColor: [
-                                        '#00a',
-                                        '#0aa',
-                                        '#aaa',
-                                        '#fa0',
-                                        '#a00',
-                                        '#f55',
+                                        '#54494B',
+                                        '#E6AF2E',
+                                        '#EF7674',
+                                        '#C7DFB9',
+                                        '#91C7B1',
+                                        '#A28081',
                                     ],
                                 }]
                             },
@@ -671,7 +672,7 @@
         </div>
         <!-- Time Wasted -->
         <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-6 lg:col-end-10 lg:row-span-2 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class='text-3xl font-semibold pb-5'><div id='skywars-time' class='anchor'></div>Time Played</div>
+            <div class='text-3xl font-semibold pb-5'><div id='skywars-time' class='anchor'></div>Time played</div>
             <div class="pt-5">
                 {% if swTimeLists[0][5] != '0s' %}
                     <div class='canvasContainer2'>
@@ -692,11 +693,11 @@
                                     data: swTWL,
                                     borderWidth: 1,
                                     backgroundColor: [
-                                        '#00a',
-                                        '#0aa',
-                                        '#0a0',
-                                        '#fa0',
-                                        '#a00',
+                                        '#1F363D',
+                                        '#40798C',
+                                        '#70A9A1',
+                                        '#9EC1A3',
+                                        '#CFE0C3',
                                     ]
                                 }]
                             },
@@ -713,7 +714,7 @@
                         </script>
                     </div>
                     <p>Since their first login, {{username}} has spent <b>{{ swKWperLists[2] }}</b>% of their life playing SkyWars. </p>
-                    <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-5 justify-around">
+                    <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2 justify-around">
                         <div>
                             <p>
                                 <b>{{ swTimeLists[0][5] }}</b> in total <br>
@@ -848,7 +849,7 @@
         <!-- Challenges -->
         <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
             <div class="text-3xl font-semibold pb-5"><div id='skywars-challenges' class='anchor'></div>Challenges</div>
-                <div class='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 pt-5'>
+                <div class='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 pt-5 gap-2'>
                     {% if swChalAtt['overall'] %}
                     <div>
                         <p>
@@ -996,13 +997,14 @@
                     <div class='tabsBedWarsModes py-3'>
                         {% for mode in bwModeStats %}
                             {% if bwModeStats[mode]['games_played_bedwars'][0] > 0 %}
-                                <button class="bwTabLinks text-xl text-left text-gray-600 font-bold leading-none p-1.5 mb-1.5 mr-5 rounded-lg bg-gray-200 focus:bg-gray-300 focus:outline-none hover:bg-gray-300" onclick="bwTabs(event, '{{mode}}')" id="defaultOpenBw">
+                                <button class="bwTabLinks text-xl text-left text-gray-600 font-bold leading-none md:p-1.5 md:mb-1.5 lg:p-1.5 lg:mb-1.5 sm:p-1 sm:mb-0.5 mr-5 rounded-lg bg-gray-200 focus:bg-gray-300 focus:outline-none hover:bg-gray-300" onclick="bwTabs(event, '{{mode}}')" id="defaultOpenBw">
                                     {% if ' ' in bwTranslateList[mode] %}
                                         <span class="text-xl">{{(bwTranslateList[mode] | split)[1]}}</span><span class="text-base text-gray-400 font-extrabold"> {{(bwTranslateList[mode] | split)[0]}}</span>
                                     {% else %}
                                         {{bwTranslateList[mode]}}
                                     {% endif %}
-                                </button><br>
+                                </button>
+                                <br>
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -1035,7 +1037,7 @@
                                     {% endif %}
                                 </p>
             
-                                <div class='grid sm:grid-cols-1 md:lg-grid-cols lg:grid-cols-2'>
+                                <div class='grid sm:grid-cols-1 md:lg-grid-cols lg:grid-cols-2 gap-2'>
                                     <div>
                                         <p>
                                             <b>{{ bwModeStats[mode]['kills_bedwars'][0]| those }}</b> kills (<b>{{ bwModeStats[mode]['kills_bedwars'][1]}}</b>%) <br>
@@ -1098,14 +1100,14 @@
                 {% if bwOverallStats['kills_bedwars'] %}
                     <div>
                         <p>
-                            <b class='dark_blue'>Melee</b>: {{bwKillsList[0]['Melee'][0]| those}} (<b>{{bwKillsList[0]['Melee'][1]}}</b>%)<br>
-                            <b class='gray'>Projectile</b>: {{bwKillsList[0]['Projectile'][0]| those}} (<b>{{bwKillsList[0]['Projectile'][1]}}</b>%)<br>
-                            <b class='dark_aqua'>Void</b>: {{bwKillsList[0]['Void'][0]| those}} (<b>{{bwKillsList[0]['Void'][1]}}</b>%)<br>
-                            <b class='dark_purple'>Magic</b>: {{bwKillsList[0]['Magic'][0]| those}} (<b>{{bwKillsList[0]['Magic'][1]}}</b>%)<br>
-                            <b class='gold'>Entity</b>: {{bwKillsList[0]['Entity'][0]| those}} (<b>{{bwKillsList[0]['Entity'][1]}}</b>%)<br>
-                            <b class='yellow'>Entity Explosion</b>: {{bwKillsList[0]['Entity explosion'][0]| those}} (<b>{{bwKillsList[0]['Entity explosion'][1]}}</b>%)<br>
-                            <b class='red'>Fire</b>: {{bwKillsList[0]['Fire'][0]| those}} (<b>{{bwKillsList[0]['Fire'][1]}}</b>%)<br>
-                            <b class='dark_red'>Fall Damage</b>: {{bwKillsList[0]['Fall damage'][0]| those}} (<b>{{bwKillsList[0]['Fall damage'][1]}}</b>%)<br>
+                            <b class='melee'>Melee</b>: {{bwKillsList[0]['Melee'][0]| those}} (<b>{{bwKillsList[0]['Melee'][1]}}</b>%)<br>
+                            <b class='bow'>Projectile</b>: {{bwKillsList[0]['Projectile'][0]| those}} (<b>{{bwKillsList[0]['Projectile'][1]}}</b>%)<br>
+                            <b class='void'>Void</b>: {{bwKillsList[0]['Void'][0]| those}} (<b>{{bwKillsList[0]['Void'][1]}}</b>%)<br>
+                            <b class='magic'>Magic</b>: {{bwKillsList[0]['Magic'][0]| those}} (<b>{{bwKillsList[0]['Magic'][1]}}</b>%)<br>
+                            <b class='mob'>Entity</b>: {{bwKillsList[0]['Entity'][0]| those}} (<b>{{bwKillsList[0]['Entity'][1]}}</b>%)<br>
+                            <b class='mob-explode'>Entity Explosion</b>: {{bwKillsList[0]['Entity explosion'][0]| those}} (<b>{{bwKillsList[0]['Entity explosion'][1]}}</b>%)<br>
+                            <b class='fired'>Fire</b>: {{bwKillsList[0]['Fire'][0]| those}} (<b>{{bwKillsList[0]['Fire'][1]}}</b>%)<br>
+                            <b class='fall'>Fall Damage</b>: {{bwKillsList[0]['Fall damage'][0]| those}} (<b>{{bwKillsList[0]['Fall damage'][1]}}</b>%)<br>
                             {#% for name, num in bwKillsList[0].items() %}
                                 {% if 'Melee' not in name %}
                                     <b>{{name}}</b>: {{num[0]| those}} (<b>{{num[1]}}</b>%)<br>
@@ -1139,14 +1141,14 @@
                                     data: killsvia,
                                     borderWidth: 1,
                                     backgroundColor: [
-                                        '#aaa',
-                                        '#0aa',
-                                        '#a0a',
-                                        '#fa0',
-                                        '#ff5',
-                                        '#f55',
-                                        '#a00',
-                                        '#00a',
+                                        '#EF7674',
+                                        '#E6AF2E',
+                                        '#B33951',
+                                        '#C7DFB9',
+                                        '#15616D',
+                                        '#E3D081',
+                                        '#91C7B1',
+                                        '#54494B',
                                     ],
                                 }]
                             },
@@ -1161,7 +1163,7 @@
         
         <!-- Loot chests -->
         <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class="text-3xl font-semibold pb-5"><div id='bedwars-loot-chests' class='anchor'></div>Loot Chests</div>
+            <div class="text-3xl font-semibold pb-5"><div id='bedwars-loot-chests' class='anchor'></div>Loot chests</div>
             <div class='grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-between pt-5'>
                 {% if bwLootBoxes['bedwars_box'] %}
                     <div>
@@ -1223,19 +1225,19 @@
 
         <!-- Final kills -->
         <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class="text-3xl font-semibold pb-5"><div id='bedwars-final-kills' class='anchor'></div>Final Kills via</div>
+            <div class="text-3xl font-semibold pb-5"><div id='bedwars-final-kills' class='anchor'></div>Final kills via</div>
             <div class='pt-5 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-between'>
                 {% if bwOverallStats['final_kills_bedwars'] %}
                     <div>
                         <p>
-                            <b class='dark_blue'>Melee</b>: {{bwKillsList[2]['Melee'][0]| those}} (<b>{{bwKillsList[2]['Melee'][1]}}</b>%)<br>
-                            <b class='gray'>Projectile</b>: {{bwKillsList[2]['Projectile'][0]| those}} (<b>{{bwKillsList[2]['Projectile'][1]}}</b>%)<br>
-                            <b class='dark_aqua'>Void</b>: {{bwKillsList[2]['Void'][0]| those}} (<b>{{bwKillsList[2]['Void'][1]}}</b>%)<br>
-                            <b class='dark_purple'>Magic</b>: {{bwKillsList[2]['Magic'][0]| those}} (<b>{{bwKillsList[2]['Magic'][1]}}</b>%)<br>
-                            <b class='gold'>Entity</b>: {{bwKillsList[2]['Entity'][0]| those}} (<b>{{bwKillsList[2]['Entity'][1]}}</b>%)<br>
-                            <b class='yellow'>Entity Explosion</b>: {{bwKillsList[2]['Entity explosion'][0]| those}} (<b>{{bwKillsList[2]['Entity explosion'][1]}}</b>%)<br>
-                            <b class='red'>Fire</b>: {{bwKillsList[2]['Fire'][0]| those}} (<b>{{bwKillsList[2]['Fire'][1]}}</b>%)<br>
-                            <b class='dark_red'>Fall Damage</b>: {{bwKillsList[2]['Fall damage'][0]| those}} (<b>{{bwKillsList[2]['Fall damage'][1]}}</b>%)<br>
+                            <b class='melee'>Melee</b>: {{bwKillsList[2]['Melee'][0]| those}} (<b>{{bwKillsList[2]['Melee'][1]}}</b>%)<br>
+                            <b class='bow'>Projectile</b>: {{bwKillsList[2]['Projectile'][0]| those}} (<b>{{bwKillsList[2]['Projectile'][1]}}</b>%)<br>
+                            <b class='void'>Void</b>: {{bwKillsList[2]['Void'][0]| those}} (<b>{{bwKillsList[2]['Void'][1]}}</b>%)<br>
+                            <b class='magic'>Magic</b>: {{bwKillsList[2]['Magic'][0]| those}} (<b>{{bwKillsList[2]['Magic'][1]}}</b>%)<br>
+                            <b class='mob'>Entity</b>: {{bwKillsList[2]['Entity'][0]| those}} (<b>{{bwKillsList[2]['Entity'][1]}}</b>%)<br>
+                            <b class='mob-explode'>Entity Explosion</b>: {{bwKillsList[2]['Entity explosion'][0]| those}} (<b>{{bwKillsList[2]['Entity explosion'][1]}}</b>%)<br>
+                            <b class='fired'>Fire</b>: {{bwKillsList[2]['Fire'][0]| those}} (<b>{{bwKillsList[2]['Fire'][1]}}</b>%)<br>
+                            <b class='fall'>Fall Damage</b>: {{bwKillsList[2]['Fall damage'][0]| those}} (<b>{{bwKillsList[2]['Fall damage'][1]}}</b>%)<br>
                         </p>
                         {% for name, num in bwKillsList[3].items() %}
                             {% if num != 0 %}
@@ -1262,14 +1264,14 @@
                                     data: finkillsvia,
                                     borderWidth: 1,
                                     backgroundColor: [
-                                        '#aaa',
-                                        '#0aa',
-                                        '#a0a',
-                                        '#fa0',
-                                        '#ff5',
-                                        '#f55',
-                                        '#a00',
-                                        '#00a',
+                                        '#EF7674',
+                                        '#E6AF2E',
+                                        '#B33951',
+                                        '#C7DFB9',
+                                        '#15616D',
+                                        '#E3D081',
+                                        '#91C7B1',
+                                        '#54494B',
                                     ],
                                 }]
                             },
@@ -1284,7 +1286,7 @@
 
         <!-- Resources collected -->
         <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class="text-3xl font-semibold pb-5"><div id='bedwars-resources' class='anchor'></div>Resources Collected</div>
+            <div class="text-3xl font-semibold pb-5"><div id='bedwars-resources' class='anchor'></div>Resources collected</div>
             <div class='pt-5 grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-between'>
                 {% if bwTotalResources %}
                     <div>

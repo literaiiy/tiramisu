@@ -28,6 +28,7 @@ app = Flask(__name__)
 
 app.secret_key = 'a34w7tfyner9ryhzrbfw7ynhhcdtg78as34'
 HAPIKEY = '1e5f6a57-6327-4888-886a-590c39861a6a'
+HAPIKEY2 = '645eb55b-1550-400e-a5a3-31a2cfe0a806'
 ADMINS = ['35a178c0c37043aea959983223c04de0']
 FLOWERS = ['27bcc1547423484683fd811155d8c472']
 SPARKLES = ['903100946468408aaf2462365389059c', '35bb69ce904a4380a03ffd55acbc2331']
@@ -73,20 +74,18 @@ config = {
     "DEBUG": True,          # some Flask specific configs
     'CACHE_TYPE': 'filesystem', # Flask-Caching related configs
      'CACHE_DIR': '/tmp',  # Flask-Caching directory
-    "CACHE_DEFAULT_TIMEOUT": 60
+    "CACHE_DEFAULT_TIMEOUT": 15
 }
 
 # some config stuff
 app.config.from_mapping(config)
-    #cache = Cache(app)
+cache = Cache(app)
 logging.basicConfig(level=logging.DEBUG)
-    #requests_cache.install_cache('requests_cache', expire_after=3)
-    #requests_cache.install_cache('test_cache', backend='sqlite', expire_after=30)
+requests_cache.install_cache('req_cache', backend='sqlite', expire_after=3)
 
 # reqses
 headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36"}
 reqses = requests.Session()
-#reqses.trust_env = False
 retries = Retry(total=5, backoff_factor=1, status_forcelist=[ 429, 500, 502, 503, 504 ])
 reqses.mount('http://', HTTPAdapter(max_retries=retries))
 
@@ -104,7 +103,7 @@ def queryt(path):
     
     gameDict = []
     try:
-        hs = reqses.get('https://api.hypixel.net/gameCounts?key=' + HAPIKEY)
+        hs = reqses.get('https://api.hypixel.net/gameCounts?key=' + HAPIKEY2)
     except:
         return render_template('index.html', gameDict={}, totalPlayers=-1)
     hsjaysonn = hs.json()
@@ -206,7 +205,7 @@ def split(l):
 
 # ! Routing for search page
 @app.route('/p/<q>', methods=['POST','GET'])
-# @cache.cached(timeout=15)
+@cache.cached(timeout=15)
 def compute(q):
     q = q.strip()
     #try:
@@ -993,7 +992,7 @@ def compute(q):
         swTimeList = []
         swTimeListPerc = []
         swTimeModeList = ['Solo', 'Teams', 'Mega', 'Ranked', 'Laboratory']
-        swTimeColorList = ['dark_blue','dark_aqua','dark_green','gold','dark_red']
+        swTimeColorList = ['soloe','teamse','megae','rankede','laboratorye']
         for mode in ['_solo', '_team','_mega','_ranked','_lab']:
             try:
                 timePlayedForThisMode = swSTATSVAR['time_played'+mode]
@@ -1558,7 +1557,7 @@ def compute(q):
             # This should never happen...
 
         if playedOnHypixel:
-            variable_name = reqses.get('https://api.hypixel.net/guild?key='+ HAPIKEY + '&player=' + uuid)
+            variable_name = reqses.get('https://api.hypixel.net/guild?key='+ HAPIKEY2 + '&player=' + uuid)
             greqAPI = variable_name.json()
             print('RIGHT AFTER GUILD DATA is being gotten. ',(time.time() - start_time), ' sec')
             guildListAPI = greqAPI.get('guild', False)

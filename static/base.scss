@@ -12,6 +12,10 @@
   .two-px-border {
     text-shadow: 2px 2px 2px rgba(0,0,0,0.5);
   }
+  .my50 {
+    margin-top: 50%;
+    margin-bottom: 50%;
+  }
   @variants responsive {
     .text-center-resp {
       text-align: center;
@@ -47,7 +51,7 @@ YM.    , YA.   ,A9 MM    MM    MM   MM   ,AP YA.   ,A9 MM    MM YM.    ,  MM    
 p {padding-top:0.35rem;padding-bottom:0.35rem}
 a, .link {text-decoration: underline;color:#666;}
 
-footer{text-align:center;bottom:0}
+footer{text-align:center;bottom:0;position:relative}
 .namehistable {
   max-height: 80vh;
 }
@@ -60,12 +64,18 @@ footer{text-align:center;bottom:0}
 #mobilelogo {
   display:none;
 }
+#breakonly {
+  display: none;
+}
 
 @media (max-width:1024px) {
   #mobilelogo {
     display: inline-flex;
   }
   #desktoplogo {
+    display: none;
+  }
+  #breakonly {
     display: none;
   }
 }
@@ -218,7 +228,7 @@ YM.    , YA.   ,A9 MM YA.   ,A9 MM     L.   I8
 .aqua { color: #5ff }
 .red { color: #f55 }
 .light_purple, .pink { color: #f5f }
-.yellow, .YELLOW { color: #ff0 }
+.yellow, .YELLOW { color: #ff0; text-shadow: 0 0 3px #000000;}
 .white { color: #fff }
 
 .chocolate {background-image:linear-gradient(to right,tomato,coral,gold,lawngreen,steelblue,blueviolet,orchid);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
@@ -228,6 +238,22 @@ YM.    , YA.   ,A9 MM YA.   ,A9 MM     L.   I8
 .lawn {color: #708f5b}
 .yellowgreen {color: yellowgreen}
 .master{background-image:linear-gradient(to right,lightcoral, crimson);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+.melee{color: #54494B}
+.void{color: #E6AF2E}
+.bow{color: #EF7674}
+.mob{color: #C7DFB9}
+.fall{color: #91C7B1}
+.other-c{color: #A28081}
+.magic{color: #B33951}
+.mob-explode{color: #15616D}
+.fired{color: #E3D081}
+
+.soloe{color: #1F363D}
+.teamse{color: #40798C}
+.megae{color: #70A9A1}
+.rankede{color: #9EC1A3}
+.laboratorye{color: #CFE0C3}
 
 .twitter{color:#1da1f2}
 .instagram{color:#c1558b}
@@ -248,7 +274,7 @@ YM.    , YA.   ,A9 MM YA.   ,A9 MM     L.   I8
 .water{background-image:linear-gradient(to right,aqua,teal, royalblue);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 .fire{background-image:linear-gradient(to right,#ff3,#fa0,#800);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 
-.fleuraphile{background-image:linear-gradient(to right,#0f0c29,#302b63,#24243e);-webkit-background-clip:text;-webkit-text-fill-color:transparent} 
+.fleuraphile{background-image:linear-gradient(to right,#74ebd5,#ACB6E5);-webkit-background-clip:text;-webkit-text-fill-color:transparent} 
                                            
 /*  ██▄   ██     ▄▄▄▄▀ ██     ▄▄▄▄▀ ██   ███   █     ▄███▄     ▄▄▄▄▄   
    █  █  █ █ ▀▀▀ █    █ █ ▀▀▀ █    █ █  █  █  █     █▀   ▀   █     ▀▄ 

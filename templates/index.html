@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang='en'>
 <body class='flex flex-col min-h-screen'>
 	<head>
 	{% block head %}
@@ -10,6 +10,9 @@
 		<meta name="description" content="tiramisu">
 		<meta name="keywords" content="tiramisu, hypixel, minecraft">
 		<meta name="author" content="literaiiy">
+		<meta property="og:title" content="tiramisu" />
+		<meta property="og:type" content="website" />
+		<meta property="og:image" content="https://raw.githubusercontent.com/gist/literaiiy/4abf7e5c3a61d91437788459eecc044c/raw/b51b7045ee1d35a2faf889228ef5c353777481e5/tiramis2.svg"/>
 		<link href="{{ url_for('static', filename='tailwind.css') }}" rel="stylesheet" type="text/css">
 		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='datatables.scss') }}">
 		<script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -18,8 +21,6 @@
 		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/plug-ins/1.10.21/sorting/datetime-moment.js"></script>
 		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/datetime/1.0.3/js/dataTables.dateTime.min.js"></script>
 		<link rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/twemoji-awesome@1.0.6/dist/twemoji-awesome.min.css'></link>
-		<link rel="stylesheet" type="text/css" href="loading-bar.css"/>
-		<script type="text/javascript" src="loading-bar.js"></script>
 		<link rel="preconnect" href="https://fonts.gstatic.com">
 		<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 		<link href="https://fonts.googleapis.com/css2?family=Orienta&display=swap" rel="stylesheet">
@@ -45,8 +46,8 @@
 		<!-- MOBILE USERS -->
 		<div id='mobilelogo' class="flex flex-row flex-nowrap justify-between sticky top-0 bg-gray-100 mb-8 z-40 w-full shadow items-center">
 			<a class='flex-none' href="/"><img class='h-16 w-auto ml-4' src="https://raw.githubusercontent.com/gist/literaiiy/4abf7e5c3a61d91437788459eecc044c/raw/b51b7045ee1d35a2faf889228ef5c353777481e5/tiramis2.svg" alt="tiramisu logo but mobile"></a>
-			<form class='flex-shrink w-full p-1 bg-white px-0 text-gray-600 rounded-lg m-0 self-center relative mx-5 shadow' action="/" method="POST">
-				<input class='w-full py-3 outline-none h-full text-center' type="text" name="content" id="content" autofocus="autofocus" required='true' onfocus="this.select()" autocomplete="on" spellcheck="false" placeholder="Search username/UUID">
+			<form class='flex-shrink w-full p-1 bg-white px-0 text-gray-600 rounded-lg m-0 self-center relative mx-3 shadow' action="/" method="POST">
+				<input class='w-full py-3 outline-none h-full text-center' type="text" name="content" id="content" autofocus="autofocus" required='true' onfocus="this.select()" autocomplete="on" spellcheck="false" placeholder="Search...">
 				<button class="absolute right-3 w-8 top-0 self-center focus:outline-none h-full" type="submit">
 					<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"width="24" height="24"viewBox="0 0 50 50"style=" fill:#9FA6B2;"><path d="M 21 3 C 11.621094 3 4 10.621094 4 20 C 4 29.378906 11.621094 37 21 37 C 24.710938 37 28.140625 35.804688 30.9375 33.78125 L 44.09375 46.90625 L 46.90625 44.09375 L 33.90625 31.0625 C 36.460938 28.085938 38 24.222656 38 20 C 38 10.621094 30.378906 3 21 3 Z M 21 5 C 29.296875 5 36 11.703125 36 20 C 36 28.296875 29.296875 35 21 35 C 12.703125 35 6 28.296875 6 20 C 6 11.703125 12.703125 5 21 5 Z"></path></svg>
 				</button>
@@ -57,24 +58,25 @@
 					<span class='tooltiptext'>Sorry, English (US) is the only currently available language. More coming soon!</span>
 				</button>
 			</div>
-
-			<!-- <div class='dropdown'>
-				<button class='my-5 mx-2 px-3 col-start-7 focus:outline-none bg-gray-200 rounded-xl hover:bg-gray-300'><i class="m-0 twa twa-2x twa-1f1fa-1f1f8"></i></button>
-			</div>
-			<div class="dropdown-content"><p>Hi</p></div> -->
-			<!-- <button class="my-5 mx-2 px-3 focus:outline-none bg-gray-200 rounded-xl hover:bg-gray-300"><i class="twa twa-2x twa-2600"></i></button> -->
 		</div>
 	</head>
 
 	{% block thisthing %}
-	<div class="loader-wrapper z-50">
-		<span class="loader"><span class="loader-inner"></span></span>
-	</div>
-	<script>
-		$(window).on("load",function(){
-		$(".loader-wrapper").fadeOut("slow");
-		});
-	</script>
+	<style>
+        body {
+            animation: fadeInAnimation cubic-bezier(.25,.5,.29,1.03) 1s;
+            animation-iteration-count: 1;
+            animation-fill-mode: forwards;
+        }
+        @keyframes fadeInAnimation {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+    </style>
 	{% endblock %}
 
 	{% block content %}
@@ -147,7 +149,7 @@
 
 	{% block footer %}
 	<footer class='w-full bg-gray-100 shadow-md mt-5 p-8'>
-		<p>tiramisu <b>v0.4.0.4δ "delta" (Testing Phase)</b> - April 2, 2021 · Flask <b>v1.1.2</b> · Python <b>v3.7.9</b><p>
+		<p>tiramisu <b>v0.4.0.5δ "delta" (Testing Phase)</b> - April 29, 2021 · Flask <b>v1.1.2</b> · Python <b>v3.7.9</b><p>
 		<p>Copyright © 2021 <a class='no-underline text-gray-500' href='/p/floraphile'>literaiiy</a>. All rights reserved. <a class='no-underline text-gray-500' href="/privacy">Privacy Policy</a>. Powered by <a class='no-underline text-gray-500' href="https://heroku.com">Heroku</a>. Times in UTC.</p>
 	</footer>
 	{% endblock %}

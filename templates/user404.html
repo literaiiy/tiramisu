@@ -8,24 +8,14 @@
 {% endblock %}
 
 {% block content %}
-    {% if noAutocorrect != True %}
-        <p class='text-center'>Did you mean to search for <a href='/p/{{noAutocorrect}}'><b>{{noAutocorrect}}</b></a>?</p>
-    {% endif %}
-    <div class="text-center text-4xl">This player doesn't exist.</div>
-    <p class='text-center'>{{screwup}}</p>
-    {#% if remo %#}
-<!-- <span class="water">WATER  df fdfd fd</span> <br>
-<span class="mirror">Mirrorf d dfdf df df </span><br>
-<span class="light">lightfd  dfdf df df </span><br>
-<span class="dawn">dawnfd dfdf </span><br>
-<span class="dusk">duskfd df df</span><br>
-<span class="air">airdf  fddf</span><br>
-<span class="wind">winddf  dfdf</span><br>
-<span class="nebula">nebula dffddf</span><br>
-<span class="thunder">thunder df</span><br>
-<span class="earth">earth df</span><br>
-<span class="fire">fire df</span><br>
-mfer -->
+    <div class="flex flex-col">
+        {% if noAutocorrect != True %}
+            <p class='text-center'>Did you mean to search for <a href='/p/{{noAutocorrect}}'><b>{{noAutocorrect}}</b></a>?</p>
+        {% endif %}
+        <div class="text-center text-4xl">This player doesn't exist.</div>
+        <p class='text-center'>{{screwup}}</p>
+        <img class='h-80 w-auto' src="https://raw.githubusercontent.com/gist/literaiiy/24ad9ce0e3eecefae731533987c68436/raw/d69bf69d37b3d9ae28d0eef3861057c8d0cba6cf/crum.svg"/>
+    </div>
 {% endblock %}
 
 

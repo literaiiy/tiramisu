@@ -124,7 +124,7 @@
 										<td><span class='gold'><b>{{ '{0:,}'.format(dictitem['playerCount']) }}</b></span></td>
 										<td><span class='gold'><b>{{ (100*dictitem['playerCount'] / totalPlayers)|round(3) }}%</b></span></td>
 									{% else %}
-										<td>{{ dictitem['pos'] }}</td>
+										<td><b>{{ dictitem['pos'] }}</b></td>
 										<td>{{ dictitem['game'] }}</td>
 										<td>{{ '{0:,}'.format(dictitem['playerCount']) }}</td>
 										<td>{{ (100*dictitem['playerCount'] / totalPlayers)|round(3) }}%</td>

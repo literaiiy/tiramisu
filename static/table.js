@@ -25,11 +25,12 @@ $(document).ready( function () {
         "pageLength": 100,
         "bPaginate": false,
         "language": {
-            "info": "_TOTAL_ games total",
-            "infoFiltered": " - _MAX_ games total",
+            "info": "",
+            "infoFiltered": "",
             "infoEmpty": "No matching results",
             "search":"",
             "zeroRecords": "No matching results",
+            "sDom": '<"top"if>t<"clear">',
         'paging': false
         },
         // "columnDefs": {

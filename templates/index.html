@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang='en'>
-<body class='flex flex-col min-h-screen'>
+<body class='flex flex-col h-screen'>
 	<head>
 	{% block head %}
 		<title>tiramisu - Hypixel Player Stats Analysis & Name History</title>
@@ -14,7 +14,6 @@
 		<meta property="og:type" content="website" />
 		<meta property="og:image" content="https://raw.githubusercontent.com/gist/literaiiy/4abf7e5c3a61d91437788459eecc044c/raw/b51b7045ee1d35a2faf889228ef5c353777481e5/tiramis2.svg"/>
 		<link href="{{ url_for('static', filename='tailwind.css') }}" rel="stylesheet" type="text/css">
-		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='datatables.scss') }}">
 		<script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
 		<script type="text/javascript" charset="utf8" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
@@ -31,7 +30,7 @@
 		<div id='desktoplogo' class="grid grid-cols-4 sticky top-0 bg-gray-100 mb-8 z-40 w-full shadow items-center">
 			<a href='/'><img class='h-16 w-auto ml-4' src='https://raw.githubusercontent.com/gist/literaiiy/62febf3d1f9a035b469e06bdef8456bc/raw/223650b7551fd90e7747e687a2643cdb1cdebf9d/teeramouse.svg' alt="tiramisu Logo"></a>
 			<form class='col-span-2 p-1 bg-white px-0 text-gray-600 rounded-lg m-0 self-center relative mx-5 shadow' action="/" method="POST">
-				<input class='w-full py-3 outline-none h-full text-center' type="text" name="content" id="content" autofocus="autofocus" required='true' onfocus="this.select()" autocomplete="on" spellcheck="false" placeholder="Search username or UUID">
+				<input class='w-full py-3 outline-none h-full text-center' type="text" name="content" id="content" autofocus="autofocus" required='true' onfocus="this.select()" autocomplete="off" spellcheck="false" placeholder="Search username or UUID">
 				<button class="absolute right-3 w-8 top-0 self-center focus:outline-none h-full" type="submit">
 					<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"width="24" height="24"viewBox="0 0 50 50"style=" fill:#9FA6B2;"><path d="M 21 3 C 11.621094 3 4 10.621094 4 20 C 4 29.378906 11.621094 37 21 37 C 24.710938 37 28.140625 35.804688 30.9375 33.78125 L 44.09375 46.90625 L 46.90625 44.09375 L 33.90625 31.0625 C 36.460938 28.085938 38 24.222656 38 20 C 38 10.621094 30.378906 3 21 3 Z M 21 5 C 29.296875 5 36 11.703125 36 20 C 36 28.296875 29.296875 35 21 35 C 12.703125 35 6 28.296875 6 20 C 6 11.703125 12.703125 5 21 5 Z"></path></svg>
 				</button>
@@ -46,8 +45,8 @@
 		<!-- MOBILE USERS -->
 		<div id='mobilelogo' class="flex flex-row flex-nowrap justify-between sticky top-0 bg-gray-100 mb-8 z-40 w-full shadow items-center">
 			<a class='flex-none' href="/"><img class='h-16 w-auto ml-4' src="https://raw.githubusercontent.com/gist/literaiiy/4abf7e5c3a61d91437788459eecc044c/raw/b51b7045ee1d35a2faf889228ef5c353777481e5/tiramis2.svg" alt="tiramisu logo but mobile"></a>
-			<form class='flex-shrink w-full p-1 bg-white px-0 text-gray-600 rounded-lg m-0 self-center relative mx-3 shadow' action="/" method="POST">
-				<input class='w-full py-3 outline-none h-full text-center' type="text" name="content" id="content" autofocus="autofocus" required='true' onfocus="this.select()" autocomplete="on" spellcheck="false" placeholder="Search...">
+			<form class='flex-shrink w-full p-1 bg-white px-0 text-gray-600 rounded-lg m-0 self-center relative mx-3 shadow' formnovalidate action="/" method="POST">
+				<input class='w-full py-3 outline-none h-full text-center' type="text" name="content" id="content" autofocus="autofocus" required='true' onfocus="this.select()" autocomplete="off" spellcheck="false" placeholder="Search...">
 				<button class="absolute right-3 w-8 top-0 self-center focus:outline-none h-full" type="submit">
 					<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"width="24" height="24"viewBox="0 0 50 50"style=" fill:#9FA6B2;"><path d="M 21 3 C 11.621094 3 4 10.621094 4 20 C 4 29.378906 11.621094 37 21 37 C 24.710938 37 28.140625 35.804688 30.9375 33.78125 L 44.09375 46.90625 L 46.90625 44.09375 L 33.90625 31.0625 C 36.460938 28.085938 38 24.222656 38 20 C 38 10.621094 30.378906 3 21 3 Z M 21 5 C 29.296875 5 36 11.703125 36 20 C 36 28.296875 29.296875 35 21 35 C 12.703125 35 6 28.296875 6 20 C 6 11.703125 12.703125 5 21 5 Z"></path></svg>
 				</button>
@@ -91,39 +90,39 @@
 								<tr>
 									<th>#</th>
 									<th>Game</th>
-									<th>Player Count</th>
+									<th>Players</th>
 									<th>% share</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td><span class='red'><b></b></span></td>
-									<td><span class='red'>Total Players</span></td>
-									<td><span class='red'>{{ '{0:,}'.format(totalPlayers) }}</span></td>
+									<td></td>
+									<td><span class='red'><b>Total Players</b></span></td>
+									<td><span class='red'><b>{{ '{0:,}'.format(totalPlayers) }}</b></span></td>
 									<td></td>
 								</tr>
 								{% for dictitem in gameDict %}
 								<tr>
 									{% if dictitem['game'] == 'Main Lobby' %}
 										<td><span class='dark_red'><b>{{ dictitem['pos'] }}</b></span></td>
-										<td><span class='dark_red'>{{ dictitem['game'] }}</span></td>
-										<td><span class='dark_red'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
-										<td><span class='dark_red'>{{ (100*dictitem['playerCount'] / totalPlayers)|round(3) }}%</span></td>
+										<td><span class='dark_red'><b>{{ dictitem['game'] }}</b></span></td>
+										<td><span class='dark_red'><b>{{ '{0:,}'.format(dictitem['playerCount']) }}</b></span></td>
+										<td><span class='dark_red'><b>{{ (100*dictitem['playerCount'] / totalPlayers)|round(3) }}%</b></span></td>
 									{% elif dictitem['game'] == 'Watching a replay' %}
 										<td><span class='cyan'><b>{{ dictitem['pos'] }}</b></span></td>
-										<td><span class='cyan'>{{ dictitem['game'] }}</span></td>
-										<td><span class='cyan'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
-										<td><span class='cyan'>{{ (100*dictitem['playerCount'] / totalPlayers)|round(3) }}%</span></td>
+										<td><span class='cyan'><b>{{ dictitem['game'] }}</b></span></td>
+										<td><span class='cyan'><b>{{ '{0:,}'.format(dictitem['playerCount']) }}</b></span></td>
+										<td><span class='cyan'><b>{{ (100*dictitem['playerCount'] / totalPlayers)|round(3) }}%</b></span></td>
 									{% elif dictitem['game'] == 'In limbo' %}
 										<td><span class='dark_green'><b>{{ dictitem['pos'] }}</b></span></td>
-										<td><span class='dark_green'>{{ dictitem['game'] }}</span></td>
-										<td><span class='dark_green'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
-										<td><span class='dark_green'>{{ (100*dictitem['playerCount'] / totalPlayers)|round(3) }}%</span></td>
+										<td><span class='dark_green'><b>{{ dictitem['game'] }}</b></span></td>
+										<td><span class='dark_green'><b>{{ '{0:,}'.format(dictitem['playerCount']) }}</b></span></td>
+										<td><span class='dark_green'><b>{{ (100*dictitem['playerCount'] / totalPlayers)|round(3) }}%</b></span></td>
 									{% elif dictitem['game'] == 'Idle' %}
 										<td><span class='gold'><b>{{ dictitem['pos'] }}</b></span></td>
-										<td><span class='gold'>{{ dictitem['game'] }}</span></td>
-										<td><span class='gold'>{{ '{0:,}'.format(dictitem['playerCount']) }}</span></td>
-										<td><span class='gold'>{{ (100*dictitem['playerCount'] / totalPlayers)|round(3) }}%</span></td>
+										<td><span class='gold'><b>{{ dictitem['game'] }}</b></span></td>
+										<td><span class='gold'><b>{{ '{0:,}'.format(dictitem['playerCount']) }}</b></span></td>
+										<td><span class='gold'><b>{{ (100*dictitem['playerCount'] / totalPlayers)|round(3) }}%</b></span></td>
 									{% else %}
 										<td>{{ dictitem['pos'] }}</td>
 										<td>{{ dictitem['game'] }}</td>
@@ -149,8 +148,8 @@
 
 	{% block footer %}
 	<footer class='w-full bg-gray-100 shadow-md mt-5 p-8'>
-		<p>tiramisu <b>v0.4.0.5δ "delta" (Testing Phase)</b> - April 29, 2021 · Flask <b>v1.1.2</b> · Python <b>v3.7.9</b><p>
-		<p>Copyright © 2021 <a class='no-underline text-gray-500' href='/p/floraphile'>literaiiy</a>. All rights reserved. <a class='no-underline text-gray-500' href="/privacy">Privacy Policy</a>. Powered by <a class='no-underline text-gray-500' href="https://heroku.com">Heroku</a>. Times in UTC.</p>
+		<p>tiramisu <b>v0.4.0.5δ "delta" (Testing Phase)</b> - April 29, 2021 · <a class='no-underline text-gray-500' target='_blank' href="https://flask.palletsprojects.com/en/1.1.x/">Flask</a> <b>v1.1.2</b> · <a class='no-underline text-gray-500' target='_blank' href="https://python.org">Python</a> <b>v3.7.9</b><p>
+		<p>Copyright © 2021 literaiiy (<a class='no-underline text-gray-500' href='/p/floraphile'>floraphile</a>). All rights reserved. <a class='no-underline text-gray-500' href="/privacy">Privacy Policy</a>. Powered by <a class='no-underline text-gray-500' target='_blank' href="https://heroku.com">Heroku</a>. Times in UTC.</p>
 	</footer>
 	{% endblock %}
 </body>

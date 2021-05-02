@@ -81,7 +81,7 @@ config = {
 app.config.from_mapping(config)
 cache = Cache(app)
 logging.basicConfig(level=logging.DEBUG)
-requests_cache.install_cache('req_cache', backend='sqlite', expire_after=3)
+requests_cache.install_cache('req_cache', backend='sqlite', expire_after=10)
 
 # reqses
 headers = {"User-Agent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.96 Safari/537.36"}
@@ -110,38 +110,38 @@ def queryt(path):
     gameCount = hsjaysonn['games']
     gameList = [
         #('Total Players', hsjaysonn['playerCount']),
-        ('🏹 SkyWars', 'SKYWARS'),
-        ('🌎 SkyBlock', 'SKYBLOCK'),
-        ('️🛌 BedWars', 'BEDWARS'),
-        ('⚔️ Duels', 'DUELS'),
-        ('🦸 Super Smash Mobs', 'SUPER_SMASH'),
-        ('💨 Speed UHC', 'SPEED_UHC'),
-        ('🔫 Cops and Crims', 'MCGO'),
-        ('🕳️ The Pit', 'PIT'),
-        ('🍎 UHC Champions', 'UHC'),
-        ('🛠️ Build Battle', 'BUILD_BATTLE'),
-        ('🕵️‍♂️ Murder Mystery', 'MURDER_MYSTERY'),
-        ('🏇 Warlords', 'BATTLEGROUND'),
-        ('🏠 Housing', 'HOUSING'),
-        ('🕹️ Arcade', 'ARCADE'),
-        ('🗡️ Blitz SG', 'SURVIVAL_GAMES'),
-        ('🧱 Mega Walls', 'WALLS3'),
-        ('🏗️ Prototype', 'PROTOTYPE'),
-        ('💣 TNT Games', 'TNTGAMES'),
+        ('SkyWars 🏹', 'SKYWARS'),
+        ('SkyBlock 🌎', 'SKYBLOCK'),
+        ('BedWars 🛌', 'BEDWARS'),
+        ('Duels ⚔️', 'DUELS'),
+        ('Super Smash Mobs 🦸', 'SUPER_SMASH'),
+        ('Speed UHC 💨', 'SPEED_UHC'),
+        ('Cops and Crims 🔫', 'MCGO'),
+        ('The Pit 🕳️', 'PIT'),
+        ('UHC Champions 🍎', 'UHC'),
+        ('Build Battle 🛠️', 'BUILD_BATTLE'),
+        ('Murder Mystery 🕵️‍♂️', 'MURDER_MYSTERY'),
+        ('Warlords 🏇', 'BATTLEGROUND'),
+        ('Housing 🏠', 'HOUSING'),
+        ('Arcade 🕹️', 'ARCADE'),
+        ('Blitz SG 🗡️', 'SURVIVAL_GAMES'),
+        ('Mega Walls 🧱', 'WALLS3'),
+        ('Prototype 🏗️', 'PROTOTYPE'),
+        ('TNT Games 💣', 'TNTGAMES'),
         ('Main Lobby', 'MAIN_LOBBY'),
         ('Watching a replay', 'REPLAY'),
         ('In limbo', 'LIMBO'),
         ('Idle', 'IDLE'),]
 
     arcadeGameList = [
-        ('🎉 Party Games', 'PARTY'),
+        ('Party Games 🎉', 'PARTY'),
         # ('🧟 Zombies - Dead End', gameCount['ARCADE']['modes']['ZOMBIES_DEAD_END'] + gameCount['ARCADE']['modes']['ZOMBIES_ALIEN_ARCADIUM'] + gameCount['ARCADE']['modes']['ZOMBIES_BAD_BLOOD']),
         # ('🙈 Hide and Seek', gameCount['ARCADE']['modes']['HIDE_AND_SEEK_PROP_HUNT'] + gameCount.get('ARCADE',{}).get('modes',{}).get('HIDE_AND_SEEK_PARTY_POOPER',{})),
-        ('🛩️ Mini Walls', 'MINI_WALLS'),
-        ('📢 Hypixel Says', 'SIMON_SAYS'),
-        ('🏁 Capture the Wool', 'PVP_CTW'),
-        ('🧟‍♂️ Zombies - Dead End' , 'ZOMBIES_DEAD_END'),
-        ('🐖 Farm Hunt', 'FARM_HUNT')]
+        ('Mini Walls 🛩️', 'MINI_WALLS'),
+        ('Hypixel Says 📢', 'SIMON_SAYS'),
+        ('Capture the Wool 🏁', 'PVP_CTW'),
+        ('Zombies - Dead End 🧟‍♂️' , 'ZOMBIES_DEAD_END'),
+        ('Farm Hunt 🐖', 'FARM_HUNT')]
 
     gameDict = []
     totalPlayers = hsjaysonn['playerCount']
@@ -392,34 +392,6 @@ def compute(q):
             return False
 
         rankv3 = getRank(reqAPI['player'])
-
-        # # Get from slothpixel.me API
-        # rankson = reqses.get('https://api.slothpixel.me/api/players/' + uuid)
-        # rankjson = rankson.json()
-
-        # # Set defaults
-        # rankNoPlus = ''
-        # rankPlusses = ''
-        # rankColorParsed = 'white'
-        # plusColorParsed = 'white'
-
-        # # If they have a rank, extract the non-plus section, the plusses, and the colors of each
-        # if 'rank_formatted' in rankjson:
-        #     rankformattable = rankjson['rank_formatted']
-            
-        #     # Strips all the crap off of rank_formatted (API) ex. &d[MVP&6+&d] into MVP
-        #     rankParsed = re.sub('[a-z&0-9\[\]]','',rankformattable) if 'rank_formatted' in rankjson else ''
-
-        #     # Gets no-plus and plus-only versions of rankParsed
-        #     rankNoPlus = rankParsed.replace('+','')
-        #     rankPlusses = re.sub('[A-Z]','',rankParsed)
-
-        #     # Gets color code for player's rank
-        #     rankColor = re.sub('[A-Z&+\[\]]','',rankformattable)
-
-        #     # Sets rankColorParsed and plusColorParsed to the translated rank color
-        #     rankColorParsed = rankColorList[rankColor[0]]
-        #     if len(rankColor) > 1: plusColorParsed = rankColorList[rankColor[1]]
         print('rank is done. ',round(time.time() - start_time, 4), ' sec')
 
 # ! Network Level, XP
@@ -721,17 +693,19 @@ def compute(q):
         for i in totalKillsPlaces:
             try:
                 totalKills += reqAPI['player']['stats'][i[0]][i[1]]
-            except KeyError:
+            except:
                 pass
         
-        for h, i in reqAPI['player']['achievements'].items():
-            if 'wins' in h:
-                totalWins += i
+        try:
+            for h, i in reqAPI['player']['achievements'].items():
+                if 'wins' in h:
+                    totalWins += i
+        except: pass
 
         for i in totalCoinsPlaces:
             try:
                 totalCoins += reqAPI['player']['stats'][i[0]][i[1]]
-            except KeyError:
+            except:
                 pass
 
         print('other user stats are done. ',round(time.time() - start_time, 4), ' sec')
@@ -1652,16 +1626,7 @@ def compute(q):
         #except:
         #    return "Errored out. Lol"
 
-# ! Friends list
-# @app.route('/f/<q>', methods=['POST','GET'])
-# @cache.cached(timeout=60)
-#     def friends(q):
-#     friendsList = {}
-#     if playedOnHypixel:
-#         friendsReq = reqses.get('https://karma-25.uc.r.appspot.com/friends/' + uuid)
-#         freqAPI = friendsreq.json()['']
-
-#     else: return render_template('friends.html',hasFriends=False)
+# ! Friends list (Deprecated & removed)
 
 # ! Friends list (Deprecated & removed)
 
@@ -1671,6 +1636,14 @@ def compute(q):
 @app.errorhandler(404)
 def four04(e):
     return render_template('404.html', error=404, text='Page not found', desc='Someone ate all of the tiramisu... is this a broken link?'), 404
+
+@app.errorhandler(400)
+def four00(e):
+    return render_template('404.html', error=400, text='Bad request', desc='Bad request... try again?'), 400
+
+@app.errorhandler(401)
+def four01(e):
+    return render_template('404.html', error=401, text='Unauthorized', desc='You can\'t do this. Sorry about that.'), 401
 
 @app.errorhandler(403)
 def four03(e):

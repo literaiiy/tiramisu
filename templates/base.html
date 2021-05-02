@@ -61,7 +61,7 @@
 
         <!--- NAME HISTORY --->
         <div class=' sm:col-span-1 md:col-start-3 md:col-end-8 namehistable lg:col-start-2 lg:col-span-4 bg-gray-100 p-6 rounded-2xl shadow overflow-scroll overflow-y-auto overflow-x-auto'>
-            <table id="table_id" class="compact hover order-column">
+            <table id="table_id" class="compact hover">
                 <thead>
                     <tr>
                         <th>#</th>
@@ -505,7 +505,7 @@
                         <canvas id="heads" style="width:100%;height:100%"></canvas>
                         <script>
                         var ctx = document.getElementById('heads');
-                        // @ts-ignore
+                        
                         var swHLO = {{swHeadsRaw}};
                         Chart.defaults.global.defaultFontFamily = 'Inconsolata'
                         Chart.defaults.global.defaultFontSize = 15
@@ -543,7 +543,7 @@
                                 <canvas id="headssolo" style="width:100%;height:100%"></canvas>
                                 <script>
                                 var ctx = document.getElementById('headssolo');
-                                // @ts-ignore
+                                
                                 var swHLS = {{swHeadsRawSolo}};
                                 Chart.defaults.global.defaultFontFamily = 'Inconsolata'
                                 Chart.defaults.global.defaultFontSize = 15
@@ -581,7 +581,7 @@
                                 <canvas id="headsteam" style='height:100%;width:100%;'></canvas>
                                 <script>
                                 var ctx = document.getElementById('headsteam');
-                                // @ts-ignore
+                                
                                 var swHLT = {{swHeadsRawTeam}};
                                 Chart.defaults.global.defaultFontFamily = 'Inconsolata'
                                 Chart.defaults.global.defaultFontSize = 15
@@ -638,7 +638,7 @@
                         <canvas id="myChart" height='176'></canvas>
                         <script>
                         var ctx = document.getElementById('myChart');
-                        // @ts-ignore
+                        
                         var swKTL = {{swKTLList}};
                         Chart.defaults.global.defaultFontFamily = 'Inconsolata'
                         Chart.defaults.global.defaultFontSize = 15
@@ -679,7 +679,7 @@
                         <canvas id="myChart2" style="width:25%;"></canvas>
                         <script>
                         var ctx = document.getElementById('myChart2');
-                        // @ts-ignore
+                        
                         var swTWL = {{swTimeListPercMinusOverall}}
                         Chart.defaults.global.defaultFontFamily = 'Inconsolata'
                         Chart.defaults.global.defaultFontSize = 15
@@ -775,7 +775,7 @@
                     <canvas id="myChartSouls" style="width:100%;height:100%"></canvas>
                     <script>
                     var ctx = document.getElementById('myChartSouls');
-                    // @ts-ignore
+                    
                     var swSRL = {{swSoulsRaritiesList}};
                     Chart.defaults.global.defaultFontFamily = 'Inconsolata'
                     Chart.defaults.global.defaultFontSize = 15
@@ -1108,11 +1108,6 @@
                             <b class='mob-explode'>Entity Explosion</b>: {{bwKillsList[0]['Entity explosion'][0]| those}} (<b>{{bwKillsList[0]['Entity explosion'][1]}}</b>%)<br>
                             <b class='fired'>Fire</b>: {{bwKillsList[0]['Fire'][0]| those}} (<b>{{bwKillsList[0]['Fire'][1]}}</b>%)<br>
                             <b class='fall'>Fall Damage</b>: {{bwKillsList[0]['Fall damage'][0]| those}} (<b>{{bwKillsList[0]['Fall damage'][1]}}</b>%)<br>
-                            {#% for name, num in bwKillsList[0].items() %}
-                                {% if 'Melee' not in name %}
-                                    <b>{{name}}</b>: {{num[0]| those}} (<b>{{num[1]}}</b>%)<br>
-                                {% endif %}
-                            {% endfor %#}
                         </p>
                         <p>
                             {% for name, num in bwKillsList[1].items() %}
@@ -1126,7 +1121,7 @@
                         <canvas id="killsvia" style="width:100%;height:100%"></canvas>
                         <script>
                         var ctx = document.getElementById('killsvia');
-                        // @ts-ignore
+                        
                         var killsvia = {{bwPureKillsLists[0]}};
                         Chart.defaults.global.defaultFontFamily = 'Inconsolata'
                         Chart.defaults.global.defaultFontSize = 15
@@ -1188,7 +1183,7 @@
                         <canvas id="lootbox" style="width:100%;height:100%"></canvas>
                         <script>
                         var ctx = document.getElementById('lootbox');
-                        // @ts-ignore
+                        
                         var lootboxed = {{bwLootPure[1:5]}};
                         Chart.defaults.global.defaultFontFamily = 'Inconsolata'
                         Chart.defaults.global.defaultFontSize = 15
@@ -1249,7 +1244,7 @@
                         <canvas id="finkillsvia" style="width:100%;height:100%"></canvas>
                         <script>
                         var ctx = document.getElementById('finkillsvia');
-                        // @ts-ignore
+                        
                         var finkillsvia = {{bwPureKillsLists[1]}};
                         Chart.defaults.global.defaultFontFamily = 'Inconsolata'
                         Chart.defaults.global.defaultFontSize = 15
@@ -1306,7 +1301,7 @@
                         <canvas id="RESCOL" style="width:100%;height:100%"></canvas>
                         <script>
                         var ctx = document.getElementById('RESCOL');
-                        // @ts-ignore
+                        
                         var RESCOL = {{bwResCol}};
                         Chart.defaults.global.defaultFontFamily = 'Inconsolata'
                         Chart.defaults.global.defaultFontSize = 15
@@ -1424,7 +1419,7 @@
                         <canvas id="GXPCANVAS" style='width:100%;height:100%'></canvas>
                         <script>
                         var ctx = document.getElementById('GXPCANVAS');
-                        // @ts-ignore
+                        
                         var data = {{guildDict['GXPBG'].values() | list}};
                         Chart.defaults.global.defaultFontFamily = 'Inconsolata'
                         Chart.defaults.global.defaultFontSize = 15
@@ -1448,7 +1443,7 @@
             </div>
         {% else %}
             <div id='guild' class="sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-2 lg:colend-10 bg-gray-100 rounded-2xl text-4xl p-6 shadow font-semibold text-center bg-gradient-to-r from-blue-900 to-pink-900 text-white two-px-border">No guild</div>
-        {% endif %}-
+        {% endif %}
         </div>
     <script src='/static/table.js'></script>
     <script src='/static/tabs.js'></script>

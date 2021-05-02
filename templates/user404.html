@@ -1,22 +1,21 @@
 {% extends 'index.html' %}
 
-{% block head %}
-<html>
-    <head>
-        <title>{{q}} doesn't exist</title>
-    </head>
-{% endblock %}
+<body>
+    {% block head %}
+        <head>
+            <title>{{q}} doesn't exist</title>
+        </head>
+    {% endblock %}
+    
+    {% block content %}
+        <div class="flex flex-col" style='height:80vh;'>
+            {% if noAutocorrect != True %}
+                <p class='text-center'>Did you mean to search for <a href='/p/{{noAutocorrect}}'><b>{{noAutocorrect}}</b></a>?</p>
+            {% endif %}
+            <div class="text-center text-4xl">This player doesn't exist.</div>
+            <p class='text-center'>{{screwup}}</p>
+            <img class='h-80 w-auto' src="https://raw.githubusercontent.com/gist/literaiiy/24ad9ce0e3eecefae731533987c68436/raw/d69bf69d37b3d9ae28d0eef3861057c8d0cba6cf/crum.svg"/>
+        </div>
+    {% endblock %}
+</body>
 
-{% block content %}
-    <div class="flex flex-col">
-        {% if noAutocorrect != True %}
-            <p class='text-center'>Did you mean to search for <a href='/p/{{noAutocorrect}}'><b>{{noAutocorrect}}</b></a>?</p>
-        {% endif %}
-        <div class="text-center text-4xl">This player doesn't exist.</div>
-        <p class='text-center'>{{screwup}}</p>
-        <img class='h-80 w-auto' src="https://raw.githubusercontent.com/gist/literaiiy/24ad9ce0e3eecefae731533987c68436/raw/d69bf69d37b3d9ae28d0eef3861057c8d0cba6cf/crum.svg"/>
-    </div>
-{% endblock %}
-
-
-</html>

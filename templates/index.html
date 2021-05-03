@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang='en'>
-<body class='flex flex-col h-screen'>
+<body class='flex flex-col h-screen relative'>
 	<head>
 	{% block head %}
 		<title>tiramisu - Hypixel Player Stats Analysis & Name History</title>
@@ -12,7 +12,7 @@
 		<meta name="author" content="literaiiy">
 		<meta property="og:title" content="tiramisu" />
 		<meta property="og:type" content="website" />
-		<meta property="og:image" content="https://raw.githubusercontent.com/gist/literaiiy/4abf7e5c3a61d91437788459eecc044c/raw/b51b7045ee1d35a2faf889228ef5c353777481e5/tiramis2.svg"/>
+		<meta property="og:image" content="https://raw.githubusercontent.com/gist/literaiiy/a5151734080232985c55f7753dcc417d/raw/fa23a4507d1e34da1579afd26719cc47297153da/tiramisuFullText.svg"/>
 		<link href="{{ url_for('static', filename='tailwind.css') }}" rel="stylesheet" type="text/css">
 		<script type="text/javascript" charset="utf8" src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
@@ -28,7 +28,7 @@
 		
 		<!-- DESKTOP USERS -->
 		<div id='desktoplogo' class="grid grid-cols-4 sticky top-0 bg-gray-100 mb-8 z-40 w-full shadow items-center">
-			<a href='/'><img class='h-16 w-auto ml-4' src='https://raw.githubusercontent.com/gist/literaiiy/62febf3d1f9a035b469e06bdef8456bc/raw/223650b7551fd90e7747e687a2643cdb1cdebf9d/teeramouse.svg' alt="tiramisu Logo"></a>
+			<a href='/'><img class='h-16 w-auto ml-4' src='https://raw.githubusercontent.com/gist/literaiiy/a5151734080232985c55f7753dcc417d/raw/fa23a4507d1e34da1579afd26719cc47297153da/tiramisuFullText.svg' alt="tiramisu Logo"></a>
 			<form class='col-span-2 p-1 bg-white px-0 text-gray-600 rounded-lg m-0 self-center relative mx-5 shadow' action="/" method="POST">
 				<input class='w-full py-3 outline-none h-full text-center' type="text" name="content" id="content" autofocus="autofocus" required='true' onfocus="this.select()" autocomplete="off" spellcheck="false" placeholder="Search username or UUID">
 				<button class="absolute right-3 w-8 top-0 self-center focus:outline-none h-full" type="submit">
@@ -44,7 +44,7 @@
 		</div>
 		<!-- MOBILE USERS -->
 		<div id='mobilelogo' class="flex flex-row flex-nowrap justify-between sticky top-0 bg-gray-100 mb-8 z-40 w-full shadow items-center">
-			<a class='flex-none' href="/"><img class='h-16 w-auto ml-4' src="https://raw.githubusercontent.com/gist/literaiiy/4abf7e5c3a61d91437788459eecc044c/raw/b51b7045ee1d35a2faf889228ef5c353777481e5/tiramis2.svg" alt="tiramisu logo but mobile"></a>
+			<a class='flex-none' href="/"><img class='h-16 w-auto ml-4' src="https://raw.githubusercontent.com/gist/literaiiy/2afd8f09c3d91165dae55c951c76b025/raw/2363d9abacdfa0a3275745f50f81e7dc7b734c00/tiramisNewNoPadding.svg" alt="tiramisu logo but mobile"></a>
 			<form class='flex-shrink w-full p-1 bg-white px-0 text-gray-600 rounded-lg m-0 self-center relative mx-3 shadow' formnovalidate action="/" method="POST">
 				<input class='w-full py-3 outline-none h-full text-center' type="text" name="content" id="content" autofocus="autofocus" required='true' onfocus="this.select()" autocomplete="off" spellcheck="false" placeholder="Search...">
 				<button class="absolute right-3 w-8 top-0 self-center focus:outline-none h-full" type="submit">
@@ -80,7 +80,7 @@
 
 	{% block content %}
 		<main class='flex-grow grid sm:grid-cols-1 lg:grid-cols-10 gap-4 sm:mx-5'>
-			<div class='sm:col-span-1 sm:text-3xl lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl text-4xl font-bold p-6 shadow text-center'>Welcome to tiramisu!</div>
+			<div class='sm:col-span-1 sm:text-3xl lg:col-start-2 lg:col-end-10 rounded-2xl text-4xl font-black p-6 shadow text-center tiramisubg two-px-border text-gray-100'>Welcome to tiramisu!</div>
 			<div class="sm:col-span-1 lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
 				<div class="text-3xl font-semibold pb-5">Player Counts</div>
 				<div class='pt-5'>
@@ -138,9 +138,61 @@
 					{% endif %}
 				</div>
 			</div>
-			<div class="sm:col-span-1 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow">
-				<p>Hey. This is another stupid div that is also stupid. This is some more text lorem ipsum. I love SAT Practice; I will continue with it for the rest of my life. Just kidding. I should probably generate some Lorem Ipsum text instead of wasting my time, so here it goes. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce vulputate arcu at orci bibendum, et ornare tortor suscipit. Donec quis bibendum arcu. Interdum et malesuada fames ac ante ipsum primis in faucibus. Praesent sed libero est. Aliquam sollicitudin venenatis neque. Sed est elit, mattis sit amet venenatis eu, vestibulum eget ligula. Maecenas diam urna, pharetra at auctor vitae, pharetra vel est. Duis iaculis dolor semper, accumsan tortor a, hendrerit massa. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Nullam maximus justo mauris, in dignissim magna eleifend in. Nam interdum arcu eu dolor lacinia, vitae imperdiet nunc laoreet. Suspendisse eget euismod nibh. Donec ut erat bibendum, varius sapien at, rhoncus felis. In diam lorem, vulputate quis placerat sit amet, luctus eget risus. Fusce quis ex justo.</p>
-				<p>Integer cursus pretium nisl nec rutrum. Sed scelerisque iaculis tincidunt. Phasellus id venenatis risus. Donec pellentesque est sit amet viverra tristique. Cras faucibus eget orci vitae tempor. Vivamus at diam sed ex aliquam luctus. Nam malesuada, enim sit amet rhoncus rhoncus, velit nibh egestas ligula, ac blandit eros magna sit amet risus. In ac lacus consequat, hendrerit nunc nec, mollis massa. Cras fermentum quis mauris eget accumsan. In consequat diam mauris, ac elementum lorem efficitur at. Cras vestibulum est turpis, id ullamcorper est porttitor eget.</p>
+			<div class="sm:col-span-1 lg:col-start-6 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
+				<div class="text-3xl font-semibold pb-5">About</div>
+				<div class="pt-5">
+					<p>
+						<i>tiramisu</i> is a Hypixel player statistics site that gives a comprehensive outlook on your Minecraft account and Hypixel profile- complete name history, detailed breakdowns of your Hypixel statistics (including an elaborate analysis of your SkyWars and BedWars stats), among other things. It is currently in an open beta, and there are bound to be a lot of bugs, but I am actively working on resolving these bugs and improving the experience tiramisu provides.
+					</p>
+				</div>
+			</div>
+			<div class='sm:col-span-1 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300'>
+				<div class="text-3xl font-semibold pb-5">FAQ</div>
+				<div class="pt-5">
+					<p>
+						<b>How is your site different from other stats sites?</b>
+						<li>I try to add unique stats that other sites may not have.
+							Sometimes they're more fun than practical or useful, but if it's there, it's there for a reason.
+							While I see myself in the same realm as other stats sites, they're all great and are unique in their own way.</li>
+					</p>
+					<p>
+						<b>What is a UUID?</b>
+						<li>A <b>UUID</b>, or <b>U</b>niversally <b>U</b>nique <b>ID</b>entifier, is a unique string of characters that is tied directly to a Minecraft account. Your UUID is attached to your account from the date of your account's registration and doesn't change, making it more reliable than a username to identify an individual to tie stats to.</li>
+					</p>
+					<p>
+						<b>Will you ever put ads?</b>
+						<li>No. tiramisu is ad-free and plans to never change that.</li>
+					</p>
+					<p>
+						<b>Are you stealing my data?</b>
+						<li>Also- no. This is covered in the Privacy Policy. I don't take any personally identifiable information, or share anything with third parties.</li>
+					</p>
+					<p>
+						<b>Why don't you have (this feature)?</b>
+						<li>tiramisu is a relatively new project. I am actively working on it as a project alongside school and other things, but most major features will be added as soon as possible.</li>
+					</p>
+					<p>
+						<b>Is tiramisu open-source?</b>
+						<li>Not at the moment.</li>
+					</p>
+					<p>
+						<b>Why is there a '>' symbol in front of my first name's duration had?</b>
+						<li>Mojang doesn't provide an account's creation date in the API, so if an account's Hypixel join date is before their first name change, it will be used as a substitute for a pseudo account creation date. This means that number is almost certainly not an accurate figure.</li>
+					</p>
+					<p>
+						<b>What is the "Hypixel ____" on my profile?</b>
+						<li>The title is entirely based on how long you have been playing on the server- or more accurately, the amount of time since your first login.</li>
+					</p>
+					<p>
+						<b>Why don't the player counts instantly update every time I refresh?</b>
+						<li>Player counts only update once every 3 seconds to avoid spam and running over the Hypixel API's rate limit of 120 requests per minute.</li>
+					</p>
+					<p>
+						<b>Why can't I search for a name I've previously had?</b>
+						<li>At some point in November of 2020, Mojang stopped support for querying a UUID to receive a username at a certain timestamp, making it impossible to find a player's current name from a previous one. Sorry about that. Source: <a href="https://wiki.vg/Mojang_API">Mojang API Documentation</a>. See <a href="https://bugs.mojang.com/browse/WEB-3367">this ticket</a> for more information on the topic.</li>
+					</p>
+					<i>Last updated on May 2nd, 2021</i>
+				</div>
 			</div>
 			<script src='/static/table.js'></script>
 		</main>

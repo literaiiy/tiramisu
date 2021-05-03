@@ -1,25 +1,25 @@
 {% extends 'index.html' %}
 
-{% block head %}
-	<title>{{error}} - All the tiramisu is gone!</title>
-{% endblock %}
+<head>
+	{% block head %}
+		<title>{{error}} - All the tiramisu is gone!</title>
+	{% endblock %}
+</head>
 
 {% block content %}
-<body>
-	<div class="grid grid-cols-2">
-		<div class="text-3xl flex flex-col self-end self-center">
-			<div class="text-8xl font-bold self-end">{{error}}</div> 
-			<div class="self-end">{{text}}</div>
-			<br>
-			<div class='self-end text-base text-right'>{{desc}}<br>
-			Click <a target='_blank' href="https://www.hongkiat.com/blog/common-http-errors/">here</a> to learn more.</div>
-		</div>
-		<img class='h-auto py-5' src="https://i.ibb.co/5L5qKfd/pigcake.jpg"/>
-		<p>
-			{% if text == 'API timeout' %}
-			{{desc}} Check its status <a target='_blank' class='font-semibold' href="https://status.hypixel.net">here</a>.
-			{% endif %}
-		</p>
+<div class="flex flex-1 grid grid-cols-2">
+	<div class="text-3xl flex flex-col self-end self-center">
+		<div class="text-8xl font-bold self-end">{{error}}</div> 
+		<div class="self-end">{{text}}</div>
+		<br>
+		<div class='self-end text-base text-right'>{{desc}}<br>
+		Click <a target='_blank' href="https://www.hongkiat.com/blog/common-http-errors/">here</a> to learn more.</div>
 	</div>
-</body>
+	<img class='h-auto py-5' src="https://i.ibb.co/5L5qKfd/pigcake.jpg"/>
+	<p>
+		{% if text == 'API timeout' %}
+		{{desc}} Check its status <a target='_blank' class='font-semibold' href="https://status.hypixel.net">here</a>.
+		{% endif %}
+	</p>
+</div>
 {% endblock %}

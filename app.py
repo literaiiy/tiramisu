@@ -11,6 +11,7 @@ import time
 import re
 import os
 import logging
+import copy
 #import httpx
 #from itertools import cycle, islice
 #from num2words import num2words
@@ -29,10 +30,10 @@ app = Flask(__name__)
 app.secret_key = 'a34w7tfyner9ryhzrbfw7ynhhcdtg78as34'
 HAPIKEY = '1e5f6a57-6327-4888-886a-590c39861a6a'
 HAPIKEY2 = '645eb55b-1550-400e-a5a3-31a2cfe0a806'
-ADMINS = ['35a178c0c37043aea959983223c04de0']
-FLOWERS = ['27bcc1547423484683fd811155d8c472']
-SPARKLES = ['903100946468408aaf2462365389059c', '35bb69ce904a4380a03ffd55acbc2331']
-PENGUINS = ['cfc42e543d834b4f9f7a23c059783ba5']
+# ADMINS = ['35a178c0c37043aea959983223c04de0']
+# FLOWERS = ['27bcc1547423484683fd811155d8c472']
+# SPARKLES = ['903100946468408aaf2462365389059c', '35bb69ce904a4380a03ffd55acbc2331']
+# PENGUINS = ['cfc42e543d834b4f9f7a23c059783ba5']
 swearList = [
     'anal','anus','bastard','bitch','blowjob','buttplug','clitoris','cock','cunt','dick','dildo','fag','fuck','jizz','kkk','nigger','nigga','penis','piss','pussy','scrotum','sex','shit','slut','vagina']
 sweetHeadsRanks = ['HELPER', 'MOD', 'ADMIN', 'OWNER']
@@ -67,6 +68,7 @@ dumbassHypixelRanks = {
     'EVENTS':['gold','']
 }
 
+# Player's username & uuid initialization
 username = ''
 uuid = ''
 
@@ -89,8 +91,8 @@ reqses = requests.Session()
 retries = Retry(total=5, backoff_factor=1, status_forcelist=[ 429, 500, 502, 503, 504 ])
 reqses.mount('http://', HTTPAdapter(max_retries=retries))
 
-class searchBar():
-    query = TextField("Search...")
+# class searchBar():
+#     query = TextField("Search...")
 
 @app.route('/favicon.ico')
 def favicon():
@@ -162,7 +164,7 @@ def queryt(path):
     gameDict = sorted(gameDict, reverse=True, key=lambda k: k['playerCount'])
     for enum, game in enumerate(gameDict, 1):
         game['pos'] = enum
-    form = searchBar()
+    # form = searchBar()
     if request.method == 'POST':
         session['req'] = request.form
         if not session['req']['content'] == '':
@@ -220,9 +222,9 @@ def compute(q):
                 username = MojangAPI.get_username(q)
                 uuid = q
             else:
-                return "That UUID doesn't exist. Try again with a different UUID."
+                return render_template('user404.html', q=q, screwup="That UUID doesn't exist. Try again with a different UUID.", noAutocorrect=True )
         except:
-            return "This UUID doesn't exist. Try again with a different UUID."
+            return render_template('user404.html', q=q, screwup="That UUID doesn't exist. Try again with a different UUID.", noAutocorrect=True)
 
     else:
         uuid = MojangAPI.get_uuid(q)
@@ -235,18 +237,22 @@ def compute(q):
 
 # ! Retrieve from API and initialize
         print('right before requeas ',(time.time() - start_time), ' sec')
-        #try:
-        r = reqses.get('https://api.hypixel.net/player?key=' + HAPIKEY + '&uuid=' + uuid)
-        #except: return render_template('404.html', error=500, text='API timeout', desc='The Hypixel API timed out.'), 500
+        try:
+            r = reqses.get('https://api.hypixel.net/player?key=' + HAPIKEY + '&uuid=' + uuid)
+        except: return render_template('404.html', error=500, text='API timeout', desc='The Hypixel API timed out.'), 500
         print('RIGHT AFTER REQAPI is being gotten. ',(time.time() - start_time), ' sec')
         reqAPI = r.json()
         print('json deserialized ',(time.time() - start_time), ' sec')
-        reqList = {}
         try:
-            reqListKarma = reqAPI['player']['karma']
-        except:
-            reqListKarma = 0
-        reqList['karma']=int(reqListKarma)
+            karma = reqAPI['player'].get('karma',0)
+        except: karma = 0
+
+        # reqList = {}
+        # try:
+        #     reqListKarma = reqAPI['player']['karma']
+        # except:
+        #     reqListKarma = 0
+        # reqList['karma']=int(reqListKarma)
         # try:
         #     hypixelUN = reqAPI['player']['displayname']
         # except:
@@ -255,7 +261,7 @@ def compute(q):
 
 # ! Name history
         namehis = MojangAPI.get_name_history(uuid)
-        namehispure = MojangAPI.get_name_history(uuid)
+        namehispure = copy.deepcopy(namehis)
         
         nhutminus1 = 0
         nhutChangedToAt = 0
@@ -270,10 +276,6 @@ def compute(q):
             nhutdate[3] = math.floor(namehisDiff / 60) -nhutdate[2] * 60 - nhutdate[1] * 24 * 60 - nhutdate[0] * 365 * 24 * 60
             nhutdate[4] = int(namehisDiff % 60)
             return [nhutdate[0],nhutdate[1],nhutdate[2],nhutdate[3],nhutdate[4]]
-        try:
-            sec2format(namehisDiff)
-        except:
-            pass
         
         # Takes in list of Y, D, H, M, S and formats it into a readable string
         def sec2format2ydhms(sec2formatted):
@@ -782,7 +784,7 @@ def compute(q):
         if 'wins' in swSTATSVAR or 'losses' in swSTATSVAR:
 
             # Get the automatable ones - these are already above, I think
-            for x in swStatsDict.keys():
+            for x in swStatsDict:
                 if x in swSTATSVAR: swStatsDict[x] = swSTATSVAR[x]
             
             # Fastest win formatting
@@ -1102,7 +1104,6 @@ def compute(q):
         # Favorite maps & cages
         swMapsList = []
         swCagesList = []
-        swBalloonsList = []
 
         try:
             swPackagesVAR = swSTATSVAR['packages']
@@ -1237,38 +1238,38 @@ def compute(q):
         def lvl2prestige(level):
             try:
                 if level < 100: return ('No', 'gray', round(100*(level-math.floor(level)),2))
-                elif level < 200: return ('Iron', 'lightgray', round(100*(level-math.floor(level)),2))
-                elif level < 300: return ('Gold', 'gold', round(100*(level-math.floor(level)),2))
-                elif level < 400: return ('Diamond', 'aqua', round(100*(level-math.floor(level)),2))
-                elif level < 500: return ('Emerald', 'dark_green', round(100*(level-math.floor(level)),2))
-                elif level < 600: return ('Sapphire', 'dark_aqua', round(100*(level-math.floor(level)),2))
-                elif level < 700: return ('Ruby', 'dark_red', round(100*(level-math.floor(level)),2))
-                elif level < 800: return ('Crystal', 'light_purple', round(100*(level-math.floor(level)),2))
-                elif level < 900: return ('Opal', 'dark_blue', round(100*(level-math.floor(level)),2))
-                elif level < 1000: return ('Amethyst', 'dark_purple', round(100*(level-math.floor(level)),2))
-                elif level < 1100: return ('Rainbow', 'chocolate', round(100*(level-math.floor(level)),2))
+                if level < 200: return ('Iron', 'lightgray', round(100*(level-math.floor(level)),2))
+                if level < 300: return ('Gold', 'gold', round(100*(level-math.floor(level)),2))
+                if level < 400: return ('Diamond', 'aqua', round(100*(level-math.floor(level)),2))
+                if level < 500: return ('Emerald', 'dark_green', round(100*(level-math.floor(level)),2))
+                if level < 600: return ('Sapphire', 'dark_aqua', round(100*(level-math.floor(level)),2))
+                if level < 700: return ('Ruby', 'dark_red', round(100*(level-math.floor(level)),2))
+                if level < 800: return ('Crystal', 'light_purple', round(100*(level-math.floor(level)),2))
+                if level < 900: return ('Opal', 'dark_blue', round(100*(level-math.floor(level)),2))
+                if level < 1000: return ('Amethyst', 'dark_purple', round(100*(level-math.floor(level)),2))
+                if level < 1100: return ('Rainbow', 'chocolate', round(100*(level-math.floor(level)),2))
 
-                elif level < 1200: return ('Iron Prime', 'lightgray', round(100*(level-math.floor(level)),2))
-                elif level < 1300: return ('Gold Prime', 'gold', round(100*(level-math.floor(level)),2))
-                elif level < 1400: return ('Diamond Prime', 'aqua', round(100*(level-math.floor(level)),2))
-                elif level < 1500: return ('Emerald Prime', 'dark_green', round(100*(level-math.floor(level)),2))
-                elif level < 1600: return ('Sapphire Prime', 'dark_aqua', round(100*(level-math.floor(level)),2))
-                elif level < 1700: return ('Ruby Prime', 'dark_red', round(100*(level-math.floor(level)),2))
-                elif level < 1800: return ('Crystal Prime', 'light_purple', round(100*(level-math.floor(level)),2))
-                elif level < 1900: return ('Opal Prime', 'dark_blue', round(100*(level-math.floor(level)),2))
-                elif level < 2000: return ('Amethyst Prime', 'dark_purple', round(100*(level-math.floor(level)),2))
+                if level < 1200: return ('Iron Prime', 'lightgray', round(100*(level-math.floor(level)),2))
+                if level < 1300: return ('Gold Prime', 'gold', round(100*(level-math.floor(level)),2))
+                if level < 1400: return ('Diamond Prime', 'aqua', round(100*(level-math.floor(level)),2))
+                if level < 1500: return ('Emerald Prime', 'dark_green', round(100*(level-math.floor(level)),2))
+                if level < 1600: return ('Sapphire Prime', 'dark_aqua', round(100*(level-math.floor(level)),2))
+                if level < 1700: return ('Ruby Prime', 'dark_red', round(100*(level-math.floor(level)),2))
+                if level < 1800: return ('Crystal Prime', 'light_purple', round(100*(level-math.floor(level)),2))
+                if level < 1900: return ('Opal Prime', 'dark_blue', round(100*(level-math.floor(level)),2))
+                if level < 2000: return ('Amethyst Prime', 'dark_purple', round(100*(level-math.floor(level)),2))
 
-                elif level < 2100: return ('Mirror', 'mirror', round(100*(level-math.floor(level)),2))
-                elif level < 2200: return ('Light', 'light', round(100*(level-math.floor(level)),2))
-                elif level < 2300: return ('Dawn', 'dawn', round(100*(level-math.floor(level)),2))
-                elif level < 2400: return ('Dusk', 'dusk', round(100*(level-math.floor(level)),2))
-                elif level < 2500: return ('Air', 'air', round(100*(level-math.floor(level)),2))
-                elif level < 2600: return ('Wind', 'wind', round(100*(level-math.floor(level)),2))
-                elif level < 2700: return ('Nebula', 'nebula', round(100*(level-math.floor(level)),2))
-                elif level < 2800: return ('Thunder', 'thunder', round(100*(level-math.floor(level)),2))
-                elif level < 2900: return ('Earth', 'earth', round(100*(level-math.floor(level)),2))
-                elif level < 3000: return ('Water', 'water', round(100*(level-math.floor(level)),2))
-                elif level >= 3000: return ('Fire', 'fire', round(100*(level-math.floor(level)),2))
+                if level < 2100: return ('Mirror', 'mirror', round(100*(level-math.floor(level)),2))
+                if level < 2200: return ('Light', 'light', round(100*(level-math.floor(level)),2))
+                if level < 2300: return ('Dawn', 'dawn', round(100*(level-math.floor(level)),2))
+                if level < 2400: return ('Dusk', 'dusk', round(100*(level-math.floor(level)),2))
+                if level < 2500: return ('Air', 'air', round(100*(level-math.floor(level)),2))
+                if level < 2600: return ('Wind', 'wind', round(100*(level-math.floor(level)),2))
+                if level < 2700: return ('Nebula', 'nebula', round(100*(level-math.floor(level)),2))
+                if level < 2800: return ('Thunder', 'thunder', round(100*(level-math.floor(level)),2))
+                if level < 2900: return ('Earth', 'earth', round(100*(level-math.floor(level)),2))
+                if level < 3000: return ('Water', 'water', round(100*(level-math.floor(level)),2))
+                if level >= 3000: return ('Fire', 'fire', round(100*(level-math.floor(level)),2))
                 #elif level >= 1000: return ('Rainbow', 'chocolate', round(100*(level-math.floor(level)),2))
             except:
                 return ('No', 'gray')
@@ -1593,23 +1594,13 @@ def compute(q):
         print('Guild is done. ',round(time.time() - start_time, 4), ' sec')
 
 # ! Render base.html        
-        # displayAddon = ''
-        # if uuid in ADMINS:
-        #     displayAddon += ' 🍰'
-        # if uuid in FLOWERS:
-        #     displayAddon += ' 🌸'
-        # if uuid in SPARKLES:
-        #     displayAddon += ' ✨'
-        # if uuid in PENGUINS:
-            # displayAddon += ' 🐧'
-        #print(rankParsed)
         print("--- %s seconds ---" % (time.time() - start_time))
 
         # Designated Crapification
         #print('firstLogin')
         #print(firstLoginUnix)
         
-        return render_template('base.html', uuid=uuid, username=username, namehis=namehis, profile='reqAPI', reqList=reqList['karma'], achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rankv3=rankv3, multiplier=multiplier, swStatsDict=swStatsDict, swUnscannedDict=swUnscannedDict, joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc, swTimeColorList], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources, bwCosmetics=bwCosmetics, userLanguage=userLanguage, userVersion=userVersion, totalKills=totalKills, totalWins=totalWins, totalCoins=totalCoins, giftsMeta=giftsMeta, rewards=rewards, lastPlayed=lastPlayed, lastSeen=lastSeen, lastSeenUnix=lastSeenUnix, swMapsList=swMapsList, swCagesList=swCagesList, swCosmetics=swCosmetics, swHeadsImpBool=swHeadsImpBool, swChalAtt=swChalAtt, swChalAttNum=swChalAttNum, swChalWins=swChalWins, swChalWinsNum=swChalWinsNum, guildDict=guildDict)
+        return render_template('base.html', uuid=uuid, username=username, namehis=namehis, profile='reqAPI', reqList=karma, achpot=achpot, achievements=achievements, level=level, levelProgress=levelProgress, levelplusone=levelplusone, lastLogin=lastLogin, lastLoginUnix=lastLoginUnix, firstLogin=firstLogin, firstLoginUnix=firstLoginUnix, lastLogoutUnix=lastLogoutUnix, lastLogout=lastLogout, lastSession=lastSession, rankv3=rankv3, multiplier=multiplier, swStatsDict=swStatsDict, swUnscannedDict=swUnscannedDict, joinedAgoText=joinedAgoText, seniority=seniority, boughtPastRank=boughtPastRank, quests=quests, currentSession=currentSession, sessionType=sessionType, boughtPastTime=boughtPastTime, twitter=twitter, instagram=instagram, twitch=twitch, discord=discord, hypixelForums=hypixelForums, youtube=youtube, gamemodes={'Solo':swSoloStatsList,'Teams':swTeamStatsList,'Ranked':swRankedStatsList,'Mega':swMegaStatsList, 'Laboratory':swLabStatsList},gamemodes2={'Solo Normal':swSoloNormal, 'Solo Insane':swSoloInsane, 'Teams Normal':swTeamsNormal, 'Teams Insane':swTeamsInsane, 'Mega Doubles':swMegaDoubles, 'Laboratory Solo':swLabSolo, 'Laboratory Teams':swLabTeams}, swKillTypeList=swKillTypeList, swKTLList=json.dumps(swKTLList), swTimeLists=[swTimeList, swTimeListPerc, swTimeColorList], swTimeModeList=swTimeModeList, swTimeListPercMinusOverall=swTimeListPercMinusOverall, swUnitConvList=swUnitConvList, swUnitConvList2=swUnitConvList2, swSoulList=swSoulList, swSoulsRaritiesList=swSoulsRaritiesList, swHeadsListList=(swHeads,swHeadsSolo,swHeadsTeam), swHeadsRaw=[swHeads[0][1],swHeads[1][1],swHeads[2][1],swHeads[3][1],swHeads[4][1],swHeads[5][1],swHeads[6][1],swHeads[7][1],swHeads[8][1],swHeads[9][1]], swHeadsRawSolo=[swHeadsSolo[0][1],swHeadsSolo[1][1],swHeadsSolo[2][1],swHeadsSolo[3][1],swHeadsSolo[4][1],swHeadsSolo[5][1],swHeadsSolo[6][1],swHeadsSolo[7][1],swHeadsSolo[8][1],swHeadsSolo[9][1]], swHeadsRawTeam=[swHeadsTeam[0][1],swHeadsTeam[1][1],swHeadsTeam[2][1],swHeadsTeam[3][1],swHeadsTeam[4][1],swHeadsTeam[5][1],swHeadsTeam[6][1],swHeadsTeam[7][1],swHeadsTeam[8][1],swHeadsTeam[9][1]], swKWperLists=(swKperList, swWperList, swPercPlayedLife), swOpals=swOpals, swBestGame = swBestGame, bwOverallStats=bwOverallStats, bwModeStats=bwModeStats, bwTranslateList=bwTranslateList, bwCompList=bwCompList, bwMKWList=bwMKWList, bwKillsList=(bwKillsVia, bwKillsPerMode, bwFinKillsVia, bwFinKillsPerMode), bwPureKillsLists=[bwPureKillsVia, bwPureFinKillsVia], bwLootBoxes=bwLootBoxes, bwLootPure=bwLootPure, bwResCol=bwResCol, bwResColPerc=bwResColPerc, bwItemsPurchased=bwItemsPurchased, bwTotalResources=bwTotalResources, bwCosmetics=bwCosmetics, userLanguage=userLanguage, userVersion=userVersion, totalKills=totalKills, totalWins=totalWins, totalCoins=totalCoins, giftsMeta=giftsMeta, rewards=rewards, lastPlayed=lastPlayed, lastSeen=lastSeen, lastSeenUnix=lastSeenUnix, swMapsList=swMapsList, swCagesList=swCagesList, swCosmetics=swCosmetics, swHeadsImpBool=swHeadsImpBool, swChalAtt=swChalAtt, swChalAttNum=swChalAttNum, swChalWins=swChalWins, swChalWinsNum=swChalWinsNum, guildDict=guildDict)
     
 # ! Invalid username exception
     else:

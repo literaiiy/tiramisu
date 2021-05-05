@@ -537,19 +537,19 @@ def compute(q):
         def gameTranslate(game):
             try:
                 if game == 'SKYWARS': return 'SkyWars'
-                elif game == 'SKYBLOCK': return 'SkyBlock'
-                elif game == 'BEDWARS': return 'BedWars'
-                elif game == 'SUPER_SMASH': return 'Smash Heroes'
-                elif game == 'SPEED_UHC': return 'Speed UHC'
-                elif game == 'MCGO': return 'Cops and Crims'
-                elif game == 'PIT': return 'The Pit'
-                elif game == 'UHC': return 'UHC Champions'
-                elif game == 'BATTLEGROUND': return 'Warlords'
-                elif game == 'SURVIVAL_GAMES': return 'Blitz SG'
-                elif game == 'WALLS3': return  'Mega Walls'
-                elif game == 'TNTGAMES': return  'TNT Games'
-                elif game == 'VAMPIREZ': return 'VampireZ'
-                elif game == 'ARENA': return 'Arena Brawl'
+                if game == 'SKYBLOCK': return 'SkyBlock'
+                if game == 'BEDWARS': return 'BedWars'
+                if game == 'SUPER_SMASH': return 'Smash Heroes'
+                if game == 'SPEED_UHC': return 'Speed UHC'
+                if game == 'MCGO': return 'Cops and Crims'
+                if game == 'PIT': return 'The Pit'
+                if game == 'UHC': return 'UHC Champions'
+                if game == 'BATTLEGROUND': return 'Warlords'
+                if game == 'SURVIVAL_GAMES': return 'Blitz SG'
+                if game == 'WALLS3': return  'Mega Walls'
+                if game == 'TNTGAMES': return  'TNT Games'
+                if game == 'VAMPIREZ': return 'VampireZ'
+                if game == 'ARENA': return 'Arena Brawl'
                 else: return game.replace('_',' ').title()
             except: return ''
             
@@ -615,10 +615,10 @@ def compute(q):
 # ! Others
 
         def significantTimeDenom(list):
-            if list[0] != 0: return str(list[0]) + 'y'
-            elif list[1] != 0: return str(list[1]) + 'd'
-            elif list[2] != 0: return str(list[2]) + 'h'
-            elif list[3] != 0: return str(list[3]) + 'm'
+            if list[0] != 0: return str(list[0]) + 'y ' + str(list[1]) + 'd'
+            elif list[1] != 0: return str(list[1]) + 'd ' + str(list[2]) + 'h'
+            elif list[2] != 0: return str(list[2]) + 'h ' + str(list[3]) + 'm'
+            elif list[3] != 0: return str(list[3]) + 'm ' + str(list[4]) + 's'
             else: return str(list[4]) + 's'
 
         try:
@@ -627,16 +627,12 @@ def compute(q):
         try:
             userVersion = reqAPI['player'].get('mcVersionRp') if reqAPI['player'].get('mcVersionRp') != None else 'unspecified version'
         except: userVersion = 'unspecified version'
-        totalKills = 'FIX THIS PLEASEAY@ddd(ADHUSDHJIADAA'
-        totalWins = 'FIX THIS PLEASEDAH&*@UHD*QUIADAD@QD'
-        totalCoins = 'FIX THIS PLEASEASDHG&*A@YDHsUSAI@DW'
         try:
             giftsMeta = reqAPI['player'].get('giftingMeta', {'bundlesGiven':0,'giftsGiven':0})
         except: giftsMeta = {'bundlesGiven':0,'giftsGiven':0}
         try:
             rewards = [reqAPI['player'].get('rewardStreak', 0), reqAPI['player'].get('rewardHighScore', 0), reqAPI['player'].get('totalRewards', 0), reqAPI['player'].get('totalDailyRewards', 0)]
         except: rewards = [0,0,0,0]
-        #rewards = rankjson.get('rewards', {"streak_current":0,"streak_best":0,"claimed":0,"claimed_daily":0,"tokens":0})
         try:
             lastPlayed = gameTranslate(reqAPI['player'].get('mostRecentGameType', False))
         except: lastPlayed = False
@@ -718,12 +714,6 @@ def compute(q):
                 if first > 0: return math.inf
                 else: return 0
             else: return round(first/second, spaces)
-        
-        # def weirdDivWithPerc(first, second, spaces=4):
-        #     if second == 0:
-        #         if first > 0: return math.inf
-        #         else: return (0,0)
-        #     else: return (round(first/second, spaces), round(100*first/second
 
         try:
             swSTATSVAR = reqAPI['player']['stats']['SkyWars']
@@ -847,16 +837,16 @@ def compute(q):
             def getPrestige(level):
                 try:
                     if level < 5: return ('No', 'gray')
-                    elif level < 10: return ('Iron', 'lightgray')
-                    elif level < 15: return ('Gold', 'gold')
-                    elif level < 20: return ('Diamond', 'aqua')
-                    elif level < 25: return ('Emerald', 'dark_green')
-                    elif level < 30: return ('Sapphire', 'blue')
-                    elif level < 35: return ('Ruby', 'dark_red')
-                    elif level < 40: return ('Crystal', 'light_purple')
-                    elif level < 45: return ('Opal', 'dark_blue')
-                    elif level < 50: return ('Amethyst', 'dark_purple')
-                    elif level >= 50: return ('Rainbow', 'chocolate')
+                    if level < 10: return ('Iron', 'lightgray')
+                    if level < 15: return ('Gold', 'gold')
+                    if level < 20: return ('Diamond', 'aqua')
+                    if level < 25: return ('Emerald', 'dark_green')
+                    if level < 30: return ('Sapphire', 'blue')
+                    if level < 35: return ('Ruby', 'dark_red')
+                    if level < 40: return ('Crystal', 'light_purple')
+                    if level < 45: return ('Opal', 'dark_blue')
+                    if level < 50: return ('Amethyst', 'dark_purple')
+                    if level >= 50: return ('Rainbow', 'chocolate')
                 except:
                     return ('No', 'gray')
             
@@ -867,7 +857,6 @@ def compute(q):
             swUnscannedDict['xpRemainder'] = swLevelStuffYes[1]
             swUnscannedDict['winsRemainder'] = math.ceil(swLevelStuffYes[1]/10)
             if 'levelFormatted' in swSTATSVAR: swUnscannedDict['presIcon'] = re.sub('[0-9a-zA-Z§]', '', swSTATSVAR['levelFormatted'])
-
             swUnscannedDict['level'] = math.floor(swUnscannedDict['level'])
 
         else: swStatsDict['success']:False
@@ -936,9 +925,7 @@ def compute(q):
         swLabSolo = {'games_played':0}
         swLabTeams = {'games_played':0}
         for x, y in zip([swSoloNormal,swSoloInsane,swTeamsNormal,swTeamsInsane,swMegaDoubles, swLabSolo, swLabTeams], ['solo_normal', 'solo_insane', 'team_normal', 'team_insane', 'mega_doubles', 'lab_solo', 'lab_team']):
-            if 'losses_'+y in swSTATSVAR or 'wins_'+y in swSTATSVAR: x = swModeStats(x, y) 
-
-        #print(swLabStatsList)
+            if 'losses_'+y in swSTATSVAR or 'wins_'+y in swSTATSVAR: x = swModeStats(x, y)
 
         ########## SkyWars Kill Types
         swKillTypeList = {}

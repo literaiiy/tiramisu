@@ -804,13 +804,13 @@
         </div>
         <!-- Favorite maps & cages-->
         <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 mapscag lg:col-start-2 lg:col-end-6 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
-            <div class="text-3xl font-semibold pb-5"><div id='skywars-maps-cages' class='anchor'></div>Favorite Maps & Cages</div>
+            <div class="text-3xl font-semibold pb-5"><div id='skywars-maps-cages' class='anchor'></div>Favorite maps & cages</div>
             <div class="pt-5">
                 <p>
                     {% if not swMapsList %}
                     No favorite maps.
                     {% else %}
-                    <b><i class="twa twa-1f5fa"></i> Favorite Maps:</b> {{swMapsList}}
+                    <b><i class="twa twa-1f5fa"></i> Favorite maps:</b> {{swMapsList}}
                     {% endif %}
                 </p>
                 <p>
@@ -1010,7 +1010,7 @@
                     </div>
                     {% for mode in bwModeStats %}
                         {% if bwModeStats[mode]['games_played_bedwars'][0] > 0 %}
-                            <div id='{{mode}}' class='bwTabContent sm:mt-5'>
+                            <div id='{{mode}}' class='bwTabContent sm:mt-5 md:m-0 lg:m-0'>
                                 <p>
                                     {% if bwCompList[mode]['compkd'][0] > 100000 %}
                                         <span class="almost"><b>infinite</b></span> K/D
@@ -1410,12 +1410,12 @@
             <div class=" sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-start-2 lg:col-end-10 bg-gray-100 rounded-2xl p-6 shadow divide-y divide-gray-300">
                 <div class='text-3xl font-semibold pb-5'>Guild XP earned by game</div>
                 <div class="pt-5 flex md:flex-row lg:flex-row sm:flex-col gap-4">
-                    <div class='flex-none max-h-full'>
+                    <div class='flex-none max-h-full pb-6'>
                         {% for d, f in guildDict['GXPBG'].items() %}
                             <b>{{d}}</b>: {{f | those}}<br>
                         {% endfor %}
                     </div>
-                    <div class='canvGuildXP' style='width:100%;max-height:100%'>
+                    <div class='canvGuildXP sm:mt-5' style='width:100%;max-height:100%'>
                         <canvas id="GXPCANVAS" style='width:100%;height:100%'></canvas>
                         <script>
                         var ctx = document.getElementById('GXPCANVAS');

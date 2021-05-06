@@ -9,9 +9,9 @@ $(document).ready( function () {
         "language": {
             "info": "_TOTAL_ results",
             "infoFiltered": " - _MAX_ total",
-            "infoEmpty": "No matching results",
+            "infoEmpty": "No results",
             "search":"",
-            "zeroRecords": "No matching results",
+            "zeroRecords": "",
         'scrollY':'50vh',
         'scrollCollapse': true,
         'paging': false
@@ -27,9 +27,9 @@ $(document).ready( function () {
         "language": {
             "info": "",
             "infoFiltered": "",
-            "infoEmpty": "No matching results",
+            "infoEmpty": "",
             "search":"",
-            "zeroRecords": "No matching results",
+            "zeroRecords": "",
             "sDom": '<"top"if>t<"clear">',
         'paging': false
         },

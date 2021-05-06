@@ -1053,40 +1053,17 @@ def compute(q):
 
         # Angel's Descent
         swOpals = {}
-        try:
-            swOpals['opals'] = swSTATSVAR['opals']
-        except: swOpals['opals'] = 0
-        try:
-            swOpals['shards'] = swSTATSVAR['shard']
-            swOpals['until next opal'] = swOpals['shards'] % 20000
-            swOpals['shardsTilNextPerc'] = round(100*swOpals['until next opal']/20000,2)
-            swOpals['shardsTilNextPrBa'] = int(32*(swOpals['shardsTilNextPerc']/100))
-        except:
-            swOpals['shards'] = 0
-            swOpals['until next opal'] = 0
-            swOpals['shardsTilNextPerc'] = 0
-            swOpals['shardsTilNextPrBa'] = 0
-        try:
-            swOpals['opals from prestige'] = int(swExpList[1]/5)
-        except: swOpals['opals from prestige'] = 0
-        try:
-            swOpals['shard_solo'] = swSTATSVAR['shard_solo']
-            swOpals['shard_solo_perc'] = round(100*swOpals['shard_solo']/swOpals['shards'],2)
-        except:
-            swOpals['shard_solo'] =0
-            swOpals['shard_solo_perc'] = 0
-        try:
-            swOpals['shard_team'] = swSTATSVAR['shard_team']
-            swOpals['shard_team_perc'] = round(100*swOpals['shard_team']/swOpals['shards'],2)
-        except: 
-            swOpals['shard_team'] = 0
-            swOpals['shard_team_perc'] = 0
-        try:
-            swOpals['shards per kill'] = round(swOpals['shards']/int(swStatsDict['kills']),2)
-        except: swOpals['shards per kill'] = 0
-        try:
-            swOpals['shards per game'] = round(swOpals['shards']/int(swUnscannedDict['games_played']),2)
-        except: swOpals['shards per game'] = 0
+        swOpals['opals'] = swSTATSVAR.get('opals',0)
+        swOpals['shards'] = swSTATSVAR.get('shard',0)
+        swOpals['until next opal'] = swOpals['shards'] % 20000
+        swOpals['shardsTilNextPerc'] = 100*weirdDiv(swOpals['until next opal'], 20000, 2) #round(100*swOpals['until next opal']/20000,2)
+        swOpals['opals from prestige'] = int(swUnscannedDict['level']/5)
+        swOpals['shard_solo'] = swSTATSVAR.get('shard_solo',0)
+        swOpals['shard_solo_perc'] = weirdDiv(100*swOpals['shard_solo'], swOpals['shards'],2)
+        swOpals['shard_team'] = swSTATSVAR.get('shard_team',0)
+        swOpals['shard_team_perc'] = weirdDiv(100*swOpals['shard_team'], swOpals['shards'],2)
+        swOpals['shards per kill'] = weirdDiv(swOpals['shards'], int(swStatsDict['kills']),2)
+        swOpals['shards per game'] = weirdDiv(swOpals['shards'], int(swUnscannedDict['games_played']),2)
 
         # Favorite maps & cages
         swMapsList = []
@@ -1102,8 +1079,6 @@ def compute(q):
         except: pass
         swMapsList = re.sub("[\[\]']",'',str(swMapsList))
         swCagesList = re.sub("[\[\]']",'',str(swCagesList))
-        #print(swMapsList)
-        #print(swCagesList)
 
         # Cosmetics
         swCosmetics = {}
@@ -1219,45 +1194,47 @@ def compute(q):
                 elif xp4pres < 7000: return pres*100 + 3 + (xp4pres-3500)/3500
                 else: return pres*100 + 4 +(xp4pres-7000)/5000
         bwOverallStats['level'] = round(bwxp2level(bwOverallStats['Experience']),4)
-        #bwOverallStats['level'].append(bwOverallStats['level'][0]+1)
 
     # Prestige
+        def rlmfl(level):
+            return round(100*(level-math.floor(level)),2)
+
         def lvl2prestige(level):
             try:
-                if level < 100: return ('No', 'gray', round(100*(level-math.floor(level)),2))
-                if level < 200: return ('Iron', 'lightgray', round(100*(level-math.floor(level)),2))
-                if level < 300: return ('Gold', 'gold', round(100*(level-math.floor(level)),2))
-                if level < 400: return ('Diamond', 'aqua', round(100*(level-math.floor(level)),2))
-                if level < 500: return ('Emerald', 'dark_green', round(100*(level-math.floor(level)),2))
-                if level < 600: return ('Sapphire', 'dark_aqua', round(100*(level-math.floor(level)),2))
-                if level < 700: return ('Ruby', 'dark_red', round(100*(level-math.floor(level)),2))
-                if level < 800: return ('Crystal', 'light_purple', round(100*(level-math.floor(level)),2))
-                if level < 900: return ('Opal', 'dark_blue', round(100*(level-math.floor(level)),2))
-                if level < 1000: return ('Amethyst', 'dark_purple', round(100*(level-math.floor(level)),2))
-                if level < 1100: return ('Rainbow', 'chocolate', round(100*(level-math.floor(level)),2))
+                if level < 100: return ('No', 'gray', rlmfl(level))
+                if level < 200: return ('Iron', 'lightgray', rlmfl(level))
+                if level < 300: return ('Gold', 'gold', rlmfl(level))
+                if level < 400: return ('Diamond', 'aqua', rlmfl(level))
+                if level < 500: return ('Emerald', 'dark_green', rlmfl(level))
+                if level < 600: return ('Sapphire', 'dark_aqua', rlmfl(level))
+                if level < 700: return ('Ruby', 'dark_red', rlmfl(level))
+                if level < 800: return ('Crystal', 'light_purple', rlmfl(level))
+                if level < 900: return ('Opal', 'dark_blue', rlmfl(level))
+                if level < 1000: return ('Amethyst', 'dark_purple', rlmfl(level))
+                if level < 1100: return ('Rainbow', 'chocolate', rlmfl(level))
 
-                if level < 1200: return ('Iron Prime', 'lightgray', round(100*(level-math.floor(level)),2))
-                if level < 1300: return ('Gold Prime', 'gold', round(100*(level-math.floor(level)),2))
-                if level < 1400: return ('Diamond Prime', 'aqua', round(100*(level-math.floor(level)),2))
-                if level < 1500: return ('Emerald Prime', 'dark_green', round(100*(level-math.floor(level)),2))
-                if level < 1600: return ('Sapphire Prime', 'dark_aqua', round(100*(level-math.floor(level)),2))
-                if level < 1700: return ('Ruby Prime', 'dark_red', round(100*(level-math.floor(level)),2))
-                if level < 1800: return ('Crystal Prime', 'light_purple', round(100*(level-math.floor(level)),2))
-                if level < 1900: return ('Opal Prime', 'dark_blue', round(100*(level-math.floor(level)),2))
-                if level < 2000: return ('Amethyst Prime', 'dark_purple', round(100*(level-math.floor(level)),2))
+                if level < 1200: return ('Iron Prime', 'lightgray', rlmfl(level))
+                if level < 1300: return ('Gold Prime', 'gold', rlmfl(level))
+                if level < 1400: return ('Diamond Prime', 'aqua', rlmfl(level))
+                if level < 1500: return ('Emerald Prime', 'dark_green', rlmfl(level))
+                if level < 1600: return ('Sapphire Prime', 'dark_aqua', rlmfl(level))
+                if level < 1700: return ('Ruby Prime', 'dark_red', rlmfl(level))
+                if level < 1800: return ('Crystal Prime', 'light_purple', rlmfl(level))
+                if level < 1900: return ('Opal Prime', 'dark_blue', rlmfl(level))
+                if level < 2000: return ('Amethyst Prime', 'dark_purple', rlmfl(level))
 
-                if level < 2100: return ('Mirror', 'mirror', round(100*(level-math.floor(level)),2))
-                if level < 2200: return ('Light', 'light', round(100*(level-math.floor(level)),2))
-                if level < 2300: return ('Dawn', 'dawn', round(100*(level-math.floor(level)),2))
-                if level < 2400: return ('Dusk', 'dusk', round(100*(level-math.floor(level)),2))
-                if level < 2500: return ('Air', 'air', round(100*(level-math.floor(level)),2))
-                if level < 2600: return ('Wind', 'wind', round(100*(level-math.floor(level)),2))
-                if level < 2700: return ('Nebula', 'nebula', round(100*(level-math.floor(level)),2))
-                if level < 2800: return ('Thunder', 'thunder', round(100*(level-math.floor(level)),2))
-                if level < 2900: return ('Earth', 'earth', round(100*(level-math.floor(level)),2))
-                if level < 3000: return ('Water', 'water', round(100*(level-math.floor(level)),2))
-                if level >= 3000: return ('Fire', 'fire', round(100*(level-math.floor(level)),2))
-                #elif level >= 1000: return ('Rainbow', 'chocolate', round(100*(level-math.floor(level)),2))
+                if level < 2100: return ('Mirror', 'mirror', rlmfl(level))
+                if level < 2200: return ('Light', 'light', rlmfl(level))
+                if level < 2300: return ('Dawn', 'dawn', rlmfl(level))
+                if level < 2400: return ('Dusk', 'dusk', rlmfl(level))
+                if level < 2500: return ('Air', 'air', rlmfl(level))
+                if level < 2600: return ('Wind', 'wind', rlmfl(level))
+                if level < 2700: return ('Nebula', 'nebula', rlmfl(level))
+                if level < 2800: return ('Thunder', 'thunder', rlmfl(level))
+                if level < 2900: return ('Earth', 'earth', rlmfl(level))
+                if level < 3000: return ('Water', 'water', rlmfl(level))
+                if level >= 3000: return ('Fire', 'fire', rlmfl(level))
+                #elif level >= 1000: return ('Rainbow', 'chocolate', rlmfl(level))
             except:
                 return ('No', 'gray')
 
@@ -1339,33 +1316,21 @@ def compute(q):
                 except: pass
             
         # Kills per deaths with some final mixing in calculations
-
             bwModeStats[mode]['K/D'] = weirdDiv(bwModeStats[mode]['kills_bedwars'][0], bwModeStats[mode]['deaths_bedwars'][0],4)
-
             bwModeStats[mode]['finK/D'] = weirdDiv(bwModeStats[mode]['final_kills_bedwars'][0], bwModeStats[mode]['final_deaths_bedwars'][0],4)
-
             bwModeStats[mode]['K/FD'] = weirdDiv(bwModeStats[mode]['kills_bedwars'][0], bwModeStats[mode]['final_deaths_bedwars'][0],4)
-
             bwModeStats[mode]['FK/D'] = weirdDiv(bwModeStats[mode]['final_kills_bedwars'][0], bwModeStats[mode]['deaths_bedwars'][0],4)
 
-
         # Win/loss ratio & winrate
-
             bwModeStats[mode]['W/L'] = weirdDiv(bwModeStats[mode]['wins_bedwars'][0], bwModeStats[mode]['losses_bedwars'][0],4)
-
             bwModeStats[mode]['winrate'] = weirdDiv(100*bwModeStats[mode]['wins_bedwars'][0], bwModeStats[mode]['games_played_bedwars'][0],2)
-
+            
             # Bed break/lose
-
             bwModeStats[mode]['B/L'] = weirdDiv(bwModeStats[mode]['beds_broken_bedwars'][0], bwModeStats[mode]['beds_lost_bedwars'][0],4)
-
-
+            
             # Items and resources per game
-
             bwModeStats[mode]['purc/game'] = weirdDiv(bwModeStats[mode]['_items_purchased_bedwars'][0], bwModeStats[mode]['games_played_bedwars'][0],4)
-
             bwModeStats[mode]['resc/game'] = weirdDiv(bwModeStats[mode]['resources_collected_bedwars'][0],bwModeStats[mode]['games_played_bedwars'][0],4)
-
 
         # Comparative skills
             bwCompList[mode] = {}

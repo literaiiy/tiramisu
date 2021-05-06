@@ -93,7 +93,11 @@
         </div>
 
         <!------ PLAYER IMAGE ------>
-        <div class="sm:col-span-1 lg:col-span-1 md:col-span-2 lg:col-start-6 image justify-self-center"><img src='https://mc-heads.net/body/{{uuid}}'><br></div>
+        <div class="sm:col-span-1 lg:col-span-1 md:col-span-2 lg:col-start-6 image justify-self-center text-center">
+            <img src='https://mc-heads.net/body/{{uuid}}'>
+            <br>
+            <a class='underline' href="https://mc-heads.net/download/{{uuid}}">Download skin</a>
+        </div>
 
         <!------ PLAYER DESC ------>
         <div class="sm:col-span-1 md:col-start-3 md:col-span-8 lg:col-span-3 lg:col-start-7 align-start">
@@ -250,7 +254,7 @@
                 <b>Reward streak</b>: <b>{{rewards[0]| those}}</b> (Best: <b>{{rewards[1]| those}}</b>) <br>
                 <b>Rewards claimed</b>: <b>{{rewards[2]| those}}</b> (<b>{{rewards[3]| those}}</b> daily)
             </p>
-            <a class='underline' href="https://mc-heads.net/download/{{uuid}}">Download skin</a>
+            
         </div>
 
     <!------ PLAYER STATS ------>
@@ -675,8 +679,8 @@
             <div class='text-3xl font-semibold pb-5'><div id='skywars-time' class='anchor'></div>Time played</div>
             <div class="pt-5">
                 {% if swTimeLists[0][5] != '0s' %}
-                    <div class='canvasContainer2'>
-                        <canvas id="myChart2" style="width:25%;"></canvas>
+                    <div class='canvasContainer2 sm:min-h-24'>
+                        <canvas id="myChart2" class='w-1/4 sm:h-16'></canvas>
                         <script>
                         var ctx = document.getElementById('myChart2');
                         

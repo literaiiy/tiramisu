@@ -3,14 +3,14 @@
 <body>
     {% block head %}
         <head>
-            <title>{{q}} doesn't exist</title>
+            <title>{{q}} doesn't exist | tiramisu</title>
         </head>
     {% endblock %}
     
     {% block content %}
-        <div class="flex flex-1 flex-col justify-center justify-evenly" style='height:80vh;'>
+        <div class="flex flex-1 flex-col justify-center justify-evenly mx-2" style='height:80vh;'>
             <div>
-                <div class="text-center text-4xl"><b>{{q}} doesn't exist</b></div><br>
+                <div class="text-center text-4xl"><b>{{q}} <span class="text-gray-600">doesn't exist</span></b></div><br>
                 {% if noAutocorrect != True %}
                     <p class='text-center'>Did you mean to search for <a href='/p/{{noAutocorrect}}'><b>{{noAutocorrect}}</b></a>?</p>
                 {% endif %}

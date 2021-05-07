@@ -210,11 +210,7 @@ def split(l):
 @cache.cached(timeout=15)
 def compute(q):
     q = q.strip()
-    #try:
     start_time = time.time()
-    # applesauce = MojangAPI.get_uuid(q)
-    # print(applesauce)
-    # return applesauce + ' <- UUID'
     if len(q) == 32 or len(q) == 36:
         q = q.replace('-','')
         try:
@@ -622,8 +618,8 @@ def compute(q):
             else: return str(list[4]) + 's'
 
         try:
-            userLanguage = reqAPI['player'].get('userLanguage', 'Unspecified').title()
-        except: userLanguage = 'Unspecified'
+            userLanguage = reqAPI['player'].get('userLanguage', 'unspecified').title()
+        except: userLanguage = 'unspecified'
         try:
             userVersion = reqAPI['player'].get('mcVersionRp') if reqAPI['player'].get('mcVersionRp') != None else 'unspecified version'
         except: userVersion = 'unspecified version'
@@ -1499,7 +1495,7 @@ def compute(q):
                 # Extension to those above who have some special thing they need changed
                 guildDict['created'] = datetime.fromtimestamp(guildListAPI.get('created',False)/1000).strftime('%b %d, %Y @ %I:%M:%S %p')
                 guildDict['tagColor'] = guildListAPI.get('tagColor', 'gray')
-                guildDict['description'] = guildListAPI.get('description', 'None')
+                guildDict['description'] = guildListAPI.get('description', False)
 
                 # Preferred games
                 guildDict['preferredGamesTL'] = []

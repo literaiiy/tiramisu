@@ -176,10 +176,16 @@ def queryt(path):
 def reddorect(k):
     return redirect(url_for('compute', q=k))
 
+# ! Privacy Policy
 @app.route('/privacy')
 #@cache.cached(timeout=0)
 def privacy():
     return render_template('privacy.html')
+
+# ! Sitemap
+@app.route('/sitemap.xml')
+def sitemap():
+    return send_from_directory(app.static_folder, 'sitemap.xml')
 
 # ! Filters
 # Thousands separator no decimals

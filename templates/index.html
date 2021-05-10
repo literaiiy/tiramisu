@@ -9,7 +9,6 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="description" content="tiramisu is a Hypixel player statistics site that gives a comprehensive outlook on your Minecraft account and Hypixel profile with name history and game stats.">
-		<meta name="keywords" content="tiramisu, hypixel, minecraft">
 		<meta name="author" content="literaiiy">
 		<meta property="og:type" content="website" />
 		<meta property="og:image" content="https://i.ibb.co/cQv5mkS/tiramisu-Full-Text.png"/>
@@ -24,11 +23,8 @@
 		<link rel='stylesheet' type='text/css' href='https://cdn.jsdelivr.net/npm/twemoji-awesome@1.0.6/dist/twemoji-awesome.min.css'></link>
 		<link rel="preconnect" href="https://fonts.gstatic.com">
 		<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-		<link href="https://fonts.googleapis.com/css2?family=Orienta&display=swap" rel="stylesheet">
 		<script src="https://kit.fontawesome.com/a6310495d7.js" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
 		<!-- Global site tag (gtag.js) - Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-8XFN8MJEB2"></script>
 		<script>
@@ -43,7 +39,7 @@
 		<div id='desktoplogo' class="grid grid-cols-4 sticky top-0 bg-gray-100 mb-8 z-40 w-full shadow items-center">
 			<a href='/'><img class='h-16 w-auto ml-4' src='https://raw.githubusercontent.com/gist/literaiiy/a5151734080232985c55f7753dcc417d/raw/fa23a4507d1e34da1579afd26719cc47297153da/tiramisuFullText.svg' alt="tiramisu Logo"></a>
 			<form class='col-span-2 p-1 bg-white px-0 text-gray-600 rounded-lg m-0 self-center relative mx-5 shadow' action="/" method="POST">
-				<input class='w-full py-3 outline-none h-full text-center' type="text" name="content" id="content" autofocus="autofocus" required='true' onfocus="this.select()" autocomplete="off" spellcheck="false" placeholder="Search username or UUID">
+				<input class='w-full py-3 outline-none h-full text-center' type="text" name="content" autofocus="autofocus" required='true' onfocus="this.select()" autocomplete="off" spellcheck="false" placeholder="Search username or UUID">
 				<button class="buttonModal absolute right-3 w-8 top-0 self-center focus:outline-none h-full" type="submit">
 					<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"width="24" height="24"viewBox="0 0 50 50"style=" fill:#9FA6B2;"><path d="M 21 3 C 11.621094 3 4 10.621094 4 20 C 4 29.378906 11.621094 37 21 37 C 24.710938 37 28.140625 35.804688 30.9375 33.78125 L 44.09375 46.90625 L 46.90625 44.09375 L 33.90625 31.0625 C 36.460938 28.085938 38 24.222656 38 20 C 38 10.621094 30.378906 3 21 3 Z M 21 5 C 29.296875 5 36 11.703125 36 20 C 36 28.296875 29.296875 35 21 35 C 12.703125 35 6 28.296875 6 20 C 6 11.703125 12.703125 5 21 5 Z"></path></svg>
 				</button>
@@ -59,7 +55,7 @@
 		<div id='mobilelogo' class="flex flex-row flex-nowrap justify-between sticky top-0 bg-gray-100 mb-8 z-40 w-full shadow items-center">
 			<a class='flex-none' href="/"><img class='h-12 w-auto ml-4 mr-1' src="https://raw.githubusercontent.com/gist/literaiiy/2afd8f09c3d91165dae55c951c76b025/raw/2363d9abacdfa0a3275745f50f81e7dc7b734c00/tiramisNewNoPadding.svg" alt="tiramisu logo but mobile"></a>
 			<form class='flex-shrink w-full p-1 bg-white px-0 text-gray-600 rounded-lg m-0 self-center relative mx-3 shadow' action="/" method="POST">
-				<input class='w-full py-3 outline-none h-full text-center' type="text" name="content" id="content" autofocus="autofocus" onfocus="this.select()" autocomplete="off" spellcheck="false" placeholder="Search...">
+				<input class='w-full py-3 outline-none h-full text-center' type="text" name="content" autofocus="autofocus" onfocus="this.select()" autocomplete="off" spellcheck="false" placeholder="Search...">
 				<button class="buttonModal absolute right-3 w-8 top-0 self-center focus:outline-none h-full" type="submit">
 					<svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px"width="24" height="24"viewBox="0 0 50 50"style=" fill:#9FA6B2;"><path d="M 21 3 C 11.621094 3 4 10.621094 4 20 C 4 29.378906 11.621094 37 21 37 C 24.710938 37 28.140625 35.804688 30.9375 33.78125 L 44.09375 46.90625 L 46.90625 44.09375 L 33.90625 31.0625 C 36.460938 28.085938 38 24.222656 38 20 C 38 10.621094 30.378906 3 21 3 Z M 21 5 C 29.296875 5 36 11.703125 36 20 C 36 28.296875 29.296875 35 21 35 C 12.703125 35 6 28.296875 6 20 C 6 11.703125 12.703125 5 21 5 Z"></path></svg>
 				</button>
@@ -204,14 +200,14 @@
 					<i>Last updated on May 2nd, 2021</i>
 				</div>
 			</div>
-			<script src='/static/table.js'></script>
+			<script src='/build/js/table.js'></script>
 		</main>
 	{% endblock %}
 
 	{% block footer %}
 	<footer class='w-full bg-gray-100 shadow-md mt-5 p-8'>
 		<p>tiramisu <b>v0.6δ "Caffè" (Open Beta)</b> · May 10th, 2021<!-- <a class='no-underline text-gray-500' target='_blank' href="https://flask.palletsprojects.com/en/1.1.x/">Flask</a> <b>v1.1.2</b> · <a class='no-underline text-gray-500' target='_blank' href="https://python.org">Python</a> <b>v3.7.9</b><p> -->
-		<p>Copyright © 2021 literaiiy (<a class='no-underline text-gray-500' href='/p/floraphile'>floraphile</a>). All rights reserved. <a class='no-underline text-gray-500' href="/privacy">Privacy Policy</a>. Powered by <a class='no-underline text-gray-500' target='_blank' href="https://heroku.com">Heroku</a>. Times in UTC.</p>
+		<p>Copyright © 2021 <a href="https://literaiiy.me" class='no-underline' target='_blank'>literaiiy</a> (<a class='no-underline text-gray-500' href='/p/floraphile'>floraphile</a>). All rights reserved. <a class='no-underline text-gray-500' href="/privacy">Privacy Policy</a>. Powered by <a class='no-underline text-gray-500' target='_blank' href="https://heroku.com">Heroku</a>. Times in UTC.</p>
 	</footer>
 	{% endblock %}
 </body>

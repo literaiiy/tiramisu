@@ -13,3 +13,4 @@ bower_components/
 __pycache__
 package-lock.json
 ./.hallofcomments
+static/

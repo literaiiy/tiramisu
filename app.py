@@ -25,8 +25,8 @@ from requests.packages.urllib3.util.retry import Retry
 
 # ! Initialization & Constants
 app = Flask(__name__)
-if 'DYNO' in os.environ: # only trigger SSLify if the app is running on Heroku
-    sslify = SSLify(app)
+#if 'DYNO' in os.environ: # only trigger SSLify if the app is running on Heroku
+#sslify = SSLify(app)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 #db = SQLAlchemy(app)
 

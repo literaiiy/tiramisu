@@ -187,9 +187,9 @@ def privacy():
     return render_template('privacy.html')
 
 # ! Sitemap
-# @app.route('/sitemap.xml')
-# def sitemap():
-#     return send_from_directory(app.static_folder, 'sitemap.xml')
+@app.route('/sitemap.xml')
+def sitemap():
+    return send_from_directory(app.static_folder, 'sitemap.xml')
 
 # ! Filters
 # Thousands separator no decimals

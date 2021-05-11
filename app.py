@@ -12,7 +12,7 @@ import re
 import os
 import logging
 import copy
-from flask_talisman import Talisman
+#from flask_talisman import Talisman
 # from flask_sslify import SSLify
 #import httpx
 #from itertools import cycle, islice
@@ -26,7 +26,13 @@ from requests.packages.urllib3.util.retry import Retry
 
 # ! Initialization & Constants
 app = Flask(__name__)
-Talisman(app)
+@app.before_request
+def before_request():
+    if not request.is_secure:
+        url = request.url.replace('http://', 'https://', 1)
+        code = 301
+        return redirect(url, code=code)
+# Talisman(app)
 # app._static_folder = '/build'
 # if 'DYNO' in os.environ: # only trigger SSLify if the app is running on Heroku
 #     sslify = SSLify(app)

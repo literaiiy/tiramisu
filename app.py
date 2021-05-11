@@ -12,7 +12,6 @@ import re
 import os
 import logging
 import copy
-from flask_sslify import SSLify
 #import httpx
 #from itertools import cycle, islice
 #from num2words import num2words
@@ -26,8 +25,6 @@ from requests.packages.urllib3.util.retry import Retry
 # ! Initialization & Constants
 app = Flask(__name__)
 # app._static_folder = '/build'
-#if 'DYNO' in os.environ: # only trigger SSLify if the app is running on Heroku
-#sslify = SSLify(app)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 #db = SQLAlchemy(app)
 
@@ -1611,7 +1608,7 @@ def five03(e):
     return render_template('404.html', error=503, text='Service unavailable', desc='The server is unavailable at the moment. Check back later.'), 503
 
 # ! Flask initialization
-# if __name__ == "__main__":
-#     app.run(debug=True)
+if __name__ == "__main__":
+    app.run(debug=True)
     # server = Server(app.wsgi_app)
     # server.serve()

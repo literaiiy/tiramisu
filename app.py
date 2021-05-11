@@ -12,6 +12,7 @@ import re
 import os
 import logging
 import copy
+from flask_sslify import SSLify
 #import httpx
 #from itertools import cycle, islice
 #from num2words import num2words
@@ -25,6 +26,8 @@ from requests.packages.urllib3.util.retry import Retry
 # ! Initialization & Constants
 app = Flask(__name__)
 # app._static_folder = '/build'
+#if 'DYNO' in os.environ: # only trigger SSLify if the app is running on Heroku
+sslify = SSLify(app)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 #db = SQLAlchemy(app)
 

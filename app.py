@@ -26,8 +26,8 @@ from requests.packages.urllib3.util.retry import Retry
 # ! Initialization & Constants
 app = Flask(__name__)
 # app._static_folder = '/build'
-#if 'DYNO' in os.environ: # only trigger SSLify if the app is running on Heroku
-sslify = SSLify(app)
+if 'DYNO' in os.environ: # only trigger SSLify if the app is running on Heroku
+    sslify = SSLify(app)
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
 #db = SQLAlchemy(app)
 
@@ -100,7 +100,7 @@ reqses.mount('http://', HTTPAdapter(max_retries=retries))
 
 @app.route('/favicon.ico')
 def favicon():
-    return send_from_directory(os.path.join(app.root_path, 'build'),
+    return send_from_directory(os.path.join(app.root_path, 'static'),
                                'favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 # ! Routing for homepage

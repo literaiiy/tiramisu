@@ -1611,7 +1611,7 @@ def five03(e):
     return render_template('404.html', error=503, text='Service unavailable', desc='The server is unavailable at the moment. Check back later.'), 503
 
 # ! Flask initialization
-if __name__ == "__main__":
-    app.run(debug=True)
+# if __name__ == "__main__":
+#     app.run(debug=True)
     # server = Server(app.wsgi_app)
     # server.serve()

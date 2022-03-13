@@ -117,7 +117,7 @@ def queryt(path):
     
     gameDict = []
     try:
-        hs = reqses.get('https://api.hypixel.net/gameCounts?key=' + HAPIKEY2)
+        hs = reqses.get('https://api.hypixel.net/gameCounts?key=' + HAPIKEY)
     except:
         return render_template('index.html', gameDict={}, totalPlayers=-1)
     hsjaysonn = hs.json()
@@ -1498,7 +1498,7 @@ def compute(q):
             # This should never happen...
 
         if playedOnHypixel:
-            variable_name = reqses.get('https://api.hypixel.net/guild?key='+ HAPIKEY2 + '&player=' + uuid)
+            variable_name = reqses.get('https://api.hypixel.net/guild?key='+ HAPIKEY + '&player=' + uuid)
             greqAPI = variable_name.json()
             print('RIGHT AFTER GUILD DATA is being gotten. ',(time.time() - start_time), ' sec')
             guildListAPI = greqAPI.get('guild', False)

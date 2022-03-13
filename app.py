@@ -26,12 +26,12 @@ from requests.packages.urllib3.util.retry import Retry
 
 # ! Initialization & Constants
 app = Flask(__name__)
-@app.before_request
-def before_request():
-    if not request.is_secure:
-        url = request.url.replace('http://', 'https://', 1)
-        code = 301
-        return redirect(url, code=code)
+# @app.before_request
+# def before_request():
+#     if not request.is_secure:
+#         url = request.url.replace('http://', 'https://', 1)
+#         code = 301
+#         return redirect(url, code=code)
 # Talisman(app)
 # app._static_folder = '/build'
 # if 'DYNO' in os.environ: # only trigger SSLify if the app is running on Heroku
@@ -40,8 +40,8 @@ def before_request():
 #db = SQLAlchemy(app)
 
 app.secret_key = 'a34w7tfyner9ryhzrbfw7ynhhcdtg78as34'
-HAPIKEY = '1e5f6a57-6327-4888-886a-590c39861a6a'
-HAPIKEY2 = '645eb55b-1550-400e-a5a3-31a2cfe0a806'
+HAPIKEY = '645eb55b-1550-400e-a5a3-31a2cfe0a806'
+HAPIKEY2 = ''
 # ADMINS = ['35a178c0c37043aea959983223c04de0']
 # FLOWERS = ['27bcc1547423484683fd811155d8c472']
 # SPARKLES = ['903100946468408aaf2462365389059c', '35bb69ce904a4380a03ffd55acbc2331']

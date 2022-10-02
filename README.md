@@ -6,13 +6,6 @@ This is a private repository containing the source code for the project solely f
 
 If you are here and not me, how? How is that even possible?
 
-# About literaiiy
-Hello! I am literaiiy (styled lowercase), a high-school student in the San Francisco Bay Area. I am fascinated with technology, especially smartphones and other mobile devices, older personal and datacenter computer components, as well as circuit board electronics. I have years of experience in the Microsoft Office and Adobe Creative Cloud suites.
-
-literaiiy is a pseudonym I adopted in March of 2018, as an intentionally incorrectly spelt version of the word literally- although a word that has a simple definition, is also a word that most people cannot use correctly- a common word that has dulled due to overuse. 
-
-Computers, statistics, and working with financial assets and spreadsheets are my passion, and I’m in love with a lot to do with them! You’ll see most of my posts relating to them, but occasionally another post will sneak past. Special thanks to Liechtenstein for letting me borrow their country code TLD.
-
 My main landing page is at literaiiy.me, where you can read more about me!
 
 

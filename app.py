@@ -22,7 +22,7 @@ import requests_cache
 from flask_caching import Cache
 #from livereload import Server
 from requests.adapters import HTTPAdapter
-from requests.packages.urllib3.util.retry import Retry
+from requests.packages.urllib3.util.retry import Retry #f
 
 # ! Initialization & Constants
 app = Flask(__name__)

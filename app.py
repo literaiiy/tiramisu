@@ -40,7 +40,7 @@ app = Flask(__name__)
 #db = SQLAlchemy(app)
 
 app.secret_key = 'a34w7tfyner9ryhzrbfw7ynhhcdtg78as34'
-HAPIKEY = '645eb55b-1550-400e-a5a3-31a2cfe0a806'
+HAPIKEY = 'be4ffc0e-6aca-4bfe-858b-e8d386527e97'
 # ADMINS = ['35a178c0c37043aea959983223c04de0']
 # FLOWERS = ['27bcc1547423484683fd811155d8c472']
 # SPARKLES = ['903100946468408aaf2462365389059c', '35bb69ce904a4380a03ffd55acbc2331']
@@ -120,6 +120,7 @@ def queryt(path):
     except:
         return render_template('index.html', gameDict={}, totalPlayers=-1)
     hsjaysonn = hs.json()
+    print(hsjaysonn)
     gameCount = hsjaysonn['games']
     gameList = [
         #('Total Players', hsjaysonn['playerCount']),

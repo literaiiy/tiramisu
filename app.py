@@ -40,7 +40,7 @@ app = Flask(__name__)
 #db = SQLAlchemy(app)
 
 app.secret_key = 'a34w7tfyner9ryhzrbfw7ynhhcdtg78as34'
-HAPIKEY = 'be4ffc0e-6aca-4bfe-858b-e8d386527e97'
+HAPIKEY = 'a8640f1c-f857-4acf-9e99-e3a52f36c804' # alt account's
 # ADMINS = ['35a178c0c37043aea959983223c04de0']
 # FLOWERS = ['27bcc1547423484683fd811155d8c472']
 # SPARKLES = ['903100946468408aaf2462365389059c', '35bb69ce904a4380a03ffd55acbc2331']
